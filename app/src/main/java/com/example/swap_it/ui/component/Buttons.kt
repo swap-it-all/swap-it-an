@@ -16,7 +16,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import com.example.swap_it.ui.theme.Gray5
 import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Primary
