@@ -3,7 +3,7 @@ package com.example.swap_it.ui.component
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.shape.RoundedCornerShape
+import com.example.swap_it.ui.theme.Shapes
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -40,7 +40,7 @@ fun DefaultButton(
             contentColor = White,
             disabledContainerColor = Gray5,
         ),
-        shape = RoundedCornerShape(20.dp)
+        shape = Shapes.large,
     ) {
         Text(
             text = text,
