@@ -1,6 +1,7 @@
 package com.example.swap_it.ui.component
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -17,6 +18,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.unit.dp
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
 import com.example.swap_it.ui.theme.Gray5
@@ -107,6 +109,45 @@ fun ModalButton(
     }
 }
 
+@Composable
+fun CategoryButton(
+    text: String,
+    modifier: Modifier = Modifier,
+    isSelected: Boolean,
+    contentStyle: TextStyle = Typography.bodySmall,
+    contentPadding: PaddingValues = PaddingValues(
+        horizontal = Paddings.xlarge,
+        vertical = Paddings.medium,
+    ),
+    containerColor: Color = White,
+    contentColor: Color = Gray4,
+    onClick: () -> Unit
+) {
+    val animatedBorderColor by animateColorAsState(
+        targetValue = if (isSelected) Primary else contentColor
+    )
+    val animatedContentColor by animateColorAsState(
+        targetValue = if (isSelected) Primary else contentColor
+    )
+
+    Button(
+        onClick = onClick,
+        modifier = modifier,
+        contentPadding = contentPadding,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = containerColor,
+            contentColor = animatedContentColor
+        ),
+        shape = Shapes.medium,
+        border = BorderStroke(1.dp, animatedBorderColor)
+    ) {
+        Text(
+            text = text,
+            style = contentStyle,
+        )
+    }
+}
+
 class EnabledPreviewParameterProvider : PreviewParameterProvider<Boolean> {
     override val values = sequenceOf(
         true,
@@ -144,5 +185,15 @@ fun ModalButtonPreview(
         text = "모달 버튼",
         onClick = {},
         containerColor = containerColor,
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CategoryButtonPreview() {
+    CategoryButton(
+        text = "카테고리 버튼",
+        onClick = {},
+        isSelected = false
     )
 }
