@@ -1,11 +1,13 @@
-package com.example.swap_it.ui.product_list
+package com.example.swap_it
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.BottomAppBar
@@ -18,33 +20,34 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.swap_it.R
-import com.example.swap_it.ui.theme.Primary
+import com.example.swap_it.ui.component.BottomAppBarButton
+import com.example.swap_it.ui.product_list.ProductListScreen
 import com.example.swap_it.ui.theme.SwapitTheme
 import com.example.swap_it.ui.theme.White
 
-class ProductListScreen {
+class MenuScreen {
 
-    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "NotConstructor")
     @Composable
-    fun ProductScreen(modifier: Modifier = Modifier) {
+    fun MenuScreen(modifier: Modifier = Modifier) {
         Scaffold(
             topBar = {
                 TopAppBarCustom()
             },
             bottomBar = {
+
                 BottomAppBarCustom()
             }
         ) {
-            Surface(modifier = modifier) {
-                Text(text = "Product Screen")
+            Column {
+                Spacer(modifier = Modifier.size(70.dp))
+                ProductListScreen().ProductListScreen()
             }
+
         }
 
     }
@@ -77,7 +80,6 @@ class ProductListScreen {
     fun BottomAppBarCustom(modifier: Modifier = Modifier) {
         BottomAppBar(
             contentPadding = PaddingValues(horizontal = 16.dp),
-            containerColor = White,
             actions = {
                 Row (
                     modifier = modifier.fillMaxWidth(),
@@ -95,23 +97,13 @@ class ProductListScreen {
         )
     }
 
-    @Composable
-    fun BottomAppBarButton(painter: Painter, contentDescription: String) {
-        IconButton(
-            onClick = { /*TODO*/ }
-        ) {
-            Image(
-                painter = painter,
-                contentDescription = contentDescription
-            )
-        }
-    }
+
 
     @Preview(showBackground = true)
     @Composable
     fun ProductScreenPreview() {
         SwapitTheme {
-            ProductScreen()
+            MenuScreen()
         }
     }
 }

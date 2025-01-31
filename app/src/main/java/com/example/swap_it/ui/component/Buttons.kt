@@ -2,23 +2,29 @@ package com.example.swap_it.ui.component
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import com.example.swap_it.R
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
 import com.example.swap_it.ui.theme.Gray5
@@ -148,6 +154,20 @@ fun CategoryButton(
     }
 }
 
+
+@Composable
+fun BottomAppBarButton(painter: Painter, contentDescription: String) {
+    IconButton(
+        onClick = { /*TODO*/ }
+    ) {
+        Image(
+            painter = painter,
+            contentDescription = contentDescription
+        )
+    }
+}
+
+
 class EnabledPreviewParameterProvider : PreviewParameterProvider<Boolean> {
     override val values = sequenceOf(
         true,
@@ -169,6 +189,9 @@ fun DefaultButtonPreview(
     )
 }
 
+
+
+
 class ModalButtonPreviewParameterProvider : PreviewParameterProvider<Color> {
     override val values = sequenceOf(
         Primary,
@@ -188,6 +211,7 @@ fun ModalButtonPreview(
     )
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun CategoryButtonPreview() {
@@ -196,4 +220,10 @@ fun CategoryButtonPreview() {
         onClick = {},
         isSelected = false
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BottomAppBarDefaultsPreview() {
+    BottomAppBarButton(painterResource(R.drawable.ic_house),"홈")
 }
