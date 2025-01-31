@@ -2,10 +2,17 @@ package com.example.swap_it.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+val PrimaryDark = Color(0xFF399E3D)
+val Primary = Color(0xFF64D455)
+val PrimaryLight = Color(0xFFBEF1B1)
+val Red = Color(0xFFD32F2F)
+val Yellow = Color(0xFFF9A825)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val Black = Color(0xFF000000)
+val Gray1 = Color(0xFF121212)
+val Gray2 = Color(0xFF595959)
+val Gray3 = Color(0xFF767676)
+val Gray4 = Color(0xFFBDBDBD)
+val Gray5 = Color(0xFFE0E0E0)
+val Gray6 = Color(0xFFF3F3F3)
+val White = Color(0xFFFFFFFF)
