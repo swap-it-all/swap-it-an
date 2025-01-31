@@ -85,7 +85,7 @@ dependencies {
     implementation(libs.room.compiler)
     // Coil
     implementation(libs.coil)
-    implementation("io.coil-kt.coil3:coil-compose:3.0.4")
+    implementation(libs.coil.compose)
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofit.kotlin.serialization.converter)

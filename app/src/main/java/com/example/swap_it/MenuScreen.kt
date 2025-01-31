@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
@@ -39,17 +40,15 @@ class MenuScreen {
                 TopAppBarCustom()
             },
             bottomBar = {
-
                 BottomAppBarCustom()
             }
         ) {
             Column {
-                Spacer(modifier = Modifier.size(70.dp))
+                Spacer(modifier = Modifier.size(64.dp))
                 ProductListScreen().ProductListScreen()
             }
 
         }
-
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -79,7 +78,7 @@ class MenuScreen {
     @Composable
     fun BottomAppBarCustom(modifier: Modifier = Modifier) {
         BottomAppBar(
-            contentPadding = PaddingValues(horizontal = 16.dp),
+            containerColor = White,
             actions = {
                 Row (
                     modifier = modifier.fillMaxWidth(),
