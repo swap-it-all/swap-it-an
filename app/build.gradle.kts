@@ -83,6 +83,10 @@ dependencies {
     implementation(libs.room)
     implementation(libs.room.ktx)
     implementation(libs.room.compiler)
+
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
+
     // Coil
     implementation(libs.coil)
     implementation(libs.coil.compose)
