@@ -30,6 +30,7 @@ import com.example.swap_it.ui.theme.Gray2
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
 import com.example.swap_it.ui.theme.Gray5
+import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.White
 
@@ -51,7 +52,7 @@ class Cards {
     @Composable
     fun ListCard(listCardData: ListCardData) {
         Card(
-            modifier = Modifier.padding(16.dp,8.dp),
+            modifier = Modifier.padding(Paddings.xlarge,Paddings.medium),
             colors = androidx.compose.material3.CardDefaults.cardColors(
                 containerColor = White
             ),
@@ -67,7 +68,7 @@ class Cards {
                     fallback = rememberVectorPainter(Icons.Default.Send),
                     error = rememberVectorPainter(Icons.Default.Settings),
                 )
-                Column(modifier = Modifier.padding(8.dp)) {
+                Column(modifier = Modifier.padding(Paddings.medium)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             text = listCardData.category,
@@ -87,14 +88,14 @@ class Cards {
                             color = Gray4
                         )
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(Paddings.medium))
                     Row (verticalAlignment = Alignment.CenterVertically){
                         Text(
                             text = listCardData.title,
                             style = MaterialTheme.typography.titleMedium
                         )
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(Paddings.medium))
                     Row (verticalAlignment = Alignment.CenterVertically){
                         Row (modifier = Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically){
                             Text(
@@ -118,7 +119,7 @@ class Cards {
                             modifier = Modifier.height(30.dp),
                             colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Gray4)
                         )
-                        Spacer(modifier = Modifier.size(4.dp))
+                        Spacer(modifier = Modifier.size(Paddings.small))
                         Text(
                             text = listCardData.viewCount,
                             style = MaterialTheme.typography.labelLarge,
