@@ -1,6 +1,4 @@
 package com.example.swap_it.ui.component
-
-import android.media.tv.TvContract.Programs.Genres.SHOPPING
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,8 +29,9 @@ import com.example.swap_it.ui.add_item.AddItemScreen
 import com.example.swap_it.ui.chat_list.ChatListScreen
 import com.example.swap_it.ui.constant.ADD
 import com.example.swap_it.ui.constant.CHAT
-import com.example.swap_it.ui.constant.HOME
+import com.example.swap_it.ui.constant.PRODUCT
 import com.example.swap_it.ui.constant.USER
+import com.example.swap_it.ui.constant.SHOPPING
 import com.example.swap_it.ui.product_list.ProductListScreen
 import com.example.swap_it.ui.shopping_list.ShoppingListScreen
 import com.example.swap_it.ui.theme.Gray2
@@ -43,7 +42,7 @@ import com.example.swap_it.ui.user_info.UserInfoScreen
 
 class BottomBar {
     private val items = listOf<BottomNavItem>(
-        BottomNavItem.Home,
+        BottomNavItem.Product,
         BottomNavItem.Shopping,
         BottomNavItem.Add,
         BottomNavItem.Chat,
@@ -53,7 +52,7 @@ class BottomBar {
     sealed class BottomNavItem(
         val id: Int, val icon: Int, val screenRoute: String
     ) {
-        data object Home : BottomNavItem(1, R.drawable.ic_house, HOME)
+        data object Product : BottomNavItem(1, R.drawable.ic_house, PRODUCT)
         data object Shopping : BottomNavItem(2, R.drawable.ic_shopping_bag, SHOPPING)
         data object Add : BottomNavItem(3, R.drawable.ic_add_plus_circle, ADD)
         data object Chat : BottomNavItem(4, R.drawable.ic_chat, CHAT)
@@ -99,8 +98,8 @@ class BottomBar {
 
     @Composable
     fun NavigationGraph(navController: NavHostController) {
-        NavHost(navController = navController, startDestination = BottomNavItem.Home.screenRoute) {
-            composable(BottomNavItem.Home.screenRoute) {
+        NavHost(navController = navController, startDestination = BottomNavItem.Product.screenRoute) {
+            composable(BottomNavItem.Product.screenRoute) {
                 ProductListScreen().ProductListScreen()
             }
             composable(BottomNavItem.Shopping.screenRoute) {
