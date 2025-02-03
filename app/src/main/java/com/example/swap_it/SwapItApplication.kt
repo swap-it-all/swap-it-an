@@ -11,8 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.swap_it.ui.theme.SwapitTheme
+import com.kakao.sdk.common.KakaoSdk
 
-class MainActivity : ComponentActivity() {
+class SwapItApplication : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -25,6 +26,7 @@ class MainActivity : ComponentActivity() {
                     Greeting("Android")
                 }
             }
+            KakaoSdk.init(this, BuildConfig.KAKAO_NATIVE_APP_KEY)
         }
     }
 }
