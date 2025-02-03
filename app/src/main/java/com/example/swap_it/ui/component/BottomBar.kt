@@ -27,15 +27,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.swap_it.R
+import com.example.swap_it.ui.add_item.AddItemScreen
+import com.example.swap_it.ui.chat_list.ChatListScreen
 import com.example.swap_it.ui.constant.ADD
 import com.example.swap_it.ui.constant.CHAT
 import com.example.swap_it.ui.constant.HOME
 import com.example.swap_it.ui.constant.USER
 import com.example.swap_it.ui.product_list.ProductListScreen
+import com.example.swap_it.ui.shopping_list.ShoppingListScreen
 import com.example.swap_it.ui.theme.Gray2
 import com.example.swap_it.ui.theme.Gray4
 import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.White
+import com.example.swap_it.ui.user_info.UserInfoScreen
 
 class BottomBar {
     private val items = listOf<BottomNavItem>(
@@ -100,86 +104,20 @@ class BottomBar {
                 ProductListScreen().ProductListScreen()
             }
             composable(BottomNavItem.Shopping.screenRoute) {
-                ShoppingListScreen()
+                ShoppingListScreen().ShoppingListScreen()
             }
             composable(BottomNavItem.Add.screenRoute) {
-                AddScreen()
+                AddItemScreen().AddItemScreen()
             }
             composable(BottomNavItem.Chat.screenRoute) {
-                ChatListScreen()
+                ChatListScreen().ChatListScreen()
             }
             composable(BottomNavItem.User.screenRoute) {
-                UserInfoScreen()
+                UserInfoScreen().UserInfoScreen()
             }
         }
     }
 
-    @Composable
-    fun ShoppingListScreen() {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Gray)
-        ) {
-            Text(
-                text = "거래",
-                style = MaterialTheme.typography.labelLarge,
-                textAlign = TextAlign.Center,
-                color = Color.White,
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
-    }
 
-    @Composable
-    fun AddScreen() {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Yellow)
-        ) {
-            Text(
-                text = "물건 등록",
-                style = MaterialTheme.typography.labelLarge,
-                textAlign = TextAlign.Center,
-                color = Color.White,
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
-    }
-
-    @Composable
-    fun ChatListScreen() {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Magenta)
-        ) {
-            Text(
-                text = "채팅",
-                style = MaterialTheme.typography.labelLarge,
-                textAlign = TextAlign.Center,
-                color = Color.White,
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
-    }
-
-    @Composable
-    fun UserInfoScreen() {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Blue)
-        ) {
-            Text(
-                text = "유저 정보",
-                style = MaterialTheme.typography.labelLarge,
-                textAlign = TextAlign.Center,
-                color = Color.White,
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
-    }
 
 }
