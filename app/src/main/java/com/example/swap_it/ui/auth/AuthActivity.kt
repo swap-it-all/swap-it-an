@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.sp
 import com.example.swap_it.ui.component.ModalButton
 
 class AuthActivity : ComponentActivity() {
-
     private val kakaoAuthViewModel: KakaoAuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,14 +26,12 @@ class AuthActivity : ComponentActivity() {
     }
 
     @Composable
-    fun KakaoLoginScreen(
-        viewModel: KakaoAuthViewModel
-    ) {
+    fun KakaoLoginScreen(viewModel: KakaoAuthViewModel) {
         val isLoggedIn = viewModel.isLoggedIn.collectAsState()
         val loginStatusInfoTitle = if (isLoggedIn.value) "로그인 성공" else "로그인 실패"
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(20.dp)
+            verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
             ModalButton("카카오 로그인") {
                 viewModel.kakaoLogin()
@@ -46,5 +43,4 @@ class AuthActivity : ComponentActivity() {
             Text(text = loginStatusInfoTitle, textAlign = TextAlign.Center, fontSize = 20.sp)
         }
     }
-
 }
