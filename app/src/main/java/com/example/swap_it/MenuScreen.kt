@@ -1,17 +1,12 @@
 package com.example.swap_it
 
 import android.annotation.SuppressLint
+import android.media.tv.TvContract.Programs.Genres.SHOPPING
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -25,8 +20,10 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.example.swap_it.ui.component.BottomAppBarButton
-import com.example.swap_it.ui.product_list.ProductListScreen
+import com.example.swap_it.ui.component.BottomBar
+
 import com.example.swap_it.ui.theme.SwapitTheme
 import com.example.swap_it.ui.theme.White
 
@@ -35,25 +32,25 @@ class MenuScreen {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "NotConstructor")
     @Composable
     fun MenuScreen(modifier: Modifier = Modifier) {
+        val navController = rememberNavController()
+        val bottomBar = BottomBar()
         Scaffold(
             topBar = {
-                TopAppBarCustom()
+                TopAppBar()
             },
             bottomBar = {
-                BottomAppBarCustom()
+                bottomBar.BottomNavigationBar(navController)
             }
         ) {
-            Column {
-                Spacer(modifier = Modifier.size(64.dp))
-                ProductListScreen().ProductListScreen()
+            Box(Modifier.padding(it)){
+                bottomBar.NavigationGraph(navController = navController)
             }
-
         }
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun TopAppBarCustom(modifier: Modifier = Modifier) {
+    fun TopAppBar(modifier: Modifier = Modifier) {
         TopAppBar(
             title = {
                 Image(
@@ -71,27 +68,6 @@ class MenuScreen {
                         contentDescription = "알림"
                     )
                 }
-            }
-        )
-    }
-
-    @Composable
-    fun BottomAppBarCustom(modifier: Modifier = Modifier) {
-        BottomAppBar(
-            containerColor = White,
-            actions = {
-                Row (
-                    modifier = modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ){
-                    BottomAppBarButton(painterResource(R.drawable.ic_house),"홈")
-                    BottomAppBarButton(painterResource(R.drawable.ic_shopping_bag),"거래 목록")
-                    BottomAppBarButton(painterResource(R.drawable.ic_add_plus_circle),"물건 등록")
-                    BottomAppBarButton(painterResource(R.drawable.ic_chat),"채팅")
-                    BottomAppBarButton(painterResource(R.drawable.ic_user),"사용자 정보")
-                }
-
             }
         )
     }
