@@ -32,6 +32,11 @@ android {
             "KAKAO_NATIVE_APP_KEY",
             properties.getProperty("KAKAO_NATIVE_APP_KEY"),
         )
+        resValue(
+            "string",
+            "kakao_oauth_host",
+            properties.getProperty("kakao_oauth_host"),
+        )
 
         buildFeatures {
             buildConfig = true
