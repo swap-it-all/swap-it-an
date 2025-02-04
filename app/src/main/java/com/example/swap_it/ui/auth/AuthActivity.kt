@@ -34,7 +34,6 @@ import com.example.swap_it.ui.theme.Typography
 import com.example.swap_it.ui.theme.White
 
 class AuthActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -45,11 +44,12 @@ class AuthActivity : ComponentActivity() {
     @Composable
     fun LoginScreen() {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = Paddings.xlarge),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = Paddings.xlarge),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             GreetingSwapIt()
             Spacer(modifier = Modifier.padding(100.dp))
@@ -79,7 +79,7 @@ class AuthActivity : ComponentActivity() {
     @Composable
     fun LoginButtons() {
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             GoogleLoginButton()
             Spacer(modifier = Modifier.padding(10.dp))
@@ -91,19 +91,20 @@ class AuthActivity : ComponentActivity() {
     fun GoogleLoginButton() {
         Button(
             modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = White,
-                contentColor = Black,
-            ),
+            colors =
+                ButtonDefaults.buttonColors(
+                    containerColor = White,
+                    contentColor = Black,
+                ),
             contentPadding = PaddingValues(16.dp),
             shape = Shapes.small,
             border = BorderStroke(1.dp, Gray4),
-            onClick = { Log.d("GoogleLoginButton", "GoogleLoginButton Clicked") }
+            onClick = { Log.d("GoogleLoginButton", "GoogleLoginButton Clicked") },
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_google),
                 contentDescription = "Google",
-                tint = Color.Unspecified
+                tint = Color.Unspecified,
             )
             Spacer(modifier = Modifier.padding(10.dp))
             Text(
@@ -117,13 +118,14 @@ class AuthActivity : ComponentActivity() {
     fun KakaoLoginButton() {
         Button(
             modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFFEE500),
-                contentColor = Black,
-            ),
+            colors =
+                ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFFEE500),
+                    contentColor = Black,
+                ),
             contentPadding = PaddingValues(16.dp),
             shape = Shapes.small,
-            onClick = { Log.d("KakaoLoginButton", "KakaoLoginButton Clicked") }
+            onClick = { Log.d("KakaoLoginButton", "KakaoLoginButton Clicked") },
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_kakao),
