@@ -37,6 +37,11 @@ android {
             "kakao_oauth_host",
             properties.getProperty("kakao_oauth_host"),
         )
+        resValue(
+            "string",
+            "google_client_id",
+            properties.getProperty("google_client_id"),
+        )
 
         buildFeatures {
             buildConfig = true
