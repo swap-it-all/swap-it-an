@@ -57,9 +57,10 @@ class KakaoAuthViewModel(application: Application) : AndroidViewModel(applicatio
                     continuation.resume(true)
                 }
             }
+            val userApiClient = UserApiClient.instance
 
-            if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-                UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
+            if (userApiClient.isKakaoTalkLoginAvailable(context)) {
+                userApiClient.loginWithKakaoTalk(context) { token, error ->
                     if (error != null) {
                         Log.e(TAG, "카카오톡으로 로그인 실패", error)
 
@@ -67,13 +68,13 @@ class KakaoAuthViewModel(application: Application) : AndroidViewModel(applicatio
                             return@loginWithKakaoTalk
                         }
 
-                        UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
+                        userApiClient.loginWithKakaoAccount(context, callback = callback)
                     } else if (token != null) {
                         Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
                     }
                 }
             } else {
-                UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
+                userApiClient.loginWithKakaoAccount(context, callback = callback)
             }
         }
 
