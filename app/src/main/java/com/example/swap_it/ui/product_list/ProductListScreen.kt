@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -42,7 +40,6 @@ class ProductListScreen {
         val screenHeight = configuration.screenHeightDp.dp
         Surface(modifier = modifier.fillMaxSize(), color = Gray6) {
             LazyColumn (horizontalAlignment = Alignment.CenterHorizontally){
-                // Use item to add a single composable to the list
                 item {
                     Spacer(modifier = modifier.size(10.dp))
                 }
@@ -91,9 +88,9 @@ class ProductListScreen {
 
                     }
                 }
-                // Use items to add multiple composables to the list
+
                 items(10) {
-                    Cards().ListCard(Cards.cardData)
+                    Cards().ProductListCard(Cards.cardData)
                 }
                 item {
                     Spacer(modifier = modifier.size(100.dp))

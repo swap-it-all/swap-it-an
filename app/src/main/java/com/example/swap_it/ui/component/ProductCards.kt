@@ -26,10 +26,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.swap_it.R
-import com.example.swap_it.ui.theme.Gray2
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
-import com.example.swap_it.ui.theme.Gray5
 import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.White
@@ -50,7 +48,7 @@ class Cards {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun ListCard(listCardData: ListCardData) {
+    fun ProductListCard(listCardData: ListCardData) {
         Card(
             modifier = Modifier.padding(Paddings.xlarge,Paddings.medium),
             colors = androidx.compose.material3.CardDefaults.cardColors(
@@ -152,7 +150,7 @@ class Cards {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    Cards().ListCard(
+    Cards().ProductListCard(
         Cards.cardData
     )
 }
