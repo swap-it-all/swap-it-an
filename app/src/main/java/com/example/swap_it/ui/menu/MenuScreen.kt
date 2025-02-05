@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.media.tv.TvContract.Programs.Genres.SHOPPING
 import android.os.Build.PRODUCT
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.BottomNavigation
@@ -30,6 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.swap_it.R
 import com.example.swap_it.ui.add_item.AddItemScreen
 import com.example.swap_it.ui.chat_list.ChatListScreen
+import com.example.swap_it.ui.product_list.AlertScreen
 import com.example.swap_it.ui.product_list.ProductListScreen
 import com.example.swap_it.ui.shopping_list.ShoppingListScreen
 import com.example.swap_it.ui.theme.Gray2
@@ -46,29 +45,17 @@ const val ADD = "ADD"
 const val CHAT = "CHAT"
 const val USER = "USER"
 class MenuScreen {
-
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "NotConstructor")
     @Composable
     fun MenuScreen(modifier: Modifier = Modifier) {
         val navController = rememberNavController()
-        val bottomBar = BottomBar()
-        Scaffold(
-            topBar = {
-                TopAppBar()
-            },
-            bottomBar = {
-                bottomBar.BottomNavigationBar(navController)
-            }
-        ) {
-            Box(Modifier.padding(it)){
-                bottomBar.NavigationGraph(navController = navController)
-            }
-        }
+        val navigationModule = NavigationModule()
+        navigationModule.NavigationGraph(navController = navController)
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun TopAppBar(modifier: Modifier = Modifier) {
+    fun AppBar(modifier: Modifier = Modifier, navController: NavHostController) {
         TopAppBar(
             title = {
                 Image(
@@ -79,7 +66,15 @@ class MenuScreen {
             },
             actions = {
                 IconButton(
-                    onClick = { /*TODO*/ }
+                    onClick = {
+                        navController.navigate("Alert"){
+                            navController.graph.startDestinationRoute?.let {
+                                popUpTo(it) { saveState = true }
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
                 ) {
                     Image(
                         painter = painterResource(R.drawable.ic_bell),
@@ -91,7 +86,7 @@ class MenuScreen {
     }
 
 
-    class BottomBar {
+    class NavigationModule {
         private val items = listOf<BottomNavItem>(
             BottomNavItem.Product,
             BottomNavItem.Shopping,
@@ -154,19 +149,22 @@ class MenuScreen {
                 startDestination = BottomNavItem.Product.screenRoute
             ) {
                 composable(BottomNavItem.Product.screenRoute) {
-                    ProductListScreen().ProductListScreen()
+                    ProductListScreen().ProductListScreen(Modifier,navController)
                 }
                 composable(BottomNavItem.Shopping.screenRoute) {
-                    ShoppingListScreen().ShoppingListScreen()
+                    ShoppingListScreen().ShoppingListScreen(navController)
                 }
                 composable(BottomNavItem.Add.screenRoute) {
-                    AddItemScreen().AddItemScreen()
+                    AddItemScreen().AddItemScreen(navController)
                 }
                 composable(BottomNavItem.Chat.screenRoute) {
-                    ChatListScreen().ChatListScreen()
+                    ChatListScreen().ChatListScreen(navController)
                 }
                 composable(BottomNavItem.User.screenRoute) {
-                    UserInfoScreen().UserInfoScreen()
+                    UserInfoScreen().UserInfoScreen(navController)
+                }
+                composable("Alert") {
+                    AlertScreen().AlertScreen(modifier = Modifier,navController)
                 }
             }
         }

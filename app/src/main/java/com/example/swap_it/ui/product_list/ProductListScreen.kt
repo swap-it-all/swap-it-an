@@ -25,6 +25,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -40,9 +41,13 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.swap_it.R
 import com.example.swap_it.ui.component.Cards
 import com.example.swap_it.ui.component.CategoryButton
+import com.example.swap_it.ui.menu.MenuScreen
+import com.example.swap_it.ui.menu.MenuScreen.NavigationModule
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
 import com.example.swap_it.ui.theme.Gray5
@@ -55,111 +60,127 @@ import com.example.swap_it.ui.theme.Typography
 
 class ProductListScreen {
     @OptIn(ExperimentalMaterial3Api::class)
-    @SuppressLint("NotConstructor")
+    @SuppressLint("NotConstructor", "UnusedMaterial3ScaffoldPaddingParameter")
     @Composable
-    fun ProductListScreen(modifier: Modifier = Modifier) {
+    fun ProductListScreen(modifier: Modifier = Modifier, navController: NavHostController) {
         val configuration = LocalConfiguration.current
         val screenWidth = configuration.screenWidthDp.dp
         val screenHeight = configuration.screenHeightDp.dp
         val sheetState = rememberModalBottomSheetState()
         var showBottomSheet by remember { mutableStateOf(false) }
-        Surface(modifier = modifier.fillMaxSize(), color = Gray6) {
-            LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
-                item {
-                    Spacer(modifier = modifier.size(10.dp))
-                }
-                item {
-                    Button(
-                        modifier = modifier.size(screenWidth / 8 * 7, screenHeight / 20),
-                        colors = ButtonDefaults.buttonColors(containerColor = Gray5),
-                        onClick = {},
-                    ) {
-                        Column(
-                            verticalArrangement = Arrangement.Bottom,
-                            modifier = modifier.size(screenWidth / 8 * 7, screenHeight / 20),
-                        ) {
-                            Row(
-                                modifier = modifier.size(screenWidth / 8 * 7, screenHeight / 20),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    "스왑에서 찾아보세요!",
-                                    modifier = modifier.weight(1f),
-                                    color = Gray3
-                                )
-                                Image(
-                                    painter = painterResource(R.drawable.ic_search_magnifying),
-                                    contentDescription = "검색 버튼",
-                                    colorFilter = ColorFilter.tint(Gray3)
-                                )
-                            }
-                        }
+
+        val navigationModule = NavigationModule()
+        Scaffold(
+            topBar = {
+                MenuScreen().AppBar(navController = navController)
+            },
+            bottomBar = {
+                navigationModule.BottomNavigationBar(navController)
+            }
+        ) {
+            Surface(modifier = modifier.fillMaxSize(), color = Gray6) {
+                LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
+                    item {
+                        Spacer(modifier = modifier.size(72.dp))
                     }
-                }
-                item {
-                    Spacer(modifier = modifier.size(10.dp))
-                }
-                item {
-                    LazyRow(modifier = modifier.size(screenWidth, screenHeight / 20)) {
-                        item {
-                            IconButton(onClick = {
-                                showBottomSheet = true
-                            }) {
-                                Box(
-                                    modifier = modifier
-                                        .size(32.dp)
-                                        .border(
-                                            BorderStroke(2.dp, Gray4),
-                                            shape = RoundedCornerShape(50.dp),
-                                        ), contentAlignment = Alignment.Center,
+                    item {
+                        Button(
+                            modifier = modifier.size(screenWidth / 8 * 7, screenHeight / 20),
+                            colors = ButtonDefaults.buttonColors(containerColor = Gray5),
+                            onClick = {},
+                        ) {
+                            Column(
+                                verticalArrangement = Arrangement.Bottom,
+                                modifier = modifier.size(screenWidth / 8 * 7, screenHeight / 20),
+                            ) {
+                                Row(
+                                    modifier = modifier.size(
+                                        screenWidth / 8 * 7,
+                                        screenHeight / 20
+                                    ),
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
+                                    Text(
+                                        "스왑에서 찾아보세요!",
+                                        modifier = modifier.weight(1f),
+                                        color = Gray3
+                                    )
                                     Image(
-                                        painter = painterResource(R.drawable.ic_slider),
-                                        contentDescription = "필터 버튼",
-                                        colorFilter = ColorFilter.tint(Gray4)
+                                        painter = painterResource(R.drawable.ic_search_magnifying),
+                                        contentDescription = "검색 버튼",
+                                        colorFilter = ColorFilter.tint(Gray3)
                                     )
                                 }
                             }
                         }
-                        items(2) {
-                            CategoryButton(
-                                text = "카테고리",
-                                onClick = {},
-                                isSelected = true,
-                                modifier = modifier.padding(Paddings.small)
-                            )
-                        }
-                        items(4) {
-                            CategoryButton(
-                                text = "카테고리",
-                                onClick = {},
-                                isSelected = false,
-                                modifier = modifier.padding(Paddings.small)
-                            )
-                        }
+                    }
+                    item {
+                        Spacer(modifier = modifier.size(10.dp))
+                    }
+                    item {
+                        LazyRow(modifier = modifier.size(screenWidth, screenHeight / 20)) {
+                            item {
+                                IconButton(onClick = {
+                                    showBottomSheet = true
+                                }) {
+                                    Box(
+                                        modifier = modifier
+                                            .size(32.dp)
+                                            .border(
+                                                BorderStroke(2.dp, Gray4),
+                                                shape = RoundedCornerShape(50.dp),
+                                            ),
+                                        contentAlignment = Alignment.Center,
+                                    ) {
+                                        Image(
+                                            painter = painterResource(R.drawable.ic_slider),
+                                            contentDescription = "필터 버튼",
+                                            colorFilter = ColorFilter.tint(Gray4)
+                                        )
+                                    }
+                                }
+                            }
+                            items(2) {
+                                CategoryButton(
+                                    text = "카테고리",
+                                    onClick = {},
+                                    isSelected = true,
+                                    modifier = modifier.padding(Paddings.small)
+                                )
+                            }
+                            items(4) {
+                                CategoryButton(
+                                    text = "카테고리",
+                                    onClick = {},
+                                    isSelected = false,
+                                    modifier = modifier.padding(Paddings.small)
+                                )
+                            }
 
+                        }
+                    }
+
+                    items(10) {
+                        Cards().ProductListCard(Cards.cardData)
+                    }
+                    item {
+                        Spacer(modifier = modifier.size(100.dp))
                     }
                 }
-
-                items(10) {
-                    Cards().ProductListCard(Cards.cardData)
-                }
-                item {
-                    Spacer(modifier = modifier.size(100.dp))
-                }
-            }
-            if (showBottomSheet) {
-                ModalBottomSheet(
-                    onDismissRequest = {
-                        showBottomSheet = false
-                    },
-                    sheetState = sheetState
-                ) {
-                    ModalBottomSheetContent()
+                if (showBottomSheet) {
+                    ModalBottomSheet(
+                        onDismissRequest = {
+                            showBottomSheet = false
+                        },
+                        sheetState = sheetState
+                    ) {
+                        ModalBottomSheetContent()
+                    }
                 }
             }
         }
     }
+
 }
 
 @Composable
@@ -167,7 +188,7 @@ fun ModalBottomSheetContent() {
     var option = SortOption.POPULAR
     Column(modifier = Modifier.padding(Paddings.large)) {
         Text("정렬", style = Typography.titleLarge)
-        SortButtons(onSortOptionSelected = {option = it})
+        SortButtons(onSortOptionSelected = { option = it })
         Text("카테고리", style = Typography.titleLarge)
         CategoryButtons(option)
         Spacer(modifier = Modifier.size(48.dp))
@@ -266,6 +287,6 @@ fun CategoryButtons(option: SortOption) {
 @Composable
 fun ProductScreenPreview() {
     SwapitTheme {
-        ProductListScreen().ProductListScreen()
+        ProductListScreen().ProductListScreen(Modifier,rememberNavController())
     }
 }
