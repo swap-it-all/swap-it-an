@@ -25,9 +25,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.example.swap_it.R
+import com.example.swap_it.ui.theme.Gray2
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
 import com.example.swap_it.ui.theme.Gray5
+import com.example.swap_it.ui.theme.Gray6
 import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.PrimaryDark
@@ -154,6 +156,35 @@ fun CategoryButton(
     }
 }
 
+@Composable
+fun SearchTermButton(
+    text: String,
+    modifier: Modifier = Modifier,
+    contentStyle: TextStyle = Typography.bodySmall,
+    contentPadding: PaddingValues = PaddingValues(
+        horizontal = Paddings.xlarge,
+        vertical = Paddings.medium,
+    ),
+    containerColor: Color = Gray6,
+    contentColor: Color = Gray2,
+    onClick: () -> Unit
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier,
+        contentPadding = contentPadding,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = containerColor,
+            contentColor = contentColor
+        ),
+        shape = Shapes.medium,
+    ) {
+        Text(
+            text = text,
+            style = contentStyle,
+        )
+    }
+}
 
 @Composable
 fun BottomAppBarButton(painter: Painter, contentDescription: String) {
@@ -226,4 +257,12 @@ fun CategoryButtonPreview() {
 @Composable
 fun BottomAppBarDefaultsPreview() {
     BottomAppBarButton(painterResource(R.drawable.ic_house),"홈")
+}
+@Preview(showBackground = true)
+@Composable
+fun SearchButtonPreview(){
+    SearchTermButton(
+        text = "검색 버튼",
+        onClick = {},
+    )
 }
