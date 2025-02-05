@@ -30,6 +30,7 @@ import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
 import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Primary
+import com.example.swap_it.ui.theme.Typography
 import com.example.swap_it.ui.theme.White
 
 
@@ -70,19 +71,19 @@ class Cards {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             text = listCardData.category,
-                            style = MaterialTheme.typography.labelLarge,
+                            style = Typography.labelLarge,
                             color = Gray4
                         )
                         Text(" | ",color = Gray4)
                         Text(
                             text = listCardData.region,
-                            style = MaterialTheme.typography.labelLarge,
+                            style = Typography.labelLarge,
                             color = Gray4
                         )
                         Text(" | ",color = Gray4)
                         Text(
                             text = listCardData.time,
-                            style = MaterialTheme.typography.labelLarge,
+                            style = Typography.labelLarge,
                             color = Gray4
                         )
                     }
@@ -90,7 +91,7 @@ class Cards {
                     Row (verticalAlignment = Alignment.CenterVertically){
                         Text(
                             text = listCardData.title,
-                            style = MaterialTheme.typography.titleMedium
+                            style = Typography.titleMedium
                         )
                     }
                     Spacer(modifier = Modifier.height(Paddings.medium))
@@ -98,16 +99,16 @@ class Cards {
                         Row (modifier = Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically){
                             Text(
                                 text = "예상 ",
-                                style = MaterialTheme.typography.titleMedium,
+                                style = Typography.titleMedium,
                                 color = Gray3
                             )
                             Text(
                                 text = listCardData.price,
-                                style = MaterialTheme.typography.titleMedium,
+                                style = Typography.titleMedium,
                             )
                             Text(
                                 text = "원",
-                                style = MaterialTheme.typography.titleMedium,
+                                style = Typography.titleMedium,
                                 color = Gray3
                             )
                         }
@@ -120,7 +121,7 @@ class Cards {
                         Spacer(modifier = Modifier.size(Paddings.small))
                         Text(
                             text = listCardData.viewCount,
-                            style = MaterialTheme.typography.labelLarge,
+                            style = Typography.labelLarge,
                             color = Gray4
                         )
                     }
