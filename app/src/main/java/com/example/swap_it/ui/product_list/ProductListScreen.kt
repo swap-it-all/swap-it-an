@@ -174,112 +174,13 @@ class ProductListScreen {
                         },
                         sheetState = sheetState
                     ) {
-                        ModalBottomSheetContent()
+                        BottomSheet().ModalBottomSheetContent()
                     }
                 }
             }
         }
     }
 
-}
-
-@Composable
-fun ModalBottomSheetContent() {
-    var option = SortOption.POPULAR
-    Column(modifier = Modifier.padding(Paddings.large)) {
-        Text("정렬", style = Typography.titleLarge)
-        SortButtons(onSortOptionSelected = { option = it })
-        Text("카테고리", style = Typography.titleLarge)
-        CategoryButtons(option)
-        Spacer(modifier = Modifier.size(48.dp))
-    }
-
-}
-
-enum class SortOption(val option: String) {
-    POPULAR("인기순"),
-    RECENT("최신순"),
-    PRICE_HIGH("가격 높은 순"),
-    PRICE_ROW("가격 낮은 순"),
-}
-
-@Composable
-fun SortButtons(
-    initialSortOption: SortOption = SortOption.POPULAR,
-    onSortOptionSelected: (SortOption) -> Unit
-) {
-    var selectedOption by remember { mutableStateOf(initialSortOption) }
-    Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
-        SortOption.entries.forEach {
-            SortButton(
-                text = it.option,
-                isSelected = selectedOption == it,
-                onClick = {
-                    selectedOption = it
-                    onSortOptionSelected(it)
-                }
-            )
-        }
-    }
-}
-
-
-@Composable
-fun SortButton(
-    text: String,
-    isSelected: Boolean,
-    onClick: () -> Unit
-) {
-    val textColor = if (isSelected) Primary else Gray5
-    TextButton(onClick = onClick) {
-        Row {
-            if (isSelected) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_check),
-                    contentDescription = "선택",
-                    tint = Primary,
-                    modifier = Modifier.size(16.dp)
-                )
-            }
-            Text(text = text, color = textColor, style = Typography.bodySmall)
-        }
-    }
-
-}
-
-enum class CategoryOption(val categoryName: String) {
-    CAR("자동차"),
-    CLOTH("옷"),
-    MOBILE("모바일 기기"),
-    CUP("컵"),
-    BOOK("책"),
-    ELECTRONIC("가전기기"),
-    FASHION("패션"),
-    FOOD("음식"),
-    ETC("기타"),
-    SNACK("과자"),
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-fun CategoryButtons(option: SortOption) {
-    FlowRow(
-        horizontalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(Paddings.medium),
-
-        ) {
-        CategoryOption.entries.forEach {
-            CategoryButton(
-                text = it.categoryName,
-                isSelected = true,
-                modifier = Modifier.padding(Paddings.small)
-            ) {
-
-            }
-        }
-    }
 }
 
 
