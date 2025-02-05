@@ -47,6 +47,7 @@ import coil3.compose.AsyncImage
 import com.example.swap_it.R
 import com.example.swap_it.ui.component.Cards.Companion.cardData
 import com.example.swap_it.ui.component.ListCardData
+import com.example.swap_it.ui.theme.Background
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
 import com.example.swap_it.ui.theme.Gray5
@@ -69,7 +70,7 @@ class AlertScreen {
     @SuppressLint("NotConstructor", "RestrictedApi")
     @Composable
     fun AlertScreen(modifier: Modifier = Modifier,navController: NavHostController) {
-        Surface(modifier = modifier.fillMaxSize(), color = Gray6) {
+        Surface(modifier = modifier.fillMaxSize(), color = Background) {
             Column {
                 IconButton(
                     onClick = {
@@ -107,7 +108,7 @@ class AlertScreen {
         Card(
             modifier = Modifier.padding(Paddings.xlarge, Paddings.medium),
             colors = androidx.compose.material3.CardDefaults.cardColors(
-                containerColor = Gray6
+                containerColor = Background
             ),
             onClick = alertCardData.onClick
         ) {
@@ -146,11 +147,11 @@ class AlertScreen {
 
 
                 }
-                Spacer(Modifier.size(16.dp))
+                Spacer(Modifier.size(12.dp))
                 Box(Modifier
                     .fillMaxWidth()
                     .height(1.dp)
-                    .background(Gray4))
+                    .background(Gray5))
             }
 
 

@@ -30,6 +30,7 @@ import com.example.swap_it.ui.add_item.AddItemScreen
 import com.example.swap_it.ui.chat_list.ChatListScreen
 import com.example.swap_it.ui.product_list.AlertScreen
 import com.example.swap_it.ui.product_list.ProductListScreen
+import com.example.swap_it.ui.product_list.SearchScreen
 import com.example.swap_it.ui.shopping_list.ShoppingListScreen
 import com.example.swap_it.ui.theme.Gray2
 import com.example.swap_it.ui.theme.Gray4
@@ -165,6 +166,9 @@ class MenuScreen {
                 }
                 composable("Alert") {
                     AlertScreen().AlertScreen(modifier = Modifier,navController)
+                }
+                composable("Search") {
+                    SearchScreen().SearchScreen(modifier = Modifier,navController)
                 }
             }
         }

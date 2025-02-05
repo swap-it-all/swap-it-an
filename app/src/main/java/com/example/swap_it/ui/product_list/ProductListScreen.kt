@@ -7,22 +7,17 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.TextButton
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
@@ -50,12 +45,10 @@ import com.example.swap_it.ui.menu.MenuScreen
 import com.example.swap_it.ui.menu.MenuScreen.NavigationModule
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
-import com.example.swap_it.ui.theme.Gray5
 import com.example.swap_it.ui.theme.Gray6
+import com.example.swap_it.ui.theme.Background
 import com.example.swap_it.ui.theme.Paddings
-import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.SwapitTheme
-import com.example.swap_it.ui.theme.Typography
 
 
 class ProductListScreen {
@@ -78,7 +71,7 @@ class ProductListScreen {
                 navigationModule.BottomNavigationBar(navController)
             }
         ) {
-            Surface(modifier = modifier.fillMaxSize(), color = Gray6) {
+            Surface(modifier = modifier.fillMaxSize(), color = Background) {
                 LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
                     item {
                         Spacer(modifier = modifier.size(72.dp))
@@ -86,8 +79,16 @@ class ProductListScreen {
                     item {
                         Button(
                             modifier = modifier.size(screenWidth / 8 * 7, screenHeight / 20),
-                            colors = ButtonDefaults.buttonColors(containerColor = Gray5),
-                            onClick = {},
+                            colors = ButtonDefaults.buttonColors(containerColor = Gray6),
+                            onClick = {
+                                navController.navigate("Search"){
+                                    navController.graph.startDestinationRoute?.let {
+                                        popUpTo(it) { saveState = true }
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
                         ) {
                             Column(
                                 verticalArrangement = Arrangement.Bottom,
