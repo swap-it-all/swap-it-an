@@ -3,7 +3,6 @@ package com.example.swap_it.ui.auth
 import android.app.Activity
 import android.os.Bundle
 import android.widget.Toast
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -21,16 +20,14 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.swap_it.R
 import com.example.swap_it.ui.theme.Black
@@ -40,8 +37,6 @@ import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Shapes
 import com.example.swap_it.ui.theme.Typography
 import com.example.swap_it.ui.theme.White
-import androidx.compose.ui.unit.sp
-import com.example.swap_it.ui.component.ModalButton
 import kotlinx.coroutines.launch
 
 class AuthActivity : ComponentActivity() {
@@ -102,6 +97,10 @@ class AuthActivity : ComponentActivity() {
 
     @Composable
     fun GoogleLoginButton() {
+        val context = LocalContext.current
+        val loginManager = remember { LoginManager(context as Activity) }
+        val scope = rememberCoroutineScope()
+
         Button(
             modifier = Modifier.fillMaxWidth(),
             colors =
@@ -112,7 +111,21 @@ class AuthActivity : ComponentActivity() {
             contentPadding = PaddingValues(16.dp),
             shape = Shapes.small,
             border = BorderStroke(1.dp, Gray4),
-            onClick = { Log.d("GoogleLoginButton", "GoogleLoginButton Clicked") },
+            onClick = {
+                scope.launch {
+                    val loginState = loginManager.googleLogin()
+                    when (loginState) {
+                        is LoginState.Success -> {
+                            Toast.makeText(context, "로그인 성공", Toast.LENGTH_SHORT).show()
+                        }
+                        is LoginState.Failure -> {
+                            Toast.makeText(context, "로그인 실패", Toast.LENGTH_SHORT).show()
+                        }
+
+                        LoginState.None -> {}
+                    }
+                }
+            },
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_google),
@@ -138,7 +151,7 @@ class AuthActivity : ComponentActivity() {
                 ),
             contentPadding = PaddingValues(16.dp),
             shape = Shapes.small,
-            onClick = { Log.d("KakaoLoginButton", "KakaoLoginButton Clicked") },
+            onClick = { loginViewModel.kakaoLogin() },
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_kakao),
@@ -151,7 +164,7 @@ class AuthActivity : ComponentActivity() {
 
     @Preview(showBackground = true)
     @Composable
-    fun GreetingPreview() {
+    fun LoginPreview() {
         LoginScreen()
     }
 }
