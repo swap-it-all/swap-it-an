@@ -66,7 +66,7 @@ class Shopping {
                         Spacer(modifier = modifier.size(72.dp))
                     }
                     item {
-                        SearchBarButton()
+                        SearchBarButton(modifier,navController)
                     }
                     item {
                         Spacer(modifier = modifier.size(10.dp))

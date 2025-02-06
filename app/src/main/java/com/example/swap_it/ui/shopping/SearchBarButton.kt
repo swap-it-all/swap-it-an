@@ -16,19 +16,28 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.swap_it.R
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray5
 
 @Composable
-fun SearchBarButton(modifier: Modifier = Modifier) {
+fun SearchBarButton(modifier: Modifier = Modifier,navController: NavHostController) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
     Button(
         modifier = modifier.size(screenWidth / 8 * 7, screenHeight / 20),
         colors = ButtonDefaults.buttonColors(backgroundColor = Gray5),
-        onClick = {},
+        onClick = {
+            navController.navigate("Search") {
+                navController.graph.startDestinationRoute?.let {
+                    popUpTo(it) { saveState = true }
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
+        },
     ) {
         Column(
             verticalArrangement = Arrangement.Bottom,

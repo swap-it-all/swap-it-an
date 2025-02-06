@@ -13,8 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
-import com.example.swap_it.ui.menu.MenuScreen
-import com.example.swap_it.ui.menu.MenuScreen.NavigationModule
+import com.example.swap_it.ui.component.AppBar
+import com.example.swap_it.ui.component.BottomNavigationBar
+import com.example.swap_it.ui.navigation.NavigationModule
 
 @SuppressLint("NotConstructor")
 class UserInfoScreen {
@@ -24,10 +25,10 @@ class UserInfoScreen {
         val navigationModule = NavigationModule()
         Scaffold(
             topBar = {
-                MenuScreen().AppBar(navController = navController)
+                AppBar(navController = navController)
             },
             bottomBar = {
-                navigationModule.BottomNavigationBar(navController)
+                BottomNavigationBar(navController)
             }
         ) {
             Box(
