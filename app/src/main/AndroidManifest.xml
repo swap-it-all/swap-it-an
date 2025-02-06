@@ -8,8 +8,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".SwapItApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:exported="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,17 +24,33 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Swapit">
+
+        </activity>
+        <activity
+            android:name=".ui.auth.AuthActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Swapit">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.auth.AuthActivity"
-            android:exported="true"
-            android:theme="@style/Theme.Swapit">
 
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="oauth"
+                    android:scheme="@string/kakao_oauth_host" />
+            </intent-filter>
         </activity>
 
     </application>

@@ -1,8 +1,15 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.ktlint)
 }
+
+val properties =
+    Properties().apply {
+        load(rootProject.file("local.properties").inputStream())
+    }
 
 android {
     namespace = "com.example.swap_it"
@@ -18,6 +25,26 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+
+        buildConfigField(
+            "String",
+            "KAKAO_NATIVE_APP_KEY",
+            properties.getProperty("KAKAO_NATIVE_APP_KEY"),
+        )
+        resValue(
+            "string",
+            "kakao_oauth_host",
+            properties.getProperty("kakao_oauth_host"),
+        )
+        resValue(
+            "string",
+            "google_client_id",
+            properties.getProperty("google_client_id"),
+        )
+
+        buildFeatures {
+            buildConfig = true
         }
     }
 
@@ -65,6 +92,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.kotlin.coroutines.android)
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kotlin.serialization.json)
@@ -96,4 +125,5 @@ dependencies {
     // Login
     implementation(libs.kakao)
     implementation(libs.google)
+    implementation(libs.googleid)
 }
