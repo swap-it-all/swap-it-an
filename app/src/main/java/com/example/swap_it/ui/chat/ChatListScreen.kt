@@ -1,4 +1,4 @@
-package com.example.swap_it.ui.user_info
+package com.example.swap_it.ui.chat
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -13,30 +13,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
-import com.example.swap_it.ui.menu.MenuScreen
-import com.example.swap_it.ui.menu.MenuScreen.NavigationModule
+import com.example.swap_it.ui.component.AppBar
+import com.example.swap_it.ui.component.BottomNavigationBar
 
-@SuppressLint("NotConstructor")
-class UserInfoScreen {
-    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+import com.example.swap_it.ui.navigation.NavigationModule
+
+class ChatListScreen {
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "NotConstructor")
     @Composable
-    fun UserInfoScreen(navController: NavHostController) {
+    fun ChatListScreen(navController: NavHostController) {
         val navigationModule = NavigationModule()
         Scaffold(
             topBar = {
-                MenuScreen().AppBar(navController = navController)
+                AppBar(navController = navController)
             },
             bottomBar = {
-                navigationModule.BottomNavigationBar(navController)
-            }
+                BottomNavigationBar(navController)
+            },
+
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Blue)
+                    .background(Color.Magenta)
             ) {
                 Text(
-                    text = "유저 정보",
+                    text = "채팅",
                     style = MaterialTheme.typography.labelLarge,
                     textAlign = TextAlign.Center,
                     color = Color.White,
@@ -44,5 +46,9 @@ class UserInfoScreen {
                 )
             }
         }
+
+
     }
+
+
 }

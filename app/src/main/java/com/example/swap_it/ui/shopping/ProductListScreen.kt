@@ -1,4 +1,4 @@
-package com.example.swap_it.ui.product_list
+package com.example.swap_it.ui.shopping
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
@@ -44,10 +44,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.swap_it.R
+import com.example.swap_it.ui.component.AppBar
+import com.example.swap_it.ui.component.BottomNavigationBar
 import com.example.swap_it.ui.component.Cards
 import com.example.swap_it.ui.component.CategoryButton
-import com.example.swap_it.ui.menu.MenuScreen
-import com.example.swap_it.ui.menu.MenuScreen.NavigationModule
+
+import com.example.swap_it.ui.navigation.NavigationModule
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
 import com.example.swap_it.ui.theme.Gray5
@@ -72,10 +74,10 @@ class ProductListScreen {
         val navigationModule = NavigationModule()
         Scaffold(
             topBar = {
-                MenuScreen().AppBar(navController = navController)
+                AppBar(navController = navController)
             },
             bottomBar = {
-                navigationModule.BottomNavigationBar(navController)
+                BottomNavigationBar(navController)
             }
         ) {
             Surface(modifier = modifier.fillMaxSize(), color = Gray6) {

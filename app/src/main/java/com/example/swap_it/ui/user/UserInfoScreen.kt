@@ -1,4 +1,4 @@
-package com.example.swap_it.ui.shopping_list
+package com.example.swap_it.ui.user
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -11,33 +11,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
-import com.example.swap_it.ui.menu.MenuScreen
-import com.example.swap_it.ui.menu.MenuScreen.NavigationModule
+import com.example.swap_it.ui.component.AppBar
+import com.example.swap_it.ui.component.BottomNavigationBar
 
-class ShoppingListScreen {
-    @SuppressLint("NotConstructor", "UnusedMaterial3ScaffoldPaddingParameter")
+import com.example.swap_it.ui.navigation.NavigationModule
+
+@SuppressLint("NotConstructor")
+class UserInfoScreen {
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @Composable
-    fun ShoppingListScreen(navController: NavHostController) {
+    fun UserInfoScreen(navController: NavHostController) {
         val navigationModule = NavigationModule()
         Scaffold(
             topBar = {
-                MenuScreen().AppBar(navController = navController)
+                AppBar(navController = navController)
             },
             bottomBar = {
-                navigationModule.BottomNavigationBar(navController)
-            },
-
-            ) {
+                BottomNavigationBar(navController)
+            }
+        ) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Gray)
+                    .background(Color.Blue)
             ) {
                 Text(
-                    text = "거래",
+                    text = "유저 정보",
                     style = MaterialTheme.typography.labelLarge,
                     textAlign = TextAlign.Center,
                     color = Color.White,
@@ -45,7 +46,5 @@ class ShoppingListScreen {
                 )
             }
         }
-
     }
-
 }
