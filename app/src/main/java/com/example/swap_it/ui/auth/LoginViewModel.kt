@@ -2,6 +2,8 @@ package com.example.swap_it.ui.auth
 
 import android.app.Application
 import android.util.Log
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.auth.model.OAuthToken
@@ -13,9 +15,10 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class KakaoAuthViewModel(application: Application) : AndroidViewModel(application) {
+class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val context = application.applicationContext
-
+    private val _loginState = mutableStateOf<LoginState>(LoginState.None)
+    val loginState: MutableState<LoginState> = _loginState
     val isLoggedIn = MutableStateFlow<Boolean>(false)
 
     fun kakaoLogin() {
@@ -79,6 +82,6 @@ class KakaoAuthViewModel(application: Application) : AndroidViewModel(applicatio
         }
 
     companion object {
-        private const val TAG = "KakaoAuthViewModel"
+        private const val TAG = "LoginViewModel"
     }
 }
