@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.swap_it.R
+import com.example.swap_it.ui.component.Cards
+import com.example.swap_it.ui.component.Cards.Companion.alertCardData
 import com.example.swap_it.ui.theme.Gray4
 import com.example.swap_it.ui.theme.Gray6
 import com.example.swap_it.ui.theme.Paddings
@@ -44,7 +46,7 @@ data class AlertCardData(
     val onClick: () -> Unit = {}
 )
 
-class AlertScreen {
+class Alert {
 
     @SuppressLint("NotConstructor", "RestrictedApi")
     @Composable
@@ -71,78 +73,11 @@ class AlertScreen {
                 )
                 LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
                     items(4) {
-                        AlertListCard(alertCardData = cardData)
+                        Cards().AlertListCard(alertCardData = Cards.alertCardData)
                     }
-
-
                 }
-
             }
-
         }
-    }
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    fun AlertListCard(alertCardData: AlertCardData) {
-        Card(
-            modifier = Modifier.padding(Paddings.xlarge, Paddings.medium),
-            colors = androidx.compose.material3.CardDefaults.cardColors(
-                containerColor = Gray6
-            ),
-            onClick = alertCardData.onClick
-        ) {
-            Column {
-
-
-                Row {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .size(52.dp)
-                            .clip(RoundedCornerShape(50.dp))
-                            .background(White),
-                    ) {
-                        Icon(
-                            painter = painterResource(id = alertCardData.icon),
-                            contentDescription = "알림 아이콘",
-                            tint = Primary,
-                            modifier = Modifier.size(36.dp)
-                        )
-                    }
-                    Column(modifier = Modifier.padding(Paddings.medium)) {
-                        Text(
-                            text = alertCardData.message,
-                            style = Typography.titleMedium,
-                        )
-                        Spacer(modifier = Modifier.height(Paddings.medium))
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(
-                                text = alertCardData.date,
-                                style = Typography.labelLarge,
-                                color = Gray4
-                            )
-                        }
-                    }
-
-
-                }
-                Spacer(Modifier.size(16.dp))
-                Box(Modifier
-                    .fillMaxWidth()
-                    .height(1.dp)
-                    .background(Gray4))
-            }
-
-
-        }
-    }
-
-    companion object {
-        val cardData = AlertCardData(
-            message = "스왑 요청이 들어왔어요",
-            date = "2월 19일 13:22",
-            icon = R.drawable.ic_show
-        )
     }
 }
 
@@ -151,6 +86,6 @@ class AlertScreen {
 fun SearchScreenPreview() {
     var navController = rememberNavController()
     SwapitTheme {
-        AlertScreen().AlertScreen(Modifier,navController)
+        Alert().AlertScreen(Modifier,navController)
     }
 }
