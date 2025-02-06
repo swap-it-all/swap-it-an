@@ -1,5 +1,6 @@
 package com.example.swap_it.ui.product_list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -9,19 +10,26 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.swap_it.R
 import com.example.swap_it.ui.component.CategoryButton
+import com.example.swap_it.ui.theme.Gray4
 import com.example.swap_it.ui.theme.Gray5
 import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Primary
@@ -34,7 +42,7 @@ class BottomSheet {
         var option = SortOption.POPULAR
         Column(modifier = Modifier.padding(Paddings.large)) {
             Text("정렬", style = Typography.titleLarge)
-            SortButtons(onSortOptionSelected = { option = it })
+            SortButtons { option = it }
             Text("카테고리", style = Typography.titleLarge)
             CategoryButtons(option)
             Spacer(modifier = Modifier.size(48.dp))
@@ -65,6 +73,14 @@ class BottomSheet {
                         onSortOptionSelected(it)
                     }
                 )
+                if (it != SortOption.entries.last()) {
+                    Divider(
+                        modifier = Modifier
+                            .size(1.dp, 16.dp)
+                            .background(Gray4)
+                            .align(Alignment.CenterVertically)
+                    )
+                }
             }
         }
     }
@@ -90,7 +106,6 @@ class BottomSheet {
                 Text(text = text, color = textColor, style = Typography.bodySmall)
             }
         }
-
     }
 
     enum class CategoryOption(val categoryName: String) {

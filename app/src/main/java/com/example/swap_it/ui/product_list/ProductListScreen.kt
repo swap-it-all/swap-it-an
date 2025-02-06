@@ -3,6 +3,7 @@ package com.example.swap_it.ui.product_list
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -173,7 +174,8 @@ class ProductListScreen {
                         onDismissRequest = {
                             showBottomSheet = false
                         },
-                        sheetState = sheetState
+                        sheetState = sheetState,
+                        containerColor = Background,
                     ) {
                         BottomSheet().ModalBottomSheetContent()
                     }
