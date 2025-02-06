@@ -2,22 +2,18 @@ package com.example.swap_it.ui.component
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,7 +25,6 @@ import com.example.swap_it.ui.theme.Gray2
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
 import com.example.swap_it.ui.theme.Gray5
-import com.example.swap_it.ui.theme.Gray6
 import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.PrimaryDark
@@ -43,12 +38,13 @@ fun DefaultButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = false,
     contentStyle: TextStyle = Typography.titleMedium,
-    contentPadding: PaddingValues = PaddingValues(
-        horizontal = Paddings.xextra,
-        vertical = Paddings.xlarge,
-    ),
+    contentPadding: PaddingValues =
+        PaddingValues(
+            horizontal = Paddings.xextra,
+            vertical = Paddings.xlarge,
+        ),
     interactionSource: InteractionSource,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val isPressed by interactionSource.collectIsPressedAsState()
 
@@ -220,9 +216,6 @@ fun DefaultButtonPreview(
     )
 }
 
-
-
-
 class ModalButtonPreviewParameterProvider : PreviewParameterProvider<Color> {
     override val values = sequenceOf(
         Primary,
@@ -241,7 +234,6 @@ fun ModalButtonPreview(
         containerColor = containerColor,
     )
 }
-
 
 @Preview(showBackground = true)
 @Composable

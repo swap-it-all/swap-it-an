@@ -1,4 +1,4 @@
-package com.example.swap_it.ui.add_item
+package com.example.swap_it.ui.user
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -13,17 +13,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
-import com.example.swap_it.ui.menu.MenuScreen
 import com.example.swap_it.ui.component.AppBar
 import com.example.swap_it.ui.component.BottomNavigationBar
 
 import com.example.swap_it.ui.navigation.NavigationModule
 
-class AddItemScreen {
-
-    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "NotConstructor")
+@SuppressLint("NotConstructor")
+class UserInfoScreen {
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @Composable
-    fun AddItemScreen(navController: NavHostController) {
+    fun UserInfoScreen(navController: NavHostController) {
         val navigationModule = NavigationModule()
         Scaffold(
             topBar = {
@@ -31,17 +30,15 @@ class AddItemScreen {
             },
             bottomBar = {
                 BottomNavigationBar(navController)
-            },
-
-            ) {
-
+            }
+        ) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Yellow)
+                    .background(Color.Blue)
             ) {
                 Text(
-                    text = "물건 등록",
+                    text = "유저 정보",
                     style = MaterialTheme.typography.labelLarge,
                     textAlign = TextAlign.Center,
                     color = Color.White,
@@ -50,6 +47,4 @@ class AddItemScreen {
             }
         }
     }
-
-
 }

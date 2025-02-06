@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
 import com.example.swap_it.ui.menu.MenuScreen
-import com.example.swap_it.ui.menu.MenuScreen.NavigationModule
+import com.example.swap_it.ui.menu.NavigationModule
 
 class ChatListScreen {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "NotConstructor")
@@ -47,6 +47,3 @@ class ChatListScreen {
 
 
     }
-
-
-}

@@ -28,9 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.swap_it.R
 import com.example.swap_it.ui.add_item.AddItemScreen
 import com.example.swap_it.ui.chat_list.ChatListScreen
-import com.example.swap_it.ui.product_list.AlertScreen
 import com.example.swap_it.ui.product_list.ProductListScreen
-import com.example.swap_it.ui.product_list.SearchScreen
 import com.example.swap_it.ui.shopping_list.ShoppingListScreen
 import com.example.swap_it.ui.theme.Gray2
 import com.example.swap_it.ui.theme.Gray4
@@ -50,13 +48,10 @@ class MenuScreen {
     @Composable
     fun MenuScreen(modifier: Modifier = Modifier) {
         val navController = rememberNavController()
-        val navigationModule = NavigationModule()
-        navigationModule.NavigationGraph(navController = navController)
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun AppBar(modifier: Modifier = Modifier, navController: NavHostController) {
         TopAppBar(
             title = {
                 Image(
@@ -67,15 +62,6 @@ class MenuScreen {
             },
             actions = {
                 IconButton(
-                    onClick = {
-                        navController.navigate("Alert"){
-                            navController.graph.startDestinationRoute?.let {
-                                popUpTo(it) { saveState = true }
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    }
                 ) {
                     Image(
                         painter = painterResource(R.drawable.ic_bell),
@@ -87,7 +73,6 @@ class MenuScreen {
     }
 
 
-    class NavigationModule {
         private val items = listOf<BottomNavItem>(
             BottomNavItem.Product,
             BottomNavItem.Shopping,
@@ -150,25 +135,14 @@ class MenuScreen {
                 startDestination = BottomNavItem.Product.screenRoute
             ) {
                 composable(BottomNavItem.Product.screenRoute) {
-                    ProductListScreen().ProductListScreen(Modifier,navController)
                 }
                 composable(BottomNavItem.Shopping.screenRoute) {
-                    ShoppingListScreen().ShoppingListScreen(navController)
                 }
                 composable(BottomNavItem.Add.screenRoute) {
-                    AddItemScreen().AddItemScreen(navController)
                 }
                 composable(BottomNavItem.Chat.screenRoute) {
-                    ChatListScreen().ChatListScreen(navController)
                 }
                 composable(BottomNavItem.User.screenRoute) {
-                    UserInfoScreen().UserInfoScreen(navController)
-                }
-                composable("Alert") {
-                    AlertScreen().AlertScreen(modifier = Modifier,navController)
-                }
-                composable("Search") {
-                    SearchScreen().SearchScreen(modifier = Modifier,navController)
                 }
             }
         }
