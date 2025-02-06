@@ -15,6 +15,7 @@ import kotlin.coroutines.suspendCoroutine
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val context = application.applicationContext
+
     /*private val _loginState = mutableStateOf<LoginState>(LoginState.None)
     val loginState: MutableState<LoginState> = _loginState*/
     val isLoggedIn = MutableStateFlow<Boolean>(false)

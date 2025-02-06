@@ -12,7 +12,7 @@ import java.security.MessageDigest
 import java.util.UUID
 
 class LoginManager(
-    private val activity: Activity
+    private val activity: Activity,
 ) {
     private val credentialManager = CredentialManager.create(activity)
 
@@ -21,20 +21,23 @@ class LoginManager(
             val rawNonce = UUID.randomUUID().toString()
             val hashedNonce = hashSHA256(rawNonce)
 
-            val googleIdOption = GetGoogleIdOption.Builder()
-                .setFilterByAuthorizedAccounts(false)
-                .setServerClientId(activity.getString(R.string.google_client_id))
-                .setNonce(hashedNonce)
-                .build()
+            val googleIdOption =
+                GetGoogleIdOption.Builder()
+                    .setFilterByAuthorizedAccounts(false)
+                    .setServerClientId(activity.getString(R.string.google_client_id))
+                    .setNonce(hashedNonce)
+                    .build()
 
-            val request = GetCredentialRequest.Builder()
-                .addCredentialOption(googleIdOption)
-                .build()
+            val request =
+                GetCredentialRequest.Builder()
+                    .addCredentialOption(googleIdOption)
+                    .build()
 
-            val result = credentialManager.getCredential(
-                request = request,
-                context = activity
-            )
+            val result =
+                credentialManager.getCredential(
+                    request = request,
+                    context = activity,
+                )
 
             val credential = result.credential
             val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
@@ -42,7 +45,6 @@ class LoginManager(
 
             Log.i("Login", "Google 로그인 성공: $idToken")
             LoginState.Success(idToken)
-
         } catch (e: GetCredentialException) {
             Log.e("Login", "Google 로그인 실패", e)
             LoginState.Failure(e.message ?: "Google 로그인 실패")
