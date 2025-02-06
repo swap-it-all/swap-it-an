@@ -1,4 +1,4 @@
-package com.example.swap_it.ui.add_item
+package com.example.swap_it.ui.chat
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -18,11 +18,10 @@ import com.example.swap_it.ui.component.BottomNavigationBar
 
 import com.example.swap_it.ui.navigation.NavigationModule
 
-class AddItemScreen {
-
+class ChatListScreen {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "NotConstructor")
     @Composable
-    fun AddItemScreen(navController: NavHostController) {
+    fun ChatListScreen(navController: NavHostController) {
         val navigationModule = NavigationModule()
         Scaffold(
             topBar = {
@@ -32,15 +31,14 @@ class AddItemScreen {
                 BottomNavigationBar(navController)
             },
 
-            ) {
-
+        ) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Yellow)
+                    .background(Color.Magenta)
             ) {
                 Text(
-                    text = "물건 등록",
+                    text = "채팅",
                     style = MaterialTheme.typography.labelLarge,
                     textAlign = TextAlign.Center,
                     color = Color.White,
@@ -48,6 +46,8 @@ class AddItemScreen {
                 )
             }
         }
+
+
     }
 
 
