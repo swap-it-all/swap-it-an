@@ -41,12 +41,13 @@ fun DefaultButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = false,
     contentStyle: TextStyle = Typography.titleMedium,
-    contentPadding: PaddingValues = PaddingValues(
-        horizontal = Paddings.xextra,
-        vertical = Paddings.xlarge,
-    ),
+    contentPadding: PaddingValues =
+        PaddingValues(
+            horizontal = Paddings.xextra,
+            vertical = Paddings.xlarge,
+        ),
     interactionSource: InteractionSource,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val isPressed by interactionSource.collectIsPressedAsState()
 
@@ -55,11 +56,12 @@ fun DefaultButton(
         enabled = enabled,
         modifier = modifier,
         contentPadding = contentPadding,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = if (isPressed) PrimaryDark else Primary,
-            contentColor = White,
-            disabledContainerColor = Gray5,
-        ),
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = if (isPressed) PrimaryDark else Primary,
+                contentColor = White,
+                disabledContainerColor = Gray5,
+            ),
         shape = Shapes.small,
     ) {
         Text(
@@ -74,37 +76,41 @@ fun ModalButton(
     text: String,
     modifier: Modifier = Modifier,
     contentStyle: TextStyle = Typography.titleMedium,
-    contentPadding: PaddingValues = PaddingValues(
-        horizontal = Paddings.extra,
-        vertical = Paddings.large,
-    ),
+    contentPadding: PaddingValues =
+        PaddingValues(
+            horizontal = Paddings.extra,
+            vertical = Paddings.large,
+        ),
     containerColor: Color = Primary,
     contentColor: Color = White,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
     val animatedContainerColor by animateColorAsState(
-        targetValue = when (containerColor) {
-            Primary -> if (isPressed) PrimaryDark else containerColor
-            else -> if (isPressed) Gray4 else containerColor
-        }
+        targetValue =
+            when (containerColor) {
+                Primary -> if (isPressed) PrimaryDark else containerColor
+                else -> if (isPressed) Gray4 else containerColor
+            },
     )
     val animatedContentColor by animateColorAsState(
-        targetValue = when (animatedContainerColor) {
-            Primary, PrimaryDark -> White
-            else -> Gray3
-        },
+        targetValue =
+            when (animatedContainerColor) {
+                Primary, PrimaryDark -> White
+                else -> Gray3
+            },
     )
 
     Button(
         onClick = onClick,
         modifier = modifier,
         contentPadding = contentPadding,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = animatedContainerColor,
-            contentColor = animatedContentColor
-        ),
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = animatedContainerColor,
+                contentColor = animatedContentColor,
+            ),
         interactionSource = interactionSource,
         shape = Shapes.small,
     ) {
@@ -121,31 +127,33 @@ fun CategoryButton(
     modifier: Modifier = Modifier,
     isSelected: Boolean,
     contentStyle: TextStyle = Typography.bodySmall,
-    contentPadding: PaddingValues = PaddingValues(
-        horizontal = Paddings.xlarge,
-        vertical = Paddings.medium,
-    ),
+    contentPadding: PaddingValues =
+        PaddingValues(
+            horizontal = Paddings.xlarge,
+            vertical = Paddings.medium,
+        ),
     containerColor: Color = White,
     contentColor: Color = Gray4,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val animatedBorderColor by animateColorAsState(
-        targetValue = if (isSelected) Primary else contentColor
+        targetValue = if (isSelected) Primary else contentColor,
     )
     val animatedContentColor by animateColorAsState(
-        targetValue = if (isSelected) Primary else contentColor
+        targetValue = if (isSelected) Primary else contentColor,
     )
 
     Button(
         onClick = onClick,
         modifier = modifier,
         contentPadding = contentPadding,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = containerColor,
-            contentColor = animatedContentColor
-        ),
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = containerColor,
+                contentColor = animatedContentColor,
+            ),
         shape = Shapes.medium,
-        border = BorderStroke(1.dp, animatedBorderColor)
+        border = BorderStroke(1.dp, animatedBorderColor),
     ) {
         Text(
             text = text,
@@ -169,23 +177,24 @@ fun BottomAppBarButton(painter: Painter, contentDescription: String) {
 
 
 class EnabledPreviewParameterProvider : PreviewParameterProvider<Boolean> {
-    override val values = sequenceOf(
-        true,
-        false,
-    )
+    override val values =
+        sequenceOf(
+            true,
+            false,
+        )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultButtonPreview(
-    @PreviewParameter(EnabledPreviewParameterProvider::class) enabled: Boolean
+    @PreviewParameter(EnabledPreviewParameterProvider::class) enabled: Boolean,
 ) {
     DefaultButton(
         text = if (enabled) "활성화된 버튼" else "비활성화된 버튼",
         onClick = {},
         contentStyle = Typography.titleMedium,
         enabled = enabled,
-        interactionSource = remember { MutableInteractionSource() }
+        interactionSource = remember { MutableInteractionSource() },
     )
 }
 
@@ -193,16 +202,17 @@ fun DefaultButtonPreview(
 
 
 class ModalButtonPreviewParameterProvider : PreviewParameterProvider<Color> {
-    override val values = sequenceOf(
-        Primary,
-        Gray5,
-    )
+    override val values =
+        sequenceOf(
+            Primary,
+            Gray5,
+        )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun ModalButtonPreview(
-    @PreviewParameter(ModalButtonPreviewParameterProvider::class) containerColor: Color
+    @PreviewParameter(ModalButtonPreviewParameterProvider::class) containerColor: Color,
 ) {
     ModalButton(
         text = "모달 버튼",
@@ -218,7 +228,7 @@ fun CategoryButtonPreview() {
     CategoryButton(
         text = "카테고리 버튼",
         onClick = {},
-        isSelected = false
+        isSelected = false,
     )
 }
 
