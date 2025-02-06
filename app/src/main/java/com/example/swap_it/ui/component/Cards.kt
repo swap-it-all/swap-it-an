@@ -1,9 +1,12 @@
 package com.example.swap_it.ui.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -12,8 +15,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,10 +30,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.swap_it.R
+import com.example.swap_it.ui.shopping.AlertCardData
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
+import com.example.swap_it.ui.theme.Gray6
 import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Primary
+import com.example.swap_it.ui.theme.Typography
 import com.example.swap_it.ui.theme.White
 
 
@@ -45,13 +52,12 @@ data class ListCardData(
 )
 
 class Cards {
-
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun ProductListCard(listCardData: ListCardData) {
         Card(
-            modifier = Modifier.padding(Paddings.xlarge,Paddings.medium),
-            colors = androidx.compose.material3.CardDefaults.cardColors(
+            modifier = Modifier.padding(Paddings.xlarge, Paddings.medium),
+            colors = CardDefaults.cardColors(
                 containerColor = White
             ),
             shape = RoundedCornerShape(8.dp),
@@ -61,7 +67,9 @@ class Cards {
                 AsyncImage(
                     model = listCardData.imageUri,
                     contentDescription = "상품 대표 이미지",
-                    modifier = Modifier.size(100.dp).clip(RoundedCornerShape(4.dp)),
+                    modifier = Modifier
+                        .size(100.dp)
+                        .clip(RoundedCornerShape(4.dp)),
                     placeholder = ColorPainter(Primary),
                     fallback = rememberVectorPainter(Icons.Default.Send),
                     error = rememberVectorPainter(Icons.Default.Settings),
@@ -70,44 +78,47 @@ class Cards {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             text = listCardData.category,
-                            style = MaterialTheme.typography.labelLarge,
+                            style = Typography.labelLarge,
                             color = Gray4
                         )
-                        Text(" | ",color = Gray4)
+                        Text(" | ", color = Gray4)
                         Text(
                             text = listCardData.region,
-                            style = MaterialTheme.typography.labelLarge,
+                            style = Typography.labelLarge,
                             color = Gray4
                         )
-                        Text(" | ",color = Gray4)
+                        Text(" | ", color = Gray4)
                         Text(
                             text = listCardData.time,
-                            style = MaterialTheme.typography.labelLarge,
+                            style = Typography.labelLarge,
                             color = Gray4
                         )
                     }
                     Spacer(modifier = Modifier.height(Paddings.medium))
-                    Row (verticalAlignment = Alignment.CenterVertically){
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             text = listCardData.title,
-                            style = MaterialTheme.typography.titleMedium
+                            style = Typography.titleMedium
                         )
                     }
                     Spacer(modifier = Modifier.height(Paddings.medium))
-                    Row (verticalAlignment = Alignment.CenterVertically){
-                        Row (modifier = Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically){
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            modifier = Modifier.weight(1f),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Text(
                                 text = "예상 ",
-                                style = MaterialTheme.typography.titleMedium,
+                                style = Typography.titleMedium,
                                 color = Gray3
                             )
                             Text(
                                 text = listCardData.price,
-                                style = MaterialTheme.typography.titleMedium,
+                                style = Typography.titleMedium,
                             )
                             Text(
                                 text = "원",
-                                style = MaterialTheme.typography.titleMedium,
+                                style = Typography.titleMedium,
                                 color = Gray3
                             )
                         }
@@ -120,7 +131,7 @@ class Cards {
                         Spacer(modifier = Modifier.size(Paddings.small))
                         Text(
                             text = listCardData.viewCount,
-                            style = MaterialTheme.typography.labelLarge,
+                            style = Typography.labelLarge,
                             color = Gray4
                         )
                     }
@@ -132,7 +143,7 @@ class Cards {
     }
 
     companion object {
-        val cardData = ListCardData(
+        val productCardData = ListCardData(
             imageUri = "https://velog.velcdn.com/images/deepblue/post/f657fa91-f059-4e8d-81c3-c7c7776e0d9f/image.png",
             category = "가방",
             viewCount = "100",
@@ -141,16 +152,73 @@ class Cards {
             price = "10000",
             title = "가방 팔아요~~~",
         )
+        val alertCardData = AlertCardData(
+            message = "스왑 요청이 들어왔어요",
+            date = "2월 19일 13:22",
+            icon = R.drawable.ic_show
+        )
     }
+
+
+    @Composable
+    fun AlertListCard(alertCardData: AlertCardData) {
+        @OptIn(ExperimentalMaterial3Api::class)
+        Card(
+            modifier = Modifier.padding(Paddings.xlarge, Paddings.medium),
+            colors = CardDefaults.cardColors(
+                containerColor = Gray6
+            ),
+            onClick = alertCardData.onClick
+        ) {
+            Column {
+                Row {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .size(52.dp)
+                            .clip(RoundedCornerShape(50.dp))
+                            .background(White),
+                    ) {
+                        Icon(
+                            painter = painterResource(id = alertCardData.icon),
+                            contentDescription = "알림 아이콘",
+                            tint = Primary,
+                            modifier = Modifier.size(36.dp)
+                        )
+                    }
+                    Column(modifier = Modifier.padding(Paddings.medium)) {
+                        Text(
+                            text = alertCardData.message,
+                            style = Typography.titleMedium,
+                        )
+                        Spacer(modifier = Modifier.height(Paddings.medium))
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = alertCardData.date,
+                                style = Typography.labelLarge,
+                                color = Gray4
+                            )
+                        }
+                    }
+                }
+                Spacer(Modifier.size(16.dp))
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(1.dp)
+                        .background(Gray4)
+                )
+            }
+        }
+    }
+
 }
-
-
 
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     Cards().ProductListCard(
-        Cards.cardData
+        Cards.productCardData
     )
 }
