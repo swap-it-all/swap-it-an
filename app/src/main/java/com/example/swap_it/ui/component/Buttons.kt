@@ -7,9 +7,11 @@ import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,6 +25,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.swap_it.R
 import com.example.swap_it.ui.theme.Gray2
 import com.example.swap_it.ui.theme.Gray3
@@ -163,7 +167,7 @@ fun SearchTermButton(
     contentStyle: TextStyle = Typography.bodySmall,
     contentPadding: PaddingValues = PaddingValues(
         horizontal = Paddings.xlarge,
-        vertical = Paddings.medium,
+        vertical = Paddings.smallMedium,
     ),
     containerColor: Color = Gray6,
     contentColor: Color = Gray2,
@@ -194,6 +198,21 @@ fun BottomAppBarButton(painter: Painter, contentDescription: String) {
         Image(
             painter = painter,
             contentDescription = contentDescription
+        )
+    }
+}
+
+@Composable
+fun BackButton(navController: NavHostController) {
+    IconButton(
+        onClick = {
+            navController.navigateUp()
+        },
+        modifier = Modifier.size(36.dp)
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_chevron_left),
+            contentDescription = "뒤로 가기"
         )
     }
 }
@@ -252,13 +271,20 @@ fun CategoryButtonPreview() {
 @Preview(showBackground = true)
 @Composable
 fun BottomAppBarDefaultsPreview() {
-    BottomAppBarButton(painterResource(R.drawable.ic_house),"홈")
+    BottomAppBarButton(painterResource(R.drawable.ic_house), "홈")
 }
+
 @Preview(showBackground = true)
 @Composable
-fun SearchButtonPreview(){
+fun SearchButtonPreview() {
     SearchTermButton(
         text = "검색 버튼",
         onClick = {},
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BackButtonPreview() {
+    BackButton(rememberNavController())
 }
