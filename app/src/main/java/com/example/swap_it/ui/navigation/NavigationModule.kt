@@ -7,7 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.swap_it.ui.add_item.AddItemScreen
 import com.example.swap_it.ui.chat.ChatListScreen
-import com.example.swap_it.ui.product_list.SearchScreen
+import com.example.swap_it.ui.product_list.Search
 import com.example.swap_it.ui.shopping.Alert
 import com.example.swap_it.ui.shopping.Shopping
 import com.example.swap_it.ui.swap.ShoppingListScreen
@@ -45,7 +45,7 @@ class NavigationModule {
                 Alert().AlertScreen(modifier = Modifier, navController)
             }
             composable("Search") {
-                SearchScreen().SearchScreen(Modifier, navController)
+                Search().SearchScreen(Modifier, navController)
             }
         }
     }
