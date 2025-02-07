@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.swap_it.R
+import com.example.swap_it.ui.component.BackButton
 import com.example.swap_it.ui.component.Cards
 import com.example.swap_it.ui.component.Cards.Companion.alertCardData
 import com.example.swap_it.ui.theme.Gray4
@@ -53,19 +54,8 @@ class Alert {
     fun AlertScreen(modifier: Modifier = Modifier,navController: NavHostController) {
         Surface(modifier = modifier.fillMaxSize(), color = Gray6) {
             Column {
-                IconButton(
-                    onClick = {
-                        navController.navigateUp()
-                    },
-                    modifier = Modifier
-                        .align(Alignment.Start)
-                        .padding(Paddings.medium)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_chevron_left),
-                        contentDescription = "뒤로 가기"
-                    )
-                }
+                Spacer(modifier.padding(Paddings.xlarge))
+                BackButton(navController)
                 Text(
                     "알림",
                     style = Typography.titleLarge,
