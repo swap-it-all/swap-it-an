@@ -16,6 +16,7 @@ import com.example.swap_it.ui.theme.BackgroundColor
 @Composable
 fun AppBar(modifier: Modifier = Modifier, navController: NavHostController) {
     TopAppBar(
+        elevation = 0.dp,
         title = {
             Image(
                 painter = painterResource(R.drawable.ic_logo),
