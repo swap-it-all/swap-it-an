@@ -203,12 +203,12 @@ fun BottomAppBarButton(painter: Painter, contentDescription: String) {
 }
 
 @Composable
-fun BackButton(navController: NavHostController) {
+fun BackButton(modifier: Modifier,navController: NavHostController) {
     IconButton(
         onClick = {
             navController.navigateUp()
         },
-        modifier = Modifier.size(36.dp)
+        modifier = modifier.size(36.dp)
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_chevron_left),
@@ -286,5 +286,5 @@ fun SearchButtonPreview() {
 @Preview(showBackground = true)
 @Composable
 fun BackButtonPreview() {
-    BackButton(rememberNavController())
+    BackButton(Modifier,rememberNavController())
 }
