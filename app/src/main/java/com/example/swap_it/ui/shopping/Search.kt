@@ -84,7 +84,7 @@ class Search {
                     ),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                BackButton(navController)
+                BackButton(Modifier,navController)
                 SearchField(
                     searchTerm,
                     modifier,
