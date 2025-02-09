@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.swap_it.R
 import com.example.swap_it.ui.shopping.AlertCardData
+import com.example.swap_it.ui.theme.BackgroundColor
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
 import com.example.swap_it.ui.theme.Gray6
@@ -142,23 +143,6 @@ class Cards {
         }
     }
 
-    companion object {
-        val productCardData = ListCardData(
-            imageUri = "https://velog.velcdn.com/images/deepblue/post/f657fa91-f059-4e8d-81c3-c7c7776e0d9f/image.png",
-            category = "가방",
-            viewCount = "100",
-            region = "강서구",
-            time = "1일전",
-            price = "10000",
-            title = "가방 팔아요~~~",
-        )
-        val alertCardData = AlertCardData(
-            message = "스왑 요청이 들어왔어요",
-            date = "2월 19일 13:22",
-            icon = R.drawable.ic_show
-        )
-    }
-
 
     @Composable
     fun AlertListCard(alertCardData: AlertCardData) {
@@ -166,7 +150,7 @@ class Cards {
         Card(
             modifier = Modifier.padding(Paddings.xlarge, Paddings.medium),
             colors = CardDefaults.cardColors(
-                containerColor = Gray6
+                containerColor = BackgroundColor
             ),
             onClick = alertCardData.onClick
         ) {
@@ -201,7 +185,7 @@ class Cards {
                         }
                     }
                 }
-                Spacer(Modifier.size(16.dp))
+                Spacer(Modifier.size(20.dp))
                 Box(
                     Modifier
                         .fillMaxWidth()
@@ -212,6 +196,22 @@ class Cards {
         }
     }
 
+    companion object {
+        val productCardData = ListCardData(
+            imageUri = "https://velog.velcdn.com/images/deepblue/post/f657fa91-f059-4e8d-81c3-c7c7776e0d9f/image.png",
+            category = "가방",
+            viewCount = "100",
+            region = "강서구",
+            time = "1일전",
+            price = "10000",
+            title = "가방 팔아요~~~",
+        )
+        val alertCardData = AlertCardData(
+            message = "스왑 요청이 들어왔어요",
+            date = "2월 19일 13:22",
+            icon = R.drawable.ic_show
+        )
+    }
 }
 
 
