@@ -1,4 +1,4 @@
-package com.example.swap_it.ui.product_list
+package com.example.swap_it.ui.search
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -80,7 +80,7 @@ class Search {
                 modifier = modifier
                     .fillMaxWidth()
                     .padding(
-                        Paddings.none, Paddings.none, Paddings.none, Paddings.xlarge
+                        Paddings.none, Paddings.none, Paddings.xlarge, Paddings.xlarge
                     ),
                 verticalAlignment = Alignment.CenterVertically
             ) {
