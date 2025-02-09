@@ -57,7 +57,7 @@ class Alert {
             .fillMaxSize()
             .background(BackgroundColor)) {
             Spacer(modifier.padding(Paddings.xlarge))
-            BackButton(modifier.padding(Paddings.large), navController)
+            BackButton(modifier.padding(Paddings.largeExtra), navController)
             Text(
                 "알림",
                 style = Typography.titleLarge,
