@@ -208,7 +208,7 @@ fun BackButton(modifier: Modifier,navController: NavHostController) {
         onClick = {
             navController.navigateUp()
         },
-        modifier = modifier.size(36.dp)
+        modifier = modifier.size(24.dp)
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_chevron_left),
