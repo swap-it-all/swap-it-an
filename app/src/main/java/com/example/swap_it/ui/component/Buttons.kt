@@ -6,8 +6,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -16,8 +22,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -37,6 +46,7 @@ import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.PrimaryDark
 import com.example.swap_it.ui.theme.Shapes
+import com.example.swap_it.ui.theme.SwapitTheme
 import com.example.swap_it.ui.theme.Typography
 import com.example.swap_it.ui.theme.White
 
@@ -218,6 +228,43 @@ fun BackButton(modifier: Modifier,navController: NavHostController) {
 }
 
 
+@Composable
+fun SearchBarButton(modifier: Modifier = Modifier,navController: NavHostController) {
+    androidx.compose.material.Button(
+        modifier = modifier.fillMaxWidth()
+            .clip(shape = RoundedCornerShape(50.dp)),
+        colors = androidx.compose.material.ButtonDefaults.buttonColors(backgroundColor = Gray6),
+        onClick = {
+            navController.navigate("Search") {
+                navController.graph.startDestinationRoute?.let {
+                    popUpTo(it) { saveState = true }
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
+        },
+    ) {
+        Column(
+            verticalArrangement = Arrangement.Bottom,
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                androidx.compose.material.Text(
+                    "스왑에서 찾아보세요!",
+                    modifier = modifier.weight(1f),
+                    color = Gray3
+                )
+                Image(
+                    painter = painterResource(R.drawable.ic_search_magnifying),
+                    contentDescription = "검색 버튼",
+                    colorFilter = ColorFilter.tint(Gray3)
+                )
+            }
+        }
+    }
+}
+
 class EnabledPreviewParameterProvider : PreviewParameterProvider<Boolean> {
     override val values = sequenceOf(
         true,
@@ -287,4 +334,12 @@ fun SearchButtonPreview() {
 @Composable
 fun BackButtonPreview() {
     BackButton(Modifier,rememberNavController())
+}
+
+@Composable
+@Preview(showBackground = true)
+fun SearchBarButtonPreview(){
+    SwapitTheme {
+        SearchBarButton(Modifier,rememberNavController())
+    }
 }
