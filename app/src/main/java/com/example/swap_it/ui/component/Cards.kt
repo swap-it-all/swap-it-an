@@ -30,11 +30,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.swap_it.R
-import com.example.swap_it.ui.shopping.AlertCardData
+import com.example.swap_it.ui.alert.AlertCardData
 import com.example.swap_it.ui.theme.BackgroundColor
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
-import com.example.swap_it.ui.theme.Gray6
 import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.Typography
@@ -57,7 +56,7 @@ class Cards {
     @Composable
     fun ProductListCard(listCardData: ListCardData) {
         Card(
-            modifier = Modifier.padding(Paddings.xlarge, Paddings.medium),
+            modifier = Modifier.padding(Paddings.xlarge, Paddings.smallMedium),
             colors = CardDefaults.cardColors(
                 containerColor = White
             ),
