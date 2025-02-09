@@ -32,6 +32,7 @@ import com.example.swap_it.R
 import com.example.swap_it.ui.component.BackButton
 import com.example.swap_it.ui.component.Cards
 import com.example.swap_it.ui.component.Cards.Companion.alertCardData
+import com.example.swap_it.ui.theme.BackgroundColor
 import com.example.swap_it.ui.theme.Gray4
 import com.example.swap_it.ui.theme.Gray6
 import com.example.swap_it.ui.theme.Paddings
@@ -51,24 +52,25 @@ class Alert {
 
     @SuppressLint("NotConstructor", "RestrictedApi")
     @Composable
-    fun AlertScreen(modifier: Modifier = Modifier,navController: NavHostController) {
-        Surface(modifier = modifier.fillMaxSize(), color = Gray6) {
-            Column {
-                Spacer(modifier.padding(Paddings.xlarge))
-                BackButton(navController)
-                Text(
-                    "알림",
-                    style = Typography.titleLarge,
-                    modifier = Modifier.padding(Paddings.large)
-                )
-                LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
-                    items(4) {
-                        Cards().AlertListCard(alertCardData = Cards.alertCardData)
-                    }
+    fun AlertScreen(modifier: Modifier = Modifier, navController: NavHostController) {
+        Column(modifier
+            .fillMaxSize()
+            .background(BackgroundColor)) {
+            Spacer(modifier.padding(Paddings.xlarge))
+            BackButton(modifier.padding(Paddings.large), navController)
+            Text(
+                "알림",
+                style = Typography.titleLarge,
+                modifier = Modifier.padding(Paddings.xlarge)
+            )
+            LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
+                items(4) {
+                    Cards().AlertListCard(alertCardData = Cards.alertCardData)
                 }
             }
         }
     }
+
 }
 
 @Preview(showBackground = true)
@@ -76,6 +78,6 @@ class Alert {
 fun SearchScreenPreview() {
     var navController = rememberNavController()
     SwapitTheme {
-        Alert().AlertScreen(Modifier,navController)
+        Alert().AlertScreen(Modifier, navController)
     }
 }
