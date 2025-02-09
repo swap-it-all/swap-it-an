@@ -3,10 +3,13 @@ package com.example.swap_it.ui.shopping
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -37,6 +40,8 @@ import com.example.swap_it.ui.component.AppBar
 import com.example.swap_it.ui.component.BottomNavigationBar
 import com.example.swap_it.ui.component.Cards
 import com.example.swap_it.ui.component.CategoryButton
+import com.example.swap_it.ui.component.SearchBarButton
+import com.example.swap_it.ui.theme.BackgroundColor
 
 import com.example.swap_it.ui.theme.Gray4
 import com.example.swap_it.ui.theme.Gray6
@@ -46,7 +51,6 @@ import com.example.swap_it.ui.theme.SwapitTheme
 
 class Shopping {
     @OptIn(ExperimentalMaterial3Api::class)
-    @SuppressLint("NotConstructor", "UnusedMaterial3ScaffoldPaddingParameter")
     @Composable
     fun ShoppingScreen(modifier: Modifier = Modifier, navController: NavHostController) {
         val sheetState = rememberModalBottomSheetState()
@@ -59,17 +63,16 @@ class Shopping {
             bottomBar = {
                 BottomNavigationBar(navController)
             }
-        ) {
-            Surface(modifier = modifier.fillMaxSize(), color = Gray6) {
+        ) { contentPadding ->
+            Surface(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(contentPadding),
+                color = BackgroundColor
+            ) {
                 LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
                     item {
-                        Spacer(modifier = modifier.size(72.dp))
-                    }
-                    item {
-                        SearchBarButton(modifier,navController)
-                    }
-                    item {
-                        Spacer(modifier = modifier.size(10.dp))
+                        SearchBarButton(modifier.padding(Paddings.xlarge, Paddings.small), navController)
                     }
                     item {
                         CategorySection(modifier) { showBottomSheet = true }
@@ -99,10 +102,7 @@ class Shopping {
 
 @Composable
 fun CategorySection(modifier: Modifier, showBottomSheetOnClick: () -> Unit) {
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
-    val screenHeight = configuration.screenHeightDp.dp
-    LazyRow(modifier = modifier.size(screenWidth, screenHeight / 20)) {
+    LazyRow(modifier = modifier.fillMaxWidth().padding(Paddings.large,Paddings.mediumLarge)) {
         item {
             IconButton(
                 onClick =
