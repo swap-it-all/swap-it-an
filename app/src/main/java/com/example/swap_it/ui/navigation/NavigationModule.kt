@@ -7,8 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.swap_it.ui.add_item.AddItemScreen
 import com.example.swap_it.ui.chat.ChatListScreen
-import com.example.swap_it.ui.product_list.Search
-import com.example.swap_it.ui.shopping.Alert
+import com.example.swap_it.ui.search.Search
+import com.example.swap_it.ui.alert.Alert
 import com.example.swap_it.ui.shopping.Shopping
 import com.example.swap_it.ui.swap.ShoppingListScreen
 import com.example.swap_it.ui.user.UserInfoScreen
@@ -24,15 +24,15 @@ class NavigationModule {
     fun NavigationGraph(navController: NavHostController) {
         NavHost(
             navController = navController,
-            startDestination = BottomNavItem.Product.screenRoute
+            startDestination = BottomNavItem.Shopping.screenRoute
         ) {
-            composable(BottomNavItem.Product.screenRoute) {
+            composable(BottomNavItem.Shopping.screenRoute) {
                 Shopping().ShoppingScreen(Modifier, navController)
             }
-            composable(BottomNavItem.Shopping.screenRoute) {
+            composable(BottomNavItem.Swap.screenRoute) {
                 ShoppingListScreen().ShoppingListScreen(navController)
             }
-            composable(BottomNavItem.Add.screenRoute) {
+            composable(BottomNavItem.Post.screenRoute) {
                 AddItemScreen().AddItemScreen(navController)
             }
             composable(BottomNavItem.Chat.screenRoute) {
