@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">swap-it</string>
-    <string name="post_product_title">제목</string>
+    <string name="post_product_name">제목</string>
     <string name="post_product_placeholder_name">물건의 이름을 입력해주세요</string>
     <string name="post_product_error_name_length">"물건의 이름은 %d에서 %d이하로 입력해주세요."</string>
     <string name="post_product_price">예상 가격</string>
