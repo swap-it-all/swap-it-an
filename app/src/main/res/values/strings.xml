@@ -20,4 +20,5 @@
     <string name="post_product_quality_good">상</string>
     <string name="post_product_quality_fair">중</string>
     <string name="post_product_quality_poor">하</string>
+    <string name="post_product_post_button">물건 등록하기</string>
 </resources>
