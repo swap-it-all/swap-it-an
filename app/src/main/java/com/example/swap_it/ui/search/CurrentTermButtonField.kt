@@ -20,7 +20,7 @@ fun CurrentTermButtonField() {
             .fillMaxWidth()
             .padding(Paddings.mediumLarge),
     ) {
-        CurrentSearch.entries.forEach {
+        SearchViewModel().allCurrentSearch.forEach {
             SearchTermButton(
                 text = it.categoryName,
                 modifier = Modifier.padding(Paddings.smallMedium)

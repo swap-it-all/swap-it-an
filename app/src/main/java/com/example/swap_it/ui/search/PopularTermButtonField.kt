@@ -20,7 +20,7 @@ fun PopularTermButtonField() {
             .fillMaxWidth()
             .padding(Paddings.mediumLarge),
     ) {
-        PopularSearch.entries.forEach {
+        SearchViewModel().allPopularSearch.forEach {
             SearchTermButton(
                 text = it.categoryName,
                 modifier = Modifier.padding(Paddings.smallMedium)
