@@ -1,12 +1,9 @@
 package com.example.swap_it.ui.shopping
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,7 +26,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,7 +40,6 @@ import com.example.swap_it.ui.component.SearchBarButton
 import com.example.swap_it.ui.theme.BackgroundColor
 
 import com.example.swap_it.ui.theme.Gray4
-import com.example.swap_it.ui.theme.Gray6
 import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.SwapitTheme
 
@@ -78,7 +73,7 @@ class Shopping {
                         CategorySection(modifier) { showBottomSheet = true }
                     }
                     items(10) {
-                        Cards().ProductListCard(Cards.productCardData)
+                        Cards().ShoppingCard(Cards.productCardData)
                     }
                     item {
                         Spacer(modifier = modifier.size(100.dp))

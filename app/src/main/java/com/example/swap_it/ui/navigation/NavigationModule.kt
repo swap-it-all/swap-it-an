@@ -10,7 +10,7 @@ import com.example.swap_it.ui.chat.ChatListScreen
 import com.example.swap_it.ui.search.Search
 import com.example.swap_it.ui.alert.Alert
 import com.example.swap_it.ui.shopping.Shopping
-import com.example.swap_it.ui.swap.ShoppingListScreen
+import com.example.swap_it.ui.swap.Swap
 import com.example.swap_it.ui.user.UserInfoScreen
 
 
@@ -30,7 +30,7 @@ class NavigationModule {
                 Shopping().ShoppingScreen(Modifier, navController)
             }
             composable(BottomNavItem.Swap.screenRoute) {
-                ShoppingListScreen().ShoppingListScreen(navController)
+                Swap().SwapScreen(Modifier,navController)
             }
             composable(BottomNavItem.Post.screenRoute) {
                 AddItemScreen().AddItemScreen(navController)

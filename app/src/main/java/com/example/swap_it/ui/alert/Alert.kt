@@ -21,16 +21,9 @@ import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.SwapitTheme
 import com.example.swap_it.ui.theme.Typography
 
-data class AlertCardData(
-    val message: String,
-    val date: String,
-    val icon: Int,
-    val onClick: () -> Unit = {}
-)
 
 class Alert {
 
-    @SuppressLint("NotConstructor", "RestrictedApi")
     @Composable
     fun AlertScreen(modifier: Modifier = Modifier, navController: NavHostController) {
         Column(modifier
@@ -45,7 +38,7 @@ class Alert {
             )
             LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
                 items(4) {
-                    Cards().AlertListCard(alertCardData = Cards.alertCardData)
+                    Cards().AlertCard(alertCardData = Cards.alertCardData)
                 }
             }
         }
