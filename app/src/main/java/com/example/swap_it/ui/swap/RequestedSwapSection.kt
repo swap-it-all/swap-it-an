@@ -18,7 +18,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.swap_it.R
-import com.example.swap_it.ui.component.Cards
+import com.example.swap_it.ui.component.SwapCard
+import com.example.swap_it.ui.component.swapCardData
 import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Typography
 
@@ -50,7 +51,7 @@ import com.example.swap_it.ui.theme.Typography
         }
         LazyRow {
             items(10){
-                Cards().SwapCard(swapCardData = Cards.swapCardData)
+                SwapCard(swapCardData = swapCardData)
             }
         }
     }

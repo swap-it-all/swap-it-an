@@ -15,9 +15,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.swap_it.R
+import com.example.swap_it.ui.component.AlertCard
 import com.example.swap_it.ui.component.BackButton
-import com.example.swap_it.ui.component.Cards
+import com.example.swap_it.ui.component.alertCardData
 import com.example.swap_it.ui.theme.BackgroundColor
+import com.example.swap_it.ui.theme.Black
 import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.SwapitTheme
 import com.example.swap_it.ui.theme.Typography
@@ -31,7 +33,7 @@ fun AlertScreen(modifier: Modifier = Modifier, navController: NavHostController)
             .background(BackgroundColor)
     ) {
         Spacer(modifier.padding(Paddings.xlarge))
-        BackButton(modifier.padding(Paddings.largeExtra), navController)
+        BackButton(modifier.padding(Paddings.largeExtra), navController, Black)
         Text(
             stringResource(R.string.alert_alert),
             style = Typography.titleLarge,
@@ -39,7 +41,7 @@ fun AlertScreen(modifier: Modifier = Modifier, navController: NavHostController)
         )
         LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
             items(4) {
-                Cards().AlertCard(alertCardData = Cards.alertCardData)
+                AlertCard(alertCardData = alertCardData)
             }
         }
     }
