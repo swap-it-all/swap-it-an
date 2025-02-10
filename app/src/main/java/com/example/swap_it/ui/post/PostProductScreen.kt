@@ -1,19 +1,34 @@
 package com.example.swap_it.ui.post
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
+import coil3.toCoilUri
 import com.example.swap_it.R
 import com.example.swap_it.data.datasource.local.model.post.CategoryOption
 import com.example.swap_it.data.datasource.local.model.post.QualityOption
@@ -26,6 +41,7 @@ import com.example.swap_it.ui.post.component.PostProductSwapLocationTextField
 import com.example.swap_it.ui.theme.BackgroundColor
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Paddings
+import com.example.swap_it.ui.theme.Shapes
 import com.example.swap_it.ui.theme.Typography
 
 
@@ -35,6 +51,15 @@ fun PostProductScreen(
     // navController: NavHostController,
     viewModel: PostProductViewModel,
 ) {
+    val selectedImageUris by rememberUpdatedState(viewModel.selectedImageUris)
+
+    val multiplePhotoLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickMultipleVisualMedia(),
+        onResult = { uris ->
+            viewModel.multipleImages(uris.map { it.toCoilUri() })
+        }
+    )
+
     Scaffold(
     ) { paddingValues ->
         Surface(
@@ -48,12 +73,32 @@ fun PostProductScreen(
                     .padding(horizontal = Paddings.xlarge)
                     .verticalScroll(rememberScrollState())
             ) {
-                PostProductImagePicker(
-                    count = 1,
-                    maxCount = 10,
-                    onClick = {},
-                    color = Gray3,
-                )
+                LazyRow {
+                    item {
+                        PostProductImagePicker(
+                            count = selectedImageUris.value.size,
+                            maxCount = 10,
+                            onClick = {
+                                multiplePhotoLauncher.launch(
+                                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                )
+                            },
+                            color = Gray3,
+                        )
+                    }
+                    items(selectedImageUris.value) { uri ->
+                        AsyncImage(
+                            model = uri,
+                            contentScale = ContentScale.Crop,
+                            contentDescription = "이미지",
+                            modifier = Modifier
+                                .size(86.dp)
+                                .clip(Shapes.small)
+                        )
+                        Spacer(modifier = Modifier.padding(Paddings.medium))
+                    }
+                }
+
                 NameTextField(
                     text = stringResource(R.string.post_product_name),
                     onNameChange = {})

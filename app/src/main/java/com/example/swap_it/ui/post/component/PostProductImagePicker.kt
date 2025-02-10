@@ -2,9 +2,9 @@ package com.example.swap_it.ui.post.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -29,14 +29,10 @@ fun PostProductImagePicker(
     maxCount: Int,
     color: Color,
     onClick: () -> Unit,
-    contentPadding: PaddingValues = PaddingValues(
-        horizontal = 31.dp,
-        vertical = 23.dp,
-    ),
 ) {
     Button(
         onClick = onClick,
-        contentPadding = contentPadding,
+        modifier = Modifier.size(86.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = BackgroundColor,
             contentColor = color,
