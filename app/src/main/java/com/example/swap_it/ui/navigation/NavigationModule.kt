@@ -5,8 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.swap_it.ui.add_item.AddItemScreen
 import com.example.swap_it.ui.chat.ChatListScreen
+import com.example.swap_it.ui.post.PostProductScreen
+import com.example.swap_it.ui.post.PostProductViewModel
 import com.example.swap_it.ui.product_list.SearchScreen
 import com.example.swap_it.ui.shopping.Alert
 import com.example.swap_it.ui.shopping.Shopping
@@ -33,7 +34,7 @@ class NavigationModule {
                 ShoppingListScreen().ShoppingListScreen(navController)
             }
             composable(BottomNavItem.Add.screenRoute) {
-                AddItemScreen().AddItemScreen(navController)
+                PostProductScreen(viewModel = PostProductViewModel(),/* navController = navController*/)
             }
             composable(BottomNavItem.Chat.screenRoute) {
                 ChatListScreen().ChatListScreen(navController)
