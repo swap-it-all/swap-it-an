@@ -12,6 +12,8 @@ import com.example.swap_it.ui.post.PostProductScreen
 import com.example.swap_it.ui.post.PostProductViewModel
 import com.example.swap_it.ui.search.SearchScreen
 import com.example.swap_it.ui.shopping.ShoppingScreen
+import com.example.swap_it.ui.shopping.detail.ShoppingDetailScreen
+import com.example.swap_it.ui.shopping.detail.defaultShoppingDetailData
 import com.example.swap_it.ui.swap.SwapScreen
 import com.example.swap_it.ui.user.UserInfoScreen
 
@@ -48,6 +50,9 @@ class NavigationModule {
             }
             composable("Search") {
                 SearchScreen(Modifier, navController)
+            }
+            composable("ShoppingDetail") {
+                ShoppingDetailScreen(Modifier, navController, defaultShoppingDetailData)
             }
         }
     }
