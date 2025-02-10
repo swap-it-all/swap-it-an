@@ -6,19 +6,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.swap_it.ui.add_item.AddItemScreen
+import com.example.swap_it.ui.alert.AlertScreen
 import com.example.swap_it.ui.chat.ChatListScreen
-import com.example.swap_it.ui.search.Search
-import com.example.swap_it.ui.alert.Alert
-import com.example.swap_it.ui.shopping.Shopping
-import com.example.swap_it.ui.swap.Swap
+import com.example.swap_it.ui.search.SearchScreen
+import com.example.swap_it.ui.shopping.ShoppingScreen
+import com.example.swap_it.ui.swap.SwapScreen
 import com.example.swap_it.ui.user.UserInfoScreen
 
 
 class NavigationModule {
-
-
-
-
 
     @Composable
     fun NavigationGraph(navController: NavHostController) {
@@ -27,10 +23,10 @@ class NavigationModule {
             startDestination = BottomNavItem.Shopping.screenRoute
         ) {
             composable(BottomNavItem.Shopping.screenRoute) {
-                Shopping().ShoppingScreen(Modifier, navController)
+                ShoppingScreen(Modifier, navController)
             }
             composable(BottomNavItem.Swap.screenRoute) {
-                Swap().SwapScreen(Modifier,navController)
+                SwapScreen(Modifier,navController)
             }
             composable(BottomNavItem.Post.screenRoute) {
                 AddItemScreen().AddItemScreen(navController)
@@ -42,10 +38,10 @@ class NavigationModule {
                 UserInfoScreen().UserInfoScreen(navController)
             }
             composable("Alert") {
-                Alert().AlertScreen(modifier = Modifier, navController)
+                AlertScreen(modifier = Modifier, navController)
             }
             composable("Search") {
-                Search().SearchScreen(Modifier, navController)
+                SearchScreen(Modifier, navController)
             }
         }
     }

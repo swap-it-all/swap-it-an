@@ -1,6 +1,5 @@
 package com.example.swap_it.ui.alert
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,35 +21,34 @@ import com.example.swap_it.ui.theme.SwapitTheme
 import com.example.swap_it.ui.theme.Typography
 
 
-class Alert {
-
-    @Composable
-    fun AlertScreen(modifier: Modifier = Modifier, navController: NavHostController) {
-        Column(modifier
+@Composable
+fun AlertScreen(modifier: Modifier = Modifier, navController: NavHostController) {
+    Column(
+        modifier
             .fillMaxSize()
-            .background(BackgroundColor)) {
-            Spacer(modifier.padding(Paddings.xlarge))
-            BackButton(modifier.padding(Paddings.largeExtra), navController)
-            Text(
-                "알림",
-                style = Typography.titleLarge,
-                modifier = Modifier.padding(Paddings.xlarge)
-            )
-            LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
-                items(4) {
-                    Cards().AlertCard(alertCardData = Cards.alertCardData)
-                }
+            .background(BackgroundColor)
+    ) {
+        Spacer(modifier.padding(Paddings.xlarge))
+        BackButton(modifier.padding(Paddings.largeExtra), navController)
+        Text(
+            "알림",
+            style = Typography.titleLarge,
+            modifier = Modifier.padding(Paddings.xlarge)
+        )
+        LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
+            items(4) {
+                Cards().AlertCard(alertCardData = Cards.alertCardData)
             }
         }
     }
-
 }
+
 
 @Preview(showBackground = true)
 @Composable
 fun SearchScreenPreview() {
     var navController = rememberNavController()
     SwapitTheme {
-        Alert().AlertScreen(Modifier, navController)
+        AlertScreen(Modifier, navController)
     }
 }
