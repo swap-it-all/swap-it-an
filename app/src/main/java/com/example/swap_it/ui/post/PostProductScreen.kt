@@ -3,7 +3,6 @@ package com.example.swap_it.ui.post
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +18,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -100,11 +98,15 @@ fun PostProductScreen(
                 }
 
                 NameTextField(
-                    text = stringResource(R.string.post_product_name),
-                    onNameChange = {})
+                    label = stringResource(R.string.post_product_name),
+                    text = viewModel.productName.value,
+                    onNameChange = viewModel::updateName,
+                )
                 PriceTextField(
-                    text = stringResource(R.string.post_product_price),
-                    onPriceChange = {})
+                    label = stringResource(R.string.post_product_price),
+                    text = viewModel.productPrice.value,
+                    onPriceChange = viewModel::updatePrice,
+                )
                 QualityButtons(
                     text = stringResource(R.string.post_product_quality),
                     items = viewModel.allQualitys
@@ -114,12 +116,15 @@ fun PostProductScreen(
                     items = viewModel.allCategories
                 )
                 LocationTextField(
-                    text = stringResource(R.string.post_product_location),
-                    onLocationChange = {}
+                    label = stringResource(R.string.post_product_location),
+                    text = viewModel.productLocation.value,
+                    onLocationChange = viewModel::updateLocation,
                 )
                 DescriptionTextField(
-                    text = stringResource(R.string.post_product_description),
-                    onDescriptionChange = {})
+                    label = stringResource(R.string.post_product_description),
+                    text = viewModel.productDescription.value,
+                    onDescriptionChange = viewModel::updateDescription,
+                )
                 DefaultButton(
                     text = stringResource(R.string.post_product_post_button),
                     modifier = Modifier.fillMaxWidth()
@@ -133,16 +138,17 @@ fun PostProductScreen(
 
 @Composable
 fun NameTextField(
+    label: String,
     text: String,
     onNameChange: (String) -> Unit,
 ) {
     Text(
-        text = text,
+        text = label,
         style = Typography.titleSmall
     )
     Spacer(modifier = Modifier.padding(Paddings.medium))
     PostProductNameTextField(
-        text = "",
+        text = text,
         onNameChange = onNameChange,
         modifier = Modifier.fillMaxWidth()
     )
@@ -150,16 +156,17 @@ fun NameTextField(
 
 @Composable
 fun PriceTextField(
+    label: String,
     text: String,
     onPriceChange: (String) -> Unit,
 ) {
     Text(
-        text = text,
+        text = label,
         style = Typography.titleSmall
     )
     Spacer(modifier = Modifier.padding(Paddings.medium))
     PostProductPriceTextField(
-        text = "",
+        text = text,
         onPriceChange = onPriceChange,
         modifier = Modifier.fillMaxWidth()
     )
@@ -199,17 +206,18 @@ fun CategoryButtons(
 
 @Composable
 fun LocationTextField(
+    label: String,
     text: String,
     onLocationChange: (String) -> Unit,
 ) {
     Text(
-        text = text,
+        text = label,
         style = Typography.titleSmall
     )
     Spacer(modifier = Modifier.padding(Paddings.medium))
 
     PostProductSwapLocationTextField(
-        value = "",
+        value = text,
         onValueChange = onLocationChange,
         modifier = Modifier.fillMaxWidth()
     )
@@ -217,17 +225,18 @@ fun LocationTextField(
 
 @Composable
 fun DescriptionTextField(
+    label: String,
     text: String,
     onDescriptionChange: (String) -> Unit,
 ) {
     Text(
-        text = text,
+        text = label,
         style = Typography.titleSmall
     )
     Spacer(modifier = Modifier.padding(Paddings.medium))
 
     PostProductDescriptionTextField(
-        text = "",
+        text = text,
         onDescriptionChange = onDescriptionChange,
         modifier = Modifier.fillMaxWidth()
     )
