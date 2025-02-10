@@ -37,6 +37,7 @@ import com.example.swap_it.data.datasource.local.model.search.PopularSearch
 import com.example.swap_it.ui.component.BackButton
 import com.example.swap_it.ui.component.SearchTermButton
 import com.example.swap_it.ui.theme.BackgroundColor
+import com.example.swap_it.ui.theme.Black
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray6
 import com.example.swap_it.ui.theme.Paddings
@@ -61,7 +62,7 @@ fun SearchScreen(modifier: Modifier = Modifier, navController: NavHostController
                 ),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            BackButton(modifier.padding(Paddings.medium), navController)
+            BackButton(modifier.padding(Paddings.medium), navController, Black)
             SearchField(
                 searchTerm,
                 modifier,
