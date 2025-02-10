@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.swap_it.R
+import com.example.swap_it.ui.theme.Black
 import com.example.swap_it.ui.theme.Gray2
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
@@ -75,7 +76,7 @@ fun DefaultButton(
         colors = ButtonDefaults.buttonColors(
             containerColor = if (isPressed) PrimaryDark else Primary,
             contentColor = White,
-            disabledContainerColor = Gray5,
+            disabledContainerColor = Gray6,
         ),
         shape = Shapes.small,
     ) {
@@ -85,6 +86,42 @@ fun DefaultButton(
         )
     }
 }
+
+@Composable
+fun GrayDefaultButton(
+    text: String,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = false,
+    contentStyle: TextStyle = Typography.titleMedium,
+    contentPadding: PaddingValues =
+        PaddingValues(
+            horizontal = Paddings.xextra,
+            vertical = Paddings.xlarge,
+        ),
+    interactionSource: InteractionSource = remember { MutableInteractionSource() },
+    onClick: () -> Unit,
+) {
+    val isPressed by interactionSource.collectIsPressedAsState()
+
+    Button(
+        onClick = onClick,
+        enabled = enabled,
+        modifier = modifier,
+        contentPadding = contentPadding,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (isPressed) Gray4 else Gray5,
+            contentColor = Gray3,
+            disabledContainerColor = Gray6,
+        ),
+        shape = Shapes.small,
+    ) {
+        Text(
+            text = text,
+            style = contentStyle,
+        )
+    }
+}
+
 
 @Composable
 fun ModalButton(
@@ -214,7 +251,7 @@ fun BottomAppBarButton(painter: Painter, contentDescription: String) {
 }
 
 @Composable
-fun BackButton(modifier: Modifier,navController: NavHostController) {
+fun BackButton(modifier: Modifier, navController: NavHostController, color: Color) {
     IconButton(
         onClick = {
             navController.navigateUp()
@@ -223,16 +260,18 @@ fun BackButton(modifier: Modifier,navController: NavHostController) {
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_chevron_left),
-            contentDescription = "뒤로 가기"
+            contentDescription = "뒤로 가기",
+            tint = color
         )
     }
 }
 
 
 @Composable
-fun SearchBarButton(modifier: Modifier = Modifier,navController: NavHostController) {
+fun SearchBarButton(modifier: Modifier = Modifier, navController: NavHostController) {
     androidx.compose.material.Button(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
             .clip(shape = RoundedCornerShape(50.dp)),
         colors = androidx.compose.material.ButtonDefaults.buttonColors(backgroundColor = Gray6),
         onClick = {
@@ -266,6 +305,22 @@ fun SearchBarButton(modifier: Modifier = Modifier,navController: NavHostControll
     }
 }
 
+@Composable
+fun MenuButton(modifier: Modifier = Modifier, navController: NavHostController, color: Color) {
+    IconButton(
+        onClick = {
+            navController.navigateUp()
+        },
+        modifier = modifier.size(24.dp)
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_menu),
+            contentDescription = "메뉴",
+            tint = color
+        )
+    }
+}
+
 class EnabledPreviewParameterProvider : PreviewParameterProvider<Boolean> {
     override val values = sequenceOf(
         true,
@@ -279,6 +334,20 @@ fun DefaultButtonPreview(
     @PreviewParameter(EnabledPreviewParameterProvider::class) enabled: Boolean
 ) {
     DefaultButton(
+        text = if (enabled) "활성화된 버튼" else "비활성화된 버튼",
+        onClick = {},
+        contentStyle = Typography.titleMedium,
+        enabled = enabled,
+        interactionSource = remember { MutableInteractionSource() }
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GrayDefaultButtonPreview(
+    @PreviewParameter(EnabledPreviewParameterProvider::class) enabled: Boolean
+) {
+    GrayDefaultButton(
         text = if (enabled) "활성화된 버튼" else "비활성화된 버튼",
         onClick = {},
         contentStyle = Typography.titleMedium,
@@ -334,13 +403,21 @@ fun SearchButtonPreview() {
 @Preview(showBackground = true)
 @Composable
 fun BackButtonPreview() {
-    BackButton(Modifier,rememberNavController())
+    BackButton(Modifier, rememberNavController(), PrimaryDark)
 }
 
 @Composable
 @Preview(showBackground = true)
-fun SearchBarButtonPreview(){
+fun SearchBarButtonPreview() {
     SwapitTheme {
-        SearchBarButton(Modifier,rememberNavController())
+        SearchBarButton(Modifier, rememberNavController())
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun MenuButtonPreview() {
+    SwapitTheme {
+        MenuButton(Modifier, rememberNavController(), Black)
     }
 }
