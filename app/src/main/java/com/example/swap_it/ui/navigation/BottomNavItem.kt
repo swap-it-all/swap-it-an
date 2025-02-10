@@ -11,7 +11,7 @@ sealed class BottomNavItem(
 ) {
     data object Shopping : BottomNavItem("쇼핑",R.drawable.ic_house, SHOPPING)
     data object Swap : BottomNavItem("스왑",R.drawable.ic_shopping_bag, SWAP)
-    data object Post : BottomNavItem("게시",R.drawable.ic_add_plus_circle, POST)
+    data object Add : BottomNavItem("게시",R.drawable.ic_add_plus_circle, POST)
     data object Chat : BottomNavItem("채팅",R.drawable.ic_chat, CHAT)
     data object User : BottomNavItem("사용자",R.drawable.ic_user, USER)
 

@@ -27,7 +27,7 @@ import com.example.swap_it.ui.theme.White
 private val items = listOf<BottomNavItem>(
     BottomNavItem.Shopping,
     BottomNavItem.Swap,
-    BottomNavItem.Post,
+    BottomNavItem.Add,
     BottomNavItem.Chat,
     BottomNavItem.User
 )

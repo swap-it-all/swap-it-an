@@ -61,7 +61,7 @@ fun DefaultButton(
             horizontal = Paddings.xextra,
             vertical = Paddings.xlarge,
         ),
-    interactionSource: InteractionSource,
+    interactionSource: InteractionSource = remember { MutableInteractionSource() },
     onClick: () -> Unit,
 ) {
     val isPressed by interactionSource.collectIsPressedAsState()

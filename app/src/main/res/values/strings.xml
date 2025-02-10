@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">swap-it</string>
+    <string name="post_product_name">제목</string>
+    <string name="post_product_placeholder_name">물건의 이름을 입력해주세요</string>
+    <string name="post_product_error_name_length">"물건의 이름은 %d에서 %d이하로 입력해주세요."</string>
+    <string name="post_product_price">예상 가격</string>
+    <string name="post_product_placeholder_price">물건의 예상 가격을 입력해주세요</string>
+    <string name="post_product_error_price_format">물건의 가격은 숫자여야합니다.</string>
+    <string name="post_product_error_price_range">물건의 가격은 %d원 이하만 가능합니다.</string>
+    <string name= "post_product_location">희망 스왑 위치</string>
+    <string name="post_product_placeholder_location">희망하는 스왑 위치를 입력해주세요</string>
+    <string name="post_product_error_location_length">위치는 %d글자 이하로 입력해주세요.</string>
+    <string name="post_product_description">내용</string>
+    <string name="post_product_placeholder_description">믿을 수 있는 스왑을 위해 물건에 대한 자세한 내용을 입력해주세요</string>
+    <string name="post_product_error_description_length">내용은 %d글자 이하로 입력해주세요.</string>
+    <string name="post_product_category">카테고리</string>
+    <string name="post_product_quality">품질</string>
+    <string name="post_product_quality_new">새 상품</string>
+    <string name="post_product_quality_excellent">최상</string>
+    <string name="post_product_quality_good">상</string>
+    <string name="post_product_quality_fair">중</string>
+    <string name="post_product_quality_poor">하</string>
+    <string name="post_product_post_button">물건 등록하기</string>
 </resources>

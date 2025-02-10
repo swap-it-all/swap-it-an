@@ -8,6 +8,8 @@ import androidx.navigation.compose.composable
 import com.example.swap_it.ui.add_item.AddItemScreen
 import com.example.swap_it.ui.alert.AlertScreen
 import com.example.swap_it.ui.chat.ChatListScreen
+import com.example.swap_it.ui.post.PostProductScreen
+import com.example.swap_it.ui.post.PostProductViewModel
 import com.example.swap_it.ui.search.SearchScreen
 import com.example.swap_it.ui.shopping.ShoppingScreen
 import com.example.swap_it.ui.swap.SwapScreen
@@ -15,6 +17,10 @@ import com.example.swap_it.ui.user.UserInfoScreen
 
 
 class NavigationModule {
+
+
+
+
 
     @Composable
     fun NavigationGraph(navController: NavHostController) {
@@ -28,8 +34,8 @@ class NavigationModule {
             composable(BottomNavItem.Swap.screenRoute) {
                 SwapScreen(Modifier,navController)
             }
-            composable(BottomNavItem.Post.screenRoute) {
-                AddItemScreen().AddItemScreen(navController)
+            composable(BottomNavItem.Add.screenRoute) {
+                PostProductScreen(viewModel = PostProductViewModel(),/* navController = navController*/)
             }
             composable(BottomNavItem.Chat.screenRoute) {
                 ChatListScreen().ChatListScreen(navController)
