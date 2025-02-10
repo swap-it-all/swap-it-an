@@ -10,9 +10,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.swap_it.R
 import com.example.swap_it.ui.component.BackButton
 import com.example.swap_it.ui.component.Cards
 import com.example.swap_it.ui.theme.BackgroundColor
@@ -31,7 +33,7 @@ fun AlertScreen(modifier: Modifier = Modifier, navController: NavHostController)
         Spacer(modifier.padding(Paddings.xlarge))
         BackButton(modifier.padding(Paddings.largeExtra), navController)
         Text(
-            "알림",
+            stringResource(R.string.alert_alert),
             style = Typography.titleLarge,
             modifier = Modifier.padding(Paddings.xlarge)
         )

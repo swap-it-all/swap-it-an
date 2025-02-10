@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -251,7 +252,7 @@ fun SearchBarButton(modifier: Modifier = Modifier,navController: NavHostControll
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 androidx.compose.material.Text(
-                    "스왑에서 찾아보세요!",
+                    stringResource(R.string.shopping_search_button_content),
                     modifier = modifier.weight(1f),
                     color = Gray3
                 )

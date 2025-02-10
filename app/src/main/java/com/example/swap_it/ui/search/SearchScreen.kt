@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -70,7 +71,7 @@ fun SearchScreen(modifier: Modifier = Modifier, navController: NavHostController
             )
         }
         Text(
-            "최근 검색어",
+            stringResource(R.string.search_current_term),
             style = Typography.titleLarge,
             modifier = Modifier.padding(
                 Paddings.xlarge,
@@ -81,7 +82,7 @@ fun SearchScreen(modifier: Modifier = Modifier, navController: NavHostController
         )
         CurrentTermButtonField()
         Text(
-            "인기 검색어",
+            stringResource(R.string.search_popular_term),
             style = Typography.titleLarge,
             modifier = Modifier.padding(
                 Paddings.xlarge,
