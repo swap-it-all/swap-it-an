@@ -109,11 +109,15 @@ fun PostProductScreen(
                 )
                 QualityButtons(
                     text = stringResource(R.string.post_product_quality),
-                    items = viewModel.allQualitys
+                    items = viewModel.allQualitys,
+                    quality = viewModel.selectedQuality.value,
+                    onQualityChange = viewModel::updateQuality,
                 )
                 CategoryButtons(
                     text = stringResource(R.string.post_product_category),
-                    items = viewModel.allCategories
+                    items = viewModel.allCategories,
+                    category = viewModel.selectedCategory.value,
+                    onCategoryChange = viewModel::updateCategory,
                 )
                 LocationTextField(
                     label = stringResource(R.string.post_product_location),
@@ -176,6 +180,8 @@ fun PriceTextField(
 fun QualityButtons(
     text: String,
     items: List<QualityOption>,
+    quality: QualityOption? = null,
+    onQualityChange: (QualityOption) -> Unit
 ) {
     Text(
         text = text,
@@ -183,7 +189,7 @@ fun QualityButtons(
     )
     Spacer(modifier = Modifier.padding(Paddings.medium))
 
-    PostProductQuality(items)
+    PostProductQuality(items, quality) { onQualityChange(it) }
 
     Spacer(modifier = Modifier.padding(Paddings.medium))
 }
@@ -192,6 +198,8 @@ fun QualityButtons(
 fun CategoryButtons(
     text: String,
     items: List<CategoryOption>,
+    category: CategoryOption? = null,
+    onCategoryChange: (CategoryOption) -> Unit
 ) {
     Text(
         text = text,
@@ -199,7 +207,7 @@ fun CategoryButtons(
     )
     Spacer(modifier = Modifier.padding(Paddings.medium))
 
-    PostProductCategory(items)
+    PostProductCategory(items, category) { onCategoryChange(it) }
 
     Spacer(modifier = Modifier.padding(Paddings.medium))
 }

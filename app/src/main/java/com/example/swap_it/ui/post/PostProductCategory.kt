@@ -15,12 +15,14 @@ import com.example.swap_it.ui.component.CategoryButton
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun PostProductCategory(
-    categoryOptions: List<CategoryOption>
+    categoryOptions: List<CategoryOption>,
+    option: CategoryOption? = null,
+    onCategorySelected: (CategoryOption) -> Unit,
 ) {
     FlowRow(horizontalArrangement = Arrangement.Start) {
         categoryOptions.forEach { category ->
-            CategoryButton(category.option, isSelected = false) {
-
+            CategoryButton(category.option, isSelected = category == option) {
+                onCategorySelected(category)
             }
             Spacer(modifier = Modifier.width(12.dp))
         }
@@ -30,5 +32,5 @@ fun PostProductCategory(
 @Preview(showBackground = true)
 @Composable
 fun PostProductCategoryPreview() {
-    PostProductCategory(CategoryOption.entries.toList())
+    PostProductCategory(CategoryOption.entries.toList(), CategoryOption.ELECTRONICS) {}
 }

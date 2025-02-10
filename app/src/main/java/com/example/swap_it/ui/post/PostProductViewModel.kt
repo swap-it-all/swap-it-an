@@ -20,10 +20,14 @@ class PostProductViewModel : ViewModel() {
     val allQualitys: List<QualityOption> by lazy {
         QualityOption.entries.toList()
     }
+    private val _selectedQuality = mutableStateOf<QualityOption?>(null)
+    val selectedQuality: State<QualityOption?> = _selectedQuality
 
     val allCategories: List<CategoryOption> by lazy {
         CategoryOption.entries.toList()
     }
+    private val _selectedCategory = mutableStateOf<CategoryOption?>(null)
+    val selectedCategory: State<CategoryOption?> = _selectedCategory
 
     fun multipleImages(uris: List<Uri>) {
         _selectedImageUris.value = uris.take(10)
@@ -43,5 +47,13 @@ class PostProductViewModel : ViewModel() {
 
     fun updateDescription(description: String) {
         productDescription.value = description
+    }
+
+    fun updateQuality(quality: QualityOption) {
+        _selectedQuality.value = quality
+    }
+
+    fun updateCategory(category: CategoryOption) {
+        _selectedCategory.value = category
     }
 }
