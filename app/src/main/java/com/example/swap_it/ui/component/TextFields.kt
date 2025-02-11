@@ -36,6 +36,7 @@ fun DefaultTextField(
         colors = TextFieldDefaults.colors(
             focusedContainerColor = BackgroundColor,
             unfocusedContainerColor = BackgroundColor,
+            errorContainerColor = BackgroundColor,
             focusedTextColor = Gray3,
             unfocusedTextColor = Gray3,
             focusedIndicatorColor = Gray4,
