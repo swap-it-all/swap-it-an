@@ -104,7 +104,7 @@ fun CategoryButtons(option: SortOption) {
         ) {
         CategoryOption.entries.forEach {
             CategoryButton(
-                text = it.categoryName,
+                text = it.option,
                 isSelected = true,
                 modifier = Modifier.padding(Paddings.small)
             ) {

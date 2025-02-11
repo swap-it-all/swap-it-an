@@ -11,6 +11,7 @@ import com.example.swap_it.ui.chat.ChatListScreen
 import com.example.swap_it.ui.post.PostProductScreen
 import com.example.swap_it.ui.post.PostProductViewModel
 import com.example.swap_it.ui.search.SearchScreen
+import com.example.swap_it.ui.search.SearchViewModel
 import com.example.swap_it.ui.shopping.ShoppingScreen
 import com.example.swap_it.ui.swap.SwapScreen
 import com.example.swap_it.ui.user.UserInfoScreen
@@ -47,7 +48,7 @@ class NavigationModule {
                 AlertScreen(modifier = Modifier, navController)
             }
             composable("Search") {
-                SearchScreen(Modifier, navController)
+                SearchScreen(Modifier, navController,viewModel = SearchViewModel())
             }
         }
     }

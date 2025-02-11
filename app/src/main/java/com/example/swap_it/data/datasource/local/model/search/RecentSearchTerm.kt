@@ -1,6 +1,6 @@
 package com.example.swap_it.data.datasource.local.model.search
 
-enum class CurrentSearch(val categoryName: String) {
+enum class RecentSearchTerm(val categoryName: String) {
         CAR("미미"),
         CLOTH("부족해"),
         MOBILE("가방"),

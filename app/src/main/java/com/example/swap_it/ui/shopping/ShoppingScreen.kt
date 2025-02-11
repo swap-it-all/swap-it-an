@@ -29,7 +29,6 @@ import androidx.navigation.compose.rememberNavController
 
 import com.example.swap_it.ui.component.AppBar
 import com.example.swap_it.ui.component.BottomNavigationBar
-import com.example.swap_it.ui.component.Cards
 
 import com.example.swap_it.ui.component.SearchBarButton
 import com.example.swap_it.ui.theme.BackgroundColor
@@ -70,7 +69,7 @@ fun ShoppingScreen(modifier: Modifier = Modifier, navController: NavHostControll
                     CategorySection(modifier) { showBottomSheet = true }
                 }
                 items(10) {
-                    Cards().ShoppingCard(Cards.productCardData)
+                    ShoppingCard(productCardData)
                 }
                 item {
                     Spacer(modifier = modifier.size(100.dp))

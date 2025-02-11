@@ -1,6 +1,6 @@
 package com.example.swap_it.data.datasource.local.model.search
 
-enum class PopularSearch(val categoryName: String) {
+enum class PopularSearchTerm(val categoryName: String) {
         CAR("참기 힘들었어"),
         CLOTH("내 맘을 보여주면"),
         MOBILE("변할지 난 궁금해"),
