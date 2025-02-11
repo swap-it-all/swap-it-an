@@ -33,21 +33,24 @@ fun DefaultTextField(
         modifier = modifier,
         shape = Shapes.medium,
         textStyle = Typography.bodyMedium,
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = BackgroundColor,
-            unfocusedContainerColor = BackgroundColor,
-            errorContainerColor = BackgroundColor,
-            focusedTextColor = Gray3,
-            unfocusedTextColor = Gray3,
-            focusedIndicatorColor = Gray4,
-            unfocusedIndicatorColor = Gray4,
-        ),
-        keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Done
-        ),
-        keyboardActions = KeyboardActions(
-            onDone = { focusManager.clearFocus() }
-        ),
+        colors =
+            TextFieldDefaults.colors(
+                focusedContainerColor = BackgroundColor,
+                unfocusedContainerColor = BackgroundColor,
+                errorContainerColor = BackgroundColor,
+                focusedTextColor = Gray3,
+                unfocusedTextColor = Gray3,
+                focusedIndicatorColor = Gray4,
+                unfocusedIndicatorColor = Gray4,
+            ),
+        keyboardOptions =
+            KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Done,
+            ),
+        keyboardActions =
+            KeyboardActions(
+                onDone = { focusManager.clearFocus() },
+            ),
         singleLine = singleLine,
         placeholder = placeholder,
         supportingText = supportingText,

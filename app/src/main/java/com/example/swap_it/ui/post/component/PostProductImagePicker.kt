@@ -33,12 +33,13 @@ fun PostProductImagePicker(
     Button(
         onClick = onClick,
         modifier = Modifier.size(86.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = BackgroundColor,
-            contentColor = color,
-        ),
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = BackgroundColor,
+                contentColor = color,
+            ),
         shape = Shapes.small,
-        border = BorderStroke(1.dp, Gray4)
+        border = BorderStroke(1.dp, Gray4),
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
@@ -58,6 +59,6 @@ fun PostProductImagePickerPreview() {
         count = 1,
         maxCount = 10,
         color = Gray3,
-        onClick = {}
+        onClick = {},
     )
 }

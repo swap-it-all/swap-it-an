@@ -11,7 +11,6 @@ import com.example.swap_it.domain.model.post.Name.Companion.PRODUCT_NAME_RANGE
 import com.example.swap_it.domain.model.post.ValidationResult
 import com.example.swap_it.ui.component.DefaultTextField
 
-
 @Composable
 internal fun PostProductNameTextField(
     text: String,
@@ -19,15 +18,17 @@ internal fun PostProductNameTextField(
     modifier: Modifier = Modifier,
 ) {
     val validationResult = Name(text).validationResult()
-    val supportingText = when (validationResult) {
-        ValidationResult.INVALID_LENGTH -> stringResource(
-            R.string.post_product_error_name_length,
-            PRODUCT_NAME_RANGE.first,
-            PRODUCT_NAME_RANGE.last,
-        )
+    val supportingText =
+        when (validationResult) {
+            ValidationResult.INVALID_LENGTH ->
+                stringResource(
+                    R.string.post_product_error_name_length,
+                    PRODUCT_NAME_RANGE.first,
+                    PRODUCT_NAME_RANGE.last,
+                )
 
-        else -> ""
-    }
+            else -> ""
+        }
 
     DefaultTextField(
         value = text,
@@ -36,7 +37,7 @@ internal fun PostProductNameTextField(
         singleLine = true,
         placeholder = { Text(text = stringResource(R.string.post_product_placeholder_name)) },
         supportingText = { if (supportingText.isNotEmpty()) Text(text = supportingText) },
-        isError = supportingText.isNotEmpty()
+        isError = supportingText.isNotEmpty(),
     )
 }
 

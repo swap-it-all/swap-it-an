@@ -32,7 +32,7 @@ fun PostProductPriceTextField(
         singleLine = singleLine,
         placeholder = { Text(text = stringResource(R.string.post_product_placeholder_price)) },
         supportingText = { if (supportingText.isNotEmpty()) Text(text = supportingText) },
-        isError = supportingText.isNotEmpty()
+        isError = supportingText.isNotEmpty(),
     )
 }
 
@@ -41,10 +41,11 @@ fun supportingText(text: String): String {
     val validationResult = Price(text).validationResult()
     return when (validationResult) {
         ValidationResult.INVALID_FORMAT -> stringResource(R.string.post_product_error_price_format)
-        ValidationResult.INVALID_RANGE -> stringResource(
-            R.string.post_product_error_price_range,
-            PRODUCT_RANGE.last
-        )
+        ValidationResult.INVALID_RANGE ->
+            stringResource(
+                R.string.post_product_error_price_range,
+                PRODUCT_RANGE.last,
+            )
 
         else -> ""
     }

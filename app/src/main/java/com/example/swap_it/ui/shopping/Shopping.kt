@@ -37,18 +37,19 @@ import com.example.swap_it.ui.component.AppBar
 import com.example.swap_it.ui.component.BottomNavigationBar
 import com.example.swap_it.ui.component.Cards
 import com.example.swap_it.ui.component.CategoryButton
-
 import com.example.swap_it.ui.theme.Gray4
 import com.example.swap_it.ui.theme.Gray6
 import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.SwapitTheme
 
-
 class Shopping {
     @OptIn(ExperimentalMaterial3Api::class)
     @SuppressLint("NotConstructor", "UnusedMaterial3ScaffoldPaddingParameter")
     @Composable
-    fun ShoppingScreen(modifier: Modifier = Modifier, navController: NavHostController) {
+    fun ShoppingScreen(
+        modifier: Modifier = Modifier,
+        navController: NavHostController,
+    ) {
         val sheetState = rememberModalBottomSheetState()
         var showBottomSheet by remember { mutableStateOf(false) }
 
@@ -58,7 +59,7 @@ class Shopping {
             },
             bottomBar = {
                 BottomNavigationBar(navController)
-            }
+            },
         ) {
             Surface(modifier = modifier.fillMaxSize(), color = Gray6) {
                 LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -66,7 +67,7 @@ class Shopping {
                         Spacer(modifier = modifier.size(72.dp))
                     }
                     item {
-                        SearchBarButton(modifier,navController)
+                        SearchBarButton(modifier, navController)
                     }
                     item {
                         Spacer(modifier = modifier.size(10.dp))
@@ -86,7 +87,7 @@ class Shopping {
                         onDismissRequest = {
                             showBottomSheet = false
                         },
-                        sheetState = sheetState
+                        sheetState = sheetState,
                     ) {
                         ModalBottomSheetContent()
                     }
@@ -94,11 +95,13 @@ class Shopping {
             }
         }
     }
-
 }
 
 @Composable
-fun CategorySection(modifier: Modifier, showBottomSheetOnClick: () -> Unit) {
+fun CategorySection(
+    modifier: Modifier,
+    showBottomSheetOnClick: () -> Unit,
+) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
@@ -106,21 +109,22 @@ fun CategorySection(modifier: Modifier, showBottomSheetOnClick: () -> Unit) {
         item {
             IconButton(
                 onClick =
-                showBottomSheetOnClick
+                showBottomSheetOnClick,
             ) {
                 Box(
-                    modifier = modifier
-                        .size(32.dp)
-                        .border(
-                            BorderStroke(2.dp, Gray4),
-                            shape = RoundedCornerShape(50.dp),
-                        ),
+                    modifier =
+                        modifier
+                            .size(32.dp)
+                            .border(
+                                BorderStroke(2.dp, Gray4),
+                                shape = RoundedCornerShape(50.dp),
+                            ),
                     contentAlignment = Alignment.Center,
                 ) {
                     Image(
                         painter = painterResource(R.drawable.ic_slider),
                         contentDescription = "필터 버튼",
-                        colorFilter = ColorFilter.tint(Gray4)
+                        colorFilter = ColorFilter.tint(Gray4),
                     )
                 }
             }
@@ -130,13 +134,11 @@ fun CategorySection(modifier: Modifier, showBottomSheetOnClick: () -> Unit) {
                 text = "카테고리",
                 onClick = {},
                 isSelected = true,
-                modifier = modifier.padding(Paddings.small)
+                modifier = modifier.padding(Paddings.small),
             )
         }
-
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

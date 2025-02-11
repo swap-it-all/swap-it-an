@@ -14,18 +14,12 @@ import com.example.swap_it.ui.shopping.Shopping
 import com.example.swap_it.ui.swap.ShoppingListScreen
 import com.example.swap_it.ui.user.UserInfoScreen
 
-
 class NavigationModule {
-
-
-
-
-
     @Composable
     fun NavigationGraph(navController: NavHostController) {
         NavHost(
             navController = navController,
-            startDestination = BottomNavItem.Product.screenRoute
+            startDestination = BottomNavItem.Product.screenRoute,
         ) {
             composable(BottomNavItem.Product.screenRoute) {
                 Shopping().ShoppingScreen(Modifier, navController)
@@ -34,7 +28,7 @@ class NavigationModule {
                 ShoppingListScreen().ShoppingListScreen(navController)
             }
             composable(BottomNavItem.Add.screenRoute) {
-                PostProductScreen(viewModel = PostProductViewModel(),/* navController = navController*/)
+                PostProductScreen(viewModel = PostProductViewModel() /* navController = navController*/)
             }
             composable(BottomNavItem.Chat.screenRoute) {
                 ChatListScreen().ChatListScreen(navController)

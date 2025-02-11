@@ -15,11 +15,11 @@ data class PostState(
 ) {
     fun isValid(): Boolean {
         return name.validationResult() == ValidationResult.SUCCESS &&
-                price.validationResult() == ValidationResult.SUCCESS &&
-                location.validationResult() == ValidationResult.SUCCESS &&
-                description.validationResult() == ValidationResult.SUCCESS &&
-                quality != null &&
-                category != null &&
-                image.isNotEmpty()
+            price.validationResult() == ValidationResult.SUCCESS &&
+            location.validationResult() == ValidationResult.SUCCESS &&
+            description.validationResult() == ValidationResult.SUCCESS &&
+            quality != null &&
+            category != null &&
+            image.isNotEmpty()
     }
 }

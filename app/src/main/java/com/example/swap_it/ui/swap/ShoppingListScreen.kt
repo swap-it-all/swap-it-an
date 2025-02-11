@@ -16,8 +16,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
 import com.example.swap_it.ui.component.AppBar
 import com.example.swap_it.ui.component.BottomNavigationBar
-
-
 import com.example.swap_it.ui.navigation.NavigationModule
 
 class ShoppingListScreen {
@@ -32,23 +30,21 @@ class ShoppingListScreen {
             bottomBar = {
                 BottomNavigationBar(navController)
             },
-
-            ) {
+        ) {
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Gray)
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(Gray),
             ) {
                 Text(
                     text = "거래",
                     style = MaterialTheme.typography.labelLarge,
                     textAlign = TextAlign.Center,
                     color = Color.White,
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier.align(Alignment.Center),
                 )
             }
         }
-
     }
-
 }

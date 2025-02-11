@@ -19,14 +19,16 @@ fun PostProductSwapLocationTextField(
     singleLine: Boolean = true,
 ) {
     val validationResult = Location(value).validationResult()
-    val supportingText = when (validationResult) {
-        ValidationResult.INVALID_RANGE -> stringResource(
-            R.string.post_product_error_location_length,
-            LOCATION_RANGE.last,
-        )
+    val supportingText =
+        when (validationResult) {
+            ValidationResult.INVALID_RANGE ->
+                stringResource(
+                    R.string.post_product_error_location_length,
+                    LOCATION_RANGE.last,
+                )
 
-        else -> ""
-    }
+            else -> ""
+        }
 
     DefaultTextField(
         value = value,
@@ -35,7 +37,7 @@ fun PostProductSwapLocationTextField(
         singleLine = singleLine,
         placeholder = { Text(text = stringResource(R.string.post_product_placeholder_location)) },
         supportingText = { if (supportingText.isNotEmpty()) Text(text = supportingText) },
-        isError = supportingText.isNotEmpty()
+        isError = supportingText.isNotEmpty(),
     )
 }
 

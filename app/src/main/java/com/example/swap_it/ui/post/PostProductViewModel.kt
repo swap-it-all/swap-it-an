@@ -15,7 +15,6 @@ import com.example.swap_it.domain.model.post.Price
 import com.example.swap_it.ui.post.model.AlertDialogState
 
 class PostProductViewModel : ViewModel() {
-
     private val _selectedImageUris = mutableStateOf<List<Uri>>(emptyList())
     val selectedImageUris: State<List<Uri>> = _selectedImageUris
 
@@ -36,18 +35,20 @@ class PostProductViewModel : ViewModel() {
     private val _selectedCategory = mutableStateOf<CategoryOption?>(null)
     val selectedCategory: State<CategoryOption?> = _selectedCategory
 
-    val isPostEnabled: State<Boolean> = derivedStateOf {
-        val state = PostState(
-            image = selectedImageUris.value,
-            name = Name(productName.value),
-            price = Price(productPrice.value),
-            location = Location(productLocation.value),
-            description = Description(productDescription.value),
-            quality = selectedQuality.value,
-            category = selectedCategory.value
-        )
-        state.isValid()
-    }
+    val isPostEnabled: State<Boolean> =
+        derivedStateOf {
+            val state =
+                PostState(
+                    image = selectedImageUris.value,
+                    name = Name(productName.value),
+                    price = Price(productPrice.value),
+                    location = Location(productLocation.value),
+                    description = Description(productDescription.value),
+                    quality = selectedQuality.value,
+                    category = selectedCategory.value,
+                )
+            state.isValid()
+        }
 
     val alertDialogState = mutableStateOf<AlertDialogState>(AlertDialogState())
 
@@ -84,11 +85,12 @@ class PostProductViewModel : ViewModel() {
         onConfirm: () -> Unit,
         onCancel: () -> Unit,
     ) {
-        alertDialogState.value = AlertDialogState(
-            title = title,
-            onClickConfirm = { resetDialogState() },
-            onClickCancel = { resetDialogState() },
-        )
+        alertDialogState.value =
+            AlertDialogState(
+                title = title,
+                onClickConfirm = { resetDialogState() },
+                onClickCancel = { resetDialogState() },
+            )
     }
 
     private fun resetDialogState() {

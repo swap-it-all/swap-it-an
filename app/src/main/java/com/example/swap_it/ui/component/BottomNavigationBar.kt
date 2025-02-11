@@ -17,13 +17,15 @@ import com.example.swap_it.ui.theme.Gray2
 import com.example.swap_it.ui.theme.Gray4
 import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.White
-private val items = listOf<BottomNavItem>(
-    BottomNavItem.Product,
-    BottomNavItem.Shopping,
-    BottomNavItem.Add,
-    BottomNavItem.Chat,
-    BottomNavItem.User
-)
+
+private val items =
+    listOf<BottomNavItem>(
+        BottomNavItem.Product,
+        BottomNavItem.Shopping,
+        BottomNavItem.Add,
+        BottomNavItem.Chat,
+        BottomNavItem.User,
+    )
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
@@ -38,10 +40,11 @@ fun BottomNavigationBar(navController: NavHostController) {
                     Icon(
                         painter = painterResource(id = item.icon),
                         contentDescription = item.screenRoute,
-                        modifier = Modifier
-                            .width(26.dp)
-                            .height(26.dp),
-                        tint = if (currentRoute == item.screenRoute) Primary else Gray4
+                        modifier =
+                            Modifier
+                                .width(26.dp)
+                                .height(26.dp),
+                        tint = if (currentRoute == item.screenRoute) Primary else Gray4,
                     )
                 },
                 selectedContentColor = Primary,
@@ -55,7 +58,7 @@ fun BottomNavigationBar(navController: NavHostController) {
                         launchSingleTop = true
                         restoreState = true
                     }
-                }
+                },
             )
         }
     }

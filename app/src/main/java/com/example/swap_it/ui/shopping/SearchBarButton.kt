@@ -22,7 +22,10 @@ import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray5
 
 @Composable
-fun SearchBarButton(modifier: Modifier = Modifier,navController: NavHostController) {
+fun SearchBarButton(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val screenHeight = configuration.screenHeightDp.dp
@@ -44,21 +47,22 @@ fun SearchBarButton(modifier: Modifier = Modifier,navController: NavHostControll
             modifier = modifier.size(screenWidth / 8 * 7, screenHeight / 20),
         ) {
             Row(
-                modifier = modifier.size(
-                    screenWidth / 8 * 7,
-                    screenHeight / 20
-                ),
-                verticalAlignment = Alignment.CenterVertically
+                modifier =
+                    modifier.size(
+                        screenWidth / 8 * 7,
+                        screenHeight / 20,
+                    ),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     "스왑에서 찾아보세요!",
                     modifier = modifier.weight(1f),
-                    color = Gray3
+                    color = Gray3,
                 )
                 Image(
                     painter = painterResource(R.drawable.ic_search_magnifying),
                     contentDescription = "검색 버튼",
-                    colorFilter = ColorFilter.tint(Gray3)
+                    colorFilter = ColorFilter.tint(Gray3),
                 )
             }
         }

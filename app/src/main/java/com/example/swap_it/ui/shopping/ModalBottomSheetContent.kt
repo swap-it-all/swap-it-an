@@ -37,10 +37,7 @@ fun ModalBottomSheetContent() {
         CategoryButtons(option)
         Spacer(modifier = Modifier.size(48.dp))
     }
-
 }
-
-
 
 enum class SortOption(val option: String) {
     POPULAR("인기순"),
@@ -52,7 +49,7 @@ enum class SortOption(val option: String) {
 @Composable
 fun SortButtons(
     initialSortOption: SortOption = SortOption.POPULAR,
-    onSortOptionSelected: (SortOption) -> Unit
+    onSortOptionSelected: (SortOption) -> Unit,
 ) {
     var selectedOption by remember { mutableStateOf(initialSortOption) }
     Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
@@ -63,18 +60,17 @@ fun SortButtons(
                 onClick = {
                     selectedOption = it
                     onSortOptionSelected(it)
-                }
+                },
             )
         }
     }
 }
 
-
 @Composable
 fun SortButton(
     text: String,
     isSelected: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val textColor = if (isSelected) Primary else Gray5
     TextButton(onClick = onClick) {
@@ -84,13 +80,12 @@ fun SortButton(
                     painter = painterResource(R.drawable.ic_check),
                     contentDescription = "선택",
                     tint = Primary,
-                    modifier = Modifier.size(16.dp)
+                    modifier = Modifier.size(16.dp),
                 )
             }
             androidx.compose.material3.Text(text = text, color = textColor, style = Typography.bodySmall)
         }
     }
-
 }
 
 enum class CategoryOption(val categoryName: String) {
@@ -111,20 +106,18 @@ enum class CategoryOption(val categoryName: String) {
 fun CategoryButtons(option: SortOption) {
     FlowRow(
         horizontalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(Paddings.medium),
-
-        ) {
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(Paddings.medium),
+    ) {
         CategoryOption.entries.forEach {
             CategoryButton(
                 text = it.categoryName,
                 isSelected = true,
-                modifier = Modifier.padding(Paddings.small)
+                modifier = Modifier.padding(Paddings.small),
             ) {
-
             }
         }
     }
 }
-

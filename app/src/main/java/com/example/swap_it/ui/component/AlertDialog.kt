@@ -36,52 +36,57 @@ fun AlertDialog(
 ) {
     Dialog(
         onDismissRequest = { onClickCancel() },
-        properties = DialogProperties(
-            dismissOnBackPress = true,
-            dismissOnClickOutside = true,
-        )
+        properties =
+            DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true,
+            ),
     ) {
         Card(
-            shape = RoundedCornerShape(20.dp)
+            shape = RoundedCornerShape(20.dp),
         ) {
             Column(
-                modifier = Modifier
-                    .width(348.dp)
-                    .wrapContentHeight()
-                    .background(
-                        color = White,
-                    ),
+                modifier =
+                    Modifier
+                        .width(348.dp)
+                        .wrapContentHeight()
+                        .background(
+                            color = White,
+                        ),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Spacer(modifier = Modifier.height(48.dp))
                 Text(
                     text = title,
                     textAlign = TextAlign.Center,
-                    style = Typography.titleMedium
+                    style = Typography.titleMedium,
                 )
                 Spacer(modifier = Modifier.height(48.dp))
 
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(IntrinsicSize.Min)
-                        .padding(horizontal = 16.dp)
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .height(IntrinsicSize.Min)
+                            .padding(horizontal = 16.dp),
                 ) {
                     ModalButton(
                         text = cancelText,
                         containerColor = Gray5,
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(44.dp),
-                        onClick = { onClickCancel() }
+                        modifier =
+                            Modifier
+                                .weight(1f)
+                                .height(44.dp),
+                        onClick = { onClickCancel() },
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     ModalButton(
                         text = confirmText,
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(44.dp),
-                        onClick = { onClickConfirm() }
+                        modifier =
+                            Modifier
+                                .weight(1f)
+                                .height(44.dp),
+                        onClick = { onClickConfirm() },
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))

@@ -1,7 +1,6 @@
 package com.example.swap_it.domain.model.post
 
 data class Name(private val value: String = DEFAULT_VALUE) {
-
     fun validationResult(): ValidationResult {
         return when {
             value.isEmpty() -> ValidationResult.EMPTY

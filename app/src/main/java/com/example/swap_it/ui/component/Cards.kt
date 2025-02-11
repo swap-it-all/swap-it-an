@@ -39,7 +39,6 @@ import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.Typography
 import com.example.swap_it.ui.theme.White
 
-
 data class ListCardData(
     val imageUri: String,
     val category: String,
@@ -48,7 +47,7 @@ data class ListCardData(
     val time: String,
     val price: String,
     val title: String,
-    val onClick: () -> Unit = {}
+    val onClick: () -> Unit = {},
 )
 
 class Cards {
@@ -57,19 +56,21 @@ class Cards {
     fun ProductListCard(listCardData: ListCardData) {
         Card(
             modifier = Modifier.padding(Paddings.xlarge, Paddings.medium),
-            colors = CardDefaults.cardColors(
-                containerColor = White
-            ),
+            colors =
+                CardDefaults.cardColors(
+                    containerColor = White,
+                ),
             shape = RoundedCornerShape(8.dp),
-            onClick = listCardData.onClick
+            onClick = listCardData.onClick,
         ) {
             Row {
                 AsyncImage(
                     model = listCardData.imageUri,
                     contentDescription = "상품 대표 이미지",
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(RoundedCornerShape(4.dp)),
+                    modifier =
+                        Modifier
+                            .size(100.dp)
+                            .clip(RoundedCornerShape(4.dp)),
                     placeholder = ColorPainter(Primary),
                     fallback = rememberVectorPainter(Icons.Default.Send),
                     error = rememberVectorPainter(Icons.Default.Settings),
@@ -79,38 +80,38 @@ class Cards {
                         Text(
                             text = listCardData.category,
                             style = Typography.labelLarge,
-                            color = Gray4
+                            color = Gray4,
                         )
                         Text(" | ", color = Gray4)
                         Text(
                             text = listCardData.region,
                             style = Typography.labelLarge,
-                            color = Gray4
+                            color = Gray4,
                         )
                         Text(" | ", color = Gray4)
                         Text(
                             text = listCardData.time,
                             style = Typography.labelLarge,
-                            color = Gray4
+                            color = Gray4,
                         )
                     }
                     Spacer(modifier = Modifier.height(Paddings.medium))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             text = listCardData.title,
-                            style = Typography.titleMedium
+                            style = Typography.titleMedium,
                         )
                     }
                     Spacer(modifier = Modifier.height(Paddings.medium))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Row(
                             modifier = Modifier.weight(1f),
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
                                 text = "예상 ",
                                 style = Typography.titleMedium,
-                                color = Gray3
+                                color = Gray3,
                             )
                             Text(
                                 text = listCardData.price,
@@ -119,71 +120,72 @@ class Cards {
                             Text(
                                 text = "원",
                                 style = Typography.titleMedium,
-                                color = Gray3
+                                color = Gray3,
                             )
                         }
                         Image(
                             painter = painterResource(id = R.drawable.ic_show),
                             contentDescription = "조회 수",
                             modifier = Modifier.height(30.dp),
-                            colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Gray4)
+                            colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Gray4),
                         )
                         Spacer(modifier = Modifier.size(Paddings.small))
                         Text(
                             text = listCardData.viewCount,
                             style = Typography.labelLarge,
-                            color = Gray4
+                            color = Gray4,
                         )
                     }
                 }
-
             }
-
         }
     }
 
     companion object {
-        val productCardData = ListCardData(
-            imageUri = "https://velog.velcdn.com/images/deepblue/post/f657fa91-f059-4e8d-81c3-c7c7776e0d9f/image.png",
-            category = "가방",
-            viewCount = "100",
-            region = "강서구",
-            time = "1일전",
-            price = "10000",
-            title = "가방 팔아요~~~",
-        )
-        val alertCardData = AlertCardData(
-            message = "스왑 요청이 들어왔어요",
-            date = "2월 19일 13:22",
-            icon = R.drawable.ic_show
-        )
+        val productCardData =
+            ListCardData(
+                imageUri = "https://velog.velcdn.com/images/deepblue/post/f657fa91-f059-4e8d-81c3-c7c7776e0d9f/image.png",
+                category = "가방",
+                viewCount = "100",
+                region = "강서구",
+                time = "1일전",
+                price = "10000",
+                title = "가방 팔아요~~~",
+            )
+        val alertCardData =
+            AlertCardData(
+                message = "스왑 요청이 들어왔어요",
+                date = "2월 19일 13:22",
+                icon = R.drawable.ic_show,
+            )
     }
-
 
     @Composable
     fun AlertListCard(alertCardData: AlertCardData) {
         @OptIn(ExperimentalMaterial3Api::class)
         Card(
             modifier = Modifier.padding(Paddings.xlarge, Paddings.medium),
-            colors = CardDefaults.cardColors(
-                containerColor = Gray6
-            ),
-            onClick = alertCardData.onClick
+            colors =
+                CardDefaults.cardColors(
+                    containerColor = Gray6,
+                ),
+            onClick = alertCardData.onClick,
         ) {
             Column {
                 Row {
                     Box(
                         contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .size(52.dp)
-                            .clip(RoundedCornerShape(50.dp))
-                            .background(White),
+                        modifier =
+                            Modifier
+                                .size(52.dp)
+                                .clip(RoundedCornerShape(50.dp))
+                                .background(White),
                     ) {
                         Icon(
                             painter = painterResource(id = alertCardData.icon),
                             contentDescription = "알림 아이콘",
                             tint = Primary,
-                            modifier = Modifier.size(36.dp)
+                            modifier = Modifier.size(36.dp),
                         )
                     }
                     Column(modifier = Modifier.padding(Paddings.medium)) {
@@ -196,7 +198,7 @@ class Cards {
                             Text(
                                 text = alertCardData.date,
                                 style = Typography.labelLarge,
-                                color = Gray4
+                                color = Gray4,
                             )
                         }
                     }
@@ -206,19 +208,17 @@ class Cards {
                     Modifier
                         .fillMaxWidth()
                         .height(1.dp)
-                        .background(Gray4)
+                        .background(Gray4),
                 )
             }
         }
     }
-
 }
-
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     Cards().ProductListCard(
-        Cards.productCardData
+        Cards.productCardData,
     )
 }

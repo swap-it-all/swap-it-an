@@ -44,7 +44,6 @@ import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Shapes
 import com.example.swap_it.ui.theme.Typography
 
-
 @Composable
 fun PostProductScreen(
     // todo navigation
@@ -53,25 +52,28 @@ fun PostProductScreen(
 ) {
     val selectedImageUris by rememberUpdatedState(viewModel.selectedImageUris)
 
-    val multiplePhotoLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickMultipleVisualMedia(),
-        onResult = { uris ->
-            viewModel.multipleImages(uris.map { it.toCoilUri() })
-        }
-    )
+    val multiplePhotoLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.PickMultipleVisualMedia(),
+            onResult = { uris ->
+                viewModel.multipleImages(uris.map { it.toCoilUri() })
+            },
+        )
 
-    Scaffold(
-    ) { paddingValues ->
+    Scaffold { paddingValues ->
         Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues), color = BackgroundColor
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+            color = BackgroundColor,
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = Paddings.xlarge)
-                    .verticalScroll(rememberScrollState())
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Paddings.xlarge)
+                        .verticalScroll(rememberScrollState()),
             ) {
                 LazyRow {
                     item {
@@ -80,7 +82,7 @@ fun PostProductScreen(
                             maxCount = 10,
                             onClick = {
                                 multiplePhotoLauncher.launch(
-                                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly),
                                 )
                             },
                             color = Gray3,
@@ -91,9 +93,10 @@ fun PostProductScreen(
                             model = uri,
                             contentScale = ContentScale.Crop,
                             contentDescription = "이미지",
-                            modifier = Modifier
-                                .size(86.dp)
-                                .clip(Shapes.small)
+                            modifier =
+                                Modifier
+                                    .size(86.dp)
+                                    .clip(Shapes.small),
                         )
                         Spacer(modifier = Modifier.padding(Paddings.medium))
                     }
@@ -143,9 +146,9 @@ fun PostProductScreen(
                             },
                             onCancel = {
                                 Log.d("PostProductScreen", "PostProductScreen: 취소")
-                            }
+                            },
                         )
-                    }
+                    },
                 )
                 if (viewModel.alertDialogState.value.title.isNotEmpty()) {
                     AlertDialog(
@@ -155,15 +158,13 @@ fun PostProductScreen(
                         },
                         onClickCancel = {
                             viewModel.alertDialogState.value.onClickCancel()
-                        }
+                        },
                     )
                 }
             }
         }
-
     }
 }
-
 
 @Composable
 fun NameTextField(
@@ -173,13 +174,13 @@ fun NameTextField(
 ) {
     Text(
         text = label,
-        style = Typography.titleSmall
+        style = Typography.titleSmall,
     )
     Spacer(modifier = Modifier.padding(Paddings.medium))
     PostProductNameTextField(
         text = text,
         onNameChange = onNameChange,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     )
 }
 
@@ -191,13 +192,13 @@ fun PriceTextField(
 ) {
     Text(
         text = label,
-        style = Typography.titleSmall
+        style = Typography.titleSmall,
     )
     Spacer(modifier = Modifier.padding(Paddings.medium))
     PostProductPriceTextField(
         text = text,
         onPriceChange = onPriceChange,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     )
 }
 
@@ -206,11 +207,11 @@ fun QualityButtons(
     text: String,
     items: List<QualityOption>,
     quality: QualityOption? = null,
-    onQualityChange: (QualityOption) -> Unit
+    onQualityChange: (QualityOption) -> Unit,
 ) {
     Text(
         text = text,
-        style = Typography.titleSmall
+        style = Typography.titleSmall,
     )
     Spacer(modifier = Modifier.padding(Paddings.medium))
 
@@ -224,11 +225,11 @@ fun CategoryButtons(
     text: String,
     items: List<CategoryOption>,
     category: CategoryOption? = null,
-    onCategoryChange: (CategoryOption) -> Unit
+    onCategoryChange: (CategoryOption) -> Unit,
 ) {
     Text(
         text = text,
-        style = Typography.titleSmall
+        style = Typography.titleSmall,
     )
     Spacer(modifier = Modifier.padding(Paddings.medium))
 
@@ -245,14 +246,14 @@ fun LocationTextField(
 ) {
     Text(
         text = label,
-        style = Typography.titleSmall
+        style = Typography.titleSmall,
     )
     Spacer(modifier = Modifier.padding(Paddings.medium))
 
     PostProductSwapLocationTextField(
         value = text,
         onValueChange = onLocationChange,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     )
 }
 
@@ -264,14 +265,14 @@ fun DescriptionTextField(
 ) {
     Text(
         text = label,
-        style = Typography.titleSmall
+        style = Typography.titleSmall,
     )
     Spacer(modifier = Modifier.padding(Paddings.medium))
 
     PostProductDescriptionTextField(
         text = text,
         onDescriptionChange = onDescriptionChange,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     )
 }
 
