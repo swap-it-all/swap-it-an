@@ -31,6 +31,7 @@ import coil3.toCoilUri
 import com.example.swap_it.R
 import com.example.swap_it.data.datasource.local.model.post.CategoryOption
 import com.example.swap_it.data.datasource.local.model.post.QualityOption
+import com.example.swap_it.ui.component.AlertDialog
 import com.example.swap_it.ui.component.DefaultButton
 import com.example.swap_it.ui.post.component.PostProductDescriptionTextField
 import com.example.swap_it.ui.post.component.PostProductImagePicker
@@ -135,9 +136,28 @@ fun PostProductScreen(
                     modifier = Modifier.fillMaxWidth(),
                     enabled = viewModel.isPostEnabled.value,
                     onClick = {
-                        Log.d("PostProductScreen", "상품 등록 완료")
+                        viewModel.showAlertDialog(
+                            title = "물건을 등록할까요?",
+                            onConfirm = {
+                                // todo navigation
+                            },
+                            onCancel = {
+                                Log.d("PostProductScreen", "PostProductScreen: 취소")
+                            }
+                        )
                     }
                 )
+                if (viewModel.alertDialogState.value.title.isNotEmpty()) {
+                    AlertDialog(
+                        title = viewModel.alertDialogState.value.title,
+                        onClickConfirm = {
+                            viewModel.alertDialogState.value.onClickConfirm()
+                        },
+                        onClickCancel = {
+                            viewModel.alertDialogState.value.onClickCancel()
+                        }
+                    )
+                }
             }
         }
 

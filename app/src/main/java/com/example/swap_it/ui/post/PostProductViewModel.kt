@@ -12,6 +12,7 @@ import com.example.swap_it.domain.model.post.Location
 import com.example.swap_it.domain.model.post.Name
 import com.example.swap_it.domain.model.post.PostState
 import com.example.swap_it.domain.model.post.Price
+import com.example.swap_it.ui.post.model.AlertDialogState
 
 class PostProductViewModel : ViewModel() {
 
@@ -48,6 +49,8 @@ class PostProductViewModel : ViewModel() {
         state.isValid()
     }
 
+    val alertDialogState = mutableStateOf<AlertDialogState>(AlertDialogState())
+
     fun multipleImages(uris: List<Uri>) {
         _selectedImageUris.value = uris.take(10)
     }
@@ -74,5 +77,21 @@ class PostProductViewModel : ViewModel() {
 
     fun updateCategory(category: CategoryOption) {
         _selectedCategory.value = category
+    }
+
+    fun showAlertDialog(
+        title: String,
+        onConfirm: () -> Unit,
+        onCancel: () -> Unit,
+    ) {
+        alertDialogState.value = AlertDialogState(
+            title = title,
+            onClickConfirm = { resetDialogState() },
+            onClickCancel = { resetDialogState() },
+        )
+    }
+
+    private fun resetDialogState() {
+        alertDialogState.value = AlertDialogState()
     }
 }
