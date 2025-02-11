@@ -1,5 +1,6 @@
 package com.example.swap_it.ui.post
 
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -131,8 +132,12 @@ fun PostProductScreen(
                 )
                 DefaultButton(
                     text = stringResource(R.string.post_product_post_button),
-                    modifier = Modifier.fillMaxWidth()
-                ) { }
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = viewModel.isPostEnabled.value,
+                    onClick = {
+                        Log.d("PostProductScreen", "상품 등록 완료")
+                    }
+                )
             }
         }
 

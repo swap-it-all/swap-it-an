@@ -1,11 +1,17 @@
 package com.example.swap_it.ui.post
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import coil3.Uri
 import com.example.swap_it.data.datasource.local.model.post.CategoryOption
 import com.example.swap_it.data.datasource.local.model.post.QualityOption
+import com.example.swap_it.domain.model.post.Description
+import com.example.swap_it.domain.model.post.Location
+import com.example.swap_it.domain.model.post.Name
+import com.example.swap_it.domain.model.post.PostState
+import com.example.swap_it.domain.model.post.Price
 
 class PostProductViewModel : ViewModel() {
 
@@ -28,6 +34,19 @@ class PostProductViewModel : ViewModel() {
     }
     private val _selectedCategory = mutableStateOf<CategoryOption?>(null)
     val selectedCategory: State<CategoryOption?> = _selectedCategory
+
+    val isPostEnabled: State<Boolean> = derivedStateOf {
+        val state = PostState(
+            image = selectedImageUris.value,
+            name = Name(productName.value),
+            price = Price(productPrice.value),
+            location = Location(productLocation.value),
+            description = Description(productDescription.value),
+            quality = selectedQuality.value,
+            category = selectedCategory.value
+        )
+        state.isValid()
+    }
 
     fun multipleImages(uris: List<Uri>) {
         _selectedImageUris.value = uris.take(10)
