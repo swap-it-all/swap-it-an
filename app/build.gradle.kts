@@ -32,6 +32,11 @@ android {
             "KAKAO_NATIVE_APP_KEY",
             properties.getProperty("KAKAO_NATIVE_APP_KEY"),
         )
+        buildConfigField(
+            "String",
+            "SWAP_IT_BASE_URL",
+            properties.getProperty("SWAP_IT_BASE_URL"),
+        )
         resValue(
             "string",
             "kakao_oauth_host",
