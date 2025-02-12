@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,8 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.swap_it.R
-import com.example.swap_it.data.datasource.local.model.bottomsheet.CategoryOption
 import com.example.swap_it.data.datasource.local.model.bottomsheet.SortOption
+import com.example.swap_it.data.datasource.local.model.post.CategoryOption
 import com.example.swap_it.ui.component.CategoryButton
 import com.example.swap_it.ui.theme.Gray5
 import com.example.swap_it.ui.theme.Paddings
@@ -41,9 +41,6 @@ fun ModalBottomSheetContent() {
     }
 
 }
-
-
-
 
 
 @Composable
@@ -91,7 +88,6 @@ fun SortButton(
 }
 
 
-
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CategoryButtons(option: SortOption) {
@@ -104,7 +100,7 @@ fun CategoryButtons(option: SortOption) {
         ) {
         CategoryOption.entries.forEach {
             CategoryButton(
-                text = it.categoryName,
+                text = it.option,
                 isSelected = true,
                 modifier = Modifier.padding(Paddings.small)
             ) {

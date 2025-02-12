@@ -25,8 +25,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -46,8 +44,6 @@ import com.example.swap_it.R
 import com.example.swap_it.ui.component.BackButton
 import com.example.swap_it.ui.component.DefaultButton
 import com.example.swap_it.ui.component.GrayDefaultButton
-import com.example.swap_it.ui.component.MenuButton
-import com.example.swap_it.ui.component.decimal
 import com.example.swap_it.ui.navigation.BottomNavItem
 import com.example.swap_it.ui.theme.Black
 import com.example.swap_it.ui.theme.Gray3

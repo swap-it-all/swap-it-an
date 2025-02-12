@@ -1,10 +1,10 @@
 package com.example.swap_it.ui.search
 
 import androidx.lifecycle.ViewModel
-import com.example.swap_it.data.datasource.local.model.search.CurrentSearch
-import com.example.swap_it.data.datasource.local.model.search.PopularSearch
+import com.example.swap_it.data.datasource.local.model.search.RecentSearchTerm
+import com.example.swap_it.data.datasource.local.model.search.PopularSearchTerm
 
 class SearchViewModel : ViewModel() {
-    val allCurrentSearch: List<CurrentSearch> by lazy { CurrentSearch.values().toList() }
-    val allPopularSearch: List<PopularSearch> by lazy { PopularSearch.values().toList() }
+    val allRecentSearchTerm: List<RecentSearchTerm> by lazy { RecentSearchTerm.values().toList() }
+    val allPopularSearchTerm: List<PopularSearchTerm> by lazy { PopularSearchTerm.values().toList() }
 }

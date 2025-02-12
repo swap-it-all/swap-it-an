@@ -11,6 +11,7 @@ import com.example.swap_it.ui.chat.ChatListScreen
 import com.example.swap_it.ui.post.PostProductScreen
 import com.example.swap_it.ui.post.PostProductViewModel
 import com.example.swap_it.ui.search.SearchScreen
+import com.example.swap_it.ui.search.SearchViewModel
 import com.example.swap_it.ui.shopping.ShoppingScreen
 import com.example.swap_it.ui.shopping.detail.ShoppingDetailScreen
 import com.example.swap_it.ui.shopping.detail.defaultShoppingDetailData
@@ -31,10 +32,10 @@ class NavigationModule {
             startDestination = BottomNavItem.Shopping.screenRoute
         ) {
             composable(BottomNavItem.Shopping.screenRoute) {
-                ShoppingScreen(Modifier, navController)
+                ShoppingScreen(navController)
             }
             composable(BottomNavItem.Swap.screenRoute) {
-                SwapScreen(Modifier,navController)
+                SwapScreen(navController)
             }
             composable(BottomNavItem.Add.screenRoute) {
                 PostProductScreen(viewModel = PostProductViewModel(),/* navController = navController*/)
@@ -46,10 +47,10 @@ class NavigationModule {
                 UserInfoScreen().UserInfoScreen(navController)
             }
             composable("Alert") {
-                AlertScreen(modifier = Modifier, navController)
+                AlertScreen(navController)
             }
             composable("Search") {
-                SearchScreen(Modifier, navController)
+                SearchScreen(navController,viewModel = SearchViewModel())
             }
             composable("ShoppingDetail") {
                 ShoppingDetailScreen(Modifier, navController, defaultShoppingDetailData)

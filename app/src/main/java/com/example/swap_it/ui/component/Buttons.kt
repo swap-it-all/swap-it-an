@@ -14,10 +14,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.IconButton
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -121,7 +121,6 @@ fun GrayDefaultButton(
         )
     }
 }
-
 
 @Composable
 fun ModalButton(
@@ -251,7 +250,7 @@ fun BottomAppBarButton(painter: Painter, contentDescription: String) {
 }
 
 @Composable
-fun BackButton(modifier: Modifier, navController: NavHostController, color: Color) {
+fun BackButton(modifier: Modifier,navController: NavHostController, color: Color) {
     IconButton(
         onClick = {
             navController.navigateUp()
@@ -266,14 +265,29 @@ fun BackButton(modifier: Modifier, navController: NavHostController, color: Colo
     }
 }
 
+@Composable
+fun MenuButton(modifier: Modifier,navController: NavHostController, color: Color) {
+    IconButton(
+        onClick = {
+            navController.navigateUp()
+        },
+        modifier = modifier.size(24.dp)
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_menu),
+            contentDescription = "메뉴",
+            tint = color
+        )
+    }
+}
+
 
 @Composable
-fun SearchBarButton(modifier: Modifier = Modifier, navController: NavHostController) {
-    androidx.compose.material.Button(
-        modifier = modifier
-            .fillMaxWidth()
+fun SearchBarButton(modifier: Modifier = Modifier,navController: NavHostController) {
+    Button(
+        modifier = modifier.fillMaxWidth()
             .clip(shape = RoundedCornerShape(50.dp)),
-        colors = androidx.compose.material.ButtonDefaults.buttonColors(backgroundColor = Gray6),
+        colors = ButtonDefaults.buttonColors(containerColor = Gray6),
         onClick = {
             navController.navigate("Search") {
                 navController.graph.startDestinationRoute?.let {
@@ -290,7 +304,7 @@ fun SearchBarButton(modifier: Modifier = Modifier, navController: NavHostControl
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                androidx.compose.material.Text(
+                Text(
                     stringResource(R.string.shopping_search_button_content),
                     modifier = modifier.weight(1f),
                     color = Gray3
@@ -302,22 +316,6 @@ fun SearchBarButton(modifier: Modifier = Modifier, navController: NavHostControl
                 )
             }
         }
-    }
-}
-
-@Composable
-fun MenuButton(modifier: Modifier = Modifier, navController: NavHostController, color: Color) {
-    IconButton(
-        onClick = {
-            navController.navigateUp()
-        },
-        modifier = modifier.size(24.dp)
-    ) {
-        Icon(
-            painter = painterResource(R.drawable.ic_menu),
-            contentDescription = "메뉴",
-            tint = color
-        )
     }
 }
 
@@ -334,20 +332,6 @@ fun DefaultButtonPreview(
     @PreviewParameter(EnabledPreviewParameterProvider::class) enabled: Boolean
 ) {
     DefaultButton(
-        text = if (enabled) "활성화된 버튼" else "비활성화된 버튼",
-        onClick = {},
-        contentStyle = Typography.titleMedium,
-        enabled = enabled,
-        interactionSource = remember { MutableInteractionSource() }
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GrayDefaultButtonPreview(
-    @PreviewParameter(EnabledPreviewParameterProvider::class) enabled: Boolean
-) {
-    GrayDefaultButton(
         text = if (enabled) "활성화된 버튼" else "비활성화된 버튼",
         onClick = {},
         contentStyle = Typography.titleMedium,
@@ -388,12 +372,11 @@ fun CategoryButtonPreview() {
 @Preview(showBackground = true)
 @Composable
 fun BottomAppBarDefaultsPreview() {
-    BottomAppBarButton(painterResource(R.drawable.ic_house), "홈")
+    BottomAppBarButton(painterResource(R.drawable.ic_house),"홈")
 }
-
 @Preview(showBackground = true)
 @Composable
-fun SearchButtonPreview() {
+fun SearchButtonPreview(){
     SearchTermButton(
         text = "검색 버튼",
         onClick = {},
@@ -403,21 +386,19 @@ fun SearchButtonPreview() {
 @Preview(showBackground = true)
 @Composable
 fun BackButtonPreview() {
-    BackButton(Modifier, rememberNavController(), PrimaryDark)
+    BackButton(Modifier,rememberNavController(), Black)
 }
 
-@Composable
 @Preview(showBackground = true)
-fun SearchBarButtonPreview() {
-    SwapitTheme {
-        SearchBarButton(Modifier, rememberNavController())
-    }
-}
-
 @Composable
-@Preview(showBackground = true)
 fun MenuButtonPreview() {
+    MenuButton(Modifier,rememberNavController(), Black)
+}
+
+@Composable
+@Preview(showBackground = true)
+fun SearchBarButtonPreview(){
     SwapitTheme {
-        MenuButton(Modifier, rememberNavController(), Black)
+        SearchBarButton(Modifier,rememberNavController())
     }
 }

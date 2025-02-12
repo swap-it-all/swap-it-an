@@ -13,14 +13,14 @@ import com.example.swap_it.ui.theme.Paddings
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun PopularTermButtonField() {
+fun PopularTermButtonField(viewModel: SearchViewModel) {
     FlowRow(
         horizontalArrangement = Arrangement.Start,
         modifier = Modifier
             .fillMaxWidth()
             .padding(Paddings.mediumLarge),
     ) {
-        SearchViewModel().allPopularSearch.forEach {
+        viewModel.allPopularSearchTerm.forEach {
             SearchTermButton(
                 text = it.categoryName,
                 modifier = Modifier.padding(Paddings.smallMedium)
