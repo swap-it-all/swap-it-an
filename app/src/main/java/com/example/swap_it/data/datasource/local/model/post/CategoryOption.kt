@@ -1,17 +1,20 @@
 package com.example.swap_it.data.datasource.local.model.post
 
-enum class CategoryOption(val option: String) {
-    ELECTRONICS("전자기기"),
-    APPLIANCES("가전제품"),
-    FURNITURE("가구"),
-    CLOTHING("의류/패션"),
-    BEAUTY("뷰티/화장품"),
-    SPORTS("스포츠/레저"),
-    TOYS("장난감/키즈"),
-    BOOKS("책/문구"),
-    AUTOMOTIVE("자동차/부품"),
-    PET("반려동물용품"),
-    GROCERIES("식품/음료"),
-    HOBBY("취미/게임/음반"),
-    MISC("기타"),
+enum class CategoryOption(
+    val id: Int,
+    val option: String
+) {
+    ELECTRONICS(1, "전자기기"),
+    APPLIANCES(2, "가전제품"),
+    FURNITURE(3, "가구"),
+    CLOTHING(4, "의류/패션"),
+    BEAUTY(5, "뷰티/화장품"),
+    SPORTS(6, "스포츠/레저"),
+    TOYS(7, "장난감/키즈"),
+    BOOKS(8, "책/문구"),
+    AUTOMOTIVE(9, "자동차/부품"),
+    PET(10, "반려동물용품"),
+    GROCERIES(11, "식품/음료"),
+    HOBBY(12, "취미/게임/음반"),
+    MISC(13, "기타"),
 }
