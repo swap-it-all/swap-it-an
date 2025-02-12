@@ -41,6 +41,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.swap_it.R
+import com.example.swap_it.data.model.ShoppingDetailData
 import com.example.swap_it.ui.component.BackButton
 import com.example.swap_it.ui.component.DefaultButton
 import com.example.swap_it.ui.component.GrayDefaultButton
@@ -55,20 +56,7 @@ import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.Typography
 import com.example.swap_it.ui.theme.White
 
-data class ShoppingDetailData(
-    val imageUri: List<String>,
-    val category: String,
-    val quality: String,
-    val time: String,
-    val title: String,
-    val viewCount: String,
-    val price: Int,
-    val userImageUri: String,
-    val userName: String,
-    val rate: Float,
-    val region: String,
-    val content: String,
-)
+
 
 val defaultShoppingDetailData = ShoppingDetailData(
     imageUri = listOf(
