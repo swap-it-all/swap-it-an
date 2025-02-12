@@ -6,23 +6,37 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material.IconButton
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.swap_it.R
 import com.example.swap_it.ui.theme.Gray2
 import com.example.swap_it.ui.theme.Gray3
@@ -33,6 +47,7 @@ import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.PrimaryDark
 import com.example.swap_it.ui.theme.Shapes
+import com.example.swap_it.ui.theme.SwapitTheme
 import com.example.swap_it.ui.theme.Typography
 import com.example.swap_it.ui.theme.White
 
@@ -163,7 +178,7 @@ fun SearchTermButton(
     contentStyle: TextStyle = Typography.bodySmall,
     contentPadding: PaddingValues = PaddingValues(
         horizontal = Paddings.xlarge,
-        vertical = Paddings.medium,
+        vertical = Paddings.smallMedium,
     ),
     containerColor: Color = Gray6,
     contentColor: Color = Gray2,
@@ -198,6 +213,58 @@ fun BottomAppBarButton(painter: Painter, contentDescription: String) {
     }
 }
 
+@Composable
+fun BackButton(modifier: Modifier,navController: NavHostController) {
+    IconButton(
+        onClick = {
+            navController.navigateUp()
+        },
+        modifier = modifier.size(24.dp)
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_chevron_left),
+            contentDescription = "뒤로 가기"
+        )
+    }
+}
+
+
+@Composable
+fun SearchBarButton(modifier: Modifier = Modifier,navController: NavHostController) {
+    Button(
+        modifier = modifier.fillMaxWidth()
+            .clip(shape = RoundedCornerShape(50.dp)),
+        colors = ButtonDefaults.buttonColors(containerColor = Gray6),
+        onClick = {
+            navController.navigate("Search") {
+                navController.graph.startDestinationRoute?.let {
+                    popUpTo(it) { saveState = true }
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
+        },
+    ) {
+        Column(
+            verticalArrangement = Arrangement.Bottom,
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    stringResource(R.string.shopping_search_button_content),
+                    modifier = modifier.weight(1f),
+                    color = Gray3
+                )
+                Image(
+                    painter = painterResource(R.drawable.ic_search_magnifying),
+                    contentDescription = "검색 버튼",
+                    colorFilter = ColorFilter.tint(Gray3)
+                )
+            }
+        }
+    }
+}
 
 class EnabledPreviewParameterProvider : PreviewParameterProvider<Boolean> {
     override val values = sequenceOf(
@@ -252,13 +319,28 @@ fun CategoryButtonPreview() {
 @Preview(showBackground = true)
 @Composable
 fun BottomAppBarDefaultsPreview() {
-    BottomAppBarButton(painterResource(R.drawable.ic_house),"홈")
+    BottomAppBarButton(painterResource(R.drawable.ic_house), "홈")
 }
+
 @Preview(showBackground = true)
 @Composable
-fun SearchButtonPreview(){
+fun SearchButtonPreview() {
     SearchTermButton(
         text = "검색 버튼",
         onClick = {},
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BackButtonPreview() {
+    BackButton(Modifier,rememberNavController())
+}
+
+@Composable
+@Preview(showBackground = true)
+fun SearchBarButtonPreview(){
+    SwapitTheme {
+        SearchBarButton(Modifier,rememberNavController())
+    }
 }

@@ -5,13 +5,15 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.swap_it.ui.add_item.AddItemScreen
+import com.example.swap_it.ui.alert.AlertScreen
 import com.example.swap_it.ui.chat.ChatListScreen
 import com.example.swap_it.ui.post.PostProductScreen
 import com.example.swap_it.ui.post.PostProductViewModel
-import com.example.swap_it.ui.product_list.SearchScreen
-import com.example.swap_it.ui.shopping.Alert
-import com.example.swap_it.ui.shopping.Shopping
-import com.example.swap_it.ui.swap.ShoppingListScreen
+import com.example.swap_it.ui.search.SearchScreen
+import com.example.swap_it.ui.search.SearchViewModel
+import com.example.swap_it.ui.shopping.ShoppingScreen
+import com.example.swap_it.ui.swap.SwapScreen
 import com.example.swap_it.ui.user.UserInfoScreen
 
 
@@ -25,13 +27,13 @@ class NavigationModule {
     fun NavigationGraph(navController: NavHostController) {
         NavHost(
             navController = navController,
-            startDestination = BottomNavItem.Product.screenRoute
+            startDestination = BottomNavItem.Shopping.screenRoute
         ) {
-            composable(BottomNavItem.Product.screenRoute) {
-                Shopping().ShoppingScreen(Modifier, navController)
-            }
             composable(BottomNavItem.Shopping.screenRoute) {
-                ShoppingListScreen().ShoppingListScreen(navController)
+                ShoppingScreen(navController)
+            }
+            composable(BottomNavItem.Swap.screenRoute) {
+                SwapScreen(navController)
             }
             composable(BottomNavItem.Add.screenRoute) {
                 PostProductScreen(viewModel = PostProductViewModel(),/* navController = navController*/)
@@ -43,10 +45,10 @@ class NavigationModule {
                 UserInfoScreen().UserInfoScreen(navController)
             }
             composable("Alert") {
-                Alert().AlertScreen(modifier = Modifier, navController)
+                AlertScreen(navController)
             }
             composable("Search") {
-                SearchScreen().SearchScreen(Modifier, navController)
+                SearchScreen(navController,viewModel = SearchViewModel())
             }
         }
     }
