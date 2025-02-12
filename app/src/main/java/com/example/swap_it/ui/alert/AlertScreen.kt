@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,14 +23,14 @@ import com.example.swap_it.ui.theme.Typography
 
 
 @Composable
-fun AlertScreen(modifier: Modifier = Modifier, navController: NavHostController) {
+fun AlertScreen(navController: NavHostController) {
     Column(
-        modifier
+        Modifier
             .fillMaxSize()
             .background(BackgroundColor)
     ) {
-        Spacer(modifier.padding(Paddings.xlarge))
-        BackButton(modifier.padding(Paddings.largeExtra), navController)
+        Spacer(Modifier.padding(Paddings.xlarge))
+        BackButton(Modifier.padding(Paddings.largeExtra), navController)
         Text(
             stringResource(R.string.alert_alert),
             style = Typography.titleLarge,
@@ -50,6 +50,6 @@ fun AlertScreen(modifier: Modifier = Modifier, navController: NavHostController)
 fun SearchScreenPreview() {
     var navController = rememberNavController()
     SwapitTheme {
-        AlertScreen(Modifier, navController)
+        AlertScreen(navController)
     }
 }

@@ -2,10 +2,11 @@ package com.example.swap_it.ui.component
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -34,13 +35,13 @@ private val items = listOf<BottomNavItem>(
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
-    BottomNavigation(
-        backgroundColor = Gray6,
+    NavigationBar (
+        containerColor = Gray6,
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
         items.forEach { item ->
-            BottomNavigationItem(
+            NavigationBarItem(
                 icon = {
                     Icon(
                         painter = painterResource(id = item.icon),
@@ -51,8 +52,12 @@ fun BottomNavigationBar(navController: NavHostController) {
                         tint = if (currentRoute == item.screenRoute) Primary else Gray4
                     )
                 },
-                selectedContentColor = Primary,
-                unselectedContentColor = Gray2,
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Primary,
+                    selectedTextColor = Primary,
+                    unselectedIconColor = Gray4,
+                    indicatorColor = Gray6,
+                ),
                 label = { Text(item.name, style = Typography.labelSmall) },
                 alwaysShowLabel = false,
                 selected = currentRoute == item.screenRoute,

@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,29 +31,28 @@ import com.example.swap_it.ui.theme.Typography
 
 @Composable
 fun SearchScreen(
-    modifier: Modifier = Modifier,
     navController: NavHostController,
     viewModel: SearchViewModel
 ) {
     var searchTerm by remember { mutableStateOf("") }
     Column(
-        modifier
+        Modifier
             .fillMaxSize()
             .background(BackgroundColor)
     ) {
         Spacer(Modifier.size(32.dp))
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(
                     Paddings.none, Paddings.none, Paddings.xlarge, Paddings.xlarge
                 ),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            BackButton(modifier.padding(Paddings.medium), navController)
+            BackButton(Modifier.padding(Paddings.medium), navController)
             SearchField(
                 searchTerm,
-                modifier,
+                Modifier,
                 onValueChange = {
                     searchTerm = it
                 }
@@ -69,7 +68,7 @@ fun SearchScreen(
                 Paddings.smallMedium
             )
         )
-        CurrentTermButtonField(viewModel)
+        RecentTermButtonField(viewModel)
         Text(
             stringResource(R.string.search_popular_term),
             style = Typography.titleLarge,
@@ -89,7 +88,7 @@ fun SearchScreen(
 @Composable
 fun SearchScreenPreview() {
     SwapitTheme {
-        SearchScreen(Modifier, rememberNavController(),SearchViewModel())
+        SearchScreen(rememberNavController(),SearchViewModel())
     }
 }
 

@@ -12,7 +12,7 @@ import com.example.swap_it.ui.theme.Paddings
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun CurrentTermButtonField(viewModel: SearchViewModel) {
+fun RecentTermButtonField(viewModel: SearchViewModel) {
     FlowRow(
         horizontalArrangement = Arrangement.Start,
         modifier = Modifier

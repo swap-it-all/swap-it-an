@@ -16,7 +16,7 @@ import com.example.swap_it.ui.theme.BackgroundColor
 
 
 @Composable
-fun SwapScreen(modifier: Modifier, navController: NavHostController) {
+fun SwapScreen(navController: NavHostController) {
     Scaffold(
         topBar = {
             AppBar(navController = navController)
@@ -31,8 +31,8 @@ fun SwapScreen(modifier: Modifier, navController: NavHostController) {
                 .padding(contentPadding)
                 .background(BackgroundColor)
         ) {
-            RequestedSwapSection(modifier, navController)
-            RequestSwapSection(modifier, navController)
+            RequestedSwapSection(Modifier, navController)
+            RequestSwapSection(Modifier, navController)
         }
     }
 }
@@ -40,5 +40,5 @@ fun SwapScreen(modifier: Modifier, navController: NavHostController) {
 @Composable
 @Preview(showBackground = true)
 fun SwapScreenPreview() {
-    SwapScreen(Modifier, navController = NavHostController(context = LocalContext.current))
+    SwapScreen(navController = NavHostController(context = LocalContext.current))
 }

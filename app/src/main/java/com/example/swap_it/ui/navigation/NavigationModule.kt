@@ -30,10 +30,10 @@ class NavigationModule {
             startDestination = BottomNavItem.Shopping.screenRoute
         ) {
             composable(BottomNavItem.Shopping.screenRoute) {
-                ShoppingScreen(Modifier, navController)
+                ShoppingScreen(navController)
             }
             composable(BottomNavItem.Swap.screenRoute) {
-                SwapScreen(Modifier,navController)
+                SwapScreen(navController)
             }
             composable(BottomNavItem.Add.screenRoute) {
                 PostProductScreen(viewModel = PostProductViewModel(),/* navController = navController*/)
@@ -45,10 +45,10 @@ class NavigationModule {
                 UserInfoScreen().UserInfoScreen(navController)
             }
             composable("Alert") {
-                AlertScreen(modifier = Modifier, navController)
+                AlertScreen(navController)
             }
             composable("Search") {
-                SearchScreen(Modifier, navController,viewModel = SearchViewModel())
+                SearchScreen(navController,viewModel = SearchViewModel())
             }
         }
     }

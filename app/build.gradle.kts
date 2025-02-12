@@ -114,7 +114,6 @@ dependencies {
     implementation(libs.room.compiler)
 
     // Navigation
-    implementation(libs.androidx.material)
     implementation(libs.androidx.navigation.compose)
     // Coil
     implementation(libs.coil)

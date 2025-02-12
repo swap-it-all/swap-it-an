@@ -14,10 +14,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.IconButton
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -231,10 +231,10 @@ fun BackButton(modifier: Modifier,navController: NavHostController) {
 
 @Composable
 fun SearchBarButton(modifier: Modifier = Modifier,navController: NavHostController) {
-    androidx.compose.material.Button(
+    Button(
         modifier = modifier.fillMaxWidth()
             .clip(shape = RoundedCornerShape(50.dp)),
-        colors = androidx.compose.material.ButtonDefaults.buttonColors(backgroundColor = Gray6),
+        colors = ButtonDefaults.buttonColors(containerColor = Gray6),
         onClick = {
             navController.navigate("Search") {
                 navController.graph.startDestinationRoute?.let {
@@ -251,7 +251,7 @@ fun SearchBarButton(modifier: Modifier = Modifier,navController: NavHostControll
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                androidx.compose.material.Text(
+                Text(
                     stringResource(R.string.shopping_search_button_content),
                     modifier = modifier.weight(1f),
                     color = Gray3

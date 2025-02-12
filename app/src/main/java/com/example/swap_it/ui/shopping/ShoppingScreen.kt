@@ -40,7 +40,7 @@ import com.example.swap_it.ui.theme.SwapitTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShoppingScreen(modifier: Modifier = Modifier, navController: NavHostController) {
+fun ShoppingScreen(navController: NavHostController) {
     val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }
 
@@ -53,7 +53,7 @@ fun ShoppingScreen(modifier: Modifier = Modifier, navController: NavHostControll
         }
     ) { contentPadding ->
         Surface(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(contentPadding),
             color = BackgroundColor
@@ -61,18 +61,18 @@ fun ShoppingScreen(modifier: Modifier = Modifier, navController: NavHostControll
             LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
                 item {
                     SearchBarButton(
-                        modifier.padding(Paddings.xlarge, Paddings.smallMedium),
+                        Modifier.padding(Paddings.xlarge, Paddings.smallMedium),
                         navController
                     )
                 }
                 item {
-                    CategorySection(modifier) { showBottomSheet = true }
+                    CategorySection(Modifier) { showBottomSheet = true }
                 }
                 items(10) {
                     ShoppingCard(productCardData)
                 }
                 item {
-                    Spacer(modifier = modifier.size(100.dp))
+                    Spacer(modifier = Modifier.size(100.dp))
                 }
             }
             if (showBottomSheet) {
@@ -94,6 +94,6 @@ fun ShoppingScreen(modifier: Modifier = Modifier, navController: NavHostControll
 @Composable
 fun ProductScreenPreview() {
     SwapitTheme {
-        ShoppingScreen(Modifier, rememberNavController())
+        ShoppingScreen(rememberNavController())
     }
 }
