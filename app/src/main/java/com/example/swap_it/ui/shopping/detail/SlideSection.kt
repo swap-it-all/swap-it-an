@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.swap_it.data.model.ShoppingDetailData
 import com.example.swap_it.ui.component.BackButton
 import com.example.swap_it.ui.component.MenuButton
 import com.example.swap_it.ui.theme.Paddings
@@ -27,7 +28,7 @@ import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.White
 
 @Composable
-fun SlideSection(modifier: Modifier = Modifier, shoppingDetailData: ShoppingDetailData,navController: NavHostController) {
+fun SlideSection(modifier: Modifier = Modifier, shoppingDetailData: ShoppingDetailData, navController: NavHostController) {
     val pagerState = rememberPagerState(
         initialPage = 0,
         initialPageOffsetFraction = 0f
