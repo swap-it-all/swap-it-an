@@ -66,3 +66,4 @@ google = { module = "com.google.android.gms:play-services-auth", version.ref = "
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
+kotlinx-serilization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
