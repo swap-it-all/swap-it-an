@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -60,7 +60,7 @@ fun SwapCard(swapCardData: SwapCardData) {
                     Modifier
                         .size(150.dp),
                 placeholder = ColorPainter(Primary),
-                fallback = rememberVectorPainter(Icons.Default.Send),
+                fallback = rememberVectorPainter(Icons.Default.Call),
                 error = rememberVectorPainter(Icons.Default.Settings),
             )
             Column(modifier = Modifier.padding(Paddings.large)) {

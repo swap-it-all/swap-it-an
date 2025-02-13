@@ -36,7 +36,7 @@ fun ModalBottomSheetContent() {
         Text("정렬", style = Typography.titleLarge)
         SortButtons(onSortOptionSelected = { option = it })
         Text("카테고리", style = Typography.titleLarge)
-        CategoryButtons(option)
+        CategoryButtons()
         Spacer(modifier = Modifier.size(48.dp))
     }
 }
@@ -85,7 +85,7 @@ fun SortButton(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun CategoryButtons(option: SortOption) {
+fun CategoryButtons() {
     FlowRow(
         horizontalArrangement = Arrangement.Center,
         modifier =
