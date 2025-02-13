@@ -6,13 +6,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.swapit.ui.component.DefaultButton
 import com.example.swapit.ui.component.ModalButton
 import com.example.swapit.ui.theme.Gray5
 import com.example.swapit.ui.theme.Paddings
 
 @Composable
-fun BottomButtonSection(modifier: Modifier) {
+fun BottomButtonSection(navController: NavHostController) {
     ModalButton(
         text = "바로 스왑 요청하기",
         contentPadding =
@@ -22,11 +24,12 @@ fun BottomButtonSection(modifier: Modifier) {
             ),
         containerColor = Gray5,
     ) {
+        navController.navigate("MyProductSelection")
     }
     DefaultButton(
         text = "채팅하기",
         enabled = true,
-        modifier = modifier.padding(start = Paddings.large),
+        modifier = Modifier.padding(start = Paddings.large),
         contentPadding =
             PaddingValues(
                 horizontal = 58.dp,
@@ -39,5 +42,5 @@ fun BottomButtonSection(modifier: Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun BottomButtonSection() {
-    BottomButtonSection(Modifier)
+    BottomButtonSection(rememberNavController())
 }

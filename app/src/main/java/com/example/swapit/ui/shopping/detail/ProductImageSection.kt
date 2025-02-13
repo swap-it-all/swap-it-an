@@ -29,7 +29,6 @@ import com.example.swapit.ui.theme.White
 
 @Composable
 fun ProductImageSection(
-    modifier: Modifier = Modifier,
     shoppingDetailData: ShoppingDetailData,
     navController: NavHostController,
 ) {
@@ -50,7 +49,7 @@ fun ProductImageSection(
         ) { page ->
             AsyncImage(
                 modifier =
-                    modifier
+                    Modifier
                         .fillMaxWidth()
                         .height(412.dp),
                 model = shoppingDetailData.imageUri[page],
@@ -81,7 +80,7 @@ fun ProductImageSection(
         }
         BackButton(
             modifier =
-                modifier
+                Modifier
                     .align(Alignment.TopStart)
                     .padding(Paddings.largeExtra, Paddings.xlarge, Paddings.none, Paddings.none),
             navController,
@@ -89,7 +88,7 @@ fun ProductImageSection(
         )
         MenuButton(
             modifier =
-                modifier
+                Modifier
                     .align(Alignment.TopEnd)
                     .padding(Paddings.none, Paddings.xlarge, Paddings.xlarge, Paddings.none),
             navController,
