@@ -41,10 +41,11 @@ import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.Typography
 import com.example.swap_it.ui.theme.White
+import java.text.DecimalFormat
 
 @Composable
 fun ShoppingCard(shoppingCardData: ShoppingCardData,navController: NavHostController) {
-    val decimal = java.text.DecimalFormat("#,###")
+    val decimal = DecimalFormat("#,###")
     Card(
         modifier = Modifier.fillMaxWidth().padding(Paddings.xlarge, Paddings.smallMedium),
         colors = CardDefaults.cardColors(
@@ -147,7 +148,7 @@ val productCardData = ShoppingCardData(
     viewCount = "100",
     region = "강서구",
     time = "1일전",
-    price = "10000",
+    price = 1000000,
     title = "나이키 운동화",
     goodsId = 1
 

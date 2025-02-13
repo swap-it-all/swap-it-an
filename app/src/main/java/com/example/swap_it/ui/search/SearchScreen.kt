@@ -50,7 +50,7 @@ fun SearchScreen(
                 ),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            BackButton(Modifier.padding(Paddings.medium), navController, Black)
+            BackButton(Modifier.padding(Paddings.medium), navController, color = Black)
             SearchField(
                 searchTerm,
                 Modifier,

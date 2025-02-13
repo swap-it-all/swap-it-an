@@ -141,7 +141,7 @@ val swapCardData = SwapCardData(
     viewCount = "100",
     region = "강서구",
     time = "1일전",
-    price = "10000",
+    price = 230000,
     title = "나이키 운동화",
 )
 

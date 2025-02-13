@@ -11,9 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.swap_it.ui.navigation.BottomNavItem
 import com.example.swap_it.ui.theme.Gray2
 import com.example.swap_it.ui.theme.Gray4
@@ -69,4 +71,10 @@ fun BottomNavigationBar(navController: NavHostController) {
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BottomNavigationBarPreview() {
+    BottomNavigationBar(rememberNavController())
 }

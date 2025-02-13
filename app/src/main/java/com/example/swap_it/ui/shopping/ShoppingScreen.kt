@@ -30,7 +30,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.swap_it.ui.component.AppBar
 import com.example.swap_it.ui.component.BottomNavigationBar
 
-import com.example.swap_it.ui.component.SearchBarButton
 import com.example.swap_it.ui.theme.BackgroundColor
 
 

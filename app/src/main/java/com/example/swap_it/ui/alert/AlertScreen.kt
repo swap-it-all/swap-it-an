@@ -31,7 +31,7 @@ fun AlertScreen(navController: NavHostController) {
             .background(BackgroundColor)
     ) {
         Spacer(Modifier.padding(Paddings.xlarge))
-        BackButton(Modifier.padding(Paddings.largeExtra), navController, Black)
+        BackButton(Modifier.padding(Paddings.largeExtra), navController, color = Black)
         Text(
             stringResource(R.string.alert_alert),
             style = Typography.titleLarge,

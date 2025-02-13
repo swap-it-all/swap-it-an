@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.swap_it.R
+import com.example.swap_it.ui.shopping.SearchBarButton
 import com.example.swap_it.ui.theme.Black
 import com.example.swap_it.ui.theme.Gray2
 import com.example.swap_it.ui.theme.Gray3
@@ -87,40 +88,6 @@ fun DefaultButton(
     }
 }
 
-@Composable
-fun GrayDefaultButton(
-    text: String,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = false,
-    contentStyle: TextStyle = Typography.titleMedium,
-    contentPadding: PaddingValues =
-        PaddingValues(
-            horizontal = Paddings.xextra,
-            vertical = Paddings.xlarge,
-        ),
-    interactionSource: InteractionSource = remember { MutableInteractionSource() },
-    onClick: () -> Unit,
-) {
-    val isPressed by interactionSource.collectIsPressedAsState()
-
-    Button(
-        onClick = onClick,
-        enabled = enabled,
-        modifier = modifier,
-        contentPadding = contentPadding,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = if (isPressed) Gray4 else Gray5,
-            contentColor = Gray3,
-            disabledContainerColor = Gray6,
-        ),
-        shape = Shapes.small,
-    ) {
-        Text(
-            text = text,
-            style = contentStyle,
-        )
-    }
-}
 
 @Composable
 fun ModalButton(
@@ -237,17 +204,6 @@ fun SearchTermButton(
     }
 }
 
-@Composable
-fun BottomAppBarButton(painter: Painter, contentDescription: String) {
-    IconButton(
-        onClick = { /*TODO*/ }
-    ) {
-        Image(
-            painter = painter,
-            contentDescription = contentDescription
-        )
-    }
-}
 
 @Composable
 fun BackButton(modifier: Modifier,navController: NavHostController, color: Color) {
@@ -282,42 +238,6 @@ fun MenuButton(modifier: Modifier,navController: NavHostController, color: Color
 }
 
 
-@Composable
-fun SearchBarButton(modifier: Modifier = Modifier,navController: NavHostController) {
-    Button(
-        modifier = modifier.fillMaxWidth()
-            .clip(shape = RoundedCornerShape(50.dp)),
-        colors = ButtonDefaults.buttonColors(containerColor = Gray6),
-        onClick = {
-            navController.navigate("Search") {
-                navController.graph.startDestinationRoute?.let {
-                    popUpTo(it) { saveState = true }
-                }
-                launchSingleTop = true
-                restoreState = true
-            }
-        },
-    ) {
-        Column(
-            verticalArrangement = Arrangement.Bottom,
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    stringResource(R.string.shopping_search_button_content),
-                    modifier = modifier.weight(1f),
-                    color = Gray3
-                )
-                Image(
-                    painter = painterResource(R.drawable.ic_search_magnifying),
-                    contentDescription = "검색 버튼",
-                    colorFilter = ColorFilter.tint(Gray3)
-                )
-            }
-        }
-    }
-}
 
 class EnabledPreviewParameterProvider : PreviewParameterProvider<Boolean> {
     override val values = sequenceOf(
@@ -371,11 +291,6 @@ fun CategoryButtonPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun BottomAppBarDefaultsPreview() {
-    BottomAppBarButton(painterResource(R.drawable.ic_house),"홈")
-}
-@Preview(showBackground = true)
-@Composable
 fun SearchButtonPreview(){
     SearchTermButton(
         text = "검색 버튼",
@@ -395,10 +310,3 @@ fun MenuButtonPreview() {
     MenuButton(Modifier,rememberNavController(), Black)
 }
 
-@Composable
-@Preview(showBackground = true)
-fun SearchBarButtonPreview(){
-    SwapitTheme {
-        SearchBarButton(Modifier,rememberNavController())
-    }
-}

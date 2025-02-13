@@ -76,7 +76,7 @@ fun ProductImageSection(modifier: Modifier = Modifier, shoppingDetailData: Shopp
                 .align(Alignment.TopStart)
                 .padding(Paddings.largeExtra, Paddings.xlarge, Paddings.none, Paddings.none),
             navController,
-            White
+            color = White
         )
         MenuButton(
             modifier = modifier
