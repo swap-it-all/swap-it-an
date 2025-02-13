@@ -13,11 +13,11 @@ val properties =
     }
 
 android {
-    namespace = "com.example.swap_it"
+    namespace = "com.example.swapit"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.swap_it"
+        applicationId = "com.example.swapit"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
