@@ -2,8 +2,10 @@ package com.example.swap_it.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.IconButton
-import androidx.compose.material.TopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -12,6 +14,7 @@ import androidx.navigation.NavHostController
 import com.example.swap_it.R
 import com.example.swap_it.ui.theme.BackgroundColor
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(
     modifier: Modifier = Modifier,
@@ -43,6 +46,10 @@ fun AppBar(
                 )
             }
         },
-        backgroundColor = BackgroundColor,
+        colors = TopAppBarColors(containerColor = BackgroundColor,
+            navigationIconContentColor = BackgroundColor,
+            actionIconContentColor = BackgroundColor,
+            scrolledContainerColor = BackgroundColor,
+            titleContentColor = BackgroundColor,),
     )
 }
