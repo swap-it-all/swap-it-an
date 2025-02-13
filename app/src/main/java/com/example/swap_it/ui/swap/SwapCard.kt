@@ -39,10 +39,12 @@ import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.Typography
 import com.example.swap_it.ui.theme.White
+import java.text.DecimalFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SwapCard(swapCardData: SwapCardData) {
+    val decimal = DecimalFormat("#,###")
     Card(
         modifier = Modifier
             .width(162.dp)
@@ -96,7 +98,7 @@ fun SwapCard(swapCardData: SwapCardData) {
                         color = Gray3
                     )
                     Text(
-                        text = swapCardData.price,
+                        text = decimal.format(swapCardData.price),
                         style = Typography.titleMedium,
                     )
                     Text(

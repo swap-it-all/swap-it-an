@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.swap_it.R
 import com.example.swap_it.data.model.ShoppingDetailData
-import com.example.swap_it.data.model.decimal
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
 import com.example.swap_it.ui.theme.Gray5
@@ -29,6 +28,7 @@ import com.example.swap_it.ui.theme.Gray6
 import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.Typography
+import java.text.DecimalFormat
 
 @Composable
 fun ProductContentSection(modifier: Modifier, shoppingDetailData: ShoppingDetailData) {
@@ -74,6 +74,7 @@ fun TitleSection(modifier: Modifier,shoppingDetailData: ShoppingDetailData){
 }
 @Composable
 fun PriceSection(modifier: Modifier,shoppingDetailData: ShoppingDetailData){
+    val decimal = DecimalFormat("#,###")
     HorizontalDivider(
         thickness = 1.dp,
         modifier = modifier.padding(Paddings.xlarge),

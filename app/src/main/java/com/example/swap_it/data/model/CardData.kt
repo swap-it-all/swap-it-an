@@ -2,6 +2,7 @@ package com.example.swap_it.data.model
 
 
 data class ShoppingCardData(
+    val goodsId: Int,
     val imageUri: String,
     val category: String,
     val viewCount: String,

@@ -28,7 +28,7 @@ import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.White
 
 @Composable
-fun SlideSection(modifier: Modifier = Modifier, shoppingDetailData: ShoppingDetailData, navController: NavHostController) {
+fun ProductImageSection(modifier: Modifier = Modifier, shoppingDetailData: ShoppingDetailData, navController: NavHostController) {
     val pagerState = rememberPagerState(
         initialPage = 0,
         initialPageOffsetFraction = 0f

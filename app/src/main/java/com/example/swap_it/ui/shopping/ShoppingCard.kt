@@ -33,6 +33,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.swap_it.R
 import com.example.swap_it.data.model.ShoppingCardData
+import com.example.swap_it.ui.swap.swapCardData
 import com.example.swap_it.ui.theme.BackgroundColor
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
@@ -43,6 +44,7 @@ import com.example.swap_it.ui.theme.White
 
 @Composable
 fun ShoppingCard(shoppingCardData: ShoppingCardData,navController: NavHostController) {
+    val decimal = java.text.DecimalFormat("#,###")
     Card(
         modifier = Modifier.fillMaxWidth().padding(Paddings.xlarge, Paddings.smallMedium),
         colors = CardDefaults.cardColors(
@@ -113,7 +115,7 @@ fun ShoppingCard(shoppingCardData: ShoppingCardData,navController: NavHostContro
                             color = Gray3
                         )
                         Text(
-                            text = shoppingCardData.price,
+                            text = decimal.format(shoppingCardData.price),
                             style = Typography.titleMedium,
                         )
                         Text(
@@ -147,6 +149,7 @@ val productCardData = ShoppingCardData(
     time = "1일전",
     price = "10000",
     title = "나이키 운동화",
+    goodsId = 1
 
 )
 @Preview(showBackground = true)
