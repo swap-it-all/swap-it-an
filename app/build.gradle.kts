@@ -36,7 +36,7 @@ android {
         buildConfigField(
             "String",
             "SWAP_IT_BASE_URL",
-            properties.getProperty("SWAP_IT_BASE_URL") ?: "",
+            properties.getProperty("SWAP_IT_BASE_URL") ?: "https//swapit.com",
         )
         resValue(
             "string",
