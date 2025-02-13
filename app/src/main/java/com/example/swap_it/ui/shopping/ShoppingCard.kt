@@ -30,7 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import com.example.swap_it.R
 import com.example.swap_it.data.model.ShoppingCardData
 import com.example.swap_it.ui.swap.swapCardData

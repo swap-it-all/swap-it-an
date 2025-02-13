@@ -300,12 +300,6 @@ fun CategoryButtonPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun BottomAppBarDefaultsPreview() {
-    BottomAppBarButton(painterResource(R.drawable.ic_house), "홈")
-}
-
-@Preview(showBackground = true)
-@Composable
 fun SearchButtonPreview()  {
     SearchTermButton(
         text = "검색 버튼",
