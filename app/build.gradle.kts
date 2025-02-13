@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.kotlinx.serilization)
 }
 
 val properties =
@@ -12,11 +13,11 @@ val properties =
     }
 
 android {
-    namespace = "com.example.swap_it"
+    namespace = "com.example.swapit"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.swap_it"
+        applicationId = "com.example.swapit"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -31,6 +32,11 @@ android {
             "String",
             "KAKAO_NATIVE_APP_KEY",
             properties.getProperty("KAKAO_NATIVE_APP_KEY"),
+        )
+        buildConfigField(
+            "String",
+            "SWAP_IT_BASE_URL",
+            properties.getProperty("SWAP_IT_BASE_URL") ?: "https://swapit.com",
         )
         resValue(
             "string",

@@ -20,5 +20,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "swap-it"
+rootProject.name = "swapit"
 include(":app")

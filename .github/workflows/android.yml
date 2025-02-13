@@ -1,0 +1,46 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Create local.properties
+        run: |
+          echo "KAKAO_NATIVE_APP_KEY=$KAKAO_NATIVE_APP_KEY" >> local.properties
+          echo "SWAP_IT_BASE_URL=\"${{ secrets.SWAP_IT_BASE_URL }}\"" >> local.properties
+          echo "kakao_oauth_host=$kakao_oauth_host" >> local.properties
+          echo "google_client_id=$google_client_id" >> local.properties
+          echo "sdk.dir=$ANDROID_SDK_ROOT" >> local.properties
+        env:
+          KAKAO_NATIVE_APP_KEY: ${{ secrets.KAKAO_NATIVE_APP_KEY }}
+          kakao_oauth_host: ${{ secrets.kakao_oauth_host }}
+          google_client_id: ${{ secrets.google_client_id }}
+          ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Check ktlint
+        run: ./gradlew ktlintCheck
+
+      - name: run test
+        run: ./gradlew test
