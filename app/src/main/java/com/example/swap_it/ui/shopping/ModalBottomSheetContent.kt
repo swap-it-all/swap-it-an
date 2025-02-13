@@ -43,9 +43,6 @@ fun ModalBottomSheetContent() {
 }
 
 
-
-
-
 @Composable
 fun SortButtons(
     initialSortOption: SortOption = SortOption.POPULAR,
@@ -89,7 +86,6 @@ fun SortButton(
     }
 
 }
-
 
 
 @OptIn(ExperimentalLayoutApi::class)

@@ -26,7 +26,8 @@ fun CategorySection(modifier: Modifier, showBottomSheetOnClick: () -> Unit) {
     LazyRow(
         modifier = modifier
             .fillMaxWidth()
-            .padding(Paddings.large, Paddings.smallMedium)
+            .padding(Paddings.large, Paddings.smallMedium),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         item {
             IconButton(

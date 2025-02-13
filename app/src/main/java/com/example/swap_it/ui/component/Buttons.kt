@@ -38,6 +38,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.swap_it.R
+import com.example.swap_it.ui.shopping.SearchBarButton
+import com.example.swap_it.ui.theme.Black
 import com.example.swap_it.ui.theme.Gray2
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
@@ -75,7 +77,7 @@ fun DefaultButton(
         colors = ButtonDefaults.buttonColors(
             containerColor = if (isPressed) PrimaryDark else Primary,
             contentColor = White,
-            disabledContainerColor = Gray5,
+            disabledContainerColor = Gray6,
         ),
         shape = Shapes.small,
     ) {
@@ -85,6 +87,7 @@ fun DefaultButton(
         )
     }
 }
+
 
 @Composable
 fun ModalButton(
@@ -201,20 +204,9 @@ fun SearchTermButton(
     }
 }
 
-@Composable
-fun BottomAppBarButton(painter: Painter, contentDescription: String) {
-    IconButton(
-        onClick = { /*TODO*/ }
-    ) {
-        Image(
-            painter = painter,
-            contentDescription = contentDescription
-        )
-    }
-}
 
 @Composable
-fun BackButton(modifier: Modifier,navController: NavHostController) {
+fun BackButton(modifier: Modifier,navController: NavHostController, color: Color) {
     IconButton(
         onClick = {
             navController.navigateUp()
@@ -223,48 +215,29 @@ fun BackButton(modifier: Modifier,navController: NavHostController) {
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_chevron_left),
-            contentDescription = "뒤로 가기"
+            contentDescription = "뒤로 가기",
+            tint = color
+        )
+    }
+}
+
+@Composable
+fun MenuButton(modifier: Modifier,navController: NavHostController, color: Color) {
+    IconButton(
+        onClick = {
+            navController.navigateUp()
+        },
+        modifier = modifier.size(24.dp)
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_menu),
+            contentDescription = "메뉴",
+            tint = color
         )
     }
 }
 
 
-@Composable
-fun SearchBarButton(modifier: Modifier = Modifier,navController: NavHostController) {
-    Button(
-        modifier = modifier.fillMaxWidth()
-            .clip(shape = RoundedCornerShape(50.dp)),
-        colors = ButtonDefaults.buttonColors(containerColor = Gray6),
-        onClick = {
-            navController.navigate("Search") {
-                navController.graph.startDestinationRoute?.let {
-                    popUpTo(it) { saveState = true }
-                }
-                launchSingleTop = true
-                restoreState = true
-            }
-        },
-    ) {
-        Column(
-            verticalArrangement = Arrangement.Bottom,
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    stringResource(R.string.shopping_search_button_content),
-                    modifier = modifier.weight(1f),
-                    color = Gray3
-                )
-                Image(
-                    painter = painterResource(R.drawable.ic_search_magnifying),
-                    contentDescription = "검색 버튼",
-                    colorFilter = ColorFilter.tint(Gray3)
-                )
-            }
-        }
-    }
-}
 
 class EnabledPreviewParameterProvider : PreviewParameterProvider<Boolean> {
     override val values = sequenceOf(
@@ -318,13 +291,7 @@ fun CategoryButtonPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun BottomAppBarDefaultsPreview() {
-    BottomAppBarButton(painterResource(R.drawable.ic_house), "홈")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SearchButtonPreview() {
+fun SearchButtonPreview(){
     SearchTermButton(
         text = "검색 버튼",
         onClick = {},
@@ -334,13 +301,12 @@ fun SearchButtonPreview() {
 @Preview(showBackground = true)
 @Composable
 fun BackButtonPreview() {
-    BackButton(Modifier,rememberNavController())
+    BackButton(Modifier,rememberNavController(), Black)
 }
 
-@Composable
 @Preview(showBackground = true)
-fun SearchBarButtonPreview(){
-    SwapitTheme {
-        SearchBarButton(Modifier,rememberNavController())
-    }
+@Composable
+fun MenuButtonPreview() {
+    MenuButton(Modifier,rememberNavController(), Black)
 }
+

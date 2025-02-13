@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.swap_it.R
 import com.example.swap_it.ui.component.BackButton
 import com.example.swap_it.ui.theme.BackgroundColor
+import com.example.swap_it.ui.theme.Black
 import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.SwapitTheme
 import com.example.swap_it.ui.theme.Typography
@@ -30,7 +31,7 @@ fun AlertScreen(navController: NavHostController) {
             .background(BackgroundColor)
     ) {
         Spacer(Modifier.padding(Paddings.xlarge))
-        BackButton(Modifier.padding(Paddings.largeExtra), navController)
+        BackButton(Modifier.padding(Paddings.largeExtra), navController, color = Black)
         Text(
             stringResource(R.string.alert_alert),
             style = Typography.titleLarge,

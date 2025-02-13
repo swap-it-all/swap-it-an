@@ -28,9 +28,12 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.swap_it.R
 import com.example.swap_it.data.model.ShoppingCardData
+import com.example.swap_it.ui.swap.swapCardData
 import com.example.swap_it.ui.theme.BackgroundColor
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
@@ -38,16 +41,20 @@ import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.Typography
 import com.example.swap_it.ui.theme.White
+import java.text.DecimalFormat
 
 @Composable
-fun ShoppingCard(shoppingCardData: ShoppingCardData) {
+fun ShoppingCard(shoppingCardData: ShoppingCardData,navController: NavHostController) {
+    val decimal = DecimalFormat("#,###")
     Card(
         modifier = Modifier.fillMaxWidth().padding(Paddings.xlarge, Paddings.smallMedium),
         colors = CardDefaults.cardColors(
             containerColor = White
         ),
         shape = RoundedCornerShape(20.dp),
-        onClick = shoppingCardData.onClick
+        onClick = {
+            navController.navigate("ShoppingDetail")
+        }
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Spacer(modifier = Modifier.size(Paddings.large))
@@ -109,7 +116,7 @@ fun ShoppingCard(shoppingCardData: ShoppingCardData) {
                             color = Gray3
                         )
                         Text(
-                            text = shoppingCardData.price,
+                            text = decimal.format(shoppingCardData.price),
                             style = Typography.titleMedium,
                         )
                         Text(
@@ -141,13 +148,15 @@ val productCardData = ShoppingCardData(
     viewCount = "100",
     region = "강서구",
     time = "1일전",
-    price = "10000",
+    price = 1000000,
     title = "나이키 운동화",
+    goodsId = 1
+
 )
 @Preview(showBackground = true)
 @Composable
 fun ShoppingCardPreview() {
     ShoppingCard(
-        productCardData
+        productCardData,rememberNavController()
     )
 }
