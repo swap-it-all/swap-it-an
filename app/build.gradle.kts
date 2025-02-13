@@ -118,6 +118,7 @@ dependencies {
     // Coil
     implementation(libs.coil)
     implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofit.kotlin.serialization.converter)
