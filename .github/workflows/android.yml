@@ -23,13 +23,12 @@ jobs:
       - name: Create local.properties
         run: |
           echo "KAKAO_NATIVE_APP_KEY=$KAKAO_NATIVE_APP_KEY" >> local.properties
-          echo "SWAP_IT_BASE_URL=\"$SWAP_IT_BASE_URL\"" >> local.properties
+          echo "SWAP_IT_BASE_URL=\"${{ secrets.SWAP_IT_BASE_URL }}\"" >> local.properties
           echo "kakao_oauth_host=$kakao_oauth_host" >> local.properties
           echo "google_client_id=$google_client_id" >> local.properties
           echo "sdk.dir=$ANDROID_SDK_ROOT" >> local.properties
         env:
           KAKAO_NATIVE_APP_KEY: ${{ secrets.KAKAO_NATIVE_APP_KEY }}
-          SWAP_IT_BASE_URL: ${{ secrets.SWAP_IT_BASE_URL }}
           kakao_oauth_host: ${{ secrets.kakao_oauth_host }}
           google_client_id: ${{ secrets.google_client_id }}
           ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
