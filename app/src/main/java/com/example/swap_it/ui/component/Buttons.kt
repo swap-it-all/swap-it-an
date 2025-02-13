@@ -6,24 +6,40 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material.IconButton
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.swap_it.R
+import com.example.swap_it.ui.shopping.SearchBarButton
+import com.example.swap_it.ui.theme.Black
 import com.example.swap_it.ui.theme.Gray2
 import com.example.swap_it.ui.theme.Gray3
 import com.example.swap_it.ui.theme.Gray4
@@ -33,6 +49,7 @@ import com.example.swap_it.ui.theme.Paddings
 import com.example.swap_it.ui.theme.Primary
 import com.example.swap_it.ui.theme.PrimaryDark
 import com.example.swap_it.ui.theme.Shapes
+import com.example.swap_it.ui.theme.SwapitTheme
 import com.example.swap_it.ui.theme.Typography
 import com.example.swap_it.ui.theme.White
 
@@ -57,12 +74,11 @@ fun DefaultButton(
         enabled = enabled,
         modifier = modifier,
         contentPadding = contentPadding,
-        colors =
-            ButtonDefaults.buttonColors(
-                containerColor = if (isPressed) PrimaryDark else Primary,
-                contentColor = White,
-                disabledContainerColor = Gray5,
-            ),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (isPressed) PrimaryDark else Primary,
+            contentColor = White,
+            disabledContainerColor = Gray6,
+        ),
         shape = Shapes.small,
     ) {
         Text(
@@ -71,6 +87,7 @@ fun DefaultButton(
         )
     }
 }
+
 
 @Composable
 fun ModalButton(
@@ -168,14 +185,13 @@ fun SearchTermButton(
     text: String,
     modifier: Modifier = Modifier,
     contentStyle: TextStyle = Typography.bodySmall,
-    contentPadding: PaddingValues =
-        PaddingValues(
-            horizontal = Paddings.xlarge,
-            vertical = Paddings.medium,
-        ),
+    contentPadding: PaddingValues = PaddingValues(
+        horizontal = Paddings.xlarge,
+        vertical = Paddings.smallMedium,
+    ),
     containerColor: Color = Gray6,
     contentColor: Color = Gray2,
-    onClick: () -> Unit,
+    onClick: () -> Unit
 ) {
     Button(
         onClick = onClick,
@@ -195,20 +211,40 @@ fun SearchTermButton(
     }
 }
 
+
 @Composable
-fun BottomAppBarButton(
-    painter: Painter,
-    contentDescription: String,
-) {
+fun BackButton(modifier: Modifier,navController: NavHostController, color: Color) {
     IconButton(
-        onClick = { /*TODO*/ },
+        onClick = {
+            navController.navigateUp()
+        },
+        modifier = modifier.size(24.dp)
     ) {
-        Image(
-            painter = painter,
-            contentDescription = contentDescription,
+        Icon(
+            painter = painterResource(R.drawable.ic_chevron_left),
+            contentDescription = "뒤로 가기",
+            tint = color
         )
     }
 }
+
+@Composable
+fun MenuButton(modifier: Modifier,navController: NavHostController, color: Color) {
+    IconButton(
+        onClick = {
+            navController.navigateUp()
+        },
+        modifier = modifier.size(24.dp)
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_menu),
+            contentDescription = "메뉴",
+            tint = color
+        )
+    }
+}
+
+
 
 class EnabledPreviewParameterProvider : PreviewParameterProvider<Boolean> {
     override val values =
@@ -276,3 +312,16 @@ fun SearchButtonPreview()  {
         onClick = {},
     )
 }
+
+@Preview(showBackground = true)
+@Composable
+fun BackButtonPreview() {
+    BackButton(Modifier,rememberNavController(), Black)
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MenuButtonPreview() {
+    MenuButton(Modifier,rememberNavController(), Black)
+}
+

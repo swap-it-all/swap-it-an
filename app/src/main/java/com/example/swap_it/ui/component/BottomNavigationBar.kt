@@ -2,40 +2,44 @@ package com.example.swap_it.ui.component
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.swap_it.ui.navigation.BottomNavItem
 import com.example.swap_it.ui.theme.Gray2
 import com.example.swap_it.ui.theme.Gray4
+import com.example.swap_it.ui.theme.Gray6
 import com.example.swap_it.ui.theme.Primary
+import com.example.swap_it.ui.theme.Typography
 import com.example.swap_it.ui.theme.White
-
-private val items =
-    listOf<BottomNavItem>(
-        BottomNavItem.Product,
-        BottomNavItem.Shopping,
-        BottomNavItem.Add,
-        BottomNavItem.Chat,
-        BottomNavItem.User,
-    )
+private val items = listOf<BottomNavItem>(
+    BottomNavItem.Shopping,
+    BottomNavItem.Swap,
+    BottomNavItem.Add,
+    BottomNavItem.Chat,
+    BottomNavItem.User
+)
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
-    BottomNavigation(
-        backgroundColor = White,
+    NavigationBar (
+        containerColor = Gray6,
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
         items.forEach { item ->
-            BottomNavigationItem(
+            NavigationBarItem(
                 icon = {
                     Icon(
                         painter = painterResource(id = item.icon),
@@ -47,8 +51,14 @@ fun BottomNavigationBar(navController: NavHostController) {
                         tint = if (currentRoute == item.screenRoute) Primary else Gray4,
                     )
                 },
-                selectedContentColor = Primary,
-                unselectedContentColor = Gray2,
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Primary,
+                    selectedTextColor = Primary,
+                    unselectedIconColor = Gray4,
+                    indicatorColor = Gray6,
+                ),
+                label = { Text(item.name, style = Typography.labelSmall) },
+                alwaysShowLabel = false,
                 selected = currentRoute == item.screenRoute,
                 onClick = {
                     navController.navigate(item.screenRoute) {
@@ -62,4 +72,10 @@ fun BottomNavigationBar(navController: NavHostController) {
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BottomNavigationBarPreview() {
+    BottomNavigationBar(rememberNavController())
 }
