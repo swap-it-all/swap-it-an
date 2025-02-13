@@ -10,6 +10,7 @@ import com.example.swap_it.domain.model.post.Price
 import com.example.swap_it.domain.model.post.Price.Companion.PRODUCT_RANGE
 import com.example.swap_it.domain.model.post.ValidationResult
 import com.example.swap_it.ui.component.DefaultTextField
+import java.text.NumberFormat
 
 @Composable
 fun PostProductPriceTextField(
@@ -18,26 +19,49 @@ fun PostProductPriceTextField(
     modifier: Modifier = Modifier,
     singleLine: Boolean = false,
 ) {
-    val validationResult = Price(text).validationResult()
-    val supportingText = when (validationResult) {
-        ValidationResult.INVALID_FORMAT -> stringResource(R.string.post_product_error_price_format)
-        ValidationResult.INVALID_RANGE -> stringResource(
-            R.string.post_product_error_price_range,
-            PRODUCT_RANGE.last,
-        )
-
-        else -> ""
-    }
+    val supportingText = supportingText(text)
+    val formattedText = formatPrice(text, supportingText)
 
     DefaultTextField(
-        value = text,
-        onValueChange = onPriceChange,
+        value = formattedText,
+        onValueChange = { newText ->
+            val unFormattedText = newText.replace(",", "")
+            onPriceChange(unFormattedText)
+        },
         modifier = modifier,
         singleLine = singleLine,
         placeholder = { Text(text = stringResource(R.string.post_product_placeholder_price)) },
         supportingText = { if (supportingText.isNotEmpty()) Text(text = supportingText) },
-        isError = supportingText.isNotEmpty()
+        isError = supportingText.isNotEmpty(),
     )
+}
+
+@Composable
+fun supportingText(text: String): String {
+    val validationResult = Price(text).validationResult()
+    return when (validationResult) {
+        ValidationResult.INVALID_FORMAT -> stringResource(R.string.post_product_error_price_format)
+        ValidationResult.INVALID_RANGE ->
+            stringResource(
+                R.string.post_product_error_price_range,
+                PRODUCT_RANGE.last,
+            )
+
+        else -> ""
+    }
+}
+
+@Composable
+fun formatPrice(
+    text: String,
+    supportingText: String,
+): String {
+    return if (supportingText.isNotEmpty() || text.isEmpty()) {
+        text
+    } else {
+        val number = text.replace(",", "").toIntOrNull() ?: 0
+        if (number == 0) "" else NumberFormat.getInstance().format(number)
+    }
 }
 
 @Preview(showBackground = true)

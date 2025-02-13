@@ -15,11 +15,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
 import com.example.swap_it.ui.component.AppBar
 import com.example.swap_it.ui.component.BottomNavigationBar
-
 import com.example.swap_it.ui.navigation.NavigationModule
 
 class AddItemScreen {
-
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "NotConstructor")
     @Composable
     fun AddItemScreen(navController: NavHostController) {
@@ -31,24 +29,21 @@ class AddItemScreen {
             bottomBar = {
                 BottomNavigationBar(navController)
             },
-
-            ) {
-
+        ) {
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Yellow)
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(Color.Yellow),
             ) {
                 Text(
                     text = "물건 등록",
                     style = MaterialTheme.typography.labelLarge,
                     textAlign = TextAlign.Center,
                     color = Color.White,
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier.align(Alignment.Center),
                 )
             }
         }
     }
-
-
 }

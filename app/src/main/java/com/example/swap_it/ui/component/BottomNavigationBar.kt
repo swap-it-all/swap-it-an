@@ -44,10 +44,11 @@ fun BottomNavigationBar(navController: NavHostController) {
                     Icon(
                         painter = painterResource(id = item.icon),
                         contentDescription = item.screenRoute,
-                        modifier = Modifier
-                            .width(26.dp)
-                            .height(26.dp),
-                        tint = if (currentRoute == item.screenRoute) Primary else Gray4
+                        modifier =
+                            Modifier
+                                .width(26.dp)
+                                .height(26.dp),
+                        tint = if (currentRoute == item.screenRoute) Primary else Gray4,
                     )
                 },
                 colors = NavigationBarItemDefaults.colors(
@@ -67,7 +68,7 @@ fun BottomNavigationBar(navController: NavHostController) {
                         launchSingleTop = true
                         restoreState = true
                     }
-                }
+                },
             )
         }
     }

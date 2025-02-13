@@ -12,5 +12,6 @@ enum class CategoryOption(val option: String) {
     AUTOMOTIVE("자동차/부품"),
     PET("반려동물용품"),
     GROCERIES("식품/음료"),
+    HOBBY("취미/게임/음반"),
     MISC("기타"),
 }

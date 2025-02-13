@@ -15,7 +15,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
 import com.example.swap_it.ui.component.AppBar
 import com.example.swap_it.ui.component.BottomNavigationBar
-
 import com.example.swap_it.ui.navigation.NavigationModule
 
 @SuppressLint("NotConstructor")
@@ -30,19 +29,20 @@ class UserInfoScreen {
             },
             bottomBar = {
                 BottomNavigationBar(navController)
-            }
+            },
         ) {
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Blue)
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(Color.Blue),
             ) {
                 Text(
                     text = "유저 정보",
                     style = MaterialTheme.typography.labelLarge,
                     textAlign = TextAlign.Center,
                     color = Color.White,
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier.align(Alignment.Center),
                 )
             }
         }

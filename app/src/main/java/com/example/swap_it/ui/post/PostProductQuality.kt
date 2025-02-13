@@ -14,12 +14,14 @@ import com.example.swap_it.ui.component.CategoryButton
 
 @Composable
 fun PostProductQuality(
-    qualityOptions: List<QualityOption>
+    qualityOptions: List<QualityOption>,
+    quality: QualityOption? = null,
+    onQualitySelected: (QualityOption) -> Unit,
 ) {
     LazyRow(modifier = Modifier.fillMaxWidth()) {
         items(qualityOptions) { qualityOptions ->
-            CategoryButton(qualityOptions.option, isSelected = false) {
-
+            CategoryButton(qualityOptions.option, isSelected = qualityOptions == quality) {
+                onQualitySelected(qualityOptions)
             }
             Spacer(modifier = Modifier.width(12.dp))
         }
@@ -29,5 +31,5 @@ fun PostProductQuality(
 @Preview(showBackground = true)
 @Composable
 fun PostProductQualityPreview() {
-    PostProductQuality(QualityOption.entries.toList())
+    PostProductQuality(QualityOption.entries.toList(), QualityOption.NEW) {}
 }

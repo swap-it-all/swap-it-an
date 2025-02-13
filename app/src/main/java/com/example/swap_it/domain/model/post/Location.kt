@@ -13,6 +13,6 @@ data class Location(private val value: String = DEFAULT_VALUE) {
 
     companion object {
         const val DEFAULT_VALUE = "0"
-        val LOCATION_RANGE = 2..20
+        val LOCATION_RANGE = 1..20
     }
 }

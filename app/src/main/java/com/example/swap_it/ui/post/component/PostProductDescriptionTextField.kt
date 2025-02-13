@@ -19,14 +19,16 @@ fun PostProductDescriptionTextField(
     singleLine: Boolean = false,
 ) {
     val validationResult = Description(text).validationResult()
-    val supportingText = when (validationResult) {
-        ValidationResult.INVALID_RANGE -> stringResource(
-            R.string.post_product_error_description_length,
-            DESCRIPTION_RANGE.last,
-        )
+    val supportingText =
+        when (validationResult) {
+            ValidationResult.INVALID_RANGE ->
+                stringResource(
+                    R.string.post_product_error_description_length,
+                    DESCRIPTION_RANGE.last,
+                )
 
-        else -> ""
-    }
+            else -> ""
+        }
 
     DefaultTextField(
         value = text,
@@ -35,7 +37,7 @@ fun PostProductDescriptionTextField(
         singleLine = singleLine,
         placeholder = { Text(text = stringResource(R.string.post_product_placeholder_description)) },
         supportingText = { if (supportingText.isNotEmpty()) Text(text = supportingText) },
-        isError = supportingText.isNotEmpty()
+        isError = supportingText.isNotEmpty(),
     )
 }
 

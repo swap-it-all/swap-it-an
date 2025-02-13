@@ -1,7 +1,6 @@
 package com.example.swap_it.ui.navigation
 
 import com.example.swap_it.R
-import retrofit2.http.POST
 
 
 sealed class BottomNavItem(

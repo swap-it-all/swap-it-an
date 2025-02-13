@@ -16,7 +16,10 @@ import com.example.swap_it.ui.theme.BackgroundColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBar(modifier: Modifier = Modifier, navController: NavHostController) {
+fun AppBar(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+) {
     TopAppBar(
         title = {
             Image(
@@ -35,11 +38,11 @@ fun AppBar(modifier: Modifier = Modifier, navController: NavHostController) {
                         launchSingleTop = true
                         restoreState = true
                     }
-                }
+                },
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_bell),
-                    contentDescription = "알림"
+                    contentDescription = "알림",
                 )
             }
         },

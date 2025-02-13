@@ -15,7 +15,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
 import com.example.swap_it.ui.component.AppBar
 import com.example.swap_it.ui.component.BottomNavigationBar
-
 import com.example.swap_it.ui.navigation.NavigationModule
 
 class ChatListScreen {
@@ -30,25 +29,21 @@ class ChatListScreen {
             bottomBar = {
                 BottomNavigationBar(navController)
             },
-
         ) {
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Magenta)
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(Color.Magenta),
             ) {
                 Text(
                     text = "채팅",
                     style = MaterialTheme.typography.labelLarge,
                     textAlign = TextAlign.Center,
                     color = Color.White,
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = Modifier.align(Alignment.Center),
                 )
             }
         }
-
-
     }
-
-
 }
