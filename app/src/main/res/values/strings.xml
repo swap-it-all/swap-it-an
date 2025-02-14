@@ -21,11 +21,15 @@
     <string name="post_product_quality_fair">중</string>
     <string name="post_product_quality_poor">하</string>
     <string name="post_product_post_button">물건 등록하기</string>
-
+    // swap screen
     <string name="shopping_search_button_content">스왑에서 찾아보세요!</string>
     <string name="search_current_term">최근 검색어</string>
     <string name="search_popular_term">인기 검색어</string>
     <string name="alert_alert">알림</string>
     <string name="swap_requested_message">스왑 요청이 들어왔어요!</string>
     <string name="swap_request_message">내가 요청한 스왑이예요</string>
+    // my product selection screen
+    <string name="product_select_request_message">스왑 하고 싶은 내 물건을 선택해 주세요!</string>
+    <string name="product_select_request_tip_message">스왑 하고 싶은 내 물건을 선택해 주세요!</string>
+    <string name="product_select_dialog_message">이 물건과\n 스왑 요청할까요?</string>
 </resources>
