@@ -54,7 +54,7 @@ fun ShoppingCard(
                 containerColor = White,
             ),
         shape = RoundedCornerShape(20.dp),
-        onClick = onClick
+        onClick = onClick,
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Spacer(modifier = Modifier.size(Paddings.large))

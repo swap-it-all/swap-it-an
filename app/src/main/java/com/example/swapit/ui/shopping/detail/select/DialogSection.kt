@@ -11,7 +11,7 @@ import com.example.swapit.ui.shopping.productCardData
 fun DialogSection(
     openDialog: Boolean,
     onClickCancel: () -> Unit,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     if (openDialog) {
         AlertDialog(
@@ -21,7 +21,7 @@ fun DialogSection(
             onClickCancel = onClickCancel,
             onClickConfirm = { navController.popBackStack() },
             cancelText = "취소",
-            confirmText = "스왑 요청하기"
+            confirmText = "스왑 요청하기",
         )
     }
 }

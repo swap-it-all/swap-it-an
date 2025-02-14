@@ -66,7 +66,10 @@ fun AlertDialog(
                     AsyncImage(
                         model = imgUri,
                         contentDescription = "교환할 내 상품 사진",
-                        modifier = Modifier.size(150.dp).clip(Shapes.small)
+                        modifier =
+                            Modifier
+                                .size(150.dp)
+                                .clip(Shapes.small),
                     )
                     Spacer(modifier = Modifier.height(Paddings.large))
                 }

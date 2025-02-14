@@ -8,7 +8,10 @@ import com.example.swapit.ui.shopping.ShoppingCard
 import com.example.swapit.ui.shopping.productCardData
 
 @Composable
-fun ProductListSection(openDialog: () -> Unit, navController: NavHostController) {
+fun ProductListSection(
+    openDialog: () -> Unit,
+    navController: NavHostController,
+) {
     LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
         items(4) {
             ShoppingCard(shoppingCardData = productCardData, navController, {

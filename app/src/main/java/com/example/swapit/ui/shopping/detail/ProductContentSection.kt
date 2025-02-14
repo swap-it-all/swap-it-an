@@ -31,9 +31,7 @@ import com.example.swapit.ui.theme.Typography
 import java.text.DecimalFormat
 
 @Composable
-fun ProductContentSection(
-    shoppingDetailData: ShoppingDetailData,
-) {
+fun ProductContentSection(shoppingDetailData: ShoppingDetailData) {
     TitleSection(shoppingDetailData)
     PriceSection(shoppingDetailData)
     UserInfoSection(shoppingDetailData)
@@ -41,9 +39,7 @@ fun ProductContentSection(
 }
 
 @Composable
-fun TitleSection(
-    shoppingDetailData: ShoppingDetailData,
-) {
+fun TitleSection(shoppingDetailData: ShoppingDetailData) {
     Text(
         "${shoppingDetailData.category} | ${shoppingDetailData.quality} | ${shoppingDetailData.time}",
         style = Typography.labelLarge,
@@ -79,9 +75,7 @@ fun TitleSection(
 }
 
 @Composable
-fun PriceSection(
-    shoppingDetailData: ShoppingDetailData,
-) {
+fun PriceSection(shoppingDetailData: ShoppingDetailData) {
     val decimal = DecimalFormat("#,###")
     HorizontalDivider(
         thickness = 1.dp,
@@ -107,9 +101,7 @@ fun PriceSection(
 }
 
 @Composable
-fun UserInfoSection(
-    shoppingDetailData: ShoppingDetailData,
-) {
+fun UserInfoSection(shoppingDetailData: ShoppingDetailData) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Spacer(modifier = Modifier.size(Paddings.xlarge))
         AsyncImage(
@@ -117,7 +109,7 @@ fun UserInfoSection(
             contentDescription = "판매자 이미지",
             placeholder = ColorPainter(Primary),
             modifier =
-            Modifier
+                Modifier
                     .size(40.dp)
                     .clip(CircleShape),
         )
@@ -133,7 +125,7 @@ fun UserInfoSection(
                     contentDescription = "별점",
                     tint = Primary,
                     modifier =
-                    Modifier
+                        Modifier
                             .padding(start = Paddings.small)
                             .size(16.dp),
                 )
@@ -146,7 +138,7 @@ fun UserInfoSection(
             Text(
                 shoppingDetailData.region,
                 modifier =
-                Modifier.padding(
+                    Modifier.padding(
                         Paddings.large,
                         Paddings.xsmall,
                         Paddings.none,
@@ -160,9 +152,7 @@ fun UserInfoSection(
 }
 
 @Composable
-fun DecriptionSection(
-    shoppingDetailData: ShoppingDetailData,
-) {
+fun DecriptionSection(shoppingDetailData: ShoppingDetailData) {
     HorizontalDivider(
         thickness = 10.dp,
         color = Gray6,

@@ -20,23 +20,26 @@ fun BackButtonAndTextSection(navController: NavHostController) {
             Paddings.xlarge,
             Paddings.xlarge,
             Paddings.none,
-            Paddings.xextra
-        ), navController, color = Black
+            Paddings.xextra,
+        ),
+        navController,
+        color = Black,
     )
     Text(
         stringResource(R.string.product_select_request_message),
         style = Typography.titleLarge,
-        modifier = Modifier.padding(Paddings.xlarge, Paddings.none)
+        modifier = Modifier.padding(Paddings.xlarge, Paddings.none),
     )
     Text(
         stringResource(R.string.product_select_request_tip_message),
         style = Typography.labelLarge,
         color = Primary,
-        modifier = Modifier.padding(
-            Paddings.xlarge,
-            Paddings.small,
-            Paddings.none,
-            Paddings.xlarge
-        )
+        modifier =
+            Modifier.padding(
+                Paddings.xlarge,
+                Paddings.small,
+                Paddings.none,
+                Paddings.xlarge,
+            ),
     )
 }
