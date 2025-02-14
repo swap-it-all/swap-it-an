@@ -3,7 +3,9 @@ package com.example.swapit.ui.auth
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.swapit.ui.base.BaseViewModelFactory
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -13,7 +15,10 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class LoginViewModel(application: Application) : AndroidViewModel(application) {
+class LoginViewModel(
+    application: Application,
+    private val repository: SocialLoginRepository,
+) : AndroidViewModel(application) {
     private val context = application.applicationContext
 
     /*private val _loginState = mutableStateOf<LoginState>(LoginState.None)
@@ -82,5 +87,15 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     companion object {
         private const val TAG = "LoginViewModel"
+        fun factory(
+            application: Application,
+            repository: SocialLoginRepository,
+        ): ViewModelProvider.Factory =
+            BaseViewModelFactory {
+                LoginViewModel(
+                    application = application,
+                    repository = repository,
+                )
+            }
     }
 }

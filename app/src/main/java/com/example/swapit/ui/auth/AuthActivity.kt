@@ -30,6 +30,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.swapit.R
+import com.example.swapit.domain.repository.SocialLoginRepository
+import com.example.swapit.ui.auth.LoginViewModel.Companion.factory
 import com.example.swapit.ui.theme.Black
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray4
@@ -40,7 +42,9 @@ import com.example.swapit.ui.theme.White
 import kotlinx.coroutines.launch
 
 class AuthActivity : ComponentActivity() {
-    private val loginViewModel: LoginViewModel by viewModels()
+    private val loginViewModel: LoginViewModel by viewModels {
+        factory(application, SocialLoginRepository.instance())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
