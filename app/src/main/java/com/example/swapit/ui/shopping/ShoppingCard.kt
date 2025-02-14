@@ -41,6 +41,7 @@ import java.text.DecimalFormat
 fun ShoppingCard(
     shoppingCardData: ShoppingCardData,
     navController: NavHostController,
+    onClick: () -> Unit = {},
 ) {
     val decimal = DecimalFormat("#,###")
     Card(
@@ -53,9 +54,7 @@ fun ShoppingCard(
                 containerColor = White,
             ),
         shape = RoundedCornerShape(20.dp),
-        onClick = {
-            navController.navigate("ShoppingDetail")
-        },
+        onClick = onClick
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Spacer(modifier = Modifier.size(Paddings.large))
