@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,48 +39,9 @@ fun MyProductSelectionScreen(navController: NavHostController) {
             .fillMaxSize()
             .background(BackgroundColor)
     ) {
-        BackButton(
-            Modifier.padding(
-                Paddings.xlarge,
-                Paddings.xlarge,
-                Paddings.none,
-                Paddings.xextra
-            ), navController, color = Black
-        )
-        Text(
-            stringResource(R.string.product_select_request_message),
-            style = Typography.titleLarge,
-            modifier = Modifier.padding(Paddings.xlarge, Paddings.none)
-        )
-        Text(
-            stringResource(R.string.product_select_request_tip_message),
-            style = Typography.labelLarge,
-            color = Primary,
-            modifier = Modifier.padding(
-                Paddings.xlarge,
-                Paddings.small,
-                Paddings.none,
-                Paddings.xlarge
-            )
-        )
-        LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
-            items(4) {
-                ShoppingCard(shoppingCardData = productCardData, navController, {
-                    openDialog = true
-                })
-            }
-        }
-        if (openDialog) {
-            AlertDialog(
-                description = "스왑 요청 확인 메시지",
-                title = stringResource(R.string.product_select_dialog_message),
-                imgUri = productCardData.imageUri,
-                onClickCancel = { openDialog = false },
-                onClickConfirm = { navController.popBackStack() },
-                cancelText = "취소",
-                confirmText = "스왑 요청하기"
-            )
-        }
+        BackButtonAndTextSection(navController)
+        ProductListSection({ openDialog = true }, navController)
+        DialogSection(openDialog, onClickCancel = { openDialog = false }, navController)
     }
 }
 
