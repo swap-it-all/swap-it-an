@@ -25,4 +25,20 @@ class SocialLoginDataSource(
             throw Exception(response.message)
         }
     }
+
+    suspend fun refresh(refreshToken: String): SocialLoginResponse {
+        val response = loginService.refreshToken("Bearer $refreshToken")
+
+        return if (response.success) {
+            response.results
+        } else {
+            throw Exception(response.message)
+        }
+    }
+
+    suspend fun logout(refreshToken: String): Boolean {
+        val response = loginService.logout("Bearer $refreshToken")
+
+        return response.success
+    }
 }
