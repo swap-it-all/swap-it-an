@@ -10,6 +10,10 @@ interface SocialLoginRepository {
 
     suspend fun loginWithGoogle(token: String): SocialLoginToken
 
+    suspend fun refresh(refreshToken: String): SocialLoginToken
+
+    suspend fun logout(refreshToken: String): Boolean
+
     companion object {
         private var instance: SocialLoginRepository? = null
 

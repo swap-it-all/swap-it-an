@@ -15,6 +15,14 @@ class DefaultSocialLoginRepository(
     override suspend fun loginWithGoogle(token: String): SocialLoginToken {
         return remoteSource.loginWithGoogle(token).toDomain()
     }
+
+    override suspend fun refresh(refreshToken: String): SocialLoginToken {
+        return remoteSource.refresh(refreshToken).toDomain()
+    }
+
+    override suspend fun logout(refreshToken: String): Boolean {
+        return remoteSource.logout(refreshToken)
+    }
 }
 
 // mapper
