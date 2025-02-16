@@ -7,6 +7,8 @@ sealed class BottomNavItem(
     val icon: Int,
     val screenRoute: String,
 ) {
+    data object Login : BottomNavItem("로그인", R.drawable.ic_user, LOGIN)
+
     data object Shopping : BottomNavItem("쇼핑", R.drawable.ic_house, SHOPPING)
 
     data object Swap : BottomNavItem("스왑", R.drawable.ic_shopping_bag, SWAP)
@@ -18,6 +20,7 @@ sealed class BottomNavItem(
     data object User : BottomNavItem("사용자", R.drawable.ic_user, USER)
 
     companion object {
+        const val LOGIN = "LOGIN"
         const val SHOPPING = "SHOPPING"
         const val SWAP = "SWAP"
         const val POST = "POST"
