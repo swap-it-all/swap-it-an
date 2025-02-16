@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.swapit.R
@@ -61,7 +62,7 @@ fun TitleSection(shoppingDetailData: ShoppingDetailData) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_show),
-                contentDescription = "조회 수",
+                contentDescription = stringResource(R.string.view_count_icon_description),
                 tint = Gray4,
             )
             Spacer(Modifier.width(Paddings.small))
@@ -76,21 +77,21 @@ fun TitleSection(shoppingDetailData: ShoppingDetailData) {
 
 @Composable
 fun PriceSection(shoppingDetailData: ShoppingDetailData) {
-    val decimal = DecimalFormat("#,###")
+    val decimal = DecimalFormat(stringResource(R.string.decimal_format))
     HorizontalDivider(
         thickness = 1.dp,
         modifier = Modifier.padding(Paddings.xlarge),
         color = Gray5,
     )
     Text(
-        "판매자 예상 가격",
+        text = stringResource(R.string.shopping_detail_price_predict),
         style = Typography.titleLarge,
         color = Gray3,
         modifier = Modifier.padding(Paddings.xlarge, Paddings.none),
     )
     Row(modifier = Modifier.padding(Paddings.xlarge, Paddings.small)) {
         Text(decimal.format(shoppingDetailData.price), style = Typography.titleLarge)
-        Text("원", style = Typography.titleLarge, color = Gray3)
+        Text(stringResource(R.string.won), style = Typography.titleLarge, color = Gray3)
     }
 
     HorizontalDivider(
@@ -106,7 +107,7 @@ fun UserInfoSection(shoppingDetailData: ShoppingDetailData) {
         Spacer(modifier = Modifier.size(Paddings.xlarge))
         AsyncImage(
             model = shoppingDetailData.userImageUri,
-            contentDescription = "판매자 이미지",
+            contentDescription = stringResource(R.string.user_image_description),
             placeholder = ColorPainter(Primary),
             modifier =
                 Modifier
@@ -122,7 +123,7 @@ fun UserInfoSection(shoppingDetailData: ShoppingDetailData) {
                 Spacer(Modifier.width(8.dp))
                 Icon(
                     painter = painterResource(id = R.drawable.ic_filled_star),
-                    contentDescription = "별점",
+                    contentDescription = stringResource(R.string.shopping_detail_user_rate_icon_description),
                     tint = Primary,
                     modifier =
                         Modifier

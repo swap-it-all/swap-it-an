@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.swapit.R
@@ -54,7 +55,7 @@ fun AlertCard(alertCardData: AlertCardData) {
                 ) {
                     Icon(
                         painter = painterResource(id = alertCardData.icon),
-                        contentDescription = "알림 아이콘",
+                        contentDescription = stringResource(R.string.alert_icon),
                         tint = Primary,
                         modifier = Modifier.size(36.dp),
                     )

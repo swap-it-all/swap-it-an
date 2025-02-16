@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">swap-it</string>
+    // post screen
     <string name="post_product_name">제목</string>
     <string name="post_product_placeholder_name">물건의 이름을 입력해주세요</string>
     <string name="post_product_error_name_length">"물건의 이름은 %d에서 %d이하로 입력해주세요."</string>
@@ -21,15 +22,40 @@
     <string name="post_product_quality_fair">중</string>
     <string name="post_product_quality_poor">하</string>
     <string name="post_product_post_button">물건 등록하기</string>
-    // swap screen
-    <string name="shopping_search_button_content">스왑에서 찾아보세요!</string>
+    // swap, search, alert screen
     <string name="search_current_term">최근 검색어</string>
     <string name="search_popular_term">인기 검색어</string>
+    <string name="search_search_button">검색</string>
     <string name="alert_alert">알림</string>
+    <string name="alert_icon">알림 아이콘</string>
     <string name="swap_requested_message">스왑 요청이 들어왔어요!</string>
+    <string name="swap_go_to_received">요청된 스왑으로 가기</string>
     <string name="swap_request_message">내가 요청한 스왑이예요</string>
+    <string name="swap_go_to_sent">요청한 스왑으로 가기</string>
     // my product selection screen
     <string name="product_select_request_message">스왑 하고 싶은 내 물건을 선택해 주세요!</string>
     <string name="product_select_request_tip_message">스왑 하고 싶은 내 물건을 선택해 주세요!</string>
     <string name="product_select_dialog_message">이 물건과\n 스왑 요청할까요?</string>
+    <string name="product_select_dialog_description">스왑 요청 확인 메시지</string>
+    <string name="cancel_message">취소</string>
+    <string name="product_select_swap_request_dialog_confirm_button">스왑 요청하기</string>
+    // shopping detail screen
+    <string name="shopping_detail_swap_request_bottom_button">바로 스왑 요청하기</string>
+    <string name="shopping_detail_chat_bottom_button">채팅하기</string>
+    <string name="user_image_description">판매자 이미지</string>
+    <string name="shopping_detail_user_rate_icon_description">별점</string>
+    <string name="view_count_icon_description">조회 수</string>
+    <string name="decimal_format">#,###</string>
+    <string name="shopping_detail_price_predict">판매자 예상 가격</string>
+    <string name="won">원</string>
+    // shopping screen
+    <string name="shopping_category_title">카테고리</string>
+    <string name="shopping_filter_description">필터</string>
+    <string name="shopping_arrange">정렬</string>
+    <string name="shopping_select_icon">선택 아이콘</string>
+    <string name="shopping_search_button_content">스왑에서 찾아보세요!</string>
+    <string name="shopping_search_button">검색 버튼</string>
+    <string name="president_image_description">상품 대표 이미지</string>
+    <string name="prediction">예상 </string>
+
 </resources>

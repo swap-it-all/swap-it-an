@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.swapit.R
 import com.example.swapit.ui.component.CategoryButton
@@ -50,7 +51,7 @@ fun CategorySection(
                 ) {
                     Image(
                         painter = painterResource(R.drawable.ic_slider),
-                        contentDescription = "필터 버튼",
+                        contentDescription = stringResource(R.string.shopping_filter_description),
                         colorFilter = ColorFilter.tint(Gray4),
                     )
                 }
@@ -58,7 +59,7 @@ fun CategorySection(
         }
         items(10) {
             CategoryButton(
-                text = "카테고리",
+                text = stringResource(R.string.shopping_category_title),
                 onClick = {},
                 isSelected = true,
                 modifier = modifier.padding(Paddings.small),

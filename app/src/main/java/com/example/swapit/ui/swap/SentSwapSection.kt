@@ -46,7 +46,7 @@ fun SentSwapSection(
         ) {
             Icon(
                 painter = painterResource(R.drawable.ic_chevron_right),
-                contentDescription = "요청한 스왑으로 가기",
+                contentDescription = stringResource(R.string.swap_go_to_sent),
             )
         }
     }

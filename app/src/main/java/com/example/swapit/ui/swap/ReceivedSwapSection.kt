@@ -46,7 +46,7 @@ fun ReceivedSwapSection(
         ) {
             Icon(
                 painter = painterResource(R.drawable.ic_chevron_right),
-                contentDescription = "요청된 스왑으로 가기",
+                contentDescription = stringResource(R.string.swap_go_to_received),
             )
         }
     }

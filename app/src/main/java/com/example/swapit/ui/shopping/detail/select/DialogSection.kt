@@ -15,13 +15,13 @@ fun DialogSection(
 ) {
     if (openDialog) {
         AlertDialog(
-            description = "스왑 요청 확인 메시지",
+            description = stringResource(R.string.product_select_dialog_description),
             title = stringResource(R.string.product_select_dialog_message),
             imgUri = productCardData.imageUri,
             onClickCancel = onClickCancel,
             onClickConfirm = { navController.popBackStack() },
-            cancelText = "취소",
-            confirmText = "스왑 요청하기",
+            cancelText = stringResource(R.string.cancel_message),
+            confirmText = stringResource(R.string.product_select_swap_request_dialog_confirm_button),
         )
     }
 }

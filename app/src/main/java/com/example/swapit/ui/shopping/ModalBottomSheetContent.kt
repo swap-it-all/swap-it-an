@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.swapit.R
 import com.example.swapit.data.datasource.local.model.bottomsheet.SortOption
@@ -33,9 +34,9 @@ import com.example.swapit.ui.theme.Typography
 fun ModalBottomSheetContent() {
     var option = SortOption.POPULAR
     Column(modifier = Modifier.padding(Paddings.large)) {
-        Text("정렬", style = Typography.titleLarge)
+        Text(text = stringResource(R.string.shopping_arrange), style = Typography.titleLarge)
         SortButtons(onSortOptionSelected = { option = it })
-        Text("카테고리", style = Typography.titleLarge)
+        Text(text = stringResource(R.string.shopping_category_title), style = Typography.titleLarge)
         CategoryButtons()
         Spacer(modifier = Modifier.size(48.dp))
     }
@@ -73,12 +74,12 @@ fun SortButton(
             if (isSelected) {
                 Icon(
                     painter = painterResource(R.drawable.ic_check),
-                    contentDescription = "선택",
+                    contentDescription = stringResource(R.string.shopping_select_icon),
                     tint = Primary,
                     modifier = Modifier.size(16.dp),
                 )
             }
-            androidx.compose.material3.Text(text = text, color = textColor, style = Typography.bodySmall)
+            Text(text = text, color = textColor, style = Typography.bodySmall)
         }
     }
 }
