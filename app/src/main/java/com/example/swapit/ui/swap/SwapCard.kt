@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -39,7 +40,7 @@ import java.text.DecimalFormat
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SwapCard(swapCardData: SwapCardData) {
-    val decimal = DecimalFormat("#,###")
+    val decimal = DecimalFormat(stringResource(R.string.decimal_format))
     Card(
         modifier =
             Modifier
@@ -55,7 +56,7 @@ fun SwapCard(swapCardData: SwapCardData) {
         Column {
             AsyncImage(
                 model = swapCardData.imageUri,
-                contentDescription = "상품 대표 이미지",
+                contentDescription = stringResource(R.string.president_image_description),
                 modifier =
                     Modifier
                         .size(150.dp),
@@ -93,7 +94,7 @@ fun SwapCard(swapCardData: SwapCardData) {
                         ),
                 ) {
                     Text(
-                        text = "예상 ",
+                        text = stringResource(R.string.prediction),
                         style = Typography.titleMedium,
                         color = Gray3,
                     )
@@ -102,7 +103,7 @@ fun SwapCard(swapCardData: SwapCardData) {
                         style = Typography.titleMedium,
                     )
                     Text(
-                        text = "원",
+                        text = stringResource(R.string.won),
                         style = Typography.titleMedium,
                         color = Gray3,
                     )
@@ -116,7 +117,7 @@ fun SwapCard(swapCardData: SwapCardData) {
                     )
                     Image(
                         painter = painterResource(id = R.drawable.ic_show),
-                        contentDescription = "조회 수",
+                        contentDescription = stringResource(R.string.view_count_icon_description),
                         modifier = Modifier.height(30.dp),
                         colorFilter = ColorFilter.tint(Gray4),
                     )

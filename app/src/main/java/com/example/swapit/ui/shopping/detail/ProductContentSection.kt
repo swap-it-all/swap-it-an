@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.swapit.R
@@ -31,46 +32,40 @@ import com.example.swapit.ui.theme.Typography
 import java.text.DecimalFormat
 
 @Composable
-fun ProductContentSection(
-    modifier: Modifier,
-    shoppingDetailData: ShoppingDetailData,
-) {
-    TitleSection(modifier, shoppingDetailData)
-    PriceSection(modifier, shoppingDetailData)
-    UserInfoSection(modifier, shoppingDetailData)
-    DecriptionSection(modifier, shoppingDetailData)
+fun ProductContentSection(shoppingDetailData: ShoppingDetailData) {
+    TitleSection(shoppingDetailData)
+    PriceSection(shoppingDetailData)
+    UserInfoSection(shoppingDetailData)
+    DecriptionSection(shoppingDetailData)
 }
 
 @Composable
-fun TitleSection(
-    modifier: Modifier,
-    shoppingDetailData: ShoppingDetailData,
-) {
+fun TitleSection(shoppingDetailData: ShoppingDetailData) {
     Text(
         "${shoppingDetailData.category} | ${shoppingDetailData.quality} | ${shoppingDetailData.time}",
         style = Typography.labelLarge,
         color = Gray4,
         modifier =
-            modifier.padding(
+            Modifier.padding(
                 Paddings.xlarge,
                 Paddings.xlarge,
                 Paddings.none,
                 Paddings.small,
             ),
     )
-    Row(modifier = modifier.padding(Paddings.xlarge, Paddings.none)) {
+    Row(modifier = Modifier.padding(Paddings.xlarge, Paddings.none)) {
         Text(
             shoppingDetailData.title,
             style = Typography.titleLarge,
-            modifier = modifier.weight(1f),
+            modifier = Modifier.weight(1f),
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_show),
-                contentDescription = "조회 수",
+                contentDescription = stringResource(R.string.view_count_icon_description),
                 tint = Gray4,
             )
-            Spacer(modifier.width(Paddings.small))
+            Spacer(Modifier.width(Paddings.small))
             Text(
                 shoppingDetailData.viewCount,
                 style = Typography.labelLarge,
@@ -81,76 +76,70 @@ fun TitleSection(
 }
 
 @Composable
-fun PriceSection(
-    modifier: Modifier,
-    shoppingDetailData: ShoppingDetailData,
-) {
-    val decimal = DecimalFormat("#,###")
+fun PriceSection(shoppingDetailData: ShoppingDetailData) {
+    val decimal = DecimalFormat(stringResource(R.string.decimal_format))
     HorizontalDivider(
         thickness = 1.dp,
-        modifier = modifier.padding(Paddings.xlarge),
+        modifier = Modifier.padding(Paddings.xlarge),
         color = Gray5,
     )
     Text(
-        "판매자 예상 가격",
+        text = stringResource(R.string.shopping_detail_price_predict),
         style = Typography.titleLarge,
         color = Gray3,
-        modifier = modifier.padding(Paddings.xlarge, Paddings.none),
+        modifier = Modifier.padding(Paddings.xlarge, Paddings.none),
     )
-    Row(modifier = modifier.padding(Paddings.xlarge, Paddings.small)) {
+    Row(modifier = Modifier.padding(Paddings.xlarge, Paddings.small)) {
         Text(decimal.format(shoppingDetailData.price), style = Typography.titleLarge)
-        Text("원", style = Typography.titleLarge, color = Gray3)
+        Text(stringResource(R.string.won), style = Typography.titleLarge, color = Gray3)
     }
 
     HorizontalDivider(
         thickness = 10.dp,
         color = Gray6,
-        modifier = modifier.padding(Paddings.none, Paddings.xlarge),
+        modifier = Modifier.padding(Paddings.none, Paddings.xlarge),
     )
 }
 
 @Composable
-fun UserInfoSection(
-    modifier: Modifier,
-    shoppingDetailData: ShoppingDetailData,
-) {
+fun UserInfoSection(shoppingDetailData: ShoppingDetailData) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Spacer(modifier = Modifier.size(Paddings.xlarge))
         AsyncImage(
             model = shoppingDetailData.userImageUri,
-            contentDescription = "판매자 이미지",
+            contentDescription = stringResource(R.string.user_image_description),
             placeholder = ColorPainter(Primary),
             modifier =
-                modifier
+                Modifier
                     .size(40.dp)
                     .clip(CircleShape),
         )
         Column {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = modifier.padding(Paddings.large, Paddings.none),
+                modifier = Modifier.padding(Paddings.large, Paddings.none),
             ) {
                 Text(shoppingDetailData.userName, style = Typography.titleSmall)
-                Spacer(modifier.width(8.dp))
+                Spacer(Modifier.width(8.dp))
                 Icon(
                     painter = painterResource(id = R.drawable.ic_filled_star),
-                    contentDescription = "별점",
+                    contentDescription = stringResource(R.string.shopping_detail_user_rate_icon_description),
                     tint = Primary,
                     modifier =
-                        modifier
+                        Modifier
                             .padding(start = Paddings.small)
                             .size(16.dp),
                 )
                 Text(
                     shoppingDetailData.rate.toString(),
-                    modifier = modifier.padding(start = Paddings.small),
+                    modifier = Modifier.padding(start = Paddings.small),
                     style = Typography.labelLarge,
                 )
             }
             Text(
                 shoppingDetailData.region,
                 modifier =
-                    modifier.padding(
+                    Modifier.padding(
                         Paddings.large,
                         Paddings.xsmall,
                         Paddings.none,
@@ -164,18 +153,15 @@ fun UserInfoSection(
 }
 
 @Composable
-fun DecriptionSection(
-    modifier: Modifier,
-    shoppingDetailData: ShoppingDetailData,
-) {
+fun DecriptionSection(shoppingDetailData: ShoppingDetailData) {
     HorizontalDivider(
         thickness = 10.dp,
         color = Gray6,
-        modifier = modifier.padding(Paddings.none, Paddings.xlarge),
+        modifier = Modifier.padding(Paddings.none, Paddings.xlarge),
     )
     Text(
         shoppingDetailData.content,
-        modifier.padding(Paddings.xlarge, Paddings.none),
+        Modifier.padding(Paddings.xlarge, Paddings.none),
         style = Typography.bodyMedium,
     )
     Spacer(modifier = Modifier.height(148.dp))

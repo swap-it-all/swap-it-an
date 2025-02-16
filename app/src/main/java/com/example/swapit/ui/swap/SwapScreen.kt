@@ -31,8 +31,8 @@ fun SwapScreen(navController: NavHostController) {
                     .padding(contentPadding)
                     .background(BackgroundColor),
         ) {
-            RequestedSwapSection(Modifier, navController)
-            RequestSwapSection(Modifier, navController)
+            ReceivedSwapSection(Modifier, navController)
+            SentSwapSection(Modifier, navController)
         }
     }
 }

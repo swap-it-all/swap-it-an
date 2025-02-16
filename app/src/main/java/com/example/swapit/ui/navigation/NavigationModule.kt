@@ -14,6 +14,7 @@ import com.example.swapit.ui.search.SearchViewModel
 import com.example.swapit.ui.shopping.ShoppingScreen
 import com.example.swapit.ui.shopping.detail.ShoppingDetailScreen
 import com.example.swapit.ui.shopping.detail.defaultShoppingDetailData
+import com.example.swapit.ui.shopping.detail.select.MyProductSelectionScreen
 import com.example.swapit.ui.swap.SwapScreen
 import com.example.swapit.ui.user.UserInfoScreen
 
@@ -47,6 +48,9 @@ class NavigationModule {
             }
             composable("ShoppingDetail") {
                 ShoppingDetailScreen(Modifier, navController, defaultShoppingDetailData)
+            }
+            composable("MyProductSelection") {
+                MyProductSelectionScreen(navController)
             }
         }
     }

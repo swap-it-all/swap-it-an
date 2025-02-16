@@ -59,7 +59,9 @@ fun ShoppingScreen(navController: NavHostController) {
                     CategorySection(Modifier) { showBottomSheet = true }
                 }
                 items(10) {
-                    ShoppingCard(productCardData, navController)
+                    ShoppingCard(productCardData, navController) {
+                        navController.navigate("ShoppingDetail")
+                    }
                 }
                 item {
                     Spacer(modifier = Modifier.size(100.dp))

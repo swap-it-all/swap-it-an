@@ -51,27 +51,26 @@ fun ShoppingDetailScreen(
     shoppingDetailData: ShoppingDetailData,
 ) {
     Box(modifier.fillMaxSize()) {
-        DetailContent(modifier, navController, shoppingDetailData)
+        DetailContent(navController, shoppingDetailData)
         Row(
             modifier =
                 Modifier
                     .align(Alignment.BottomCenter)
                     .padding(Paddings.xlarge, 40.dp),
         ) {
-            BottomButtonSection(modifier)
+            BottomButtonSection(navController)
         }
     }
 }
 
 @Composable
 fun DetailContent(
-    modifier: Modifier = Modifier,
     navController: NavHostController,
     shoppingDetailData: ShoppingDetailData,
 ) {
-    Column(modifier.verticalScroll(rememberScrollState())) {
-        ProductImageSection(modifier, shoppingDetailData, navController)
-        ProductContentSection(modifier, shoppingDetailData)
+    Column(Modifier.verticalScroll(rememberScrollState())) {
+        ProductImageSection(shoppingDetailData, navController)
+        ProductContentSection(shoppingDetailData)
     }
 }
 

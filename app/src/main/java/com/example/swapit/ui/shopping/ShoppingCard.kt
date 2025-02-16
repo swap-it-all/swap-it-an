@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -41,8 +42,9 @@ import java.text.DecimalFormat
 fun ShoppingCard(
     shoppingCardData: ShoppingCardData,
     navController: NavHostController,
+    onClick: () -> Unit = {},
 ) {
-    val decimal = DecimalFormat("#,###")
+    val decimal = DecimalFormat(stringResource(R.string.decimal_format))
     Card(
         modifier =
             Modifier
@@ -53,15 +55,13 @@ fun ShoppingCard(
                 containerColor = White,
             ),
         shape = RoundedCornerShape(20.dp),
-        onClick = {
-            navController.navigate("ShoppingDetail")
-        },
+        onClick = onClick,
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Spacer(modifier = Modifier.size(Paddings.large))
             AsyncImage(
                 model = shoppingCardData.imageUri,
-                contentDescription = "상품 대표 이미지",
+                contentDescription = stringResource(R.string.president_image_description),
                 modifier =
                     Modifier
                         .size(86.dp)
@@ -118,7 +118,7 @@ fun ShoppingCard(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
-                            text = "예상 ",
+                            text = stringResource(R.string.prediction),
                             style = Typography.bodyMedium,
                             color = Gray3,
                         )
@@ -127,14 +127,14 @@ fun ShoppingCard(
                             style = Typography.titleMedium,
                         )
                         Text(
-                            text = "원",
+                            text = stringResource(R.string.won),
                             style = Typography.bodyMedium,
                             color = Gray3,
                         )
                     }
                     Image(
                         painter = painterResource(id = R.drawable.ic_show),
-                        contentDescription = "조회 수",
+                        contentDescription = stringResource(R.string.view_count_icon_description),
                         colorFilter = ColorFilter.tint(Gray4),
                     )
                     Text(
