@@ -11,7 +11,6 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -41,10 +40,10 @@ class LoginViewModel(
         }
     }
 
-    fun kakaoLogout() {
+    fun logout() {
         viewModelScope.launch {
             if (isKakaoLoggedOut()) {
-                repository.logout(repository.refreshToken()!!)
+                repository.logout(repository.refreshToken() ?: "")
                 _isLoggedIn.emit(false)
             }
         }
@@ -95,20 +94,6 @@ class LoginViewModel(
                 userApiClient.loginWithKakaoAccount(context, callback = callback)
             }
         }
-
-
-    fun sendAccessToken(accessToken: String) {
-        viewModelScope.launch(Dispatchers.Main) {
-            try {
-                val data = repository.loginWithKakao(accessToken)
-                Log.i("카카오 로그인", "서버로부터 받은 데이터: ${data.key}")
-                Log.i("카카오 로그인", "서버로부터 받은 데이터: ${data.accessToken}")
-                Log.i("카카오 로그인", "서버로부터 받은 데이터: ${data.refreshToken}")
-            } catch (e: Exception) {
-                Log.e("카카오 로그인", "JWT 요청 실패: ${e.message}")
-            }
-        }
-    }
 
     companion object {
         private const val TAG = "LoginViewModel"

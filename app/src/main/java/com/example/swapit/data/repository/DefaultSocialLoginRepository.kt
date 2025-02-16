@@ -11,7 +11,6 @@ class DefaultSocialLoginRepository(
     private val localSource: LocalSocialLoginDataSource,
 ) : SocialLoginRepository {
     override suspend fun loginWithKakao(token: String): SocialLoginToken {
-        // 카카오 액세스 토큰 받아서 -> 서버에 전달 -> local에 저장
         val tokens = remoteSource.loginWithKakao(token).toDomain()
         saveTokens(tokens.accessToken, tokens.refreshToken)
         return tokens
@@ -26,7 +25,11 @@ class DefaultSocialLoginRepository(
     }
 
     override suspend fun logout(refreshToken: String): Boolean {
-        return remoteSource.logout(refreshToken)
+        val isSuccess = remoteSource.logout(refreshToken)
+        if (isSuccess) {
+            localSource.clearTokens()
+        }
+        return isSuccess
     }
 
     override suspend fun saveTokens(accessToken: String, refreshToken: String) {
