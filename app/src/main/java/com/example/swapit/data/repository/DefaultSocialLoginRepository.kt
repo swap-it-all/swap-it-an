@@ -34,7 +34,10 @@ class DefaultSocialLoginRepository(
         return isSuccess
     }
 
-    override suspend fun saveTokens(accessToken: String, refreshToken: String) {
+    override suspend fun saveTokens(
+        accessToken: String,
+        refreshToken: String,
+    ) {
         localSource.saveTokens(accessToken, refreshToken)
     }
 

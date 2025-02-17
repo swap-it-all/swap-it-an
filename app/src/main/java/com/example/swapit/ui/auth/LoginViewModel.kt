@@ -31,13 +31,14 @@ class LoginViewModel(
         _isLoggedIn.value = repository.accessToken() != null
     }
 
-    fun googleLogin(){
+    fun googleLogin()  {
         viewModelScope.launch {
-           val result = loginManager.googleLogin()
-            if(result is LoginState.Success){
-                repository.loginWithGoogle(result.token)
-                _isLoggedIn.emit(true)
-            }
+            val result = loginManager.googleLogin()
+            if (result is LoginState.Success)
+                {
+                    repository.loginWithGoogle(result.token)
+                    _isLoggedIn.emit(true)
+                }
         }
     }
 
@@ -108,6 +109,7 @@ class LoginViewModel(
 
     companion object {
         private const val TAG = "LoginViewModel"
+
         fun factory(
             application: Application,
             repository: SocialLoginRepository,

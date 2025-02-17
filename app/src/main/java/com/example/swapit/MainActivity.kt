@@ -16,14 +16,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val navigationModule = NavigationModule()
-            val loginViewModel: LoginViewModel = viewModel(
-                factory = LoginViewModel.factory(
-                    application,
-                    SocialLoginRepository.instance(this),
-                    LoginManager(this)
+            val loginViewModel: LoginViewModel =
+                viewModel(
+                    factory =
+                        LoginViewModel.factory(
+                            application,
+                            SocialLoginRepository.instance(this),
+                            LoginManager(this),
+                        ),
                 )
-            )
-            navigationModule.NavigationGraph(navController,loginViewModel)
+            navigationModule.NavigationGraph(navController, loginViewModel)
         }
     }
 }
