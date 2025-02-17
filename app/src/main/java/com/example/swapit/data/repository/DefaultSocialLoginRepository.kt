@@ -17,7 +17,9 @@ class DefaultSocialLoginRepository(
     }
 
     override suspend fun loginWithGoogle(token: String): SocialLoginToken {
-        return remoteSource.loginWithGoogle(token).toDomain()
+        val tokens = remoteSource.loginWithGoogle(token).toDomain()
+        saveTokens(tokens.accessToken, tokens.refreshToken)
+        return tokens
     }
 
     override suspend fun refresh(refreshToken: String): SocialLoginToken {

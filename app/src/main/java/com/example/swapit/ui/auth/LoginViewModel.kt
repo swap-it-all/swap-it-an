@@ -20,6 +20,7 @@ import kotlin.coroutines.suspendCoroutine
 class LoginViewModel(
     application: Application,
     private val repository: SocialLoginRepository,
+    private val loginManager: LoginManager,
 ) : AndroidViewModel(application) {
     private val context = application.applicationContext
 
@@ -28,6 +29,16 @@ class LoginViewModel(
 
     init {
         _isLoggedIn.value = repository.accessToken() != null
+    }
+
+    fun googleLogin(){
+        viewModelScope.launch {
+           val result = loginManager.googleLogin()
+            if(result is LoginState.Success){
+                repository.loginWithGoogle(result.token)
+                _isLoggedIn.emit(true)
+            }
+        }
     }
 
     fun kakaoLogin() {
@@ -100,11 +111,13 @@ class LoginViewModel(
         fun factory(
             application: Application,
             repository: SocialLoginRepository,
+            loginManager: LoginManager,
         ): ViewModelProvider.Factory =
             BaseViewModelFactory {
                 LoginViewModel(
                     application = application,
                     repository = repository,
+                    loginManager = loginManager,
                 )
             }
     }

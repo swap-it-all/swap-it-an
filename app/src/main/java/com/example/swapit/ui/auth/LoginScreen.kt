@@ -2,7 +2,6 @@ package com.example.swapit.ui.auth
 
 import android.app.Activity
 import android.app.Application
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,8 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,7 +38,6 @@ import com.example.swapit.ui.theme.Paddings
 import com.example.swapit.ui.theme.Shapes
 import com.example.swapit.ui.theme.Typography
 import com.example.swapit.ui.theme.White
-import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
@@ -52,7 +48,7 @@ fun LoginScreen(
 
     LaunchedEffect(isLoggedIn) {
         if (isLoggedIn) {
-            navController.navigate(BottomNavItem.Shopping.screenRoute){
+            navController.navigate(BottomNavItem.Shopping.screenRoute) {
                 popUpTo(BottomNavItem.Login.screenRoute) { inclusive = true }
                 launchSingleTop = true
             }
@@ -69,7 +65,6 @@ fun LoginScreen(
         GreetingSwapIt()
         Spacer(modifier = Modifier.padding(100.dp))
         LoginButtons(
-            navController = navController,
             viewModel = viewModel,
         )
     }
@@ -96,26 +91,23 @@ fun GreetingSwapIt() {
 
 @Composable
 fun LoginButtons(
-    navController: NavHostController,
     viewModel: LoginViewModel,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
     ) {
-        GoogleLoginButton()
+        GoogleLoginButton(
+            viewModel = viewModel,
+        )
         Spacer(modifier = Modifier.padding(10.dp))
         KakaoLoginButton(
-            loginViewModel = viewModel,
+            viewModel = viewModel,
         )
     }
 }
 
 @Composable
-fun GoogleLoginButton() {
-    val context = LocalContext.current
-    val loginManager = remember { LoginManager(context as Activity) }
-    val scope = rememberCoroutineScope()
-
+fun GoogleLoginButton(viewModel: LoginViewModel) {
     Button(
         modifier = Modifier.fillMaxWidth(),
         colors =
@@ -126,22 +118,7 @@ fun GoogleLoginButton() {
         contentPadding = PaddingValues(16.dp),
         shape = Shapes.small,
         border = BorderStroke(1.dp, Gray4),
-        onClick = {
-            scope.launch {
-                val loginState = loginManager.googleLogin()
-                when (loginState) {
-                    is LoginState.Success -> {
-                        Toast.makeText(context, "로그인 성공", Toast.LENGTH_SHORT).show()
-                    }
-
-                    is LoginState.Failure -> {
-                        Toast.makeText(context, "로그인 실패", Toast.LENGTH_SHORT).show()
-                    }
-
-                    LoginState.None -> {}
-                }
-            }
-        },
+        onClick = { viewModel.googleLogin() },
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_google),
@@ -157,9 +134,7 @@ fun GoogleLoginButton() {
 }
 
 @Composable
-fun KakaoLoginButton(
-    loginViewModel: LoginViewModel,
-) {
+fun KakaoLoginButton(viewModel: LoginViewModel) {
     Button(
         modifier = Modifier.fillMaxWidth(),
         colors =
@@ -169,7 +144,7 @@ fun KakaoLoginButton(
         ),
         contentPadding = PaddingValues(16.dp),
         shape = Shapes.small,
-        onClick = { loginViewModel.kakaoLogin() },
+        onClick = { viewModel.kakaoLogin() },
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_kakao),
@@ -183,11 +158,13 @@ fun KakaoLoginButton(
 @Preview(showBackground = true)
 @Composable
 fun LoginPreview() {
+    val context = LocalContext.current
     LoginScreen(
         navController = rememberNavController(),
         viewModel = LoginViewModel(
             application = Application(),
-            repository = SocialLoginRepository.instance(LocalContext.current),
+            repository = SocialLoginRepository.instance(context),
+            loginManager = LoginManager(context as Activity),
         ),
     )
 }
