@@ -3,25 +3,31 @@ package com.example.swapit.data.datasource.local
 import android.content.Context
 
 class LocalSocialLoginDataSource(context: Context) {
-    private val prefs = context.getSharedPreferences("swapit_auth", Context.MODE_PRIVATE)
+    private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
     fun saveTokens(
         accessToken: String,
         refreshToken: String,
     ) {
         prefs.edit()
-            .putString("access_token", accessToken)
-            .putString("refresh_token", refreshToken)
+            .putString(ACCESS_TOKEN, accessToken)
+            .putString(REFRESH_TOKEN, refreshToken)
             .apply()
     }
 
-    fun accessToken(): String? = prefs.getString("access_token", null)
+    fun accessToken(): String? = prefs.getString(ACCESS_TOKEN, null)
 
-    fun refreshToken(): String? = prefs.getString("refresh_token", null)
+    fun refreshToken(): String? = prefs.getString(REFRESH_TOKEN, null)
 
     fun clearTokens() {
         prefs.edit()
             .clear()
             .apply()
+    }
+
+    companion object {
+        const val PREFS_NAME = "swapit_auth"
+        const val ACCESS_TOKEN = "access_token"
+        const val REFRESH_TOKEN = "refresh_token"
     }
 }
