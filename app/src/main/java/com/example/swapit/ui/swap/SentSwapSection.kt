@@ -22,7 +22,7 @@ import com.example.swapit.ui.theme.Paddings
 import com.example.swapit.ui.theme.Typography
 
 @Composable
-fun RequestSwapSection(
+fun SentSwapSection(
     modifier: Modifier,
     navController: NavHostController,
 ) {
@@ -46,7 +46,7 @@ fun RequestSwapSection(
         ) {
             Icon(
                 painter = painterResource(R.drawable.ic_chevron_right),
-                contentDescription = "요청한 스왑으로 가기",
+                contentDescription = stringResource(R.string.swap_go_to_sent),
             )
         }
     }

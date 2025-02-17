@@ -58,7 +58,7 @@ fun SearchBarButton(
                 )
                 Image(
                     painter = painterResource(R.drawable.ic_search_magnifying),
-                    contentDescription = "검색 버튼",
+                    contentDescription = stringResource(R.string.shopping_search_button),
                     colorFilter = ColorFilter.tint(Gray3),
                 )
             }
