@@ -7,7 +7,10 @@ import okhttp3.Response
 import okhttp3.Route
 
 class AuthAuthenticator(private val localLoginDataSource: LocalLoginDataSource) : Authenticator {
-    override fun authenticate(route: Route?, response: Response): Request? {
+    override fun authenticate(
+        route: Route?,
+        response: Response,
+    ): Request? {
         if (responseCount(response) >= 2) {
             // todo logout
             return null
@@ -17,7 +20,10 @@ class AuthAuthenticator(private val localLoginDataSource: LocalLoginDataSource) 
         return newRequestWithAccessToken(refreshToken, response.request)
     }
 
-    private fun newRequestWithAccessToken(token: String, request: Request): Request =
+    private fun newRequestWithAccessToken(
+        token: String,
+        request: Request,
+    ): Request =
         request.newBuilder()
             .header("Authorization", "Bearer $token")
             .build()
