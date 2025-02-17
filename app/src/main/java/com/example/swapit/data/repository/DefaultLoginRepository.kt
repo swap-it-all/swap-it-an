@@ -23,7 +23,9 @@ class DefaultLoginRepository(
     }
 
     override suspend fun refresh(refreshToken: String): LoginToken {
-        return remoteSource.refresh(refreshToken).toDomain()
+        val tokens = remoteSource.refresh(refreshToken).toDomain()
+        saveTokens(tokens.accessToken, tokens.refreshToken)
+        return tokens
     }
 
     override suspend fun logout(refreshToken: String): Boolean {
