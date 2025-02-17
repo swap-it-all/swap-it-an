@@ -3,33 +3,59 @@ package com.example.swapit.ui.auth
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.swapit.domain.repository.LoginRepository
+import com.example.swapit.ui.base.BaseViewModelFactory
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class LoginViewModel(application: Application) : AndroidViewModel(application) {
+class LoginViewModel(
+    application: Application,
+    private val repository: LoginRepository,
+    private val loginManager: LoginManager,
+) : AndroidViewModel(application) {
     private val context = application.applicationContext
 
-    /*private val _loginState = mutableStateOf<LoginState>(LoginState.None)
-    val loginState: MutableState<LoginState> = _loginState*/
-    val isLoggedIn = MutableStateFlow<Boolean>(false)
+    private val _isLoggedIn = MutableStateFlow<Boolean>(false)
+    val isLoggedIn: StateFlow<Boolean> get() = _isLoggedIn
 
-    fun kakaoLogin() {
+    init {
+        _isLoggedIn.value = repository.accessToken() != null
+    }
+
+    fun googleLogin() {
         viewModelScope.launch {
-            isLoggedIn.emit(isKakaoLoggedIn())
+            val result = loginManager.googleLogin()
+            if (result is LoginState.Success) {
+                repository.loginWithGoogle(result.token)
+                _isLoggedIn.emit(true)
+            }
         }
     }
 
-    fun kakaoLogout() {
+    fun kakaoLogin() {
+        viewModelScope.launch {
+            val accessToken = isKakaoLoggedIn().getOrNull()
+            accessToken?.let {
+                repository.loginWithKakao(it)
+                _isLoggedIn.emit(true)
+            }
+        }
+    }
+
+    fun logout() {
         viewModelScope.launch {
             if (isKakaoLoggedOut()) {
-                isLoggedIn.emit(false)
+                repository.logout(repository.refreshToken() ?: "")
+                _isLoggedIn.emit(false)
             }
         }
     }
@@ -47,16 +73,16 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
-    private suspend fun isKakaoLoggedIn(): Boolean =
-        suspendCoroutine<Boolean> { continuation ->
+    private suspend fun isKakaoLoggedIn(): Result<String> =
+        suspendCoroutine<Result<String>> { continuation ->
 
             val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
                 if (error != null) {
                     Log.e(TAG, "카카오계정으로 로그인 실패", error)
-                    continuation.resume(false)
+                    continuation.resume(Result.failure(error))
                 } else if (token != null) {
                     Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
-                    continuation.resume(true)
+                    continuation.resume(Result.success(token.accessToken))
                 }
             }
             val userApiClient = UserApiClient.instance
@@ -82,5 +108,18 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     companion object {
         private const val TAG = "LoginViewModel"
+
+        fun factory(
+            application: Application,
+            repository: LoginRepository,
+            loginManager: LoginManager,
+        ): ViewModelProvider.Factory =
+            BaseViewModelFactory {
+                LoginViewModel(
+                    application = application,
+                    repository = repository,
+                    loginManager = loginManager,
+                )
+            }
     }
 }
