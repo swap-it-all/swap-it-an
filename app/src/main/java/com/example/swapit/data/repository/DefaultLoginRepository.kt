@@ -1,28 +1,28 @@
 package com.example.swapit.data.repository
 
-import com.example.swapit.data.datasource.SocialLoginDataSource
-import com.example.swapit.data.datasource.local.LocalSocialLoginDataSource
-import com.example.swapit.data.datasource.remote.dto.response.login.SocialLoginResponse
-import com.example.swapit.domain.model.SocialLoginToken
-import com.example.swapit.domain.repository.SocialLoginRepository
+import com.example.swapit.data.datasource.RemoteLoginDataSource
+import com.example.swapit.data.datasource.local.LocalLoginDataSource
+import com.example.swapit.data.datasource.remote.dto.response.login.LoginResponse
+import com.example.swapit.domain.model.LoginToken
+import com.example.swapit.domain.repository.LoginRepository
 
-class DefaultSocialLoginRepository(
-    private val remoteSource: SocialLoginDataSource,
-    private val localSource: LocalSocialLoginDataSource,
-) : SocialLoginRepository {
-    override suspend fun loginWithKakao(token: String): SocialLoginToken {
+class DefaultLoginRepository(
+    private val remoteSource: RemoteLoginDataSource,
+    private val localSource: LocalLoginDataSource,
+) : LoginRepository {
+    override suspend fun loginWithKakao(token: String): LoginToken {
         val tokens = remoteSource.loginWithKakao(token).toDomain()
         saveTokens(tokens.accessToken, tokens.refreshToken)
         return tokens
     }
 
-    override suspend fun loginWithGoogle(token: String): SocialLoginToken {
+    override suspend fun loginWithGoogle(token: String): LoginToken {
         val tokens = remoteSource.loginWithGoogle(token).toDomain()
         saveTokens(tokens.accessToken, tokens.refreshToken)
         return tokens
     }
 
-    override suspend fun refresh(refreshToken: String): SocialLoginToken {
+    override suspend fun refresh(refreshToken: String): LoginToken {
         return remoteSource.refresh(refreshToken).toDomain()
     }
 
@@ -47,8 +47,8 @@ class DefaultSocialLoginRepository(
 }
 
 // mapper
-private fun SocialLoginResponse.toDomain(): SocialLoginToken {
-    return SocialLoginToken(
+private fun LoginResponse.toDomain(): LoginToken {
+    return LoginToken(
         accessToken = this.accessToken,
         refreshToken = this.refreshToken,
         key = this.key,

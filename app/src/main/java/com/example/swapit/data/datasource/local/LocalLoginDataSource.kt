@@ -2,7 +2,7 @@ package com.example.swapit.data.datasource.local
 
 import android.content.Context
 
-class LocalSocialLoginDataSource(context: Context) {
+class LocalLoginDataSource(context: Context) {
     private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
     fun saveTokens(

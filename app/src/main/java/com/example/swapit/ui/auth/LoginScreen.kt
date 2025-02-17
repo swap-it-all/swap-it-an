@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.swapit.R
-import com.example.swapit.domain.repository.SocialLoginRepository
+import com.example.swapit.domain.repository.LoginRepository
 import com.example.swapit.ui.navigation.BottomNavItem
 import com.example.swapit.ui.theme.Black
 import com.example.swapit.ui.theme.Gray3
@@ -162,7 +162,7 @@ fun LoginPreview() {
         viewModel =
             LoginViewModel(
                 application = Application(),
-                repository = SocialLoginRepository.instance(context),
+                repository = LoginRepository.instance(context),
                 loginManager = LoginManager(context as Activity),
             ),
     )

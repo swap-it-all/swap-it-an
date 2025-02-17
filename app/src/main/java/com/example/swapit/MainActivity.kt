@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.swapit.domain.repository.SocialLoginRepository
+import com.example.swapit.domain.repository.LoginRepository
 import com.example.swapit.ui.auth.LoginManager
 import com.example.swapit.ui.auth.LoginViewModel
 import com.example.swapit.ui.navigation.NavigationModule
@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
                     factory =
                         LoginViewModel.factory(
                             application,
-                            SocialLoginRepository.instance(this),
+                            LoginRepository.instance(this),
                             LoginManager(this),
                         ),
                 )

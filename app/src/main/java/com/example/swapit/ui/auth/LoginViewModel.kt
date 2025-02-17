@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.swapit.domain.repository.SocialLoginRepository
+import com.example.swapit.domain.repository.LoginRepository
 import com.example.swapit.ui.base.BaseViewModelFactory
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -19,7 +19,7 @@ import kotlin.coroutines.suspendCoroutine
 
 class LoginViewModel(
     application: Application,
-    private val repository: SocialLoginRepository,
+    private val repository: LoginRepository,
     private val loginManager: LoginManager,
 ) : AndroidViewModel(application) {
     private val context = application.applicationContext
@@ -112,7 +112,7 @@ class LoginViewModel(
 
         fun factory(
             application: Application,
-            repository: SocialLoginRepository,
+            repository: LoginRepository,
             loginManager: LoginManager,
         ): ViewModelProvider.Factory =
             BaseViewModelFactory {
