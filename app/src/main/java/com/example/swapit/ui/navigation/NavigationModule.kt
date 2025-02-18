@@ -4,9 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.ui.alert.AlertScreen
 import com.example.swapit.ui.auth.LoginScreen
 import com.example.swapit.ui.auth.LoginViewModel
@@ -50,7 +53,16 @@ class NavigationModule {
                 SwapScreen(navController)
             }
             composable(BottomNavItem.Add.screenRoute) {
-                PostProductScreen(viewModel = PostProductViewModel())
+                PostProductScreen(
+                    navController = navController,
+                    viewModel = viewModel(
+                        factory = PostProductViewModel.factory(
+                            ProductRepository.instance(
+                                LocalContext.current
+                            )
+                        ),
+                    )
+                )
             }
             composable(BottomNavItem.Chat.screenRoute) {
                 ChatListScreen().ChatListScreen(navController)

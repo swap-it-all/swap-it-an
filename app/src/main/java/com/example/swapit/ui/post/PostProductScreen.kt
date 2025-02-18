@@ -23,14 +23,17 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import coil3.toCoilUri
 import com.example.swapit.R
 import com.example.swapit.data.datasource.local.model.post.CategoryOption
 import com.example.swapit.data.datasource.local.model.post.QualityOption
+import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.ui.component.AlertDialog
 import com.example.swapit.ui.component.DefaultButton
 import com.example.swapit.ui.post.component.PostProductDescriptionTextField
@@ -38,6 +41,7 @@ import com.example.swapit.ui.post.component.PostProductImagePicker
 import com.example.swapit.ui.post.component.PostProductNameTextField
 import com.example.swapit.ui.post.component.PostProductPriceTextField
 import com.example.swapit.ui.post.component.PostProductSwapLocationTextField
+import com.example.swapit.ui.shopping.detail.ShoppingDetailScreen
 import com.example.swapit.ui.theme.BackgroundColor
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Paddings
@@ -46,8 +50,7 @@ import com.example.swapit.ui.theme.Typography
 
 @Composable
 fun PostProductScreen(
-    // todo navigation
-    // navController: NavHostController,
+    navController: NavHostController,
     viewModel: PostProductViewModel,
 ) {
     val selectedImageUris by rememberUpdatedState(viewModel.selectedImageUris)
@@ -63,17 +66,17 @@ fun PostProductScreen(
     Scaffold { paddingValues ->
         Surface(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
+            Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
             color = BackgroundColor,
         ) {
             Column(
                 modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = Paddings.xlarge)
-                        .verticalScroll(rememberScrollState()),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = Paddings.xlarge)
+                    .verticalScroll(rememberScrollState()),
             ) {
                 LazyRow {
                     item {
@@ -94,9 +97,9 @@ fun PostProductScreen(
                             contentScale = ContentScale.Crop,
                             contentDescription = "이미지",
                             modifier =
-                                Modifier
-                                    .size(86.dp)
-                                    .clip(Shapes.small),
+                            Modifier
+                                .size(86.dp)
+                                .clip(Shapes.small),
                         )
                         Spacer(modifier = Modifier.padding(Paddings.medium))
                     }
@@ -142,7 +145,7 @@ fun PostProductScreen(
                         viewModel.showAlertDialog(
                             title = "물건을 등록할까요?",
                             onConfirm = {
-                                // todo navigation
+                                navController.navigate("ShoppingDetail")
                             },
                             onCancel = {
                                 Log.d("PostProductScreen", "PostProductScreen: 취소")
@@ -279,5 +282,10 @@ fun DescriptionTextField(
 @Preview(showBackground = true)
 @Composable
 fun PostProductScreenPreview() {
-    PostProductScreen(viewModel = PostProductViewModel())
+    PostProductScreen(
+        viewModel = PostProductViewModel(
+            repository = ProductRepository.instance(LocalContext.current)
+        ),
+        navController = NavHostController(LocalContext.current),
+    )
 }
