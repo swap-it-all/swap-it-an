@@ -8,7 +8,7 @@ data class ProductRequest(
     val title: String,
     val price: Int,
     val quality: String,
-    val category: Int,
+    val categoryId: Int,
     @SerialName("content")
     val description: String,
     val placeName: String,
