@@ -1,13 +1,6 @@
 package com.example.swapit.ui.navigation
 
-import androidx.compose.ui.Modifier
 import com.example.swapit.R
-import com.example.swapit.ui.alert.AlertScreen
-import com.example.swapit.ui.search.SearchScreen
-import com.example.swapit.ui.search.SearchViewModel
-import com.example.swapit.ui.shopping.detail.ShoppingDetailScreen
-import com.example.swapit.ui.shopping.detail.defaultShoppingDetailData
-import com.example.swapit.ui.shopping.detail.select.MyProductSelectionScreen
 
 sealed class NavItem(
     val name: String,

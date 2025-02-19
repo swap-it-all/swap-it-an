@@ -24,24 +24,27 @@ import com.example.swapit.ui.theme.Paddings
 @Composable
 fun NoAlertIconSection() {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(BackgroundColor),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(BackgroundColor),
     ) {
         Column(
             horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = Paddings.xextra)
-                .background(BackgroundColor),
-            verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(bottom = Paddings.xextra)
+                    .background(BackgroundColor),
+            verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center,
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_no_alert),
                 contentDescription = "알림 없음",
                 tint = Gray5,
-                modifier = Modifier
-                    .size(75.dp)
+                modifier =
+                    Modifier
+                        .size(75.dp),
             )
             Spacer(modifier = Modifier.height(30.dp))
             Text("알림이 없습니다", color = Gray4, textAlign = TextAlign.Center)

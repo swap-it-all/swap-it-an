@@ -28,17 +28,18 @@ fun ChatScreen(navController: NavHostController) {
             BottomNavigationBar(navController)
         },
     ) { contentPadding ->
-        if (chatList == 0){
-            NoChatIconSection(contentPadding)
-        }
+        if (chatList == 0)
+            {
+                NoChatIconSection(contentPadding)
+            }
         LazyColumn(
             modifier =
-            Modifier
-                .padding(contentPadding)
-                .fillMaxSize()
-                .background(BackgroundColor),
+                Modifier
+                    .padding(contentPadding)
+                    .fillMaxSize()
+                    .background(BackgroundColor),
         ) {
-            item{
+            item {
                 Spacer(modifier = Modifier.height(16.dp))
             }
             items(6) {

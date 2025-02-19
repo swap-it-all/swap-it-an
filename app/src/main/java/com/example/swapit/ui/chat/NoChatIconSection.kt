@@ -25,10 +25,11 @@ import com.example.swapit.ui.theme.Gray5
 @Composable
 fun NoChatIconSection(contentPadding: PaddingValues) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(contentPadding)
-            .background(BackgroundColor),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(contentPadding)
+                .background(BackgroundColor),
     ) {
         Column(
             modifier = Modifier.align(Alignment.Center),
@@ -37,9 +38,10 @@ fun NoChatIconSection(contentPadding: PaddingValues) {
                 painter = painterResource(id = R.drawable.ic_no_chat),
                 contentDescription = "채팅 없음",
                 tint = Gray5,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .size(75.dp)
+                modifier =
+                    Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .size(75.dp),
             )
             Spacer(modifier = Modifier.height(30.dp))
             Text("채팅이 없습니다", color = Gray4, textAlign = TextAlign.Center)
