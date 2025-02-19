@@ -29,3 +29,12 @@ data class SwapCardData(
     val title: String,
     val onClick: () -> Unit = {},
 )
+
+data class ChatCardData(
+    val userImageUri: String,
+    val userName: String,
+    val lastMessage: String,
+    val lastMessageTime: String,
+    val unreadMessageCount: Int,
+    val onClick: () -> Unit = {},
+)
