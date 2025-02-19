@@ -43,7 +43,6 @@ import com.example.swapit.ui.theme.Primary
 import com.example.swapit.ui.theme.Typography
 import com.example.swapit.ui.theme.White
 
-
 @Composable
 fun UserInfoScreen(navController: NavHostController) {
     Scaffold(
@@ -56,9 +55,9 @@ fun UserInfoScreen(navController: NavHostController) {
     ) { contentPadding ->
         Surface(
             modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(contentPadding),
+                Modifier
+                    .fillMaxSize()
+                    .padding(contentPadding),
             color = BackgroundColor,
         ) {
             Column {
@@ -68,12 +67,12 @@ fun UserInfoScreen(navController: NavHostController) {
                     item {
                         ProfileItem(
                             text = "내가 등록한 물건",
-                            count = 5
+                            count = 5,
                         )
                         HorizontalDivider()
                         ProfileItem(
                             text = "받은 스왑 리뷰",
-                            count = 11
+                            count = 11,
                         )
                         HorizontalDivider()
                     }
@@ -86,30 +85,32 @@ fun UserInfoScreen(navController: NavHostController) {
 @Composable
 fun ProfileCard(
     userName: String = "하울의움직이는성",
-    userEmail: String = "swapit202501@gmail.com"
+    userEmail: String = "swapit202501@gmail.com",
 ) {
     Card(
         modifier =
-        Modifier
-            .fillMaxWidth()
-            .padding(Paddings.xlarge, Paddings.smallMedium),
+            Modifier
+                .fillMaxWidth()
+                .padding(Paddings.xlarge, Paddings.smallMedium),
         colors =
-        CardDefaults.cardColors(
-            containerColor = White,
-        ),
+            CardDefaults.cardColors(
+                containerColor = White,
+            ),
         shape = RoundedCornerShape(20.dp),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_add_plus_circle),
                 contentDescription = "Profile Picture",
-                modifier = Modifier
-                    .size(86.dp)
-                    .clip(CircleShape)
+                modifier =
+                    Modifier
+                        .size(86.dp)
+                        .clip(CircleShape),
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column(
@@ -125,7 +126,7 @@ fun ProfileCard(
                     Icon(
                         painter = painterResource(id = R.drawable.ic_pencil),
                         contentDescription = "프로필 수정",
-                        tint = Gray4
+                        tint = Gray4,
                     )
                 }
                 Spacer(modifier = Modifier.height(10.dp))
@@ -139,29 +140,31 @@ fun ProfileCard(
 fun ProfileSwapCard(
     productCount: Int = 22,
     swapCount: Int = 16,
-    review: Float = 4.8f
+    review: Float = 4.8f,
 ) {
     Card(
         modifier =
-        Modifier
-            .fillMaxWidth()
-            .padding(Paddings.xlarge, Paddings.smallMedium),
+            Modifier
+                .fillMaxWidth()
+                .padding(Paddings.xlarge, Paddings.smallMedium),
         colors =
-        CardDefaults.cardColors(
-            containerColor = White,
-        ),
+            CardDefaults.cardColors(
+                containerColor = White,
+            ),
         shape = RoundedCornerShape(20.dp),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
-                modifier = Modifier
-                    .height(80.dp)
-                    .width(127.dp),
+                modifier =
+                    Modifier
+                        .height(80.dp)
+                        .width(127.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
@@ -170,12 +173,13 @@ fun ProfileSwapCard(
                 Text("물건 수", style = Typography.labelLarge, color = Gray4)
             }
             VerticalDivider(
-                modifier = Modifier.height(60.dp)
+                modifier = Modifier.height(60.dp),
             )
             Column(
-                modifier = Modifier
-                    .height(80.dp)
-                    .width(127.dp),
+                modifier =
+                    Modifier
+                        .height(80.dp)
+                        .width(127.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
@@ -184,12 +188,13 @@ fun ProfileSwapCard(
                 Text("스왑 수", style = Typography.labelLarge, color = Gray4)
             }
             VerticalDivider(
-                modifier = Modifier.height(60.dp)
+                modifier = Modifier.height(60.dp),
             )
             Column(
-                modifier = Modifier
-                    .height(80.dp)
-                    .width(127.dp),
+                modifier =
+                    Modifier
+                        .height(80.dp)
+                        .width(127.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
@@ -207,9 +212,10 @@ fun ProfileItem(
     count: Int,
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(56.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(56.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Spacer(modifier = Modifier.width(16.dp))
@@ -220,7 +226,7 @@ fun ProfileItem(
         Icon(
             painter = painterResource(id = R.drawable.ic_chevron_right),
             contentDescription = "더보기",
-            tint = Black
+            tint = Black,
         )
         Spacer(modifier = Modifier.width(16.dp))
     }
@@ -231,7 +237,7 @@ fun ProfileItem(
 fun ProfileItemPreview() {
     ProfileItem(
         text = "내가 등록한 물건",
-        count = 5
+        count = 5,
     )
 }
 
