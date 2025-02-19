@@ -47,8 +47,8 @@ class DefaultProductRepository(
     ): BaseResponse<Unit> {
         val imageFile =
             images.map { uri ->
-                val file = toFile(context, uri) // uri -> file로 변환
-                createMultipartBody(file) // file -> multipartBody로 변환
+                val file = toFile(context, uri)
+                createMultipartBody(file)
             }
         return remoteSource.postProductImages(goodsId, imageFile)
     }
@@ -95,7 +95,6 @@ class DefaultProductRepository(
         return File(file.absolutePath)
     }
 
-    // get file name & extension
     private fun getFileName(
         context: Context,
         uri: Uri,
