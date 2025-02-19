@@ -55,7 +55,6 @@ fun UserInfoScreen(navController: NavHostController) {
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun UserInfoScreenPreview() {
