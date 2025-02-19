@@ -44,6 +44,54 @@ class UserInfoScreen {
                     color = Color.White,
                     modifier = Modifier.align(Alignment.Center),
                 )
+    @Composable
+    fun ProfileCard(
+        userName: String = "하울의움직이는성",
+        userEmail: String = "swapit202501@gmail.com"
+    ) {
+        Card(
+            modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(Paddings.xlarge, Paddings.smallMedium),
+            colors =
+            CardDefaults.cardColors(
+                containerColor = White,
+            ),
+            shape = RoundedCornerShape(20.dp),
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_add_plus_circle),
+                    contentDescription = "Profile Picture",
+                    modifier = Modifier
+                        .size(86.dp)
+                        .clip(CircleShape)
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                Column(
+                    modifier = Modifier.height(86.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.Start,
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(userName, style = Typography.titleLarge, color = Black)
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_pencil),
+                            contentDescription = "프로필 수정",
+                            tint = Gray4
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(userEmail, style = Typography.bodyMedium, color = Gray4)
+                }
             }
         }
     }
