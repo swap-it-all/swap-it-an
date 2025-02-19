@@ -56,14 +56,14 @@ class NavigationModule {
                 PostProductScreen(
                     navController = navController,
                     viewModel =
-                    viewModel(
-                        factory =
-                        PostProductViewModel.factory(
-                            ProductRepository.instance(
-                                LocalContext.current,
-                            ),
+                        viewModel(
+                            factory =
+                                PostProductViewModel.factory(
+                                    ProductRepository.instance(
+                                        LocalContext.current,
+                                    ),
+                                ),
                         ),
-                    ),
                 )
             }
 
