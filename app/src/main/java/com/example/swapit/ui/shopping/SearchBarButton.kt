@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.swapit.R
+import com.example.swapit.ui.navigation.NavItem
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray6
 import com.example.swapit.ui.theme.SwapitTheme
@@ -36,7 +37,7 @@ fun SearchBarButton(
                 .clip(shape = RoundedCornerShape(50.dp)),
         colors = ButtonDefaults.buttonColors(containerColor = Gray6),
         onClick = {
-            navController.navigate("Search") {
+            navController.navigate(NavItem.Search.screenRoute) {
                 navController.graph.startDestinationRoute?.let {
                     popUpTo(it) { saveState = true }
                 }

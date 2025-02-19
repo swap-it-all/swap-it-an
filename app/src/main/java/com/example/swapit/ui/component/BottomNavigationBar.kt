@@ -16,25 +16,25 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.swapit.ui.navigation.BottomNavItem
+import com.example.swapit.ui.navigation.NavItem
+import com.example.swapit.ui.theme.BackgroundColor
 import com.example.swapit.ui.theme.Gray4
-import com.example.swapit.ui.theme.Gray6
 import com.example.swapit.ui.theme.Primary
 import com.example.swapit.ui.theme.Typography
 
 private val items =
-    listOf<BottomNavItem>(
-        BottomNavItem.Shopping,
-        BottomNavItem.Swap,
-        BottomNavItem.Add,
-        BottomNavItem.Chat,
-        BottomNavItem.User,
+    listOf<NavItem>(
+        NavItem.Shopping,
+        NavItem.Swap,
+        NavItem.Add,
+        NavItem.Chat,
+        NavItem.User,
     )
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
     NavigationBar(
-        containerColor = Gray6,
+        containerColor = BackgroundColor,
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -56,7 +56,7 @@ fun BottomNavigationBar(navController: NavHostController) {
                         selectedIconColor = Primary,
                         selectedTextColor = Primary,
                         unselectedIconColor = Gray4,
-                        indicatorColor = Gray6,
+                        indicatorColor = BackgroundColor,
                     ),
                 label = { Text(item.name, style = Typography.labelSmall) },
                 alwaysShowLabel = false,

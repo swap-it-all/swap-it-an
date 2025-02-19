@@ -10,7 +10,7 @@ import androidx.navigation.compose.composable
 import com.example.swapit.ui.alert.AlertScreen
 import com.example.swapit.ui.auth.LoginScreen
 import com.example.swapit.ui.auth.LoginViewModel
-import com.example.swapit.ui.chat.ChatListScreen
+import com.example.swapit.ui.chat.ChatScreen
 import com.example.swapit.ui.post.PostProductScreen
 import com.example.swapit.ui.post.PostProductViewModel
 import com.example.swapit.ui.search.SearchScreen
@@ -30,44 +30,44 @@ class NavigationModule {
     ) {
         val isLoggedIn by loginViewModel.isLoggedIn.collectAsState()
         val startDestination =
-            if (isLoggedIn) BottomNavItem.Shopping.screenRoute else BottomNavItem.Login.screenRoute
+            if (isLoggedIn) NavItem.Shopping.screenRoute else NavItem.Login.screenRoute
 
         NavHost(
             navController = navController,
             startDestination = startDestination,
         ) {
-            composable(BottomNavItem.Login.screenRoute) {
+            composable(NavItem.Login.screenRoute) {
                 LoginScreen(
                     navController = navController,
                     viewModel = loginViewModel,
                 )
             }
 
-            composable(BottomNavItem.Shopping.screenRoute) {
+            composable(NavItem.Shopping.screenRoute) {
                 ShoppingScreen(navController)
             }
-            composable(BottomNavItem.Swap.screenRoute) {
+            composable(NavItem.Swap.screenRoute) {
                 SwapScreen(navController)
             }
-            composable(BottomNavItem.Add.screenRoute) {
+            composable(NavItem.Add.screenRoute) {
                 PostProductScreen(viewModel = PostProductViewModel())
             }
-            composable(BottomNavItem.Chat.screenRoute) {
-                ChatListScreen().ChatListScreen(navController)
+            composable(NavItem.Chat.screenRoute) {
+                ChatScreen(navController)
             }
-            composable(BottomNavItem.User.screenRoute) {
+            composable(NavItem.User.screenRoute) {
                 UserInfoScreen().UserInfoScreen(navController)
             }
-            composable("Alert") {
+            composable(NavItem.Alert.screenRoute) {
                 AlertScreen(navController)
             }
-            composable("Search") {
+            composable(NavItem.Search.screenRoute) {
                 SearchScreen(navController, viewModel = SearchViewModel())
             }
-            composable("ShoppingDetail") {
+            composable(NavItem.ShoppingDetail.screenRoute) {
                 ShoppingDetailScreen(Modifier, navController, defaultShoppingDetailData)
             }
-            composable("MyProductSelection") {
+            composable(NavItem.MyProductSelection.screenRoute) {
                 MyProductSelectionScreen(navController)
             }
         }
