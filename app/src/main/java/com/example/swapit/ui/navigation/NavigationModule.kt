@@ -71,7 +71,7 @@ class NavigationModule {
                 ChatScreen(navController)
             }
             composable(NavItem.User.screenRoute) {
-                UserInfoScreen().UserInfoScreen(navController)
+                UserInfoScreen(navController)
             }
             composable(NavItem.Alert.screenRoute) {
                 AlertScreen(navController)
