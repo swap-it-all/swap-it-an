@@ -186,4 +186,32 @@ class UserInfoScreen {
             Spacer(modifier = Modifier.width(16.dp))
         }
     }
+
+    @Preview(showBackground = true)
+    @Composable
+    fun ProfileItemPreview() {
+        ProfileItem(
+            text = "내가 등록한 물건",
+            count = 5
+        )
+    }
+
+    @Preview(showBackground = true)
+    @Composable
+    fun ProfileSwapCardPreview() {
+        ProfileSwapCard()
+    }
+
+    @Preview(showBackground = true)
+    @Composable
+    fun ProfileCardPreview() {
+        ProfileCard()
+    }
+
+    @Preview(showBackground = true)
+    @Composable
+    fun UserInfoScreenPreview() {
+        UserInfoScreen().UserInfoScreen(navController = NavHostController(LocalContext.current))
+    }
+
 }
