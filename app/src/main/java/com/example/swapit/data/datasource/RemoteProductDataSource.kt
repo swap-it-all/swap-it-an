@@ -8,10 +8,10 @@ import okhttp3.MultipartBody
 class RemoteProductDataSource(private val productService: ProductService) {
     suspend fun postProduct(
         product: ProductRequest,
-    ): BaseResponse<Long> = productService.postProduct(product = product, token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYWdvMDcyNEBuYXZlci5jb20iLCJpYXQiOjE3Mzk4NTYyNzQsImV4cCI6MTczOTg1ODA3NH0.606uaZ_CqYSg0ugAG-uRSCE5GiJmcsUMHHyvcadbmYE")
+    ): BaseResponse<Long> = productService.postProduct(product = product)
 
     suspend fun postProductImages(
         goodsId: Long,
         images: List<MultipartBody.Part>,
-    ): BaseResponse<Unit> = productService.postProductImages(goodsId = goodsId, images = images, token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYWdvMDcyNEBuYXZlci5jb20iLCJpYXQiOjE3Mzk4NTYyNzQsImV4cCI6MTczOTg1ODA3NH0.606uaZ_CqYSg0ugAG-uRSCE5GiJmcsUMHHyvcadbmYE")
+    ): BaseResponse<Unit> = productService.postProductImages(goodsId = goodsId, images = images)
 }
