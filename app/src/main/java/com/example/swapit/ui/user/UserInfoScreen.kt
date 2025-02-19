@@ -161,4 +161,29 @@ class UserInfoScreen {
             }
         }
     }
+
+    @Composable
+    fun ProfileItem(
+        text: String,
+        count: Int,
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(text = text, style = Typography.bodyMedium, color = Black)
+            Spacer(modifier = Modifier.width(6.dp))
+            Text(text = count.toString(), style = Typography.bodyMedium, color = Black)
+            Spacer(modifier = Modifier.weight(1f))
+            Icon(
+                painter = painterResource(id = R.drawable.ic_chevron_right),
+                contentDescription = "더보기",
+                tint = Black
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+        }
+    }
 }
