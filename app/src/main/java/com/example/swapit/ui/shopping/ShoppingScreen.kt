@@ -23,6 +23,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.swapit.ui.component.AppBar
 import com.example.swapit.ui.component.BottomNavigationBar
+import com.example.swapit.ui.navigation.NavItem
 import com.example.swapit.ui.theme.BackgroundColor
 import com.example.swapit.ui.theme.Paddings
 import com.example.swapit.ui.theme.SwapitTheme
@@ -60,7 +61,7 @@ fun ShoppingScreen(navController: NavHostController) {
                 }
                 items(10) {
                     ShoppingCard(productCardData, navController) {
-                        navController.navigate("ShoppingDetail")
+                        navController.navigate(NavItem.ShoppingDetail.screenRoute)
                     }
                 }
                 item {

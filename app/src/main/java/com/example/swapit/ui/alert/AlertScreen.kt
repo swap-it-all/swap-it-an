@@ -24,6 +24,7 @@ import com.example.swapit.ui.theme.Typography
 
 @Composable
 fun AlertScreen(navController: NavHostController) {
+    val alertCardDataList = 1
     Column(
         Modifier
             .fillMaxSize()
@@ -36,6 +37,9 @@ fun AlertScreen(navController: NavHostController) {
             style = Typography.titleLarge,
             modifier = Modifier.padding(Paddings.xlarge),
         )
+        if (alertCardDataList == 0) {
+            NoAlertIconSection()
+        }
         LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
             items(4) {
                 AlertCard(alertCardData = alertCardData)

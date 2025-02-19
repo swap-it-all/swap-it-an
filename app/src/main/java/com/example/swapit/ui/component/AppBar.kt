@@ -12,6 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.swapit.R
+import com.example.swapit.ui.navigation.NavItem
 import com.example.swapit.ui.theme.BackgroundColor
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,7 +32,7 @@ fun AppBar(
         actions = {
             IconButton(
                 onClick = {
-                    navController.navigate("Alert") {
+                    navController.navigate(NavItem.Alert.screenRoute) {
                         navController.graph.startDestinationRoute?.let {
                             popUpTo(it) { saveState = true }
                         }
