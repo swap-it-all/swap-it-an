@@ -28,10 +28,11 @@ interface ProductRepository {
 
         fun instance(context: Context): ProductRepository {
             if (instance == null) {
-                instance = DefaultProductRepository(
-                    remoteSource = RemoteProductDataSource(ServiceModule.productService),
-                    context = context,
-                )
+                instance =
+                    DefaultProductRepository(
+                        remoteSource = RemoteProductDataSource(ServiceModule.productService),
+                        context = context,
+                    )
             }
             return instance!!
         }

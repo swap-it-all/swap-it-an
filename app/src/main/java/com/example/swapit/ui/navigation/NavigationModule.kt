@@ -55,13 +55,15 @@ class NavigationModule {
             composable(BottomNavItem.Add.screenRoute) {
                 PostProductScreen(
                     navController = navController,
-                    viewModel = viewModel(
-                        factory = PostProductViewModel.factory(
-                            ProductRepository.instance(
-                                LocalContext.current
-                            )
+                    viewModel =
+                        viewModel(
+                            factory =
+                                PostProductViewModel.factory(
+                                    ProductRepository.instance(
+                                        LocalContext.current,
+                                    ),
+                                ),
                         ),
-                    )
                 )
             }
             composable(BottomNavItem.Chat.screenRoute) {

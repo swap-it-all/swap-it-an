@@ -41,7 +41,6 @@ import com.example.swapit.ui.post.component.PostProductImagePicker
 import com.example.swapit.ui.post.component.PostProductNameTextField
 import com.example.swapit.ui.post.component.PostProductPriceTextField
 import com.example.swapit.ui.post.component.PostProductSwapLocationTextField
-import com.example.swapit.ui.shopping.detail.ShoppingDetailScreen
 import com.example.swapit.ui.theme.BackgroundColor
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Paddings
@@ -66,17 +65,17 @@ fun PostProductScreen(
     Scaffold { paddingValues ->
         Surface(
             modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
             color = BackgroundColor,
         ) {
             Column(
                 modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = Paddings.xlarge)
-                    .verticalScroll(rememberScrollState()),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Paddings.xlarge)
+                        .verticalScroll(rememberScrollState()),
             ) {
                 LazyRow {
                     item {
@@ -97,9 +96,9 @@ fun PostProductScreen(
                             contentScale = ContentScale.Crop,
                             contentDescription = "이미지",
                             modifier =
-                            Modifier
-                                .size(86.dp)
-                                .clip(Shapes.small),
+                                Modifier
+                                    .size(86.dp)
+                                    .clip(Shapes.small),
                         )
                         Spacer(modifier = Modifier.padding(Paddings.medium))
                     }
@@ -283,9 +282,10 @@ fun DescriptionTextField(
 @Composable
 fun PostProductScreenPreview() {
     PostProductScreen(
-        viewModel = PostProductViewModel(
-            repository = ProductRepository.instance(LocalContext.current)
-        ),
+        viewModel =
+            PostProductViewModel(
+                repository = ProductRepository.instance(LocalContext.current),
+            ),
         navController = NavHostController(LocalContext.current),
     )
 }

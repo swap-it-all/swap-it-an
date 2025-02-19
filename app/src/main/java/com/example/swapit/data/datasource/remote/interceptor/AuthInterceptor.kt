@@ -13,11 +13,12 @@ class AuthInterceptor(
 
         val isRefreshRequest = request.url.encodedPath.contains("/refresh")
 
-        val newRequest = request.newBuilder().apply {
-            if (!isRefreshRequest) {
-                accessToken?.let { addHeader("Authorization", "Bearer $it") }
-            }
-        }.build()
+        val newRequest =
+            request.newBuilder().apply {
+                if (!isRefreshRequest) {
+                    accessToken?.let { addHeader("Authorization", "Bearer $it") }
+                }
+            }.build()
 
         return chain.proceed(newRequest)
     }

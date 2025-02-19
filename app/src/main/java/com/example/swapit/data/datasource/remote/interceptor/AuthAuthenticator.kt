@@ -42,7 +42,10 @@ class AuthAuthenticator(
         }
     }
 
-    private fun saveTokens(accessToken: String, refreshToken: String) {
+    private fun saveTokens(
+        accessToken: String,
+        refreshToken: String,
+    ) {
         runBlocking {
             localLoginDataSource.saveTokens(accessToken, refreshToken)
         }

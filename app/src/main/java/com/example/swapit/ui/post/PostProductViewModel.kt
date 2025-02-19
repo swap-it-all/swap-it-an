@@ -109,14 +109,15 @@ class PostProductViewModel(private val repository: ProductRepository) : ViewMode
 
     private fun postProduct() {
         viewModelScope.launch {
-            val response = repository.postProduct(
-                title = productName.value,
-                price = productPrice.value.toInt(),
-                quality = selectedQuality.value!!,
-                categoryId = selectedCategory.value!!.id,
-                description = productDescription.value,
-                placeName = productLocation.value,
-            )
+            val response =
+                repository.postProduct(
+                    title = productName.value,
+                    price = productPrice.value.toInt(),
+                    quality = selectedQuality.value!!,
+                    categoryId = selectedCategory.value!!.id,
+                    description = productDescription.value,
+                    placeName = productLocation.value,
+                )
 
             if (response.success) {
                 Log.d(TAG, "상품 등록 성공")
@@ -131,9 +132,7 @@ class PostProductViewModel(private val repository: ProductRepository) : ViewMode
     companion object {
         private const val TAG = "PostProductViewModel"
 
-        fun factory(
-            repository: ProductRepository,
-        ): ViewModelProvider.Factory =
+        fun factory(repository: ProductRepository): ViewModelProvider.Factory =
             BaseViewModelFactory {
                 PostProductViewModel(repository = repository)
             }

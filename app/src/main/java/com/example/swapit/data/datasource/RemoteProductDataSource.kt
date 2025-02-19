@@ -6,9 +6,7 @@ import com.example.swapit.data.datasource.remote.service.ProductService
 import okhttp3.MultipartBody
 
 class RemoteProductDataSource(private val productService: ProductService) {
-    suspend fun postProduct(
-        product: ProductRequest,
-    ): BaseResponse<Long> = productService.postProduct(product = product)
+    suspend fun postProduct(product: ProductRequest): BaseResponse<Long> = productService.postProduct(product = product)
 
     suspend fun postProductImages(
         goodsId: Long,

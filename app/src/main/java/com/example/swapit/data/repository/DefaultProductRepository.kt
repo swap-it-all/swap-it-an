@@ -15,7 +15,6 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.FileOutputStream
 
-
 class DefaultProductRepository(
     private val remoteSource: RemoteProductDataSource,
     private val context: Context,
@@ -27,28 +26,30 @@ class DefaultProductRepository(
         quality: QualityOption,
         categoryId: Int,
         description: String,
-        placeName: String
+        placeName: String,
     ): BaseResponse<Long> {
-        val productRequest = ProductRequest(
-            title = title,
-            price = price,
-            quality = quality.name,
-            categoryId = categoryId,
-            description = description,
-            placeName = placeName,
-        )
+        val productRequest =
+            ProductRequest(
+                title = title,
+                price = price,
+                quality = quality.name,
+                categoryId = categoryId,
+                description = description,
+                placeName = placeName,
+            )
 
         return remoteSource.postProduct(productRequest)
     }
 
     override suspend fun postProductImages(
         goodsId: Long,
-        images: List<Uri>
+        images: List<Uri>,
     ): BaseResponse<Unit> {
-        val imageFile = images.map { uri ->
-            val file = toFile(context, uri) // uri -> file로 변환
-            createMultipartBody(file) // file -> multipartBody로 변환
-        }
+        val imageFile =
+            images.map { uri ->
+                val file = toFile(context, uri) // uri -> file로 변환
+                createMultipartBody(file) // file -> multipartBody로 변환
+            }
         return remoteSource.postProductImages(goodsId, imageFile)
     }
 
@@ -63,7 +64,11 @@ class DefaultProductRepository(
     }
 
     // 파일 내용 스트림 복사
-    private fun copyToFile(context: Context, uri: Uri, file: File) {
+    private fun copyToFile(
+        context: Context,
+        uri: Uri,
+        file: File,
+    ) {
         val inputStream = context.contentResolver.openInputStream(uri.toAndroidUri())
         val outputStream = FileOutputStream(file)
 
@@ -78,7 +83,10 @@ class DefaultProductRepository(
         outputStream.close()
     }
 
-    private fun toFile(context: Context, uri: Uri): File {
+    private fun toFile(
+        context: Context,
+        uri: Uri,
+    ): File {
         val fileName = getFileName(context, uri)
 
         val file = createTempFile(fileName)
@@ -88,7 +96,10 @@ class DefaultProductRepository(
     }
 
     // get file name & extension
-    private fun getFileName(context: Context, uri: Uri): String {
+    private fun getFileName(
+        context: Context,
+        uri: Uri,
+    ): String {
         val name = uri.toString().split("/").last()
         val ext = context.contentResolver.getType(uri.toAndroidUri())!!.split("/").last()
 
@@ -97,4 +108,3 @@ class DefaultProductRepository(
 }
 
 // todo mapper
-

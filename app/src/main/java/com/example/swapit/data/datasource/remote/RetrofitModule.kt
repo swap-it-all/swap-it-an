@@ -27,11 +27,12 @@ object RetrofitModule {
             )
         val client = okHttpClient()
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl((BuildConfig.SWAP_IT_BASE_URL))
-            .client(client)
-            .addConverterFactory(converterFactory)
-            .build()
+        val retrofit =
+            Retrofit.Builder()
+                .baseUrl((BuildConfig.SWAP_IT_BASE_URL))
+                .client(client)
+                .addConverterFactory(converterFactory)
+                .build()
 
         loginServiceHolder.loginService = retrofit.create(LoginService::class.java)
 
