@@ -44,7 +44,7 @@ fun ChatCard(chatCardData: ChatCardData) {
                 .fillMaxWidth(),
         colors = CardDefaults.cardColors(BackgroundColor),
     ) {
-        ChatCardContent(chatCardData = _chatCardData)
+        ChatCardContent(chatCardData = chatCardData)
     }
 }
 

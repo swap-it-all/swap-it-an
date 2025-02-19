@@ -28,10 +28,9 @@ fun ChatScreen(navController: NavHostController) {
             BottomNavigationBar(navController)
         },
     ) { contentPadding ->
-        if (chatList == 0)
-            {
-                NoChatIconSection(contentPadding)
-            }
+        if (chatList == 0) {
+            NoChatIconSection(contentPadding)
+        }
         LazyColumn(
             modifier =
                 Modifier
