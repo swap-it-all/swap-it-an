@@ -30,7 +30,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.swapit.R
 import com.example.swapit.domain.repository.LoginRepository
-import com.example.swapit.ui.navigation.BottomNavItem
+import com.example.swapit.ui.navigation.NavItem
 import com.example.swapit.ui.theme.Black
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray4
@@ -48,8 +48,8 @@ fun LoginScreen(
 
     LaunchedEffect(isLoggedIn) {
         if (isLoggedIn) {
-            navController.navigate(BottomNavItem.Shopping.screenRoute) {
-                popUpTo(BottomNavItem.Login.screenRoute) { inclusive = true }
+            navController.navigate(NavItem.Shopping.screenRoute) {
+                popUpTo(NavItem.Login.screenRoute) { inclusive = true }
                 launchSingleTop = true
             }
         }

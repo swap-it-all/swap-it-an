@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.swapit.R
 import com.example.swapit.ui.component.DefaultButton
 import com.example.swapit.ui.component.ModalButton
+import com.example.swapit.ui.navigation.NavItem
 import com.example.swapit.ui.theme.Gray5
 import com.example.swapit.ui.theme.Paddings
 
@@ -26,7 +27,7 @@ fun BottomButtonSection(navController: NavHostController) {
             ),
         containerColor = Gray5,
     ) {
-        navController.navigate("MyProductSelection")
+        navController.navigate(NavItem.MyProductSelection.screenRoute)
     }
     DefaultButton(
         text = stringResource(R.string.shopping_detail_chat_bottom_button),
