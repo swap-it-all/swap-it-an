@@ -95,4 +95,70 @@ class UserInfoScreen {
             }
         }
     }
+
+    @Composable
+    fun ProfileSwapCard(
+        productCount: Int = 22,
+        swapCount: Int = 16,
+        review: Float = 4.8f
+    ) {
+        Card(
+            modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(Paddings.xlarge, Paddings.smallMedium),
+            colors =
+            CardDefaults.cardColors(
+                containerColor = White,
+            ),
+            shape = RoundedCornerShape(20.dp),
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Column(
+                    modifier = Modifier
+                        .height(80.dp)
+                        .width(127.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Text(productCount.toString(), style = Typography.headlineSmall, color = Primary)
+                    Spacer(modifier = Modifier.size(8.dp))
+                    Text("물건 수", style = Typography.labelLarge, color = Gray4)
+                }
+                VerticalDivider(
+                    modifier = Modifier.height(60.dp)
+                )
+                Column(
+                    modifier = Modifier
+                        .height(80.dp)
+                        .width(127.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Text(swapCount.toString(), style = Typography.headlineSmall, color = Primary)
+                    Spacer(modifier = Modifier.size(8.dp))
+                    Text("스왑 수", style = Typography.labelLarge, color = Gray4)
+                }
+                VerticalDivider(
+                    modifier = Modifier.height(60.dp)
+                )
+                Column(
+                    modifier = Modifier
+                        .height(80.dp)
+                        .width(127.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Text(review.toString(), style = Typography.headlineSmall, color = Primary)
+                    Spacer(modifier = Modifier.size(8.dp))
+                    Text("리뷰 평점", style = Typography.labelLarge, color = Gray4)
+                }
+            }
+        }
+    }
 }
