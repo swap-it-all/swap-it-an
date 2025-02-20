@@ -27,6 +27,8 @@ sealed class NavItem(
 
     data object MyProductSelection : NavItem("바꾸려는 물건 내 물건 선택", R.drawable.ic_shopping_bag, MY_PRODUCT_SELECT)
 
+    data object ProfileEdit : NavItem("프로필 수정", R.drawable.ic_user, PROFILE_EDIT)
+
     companion object {
         const val SEARCH = "SEARCH"
         const val ALERT = "ALERT"
@@ -38,5 +40,6 @@ sealed class NavItem(
         const val POST = "POST"
         const val CHAT = "CHAT"
         const val USER = "USER"
+        const val PROFILE_EDIT = "PROFILE_EDIT"
     }
 }

@@ -24,6 +24,7 @@ import com.example.swapit.ui.shopping.detail.defaultShoppingDetailData
 import com.example.swapit.ui.shopping.detail.select.MyProductSelectionScreen
 import com.example.swapit.ui.swap.SwapScreen
 import com.example.swapit.ui.user.UserInfoScreen
+import com.example.swapit.ui.user.profile.ProfileEditScreen
 
 class NavigationModule {
     @Composable
@@ -84,6 +85,9 @@ class NavigationModule {
             }
             composable(NavItem.MyProductSelection.screenRoute) {
                 MyProductSelectionScreen(navController)
+            }
+            composable(NavItem.ProfileEdit.screenRoute) {
+                ProfileEditScreen(navController)
             }
         }
     }
