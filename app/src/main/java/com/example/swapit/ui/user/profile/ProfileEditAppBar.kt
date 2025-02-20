@@ -18,7 +18,7 @@ fun ProfileEditAppBar(navController: NavHostController) {
             IconButton(onClick = { navController.popBackStack() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_chevron_left),
-                    contentDescription = "뒤로 가기"
+                    contentDescription = "뒤로 가기",
                 )
             }
         },

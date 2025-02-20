@@ -42,28 +42,28 @@ fun ProfileCard(
 ) {
     Card(
         modifier =
-        Modifier
-            .fillMaxWidth()
-            .padding(Paddings.xlarge, Paddings.smallMedium),
+            Modifier
+                .fillMaxWidth()
+                .padding(Paddings.xlarge, Paddings.smallMedium),
         colors =
-        CardDefaults.cardColors(
-            containerColor = White,
-        ),
+            CardDefaults.cardColors(
+                containerColor = White,
+            ),
         shape = RoundedCornerShape(20.dp),
     ) {
         Row(
             modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_add_plus_circle),
                 contentDescription = "Profile Picture",
                 modifier =
-                Modifier
-                    .size(86.dp)
-                    .clip(CircleShape),
+                    Modifier
+                        .size(86.dp)
+                        .clip(CircleShape),
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column(

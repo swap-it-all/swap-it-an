@@ -22,28 +22,31 @@ import com.example.swapit.ui.theme.White
 @Composable
 fun ProfileImage() {
     Box(
-        modifier = Modifier
-            .fillMaxWidth(),
-        contentAlignment = Alignment.Center
+        modifier =
+            Modifier
+                .fillMaxWidth(),
+        contentAlignment = Alignment.Center,
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_user),
             contentDescription = "프로필 이미지",
-            modifier = Modifier
-                .size(86.dp)
-                .clip(CircleShape),
+            modifier =
+                Modifier
+                    .size(86.dp)
+                    .clip(CircleShape),
         )
         Box(
-            modifier = Modifier
-                .size(86.dp)
-                .background(Black.copy(alpha = 0.4f), CircleShape),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .size(86.dp)
+                    .background(Black.copy(alpha = 0.4f), CircleShape),
+            contentAlignment = Alignment.Center,
         ) {
             IconButton(onClick = {}, modifier = Modifier.matchParentSize()) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_pencil),
                     contentDescription = "프로필 이미지 수정",
-                    tint = White
+                    tint = White,
                 )
             }
         }

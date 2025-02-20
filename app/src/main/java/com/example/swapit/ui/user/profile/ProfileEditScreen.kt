@@ -25,15 +25,16 @@ fun ProfileEditScreen(navController: NavHostController) {
     ) { contentPadding ->
         Surface(
             modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(contentPadding),
+                Modifier
+                    .fillMaxSize()
+                    .padding(contentPadding),
             color = BackgroundColor,
         ) {
             Column(
-                modifier = Modifier
-                    .padding(Paddings.xlarge)
-                    .fillMaxSize(),
+                modifier =
+                    Modifier
+                        .padding(Paddings.xlarge)
+                        .fillMaxSize(),
             ) {
                 ProfileImage()
                 ProfileNameTextField(
@@ -53,6 +54,6 @@ fun ProfileEditScreen(navController: NavHostController) {
 @Composable
 fun ProfileEditScreenPreview() {
     ProfileEditScreen(
-        navController = NavHostController(LocalContext.current)
+        navController = NavHostController(LocalContext.current),
     )
 }
