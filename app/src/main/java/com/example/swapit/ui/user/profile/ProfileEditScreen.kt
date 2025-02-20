@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
-import com.example.swapit.ui.component.AppBar
 import com.example.swapit.ui.component.DefaultButton
 import com.example.swapit.ui.theme.BackgroundColor
 import com.example.swapit.ui.theme.Paddings
@@ -21,7 +20,7 @@ import com.example.swapit.ui.theme.Paddings
 fun ProfileEditScreen(navController: NavHostController) {
     Scaffold(
         topBar = {
-            AppBar(navController = navController)
+            ProfileEditAppBar(navController)
         },
     ) { contentPadding ->
         Surface(
