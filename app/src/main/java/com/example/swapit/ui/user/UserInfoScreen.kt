@@ -34,7 +34,7 @@ fun UserInfoScreen(navController: NavHostController) {
             color = BackgroundColor,
         ) {
             Column {
-                ProfileCard()
+                ProfileCard(navController = navController)
                 ProfileSwapCard()
                 LazyColumn {
                     item {

@@ -1,6 +1,7 @@
 package com.example.swapit.ui.user
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,10 +21,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.swapit.R
+import com.example.swapit.ui.navigation.NavItem
 import com.example.swapit.ui.theme.Black
 import com.example.swapit.ui.theme.Gray4
 import com.example.swapit.ui.theme.Paddings
@@ -34,31 +38,32 @@ import com.example.swapit.ui.theme.White
 fun ProfileCard(
     userName: String = "하울의움직이는성",
     userEmail: String = "swapit202501@gmail.com",
+    navController: NavController,
 ) {
     Card(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(Paddings.xlarge, Paddings.smallMedium),
+        Modifier
+            .fillMaxWidth()
+            .padding(Paddings.xlarge, Paddings.smallMedium),
         colors =
-            CardDefaults.cardColors(
-                containerColor = White,
-            ),
+        CardDefaults.cardColors(
+            containerColor = White,
+        ),
         shape = RoundedCornerShape(20.dp),
     ) {
         Row(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_add_plus_circle),
                 contentDescription = "Profile Picture",
                 modifier =
-                    Modifier
-                        .size(86.dp)
-                        .clip(CircleShape),
+                Modifier
+                    .size(86.dp)
+                    .clip(CircleShape),
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column(
@@ -68,6 +73,7 @@ fun ProfileCard(
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.clickable { navController.navigate(NavItem.ProfileEdit.screenRoute) },
                 ) {
                     Text(userName, style = Typography.titleLarge, color = Black)
                     Spacer(modifier = Modifier.width(8.dp))
@@ -87,5 +93,5 @@ fun ProfileCard(
 @Preview(showBackground = true)
 @Composable
 fun ProfileCardPreview() {
-    ProfileCard()
+    ProfileCard(navController = NavController(LocalContext.current))
 }
