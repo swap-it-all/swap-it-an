@@ -1,50 +1,62 @@
 package com.example.swapit.ui.user
 
-import android.annotation.SuppressLint
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import com.example.swapit.ui.component.AppBar
 import com.example.swapit.ui.component.BottomNavigationBar
-import com.example.swapit.ui.navigation.NavigationModule
+import com.example.swapit.ui.theme.BackgroundColor
 
-@SuppressLint("NotConstructor")
-class UserInfoScreen {
-    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-    @Composable
-    fun UserInfoScreen(navController: NavHostController) {
-        val navigationModule = NavigationModule()
-        Scaffold(
-            topBar = {
-                AppBar(navController = navController)
-            },
-            bottomBar = {
-                BottomNavigationBar(navController)
-            },
+@Composable
+fun UserInfoScreen(navController: NavHostController) {
+    Scaffold(
+        topBar = {
+            AppBar(navController = navController)
+        },
+        bottomBar = {
+            BottomNavigationBar(navController)
+        },
+    ) { contentPadding ->
+        Surface(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(contentPadding),
+            color = BackgroundColor,
         ) {
-            Box(
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .background(Color.Blue),
-            ) {
-                Text(
-                    text = "유저 정보",
-                    style = MaterialTheme.typography.labelLarge,
-                    textAlign = TextAlign.Center,
-                    color = Color.White,
-                    modifier = Modifier.align(Alignment.Center),
-                )
+            Column {
+                ProfileCard(navController = navController)
+                ProfileSwapCard()
+                LazyColumn {
+                    item {
+                        ProfileItem(
+                            text = "내가 등록한 물건",
+                            count = 5,
+                        )
+                        HorizontalDivider()
+                        ProfileItem(
+                            text = "받은 스왑 리뷰",
+                            count = 11,
+                        )
+                        HorizontalDivider()
+                    }
+                }
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun UserInfoScreenPreview() {
+    UserInfoScreen(navController = NavHostController(LocalContext.current))
 }

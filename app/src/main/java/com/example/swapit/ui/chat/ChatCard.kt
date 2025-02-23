@@ -48,7 +48,9 @@ fun ChatCard(chatCardData: ChatCardData,navController: NavHostController) {
             Modifier
                 .fillMaxWidth(),
         colors = CardDefaults.cardColors(BackgroundColor),
-        onClick = {navController.navigate(NavItem.ChatRoom.screenRoute)}
+        onClick = {
+            navController.navigate(NavItem.ChatRoom.screenRoute)
+        }
     ) {
         ChatCardContent(chatCardData = chatCardData)
     }

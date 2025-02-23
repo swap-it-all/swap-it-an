@@ -1,9 +1,12 @@
 package com.example.swapit.ui.post
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import coil3.Uri
 import com.example.swapit.data.datasource.local.model.post.CategoryOption
 import com.example.swapit.data.datasource.local.model.post.QualityOption
@@ -12,9 +15,12 @@ import com.example.swapit.domain.model.post.Location
 import com.example.swapit.domain.model.post.Name
 import com.example.swapit.domain.model.post.PostState
 import com.example.swapit.domain.model.post.Price
+import com.example.swapit.domain.repository.ProductRepository
+import com.example.swapit.ui.base.BaseViewModelFactory
 import com.example.swapit.ui.post.model.AlertDialogState
+import kotlinx.coroutines.launch
 
-class PostProductViewModel : ViewModel() {
+class PostProductViewModel(private val repository: ProductRepository) : ViewModel() {
     private val _selectedImageUris = mutableStateOf<List<Uri>>(emptyList())
     val selectedImageUris: State<List<Uri>> = _selectedImageUris
 
@@ -88,12 +94,47 @@ class PostProductViewModel : ViewModel() {
         alertDialogState.value =
             AlertDialogState(
                 title = title,
-                onClickConfirm = { resetDialogState() },
+                onClickConfirm = {
+                    postProduct()
+                    resetDialogState()
+                    onConfirm()
+                },
                 onClickCancel = { resetDialogState() },
             )
     }
 
     private fun resetDialogState() {
         alertDialogState.value = AlertDialogState()
+    }
+
+    private fun postProduct() {
+        viewModelScope.launch {
+            val response =
+                repository.postProduct(
+                    title = productName.value,
+                    price = productPrice.value.toInt(),
+                    quality = selectedQuality.value!!,
+                    categoryId = selectedCategory.value!!.id,
+                    description = productDescription.value,
+                    placeName = productLocation.value,
+                )
+
+            if (response.success) {
+                Log.d(TAG, "상품 등록 성공")
+                val goodsId = response.results
+                repository.postProductImages(goodsId, selectedImageUris.value)
+            } else {
+                Log.e(TAG, "상품 등록 실패")
+            }
+        }
+    }
+
+    companion object {
+        private const val TAG = "PostProductViewModel"
+
+        fun factory(repository: ProductRepository): ViewModelProvider.Factory =
+            BaseViewModelFactory {
+                PostProductViewModel(repository = repository)
+            }
     }
 }

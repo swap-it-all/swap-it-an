@@ -1,17 +1,23 @@
 package com.example.swapit.ui.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.ui.alert.AlertScreen
 import com.example.swapit.ui.auth.LoginScreen
 import com.example.swapit.ui.auth.LoginViewModel
 import com.example.swapit.ui.chat.ChatScreen
 import com.example.swapit.ui.chat.room.ChatRoomScreen
+import com.example.swapit.ui.chat.ChatScreen
 import com.example.swapit.ui.post.PostProductScreen
 import com.example.swapit.ui.post.PostProductViewModel
 import com.example.swapit.ui.search.SearchScreen
@@ -22,8 +28,10 @@ import com.example.swapit.ui.shopping.detail.defaultShoppingDetailData
 import com.example.swapit.ui.shopping.detail.select.MyProductSelectionScreen
 import com.example.swapit.ui.swap.SwapScreen
 import com.example.swapit.ui.user.UserInfoScreen
+import com.example.swapit.ui.user.profile.ProfileEditScreen
 
 class NavigationModule {
+    @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     fun NavigationGraph(
         navController: NavHostController,
@@ -51,13 +59,24 @@ class NavigationModule {
                 SwapScreen(navController)
             }
             composable(NavItem.Add.screenRoute) {
-                PostProductScreen(viewModel = PostProductViewModel())
+                PostProductScreen(
+                    navController = navController,
+                    viewModel =
+                        viewModel(
+                            factory =
+                                PostProductViewModel.factory(
+                                    ProductRepository.instance(
+                                        LocalContext.current,
+                                    ),
+                                ),
+                        ),
+                )
             }
             composable(NavItem.Chat.screenRoute) {
                 ChatScreen(navController)
             }
             composable(NavItem.User.screenRoute) {
-                UserInfoScreen().UserInfoScreen(navController)
+                UserInfoScreen(navController)
             }
             composable(NavItem.Alert.screenRoute) {
                 AlertScreen(navController)
@@ -70,6 +89,9 @@ class NavigationModule {
             }
             composable(NavItem.MyProductSelection.screenRoute) {
                 MyProductSelectionScreen(navController)
+            }
+            composable(NavItem.ProfileEdit.screenRoute) {
+                ProfileEditScreen(navController)
             }
             composable(NavItem.ChatRoom.screenRoute) {
                 ChatRoomScreen(navController)
