@@ -43,6 +43,7 @@ fun ChatRoomScreen(navController: NavHostController) {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 val chats: List<Chat> =
     listOf(
         Chat(1, "text", "안녕하세요", 1, LocalDateTime.now()),
