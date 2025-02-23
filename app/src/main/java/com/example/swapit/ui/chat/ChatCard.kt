@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -16,9 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.swapit.data.model.ChatCardData
+import com.example.swapit.ui.navigation.NavItem
 import com.example.swapit.ui.theme.BackgroundColor
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray4
@@ -33,16 +37,18 @@ val _chatCardData =
         userName = "홍길동",
         lastMessage = "안녕하세요",
         lastMessageTime = "오전 10:30",
-        unreadMessageCount = 13,
+        unreadMessageCount = 110,
+        onClick = {},
     )
 
 @Composable
-fun ChatCard(chatCardData: ChatCardData) {
+fun ChatCard(chatCardData: ChatCardData,navController: NavHostController) {
     Card(
         modifier =
             Modifier
                 .fillMaxWidth(),
         colors = CardDefaults.cardColors(BackgroundColor),
+        onClick = {navController.navigate(NavItem.ChatRoom.screenRoute)}
     ) {
         ChatCardContent(chatCardData = chatCardData)
     }
@@ -116,20 +122,24 @@ fun ChatCardUserMessageComtentSection(chatCardData: ChatCardData) {
                 style = Typography.bodySmall,
                 color = Gray3,
             )
-            Box(
-                modifier =
+            if (chatCardData.unreadMessageCount != 0){
+                Box(
+                    modifier =
                     Modifier
-                        .size(20.dp)
-                        .clip(CircleShape)
+                        .size(chatCardData.unreadMessageCount.toString().length.dp*4 + 20.dp, 20.dp)
+                        .clip(RoundedCornerShape(20.dp))
                         .background(Red),
-            ) {
-                Text(
-                    text = chatCardData.unreadMessageCount.toString(),
-                    color = White,
-                    modifier = Modifier.align(Alignment.Center),
-                    style = Typography.labelLarge,
-                )
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = if (chatCardData.unreadMessageCount <= 99) chatCardData.unreadMessageCount.toString() else "99+",
+                        color = White,
+                        modifier = Modifier.align(Alignment.Center),
+                        style = Typography.labelLarge,
+                    )
+                }
             }
+
         }
     }
 }
