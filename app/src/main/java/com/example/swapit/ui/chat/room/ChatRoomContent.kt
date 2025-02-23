@@ -21,18 +21,23 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun ChatRoomContent(modifier: Modifier = Modifier) {
     LazyColumn(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(BackgroundColor),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .background(BackgroundColor),
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         item {
-            Text(chats[0].createdAt.format(DateTimeFormatter.ofPattern(stringResource(R.string.chat_room_time_format))).toString()) //todo: 시간 상태 빈 값으로 만들어 놓고, 바뀌면 뜨게 하기
+            Text(
+                chats[0].createdAt.format(DateTimeFormatter.ofPattern(stringResource(R.string.chat_room_time_format))).toString(),
+            ) // todo: 시간 상태 빈 값으로 만들어 놓고, 바뀌면 뜨게 하기
         }
-        items(count = chats.size,
-            key = { chats[it].chatsId }) { item ->
+        items(
+            count = chats.size,
+            key = { chats[it].chatsId },
+        ) { item ->
             ChatBubble(chats[item])
         }
     }

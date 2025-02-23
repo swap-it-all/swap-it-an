@@ -28,6 +28,7 @@ sealed class NavItem(
     data object MyProductSelection : NavItem("바꾸려는 물건 내 물건 선택", R.drawable.ic_shopping_bag, MY_PRODUCT_SELECT)
 
     data object ChatRoom : NavItem("채팅방", R.drawable.ic_chat, CHAT_ROOM)
+
     data object ProfileEdit : NavItem("프로필 수정", R.drawable.ic_user, PROFILE_EDIT)
 
     companion object {

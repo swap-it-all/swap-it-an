@@ -34,22 +34,20 @@ fun ChatBubble(chat: Chat) {
     val textColor = if (chat.senderId == 1L) White else Gray2
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = arrangement
+        horizontalArrangement = arrangement,
     ) {
         if (chat.senderId == 1L) {
             Row(verticalAlignment = Alignment.Bottom) {
                 BubbleTime(chat)
-                Bubble(chat,containerColor,textColor)
+                Bubble(chat, containerColor, textColor)
             }
-
         } else {
             Row(verticalAlignment = Alignment.Bottom) {
-                Bubble(chat,containerColor,textColor)
+                Bubble(chat, containerColor, textColor)
                 BubbleTime(chat)
             }
         }
     }
-
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -57,17 +55,22 @@ fun ChatBubble(chat: Chat) {
 fun BubbleTime(chat: Chat) {
     Text(
         chat.createdAt.format(DateTimeFormatter.ofPattern(stringResource(R.string.chat_bubble_time_format))),
-        Modifier.padding(end = Paddings.small)
+        Modifier.padding(end = Paddings.small),
     )
 }
 
 @Composable
-fun Bubble(chat: Chat,containerColor:Color,textColor:Color) {
+fun Bubble(
+    chat: Chat,
+    containerColor: Color,
+    textColor: Color,
+) {
     Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(16.dp))
-            .background(containerColor)
-            .padding(Paddings.xlarge, 7.dp)
+        modifier =
+            Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .background(containerColor)
+                .padding(Paddings.xlarge, 7.dp),
     ) {
         Text(chat.content, color = textColor)
     }

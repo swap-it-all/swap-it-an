@@ -59,8 +59,9 @@ fun AppBar(
             ),
     )
 }
+
 @Preview(showBackground = true)
 @Composable
-fun AppBarPreview(){
-    AppBar(Modifier,NavHostController(LocalContext.current))
+fun AppBarPreview()  {
+    AppBar(Modifier, NavHostController(LocalContext.current))
 }

@@ -32,24 +32,26 @@ fun SearchField(
         onValueChange = onValueChange,
         textStyle = Typography.bodyMedium.copy(color = Black),
         singleLine = true,
-        modifier = modifier
-            .fillMaxWidth()
-            .height(44.dp)
-            .background(Gray6, shape = RoundedCornerShape(32.dp))
-            .padding(horizontal = 16.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .height(44.dp)
+                .background(Gray6, shape = RoundedCornerShape(32.dp))
+                .padding(horizontal = 16.dp),
         decorationBox = { innerTextField ->
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 10.dp),
-                verticalAlignment = Alignment.CenterVertically
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(modifier = Modifier.weight(1f)) {
                     if (searchTerm.isEmpty()) {
                         Text(
                             stringResource(R.string.shopping_search_button_content),
                             style = Typography.bodyMedium,
-                            color = Gray3
+                            color = Gray3,
                         )
                     }
                     innerTextField()
@@ -57,9 +59,9 @@ fun SearchField(
                 Image(
                     painter = painterResource(R.drawable.ic_search_magnifying),
                     contentDescription = stringResource(R.string.search_search_button),
-                    colorFilter = ColorFilter.tint(Gray3)
+                    colorFilter = ColorFilter.tint(Gray3),
                 )
             }
-        }
+        },
     )
 }

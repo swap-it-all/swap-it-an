@@ -13,19 +13,17 @@ import com.example.swapit.ui.theme.Paddings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AlertAppBar(
-    navController: NavHostController,
-) {
+fun AlertAppBar(navController: NavHostController) {
     TopAppBar(
         navigationIcon = { BackButton(modifier = Modifier.padding(start = Paddings.xlarge), navController = navController) },
         title = {},
         colors =
-        TopAppBarColors(
-            containerColor = BackgroundColor,
-            navigationIconContentColor = BackgroundColor,
-            actionIconContentColor = BackgroundColor,
-            scrolledContainerColor = BackgroundColor,
-            titleContentColor = BackgroundColor,
-        ),
+            TopAppBarColors(
+                containerColor = BackgroundColor,
+                navigationIconContentColor = BackgroundColor,
+                actionIconContentColor = BackgroundColor,
+                scrolledContainerColor = BackgroundColor,
+                titleContentColor = BackgroundColor,
+            ),
     )
 }

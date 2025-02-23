@@ -42,7 +42,7 @@ fun ChatScreen(navController: NavHostController) {
                 Spacer(modifier = Modifier.height(16.dp))
             }
             items(6) {
-                ChatCard(chatCardData = _chatCardData,navController)
+                ChatCard(chatCardData = _chatCardData, navController)
             }
         }
     }

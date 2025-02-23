@@ -25,16 +25,16 @@ fun SearchAppBar(
             SearchField(
                 searchTerm,
                 Modifier,
-                onValueChange = onValueChange
+                onValueChange = onValueChange,
             )
         },
         colors =
-        TopAppBarColors(
-            containerColor = BackgroundColor,
-            navigationIconContentColor = BackgroundColor,
-            actionIconContentColor = BackgroundColor,
-            scrolledContainerColor = BackgroundColor,
-            titleContentColor = BackgroundColor,
-        ),
+            TopAppBarColors(
+                containerColor = BackgroundColor,
+                navigationIconContentColor = BackgroundColor,
+                actionIconContentColor = BackgroundColor,
+                scrolledContainerColor = BackgroundColor,
+                titleContentColor = BackgroundColor,
+            ),
     )
 }
