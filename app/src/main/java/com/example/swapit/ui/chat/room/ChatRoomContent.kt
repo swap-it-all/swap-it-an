@@ -14,12 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.swapit.R
+import com.example.swapit.data.model.Chat
 import com.example.swapit.ui.theme.BackgroundColor
 import java.time.format.DateTimeFormatter
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ChatRoomContent(modifier: Modifier = Modifier) {
+fun ChatRoomContent(chats: List<Chat>, modifier: Modifier = Modifier) {
     LazyColumn(
         modifier =
             modifier
@@ -31,7 +31,7 @@ fun ChatRoomContent(modifier: Modifier = Modifier) {
     ) {
         item {
             Text(
-                chats[0].createdAt.format(DateTimeFormatter.ofPattern(stringResource(R.string.chat_room_time_format))).toString(),
+                chats[0].toString(),
             ) // todo: 시간 상태 빈 값으로 만들어 놓고, 바뀌면 뜨게 하기
         }
         items(

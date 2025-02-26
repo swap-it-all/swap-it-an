@@ -15,5 +15,5 @@ data class Chat(
     val chatType: String,
     val content: String,
     val senderId: Long,
-    val createdAt: LocalDateTime,
+    val createdAt: String,
 )

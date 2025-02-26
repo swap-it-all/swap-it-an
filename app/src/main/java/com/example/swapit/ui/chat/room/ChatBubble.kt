@@ -24,11 +24,16 @@ import com.example.swapit.ui.theme.Gray5
 import com.example.swapit.ui.theme.Paddings
 import com.example.swapit.ui.theme.Primary
 import com.example.swapit.ui.theme.White
+import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ChatBubble(chat: Chat) {
+
+
     val arrangement = if (chat.senderId == 1L) Arrangement.End else Arrangement.Start
     val containerColor = if (chat.senderId == 1L) Primary else Gray5
     val textColor = if (chat.senderId == 1L) White else Gray2
@@ -50,11 +55,10 @@ fun ChatBubble(chat: Chat) {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun BubbleTime(chat: Chat) {
     Text(
-        chat.createdAt.format(DateTimeFormatter.ofPattern(stringResource(R.string.chat_bubble_time_format))),
+        chat.createdAt,
         Modifier.padding(end = Paddings.small),
     )
 }

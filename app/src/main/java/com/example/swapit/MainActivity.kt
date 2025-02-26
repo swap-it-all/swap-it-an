@@ -13,7 +13,6 @@ import com.example.swapit.ui.auth.LoginViewModel
 import com.example.swapit.ui.navigation.NavigationModule
 
 class MainActivity : ComponentActivity() {
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

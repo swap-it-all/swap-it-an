@@ -1,7 +1,7 @@
 package com.example.swapit.ui.navigation
 
+import ShoppingViewModel
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -11,7 +11,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.swapit.data.datasource.remote.service.ShoppingService
 import com.example.swapit.domain.repository.ProductRepository
+import com.example.swapit.domain.repository.ShoppingRepository
 import com.example.swapit.ui.alert.AlertScreen
 import com.example.swapit.ui.auth.LoginScreen
 import com.example.swapit.ui.auth.LoginViewModel
@@ -22,6 +24,7 @@ import com.example.swapit.ui.post.PostProductViewModel
 import com.example.swapit.ui.search.SearchScreen
 import com.example.swapit.ui.search.SearchViewModel
 import com.example.swapit.ui.shopping.ShoppingScreen
+import com.example.swapit.ui.shopping.ShoppingViewModelFactory
 import com.example.swapit.ui.shopping.detail.ShoppingDetailScreen
 import com.example.swapit.ui.shopping.detail.defaultShoppingDetailData
 import com.example.swapit.ui.shopping.detail.select.MyProductSelectionScreen
@@ -30,15 +33,16 @@ import com.example.swapit.ui.user.UserInfoScreen
 import com.example.swapit.ui.user.profile.ProfileEditScreen
 
 class NavigationModule {
-    @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     fun NavigationGraph(
         navController: NavHostController,
         loginViewModel: LoginViewModel,
     ) {
+        val shoppingRepository = ShoppingRepository.instance()
         val isLoggedIn by loginViewModel.isLoggedIn.collectAsState()
-        val startDestination =
-            if (isLoggedIn) NavItem.Shopping.screenRoute else NavItem.Login.screenRoute
+        val startDestination = NavItem.Shopping.screenRoute
+//        val startDestination =
+//            if (isLoggedIn) NavItem.Shopping.screenRoute else NavItem.Login.screenRoute
 
         NavHost(
             navController = navController,
@@ -52,7 +56,9 @@ class NavigationModule {
             }
 
             composable(NavItem.Shopping.screenRoute) {
-                ShoppingScreen(navController)
+                val shoppingViewModel: ShoppingViewModel =
+                    viewModel(factory = ShoppingViewModelFactory(shoppingRepository))
+                ShoppingScreen(navController, shoppingViewModel)
             }
             composable(NavItem.Swap.screenRoute) {
                 SwapScreen(navController)
@@ -87,7 +93,14 @@ class NavigationModule {
                 ShoppingDetailScreen(Modifier, navController, defaultShoppingDetailData)
             }
             composable(NavItem.MyProductSelection.screenRoute) {
-                MyProductSelectionScreen(navController)
+                MyProductSelectionScreen(navController, viewModel = viewModel(
+                    factory =
+                    PostProductViewModel.factory(
+                        ProductRepository.instance(
+                            LocalContext.current,
+                        ),
+                    ),
+                ),)
             }
             composable(NavItem.ProfileEdit.screenRoute) {
                 ProfileEditScreen(navController)
