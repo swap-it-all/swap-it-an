@@ -1,7 +1,5 @@
 package com.example.swapit.ui.chat.room
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,16 +22,10 @@ import com.example.swapit.ui.theme.Gray5
 import com.example.swapit.ui.theme.Paddings
 import com.example.swapit.ui.theme.Primary
 import com.example.swapit.ui.theme.White
-import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
-import java.util.Date
-import java.util.Locale
-import java.util.TimeZone
 
 @Composable
 fun ChatBubble(chat: Chat) {
-
-
     val arrangement = if (chat.senderId == 1L) Arrangement.End else Arrangement.Start
     val containerColor = if (chat.senderId == 1L) Primary else Gray5
     val textColor = if (chat.senderId == 1L) White else Gray2
@@ -58,7 +50,7 @@ fun ChatBubble(chat: Chat) {
 @Composable
 fun BubbleTime(chat: Chat) {
     Text(
-        chat.createdAt,
+        chat.createdAt.format(DateTimeFormatter.ofPattern(stringResource(R.string.chat_bubble_time_format))),
         Modifier.padding(end = Paddings.small),
     )
 }

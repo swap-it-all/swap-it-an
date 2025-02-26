@@ -1,9 +1,5 @@
 package com.example.swapit.ui.chat.room
 
-import android.icu.text.SimpleDateFormat
-import android.icu.util.Calendar
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,7 +14,6 @@ import androidx.navigation.NavHostController
 import com.example.swapit.data.model.Chat
 import com.example.swapit.ui.theme.BackgroundColor
 import java.time.LocalDateTime
-import java.util.Locale
 
 @Composable
 fun ChatRoomScreen(navController: NavHostController) {
@@ -47,19 +42,14 @@ fun ChatRoomScreen(navController: NavHostController) {
 
 val chats: List<Chat> =
     listOf(
-        Chat(1, "text", "안녕하세요", 1, getCurrentTime()),
-        Chat(2, "text", "안녕하세요", 2, getCurrentTime()),
-        Chat(3, "text", "안녕하세요", 1, getCurrentTime()),
-        Chat(4, "text", "안녕하세요", 2, getCurrentTime()),
+        Chat(1, "text", "안녕하세요", 1, LocalDateTime.now().toString()),
+        Chat(2, "text", "안녕하세요", 2, LocalDateTime.now().toString()),
+        Chat(3, "text", "안녕하세요", 1, LocalDateTime.now().toString()),
+        Chat(4, "text", "안녕하세요", 2, LocalDateTime.now().toString()),
     ) // todo: 채팅 데이터 만들기
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 @Preview(showBackground = true)
 fun ChatRoomScreenPreview() {
     ChatRoomScreen(navController = NavHostController(LocalContext.current))
-}
-fun getCurrentTime(): String{
-    val formatter = SimpleDateFormat("yyyyMMdd HH:mm:ss", Locale.getDefault())
-    return formatter.format(Calendar.getInstance().time)
 }

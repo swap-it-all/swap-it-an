@@ -1,7 +1,5 @@
 package com.example.swapit.ui.chat.room
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,7 +29,7 @@ fun ChatRoomContent(chats: List<Chat>, modifier: Modifier = Modifier) {
     ) {
         item {
             Text(
-                chats[0].toString(),
+                chats[0].createdAt.format(DateTimeFormatter.ofPattern(stringResource(R.string.chat_room_time_format))).toString(),
             ) // todo: 시간 상태 빈 값으로 만들어 놓고, 바뀌면 뜨게 하기
         }
         items(
