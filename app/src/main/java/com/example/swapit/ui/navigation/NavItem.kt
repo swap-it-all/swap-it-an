@@ -7,6 +7,8 @@ sealed class NavItem(
     val icon: Int,
     val screenRoute: String,
 ) {
+    data object Splash : NavItem("splash" , R.drawable.ic_logo, SPLASH)
+
     data object Login : NavItem("로그인", R.drawable.ic_user, LOGIN)
 
     data object Shopping : NavItem("쇼핑", R.drawable.ic_house, SHOPPING)
@@ -32,6 +34,7 @@ sealed class NavItem(
     data object ProfileEdit : NavItem("프로필 수정", R.drawable.ic_user, PROFILE_EDIT)
 
     companion object {
+        const val SPLASH = "SPLASH"
         const val CHAT_ROOM = "CHAT_ROOM"
         const val SEARCH = "SEARCH"
         const val ALERT = "ALERT"
