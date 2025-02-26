@@ -1,7 +1,5 @@
 package com.example.swapit.ui.chat.room
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +15,6 @@ import com.example.swapit.data.model.Chat
 import com.example.swapit.ui.theme.BackgroundColor
 import java.time.LocalDateTime
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ChatRoomScreen(navController: NavHostController) {
     Scaffold(
@@ -43,7 +40,6 @@ fun ChatRoomScreen(navController: NavHostController) {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 val chats: List<Chat> =
     listOf(
         Chat(1, "text", "안녕하세요", 1, LocalDateTime.now()),
@@ -52,7 +48,6 @@ val chats: List<Chat> =
         Chat(4, "text", "안녕하세요", 2, LocalDateTime.now()),
     ) // todo: 채팅 데이터 만들기
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 @Preview(showBackground = true)
 fun ChatRoomScreenPreview() {

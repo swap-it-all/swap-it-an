@@ -1,7 +1,5 @@
 package com.example.swapit.ui.navigation
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -30,7 +28,6 @@ import com.example.swapit.ui.user.UserInfoScreen
 import com.example.swapit.ui.user.profile.ProfileEditScreen
 
 class NavigationModule {
-    @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     fun NavigationGraph(
         navController: NavHostController,

@@ -86,6 +86,7 @@ fun CharCardUserImageSection(chatCardData: ChatCardData) {
 
 @Composable
 fun ChatCardUserMessageComtentSection(chatCardData: ChatCardData) {
+    val maxUnread = 99
     Column(modifier = Modifier) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -136,7 +137,7 @@ fun ChatCardUserMessageComtentSection(chatCardData: ChatCardData) {
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
-                        text = if (chatCardData.unreadMessageCount <= 99) chatCardData.unreadMessageCount.toString() else "99+",
+                        text = if (chatCardData.unreadMessageCount <= maxUnread) chatCardData.unreadMessageCount.toString() else "99+",
                         color = White,
                         modifier = Modifier.align(Alignment.Center),
                         style = Typography.labelLarge,
