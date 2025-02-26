@@ -19,11 +19,11 @@ class MainActivity : ComponentActivity() {
             val loginViewModel: LoginViewModel =
                 viewModel(
                     factory =
-                    LoginViewModel.factory(
-                        application,
-                        LoginRepository.instance(this),
-                        LoginManager(this),
-                    ),
+                        LoginViewModel.factory(
+                            application,
+                            LoginRepository.instance(this),
+                            LoginManager(this),
+                        ),
                 )
             navigationModule.NavigationGraph(navController, loginViewModel)
         }

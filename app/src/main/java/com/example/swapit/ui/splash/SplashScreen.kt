@@ -32,14 +32,15 @@ fun SplashScreen(
 ) {
     val isLoggedIn by loginViewModel.isLoggedIn.collectAsState()
 
-    val alpha = remember {
-        Animatable(0f)
-    }
+    val alpha =
+        remember {
+            Animatable(0f)
+        }
 
     LaunchedEffect(isLoggedIn) {
         alpha.animateTo(
             targetValue = 1f,
-            animationSpec = tween(1000)
+            animationSpec = tween(1000),
         )
         Handler(Looper.getMainLooper()).postDelayed({
             when (isLoggedIn) {
@@ -49,21 +50,24 @@ fun SplashScreen(
         }, 1000L)
     }
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Primary)
-            .alpha(alpha.value),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(Primary)
+                .alpha(alpha.value),
         contentAlignment = androidx.compose.ui.Alignment.Center,
     ) {
         Icon(
-            painter = painterResource(
-                id = R.drawable.ic_logo
-            ),
+            painter =
+                painterResource(
+                    id = R.drawable.ic_logo,
+                ),
             contentDescription = "swapit logo",
             tint = White,
-            modifier = Modifier
-                .size(112.dp)
-                .alpha(alpha.value)
+            modifier =
+                Modifier
+                    .size(112.dp)
+                    .alpha(alpha.value),
         )
     }
 }

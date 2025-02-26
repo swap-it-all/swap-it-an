@@ -7,7 +7,7 @@ sealed class NavItem(
     val icon: Int,
     val screenRoute: String,
 ) {
-    data object Splash : NavItem("splash" , R.drawable.ic_logo, SPLASH)
+    data object Splash : NavItem("splash", R.drawable.ic_logo, SPLASH)
 
     data object Login : NavItem("로그인", R.drawable.ic_user, LOGIN)
 
