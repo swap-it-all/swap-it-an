@@ -1,5 +1,9 @@
 package com.example.swapit.ui.shopping
 
+import ShoppingViewModel
+import android.icu.util.Calendar
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,11 +29,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.example.swapit.R
+import com.example.swapit.data.datasource.local.model.post.CategoryOption
 import com.example.swapit.data.model.ShoppingCardData
+import com.example.swapit.domain.model.shopping.ShoppingProduct
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray4
 import com.example.swapit.ui.theme.Paddings
@@ -37,14 +42,17 @@ import com.example.swapit.ui.theme.Primary
 import com.example.swapit.ui.theme.Typography
 import com.example.swapit.ui.theme.White
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun ShoppingCard(
-    shoppingCardData: ShoppingCardData,
-    navController: NavHostController,
+    cardData: ShoppingProduct,
     onClick: () -> Unit = {},
 ) {
     val decimal = DecimalFormat(stringResource(R.string.decimal_format))
+//    val convertTime = calculationWriteTime(cardData.createdAt)
     Card(
         modifier =
             Modifier
@@ -60,7 +68,7 @@ fun ShoppingCard(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Spacer(modifier = Modifier.size(Paddings.large))
             AsyncImage(
-                model = shoppingCardData.imageUri,
+                model = cardData.imageUrl,
                 contentDescription = stringResource(R.string.president_image_description),
                 modifier =
                     Modifier
@@ -87,7 +95,9 @@ fun ShoppingCard(
                             Paddings.none,
                             Paddings.xsmall,
                         ),
-                    text = "${shoppingCardData.category} | ${shoppingCardData.region} | ${shoppingCardData.time}",
+                    text = "${CategoryOption.entries.find { it.name == cardData.category }?.option } |" +
+//                            " $convertTime |" +
+                            " ${cardData.createdAt.format()}",
                     style = Typography.labelLarge,
                     color = Gray4,
                 )
@@ -99,7 +109,7 @@ fun ShoppingCard(
                             Paddings.none,
                             Paddings.small,
                         ),
-                    text = shoppingCardData.title,
+                    text = cardData.title,
                     style = Typography.titleMedium,
                     maxLines = 1,
                 )
@@ -123,7 +133,7 @@ fun ShoppingCard(
                             color = Gray3,
                         )
                         Text(
-                            text = decimal.format(shoppingCardData.price),
+                            text = decimal.format(cardData.price),
                             style = Typography.titleMedium,
                         )
                         Text(
@@ -138,7 +148,7 @@ fun ShoppingCard(
                         colorFilter = ColorFilter.tint(Gray4),
                     )
                     Text(
-                        text = shoppingCardData.viewCount,
+                        text = cardData.viewCount.toString(),
                         style = Typography.labelLarge,
                         color = Gray4,
                     )
@@ -163,8 +173,5 @@ val productCardData =
 @Preview(showBackground = true)
 @Composable
 fun ShoppingCardPreview() {
-    ShoppingCard(
-        productCardData,
-        rememberNavController(),
-    )
+
 }
