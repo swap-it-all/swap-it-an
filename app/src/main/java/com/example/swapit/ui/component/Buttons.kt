@@ -200,9 +200,9 @@ fun SearchTermButton(
 
 @Composable
 fun BackButton(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     navController: NavHostController,
-    color: Color,
+    color: Color = Black,
 ) {
     IconButton(
         onClick = {
@@ -220,9 +220,9 @@ fun BackButton(
 
 @Composable
 fun MenuButton(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     navController: NavHostController,
-    color: Color,
+    color: Color = Black,
 ) {
     IconButton(
         onClick = {

@@ -14,6 +14,7 @@ import com.example.swapit.ui.alert.AlertScreen
 import com.example.swapit.ui.auth.LoginScreen
 import com.example.swapit.ui.auth.LoginViewModel
 import com.example.swapit.ui.chat.ChatScreen
+import com.example.swapit.ui.chat.room.ChatRoomScreen
 import com.example.swapit.ui.post.PostProductScreen
 import com.example.swapit.ui.post.PostProductViewModel
 import com.example.swapit.ui.search.SearchScreen
@@ -67,7 +68,6 @@ class NavigationModule {
                         ),
                 )
             }
-
             composable(NavItem.Chat.screenRoute) {
                 ChatScreen(navController)
             }
@@ -88,6 +88,9 @@ class NavigationModule {
             }
             composable(NavItem.ProfileEdit.screenRoute) {
                 ProfileEditScreen(navController)
+            }
+            composable(NavItem.ChatRoom.screenRoute) {
+                ChatRoomScreen(navController)
             }
         }
     }

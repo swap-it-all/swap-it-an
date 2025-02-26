@@ -57,5 +57,10 @@
     <string name="shopping_search_button">검색 버튼</string>
     <string name="president_image_description">상품 대표 이미지</string>
     <string name="prediction">예상 </string>
+    // chat screen
+    <string name="chat_write_message">메세지 입력</string>
+    <string name="chat_room_time_format" formatted="false">yyyy년 MM월 dd일</string>
+    <string name="chat_bubble_time_format" formatted="false">a h:mm</string>
+
 
 </resources>
