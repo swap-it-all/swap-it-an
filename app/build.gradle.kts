@@ -105,7 +105,6 @@ dependencies {
     implementation(libs.kotlin.serialization.json)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation(libs.androidx.core.splashscreen)
 
     // testing
     testImplementation(libs.junit)

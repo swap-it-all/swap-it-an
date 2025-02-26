@@ -2,9 +2,4 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Theme.Swapit" parent="android:Theme.Material.Light.NoActionBar" />
-
-    <style name="LaunchTheme" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:windowSplashScreenBackground">@color/primary</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo</item>
-    </style>
 </resources>
