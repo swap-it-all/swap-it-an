@@ -52,7 +52,7 @@ fun ShoppingCard(
     onClick: () -> Unit = {},
 ) {
     val decimal = DecimalFormat(stringResource(R.string.decimal_format))
-//    val convertTime = calculationWriteTime(cardData.createdAt)
+    val convertTime = calculationWriteTime(cardData.createdAt)
     Card(
         modifier =
             Modifier
@@ -96,8 +96,8 @@ fun ShoppingCard(
                             Paddings.xsmall,
                         ),
                     text = "${CategoryOption.entries.find { it.name == cardData.category }?.option } |" +
-//                            " $convertTime |" +
-                            " ${cardData.createdAt.format()}",
+                            "${cardData.placeName} |" +
+                            " $convertTime",
                     style = Typography.labelLarge,
                     color = Gray4,
                 )
