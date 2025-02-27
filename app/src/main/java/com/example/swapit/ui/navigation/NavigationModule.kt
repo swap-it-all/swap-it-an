@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.swapit.domain.repository.ProductRepository
+import com.example.swapit.domain.repository.UserRepository
 import com.example.swapit.ui.alert.AlertScreen
 import com.example.swapit.ui.auth.LoginScreen
 import com.example.swapit.ui.auth.LoginViewModel
@@ -24,6 +25,7 @@ import com.example.swapit.ui.shopping.detail.select.MyProductSelectionScreen
 import com.example.swapit.ui.splash.SplashScreen
 import com.example.swapit.ui.swap.SwapScreen
 import com.example.swapit.ui.user.UserInfoScreen
+import com.example.swapit.ui.user.UserInfoViewModel
 import com.example.swapit.ui.user.profile.ProfileEditScreen
 
 class NavigationModule {
@@ -57,21 +59,27 @@ class NavigationModule {
                 PostProductScreen(
                     navController = navController,
                     viewModel =
-                        viewModel(
-                            factory =
-                                PostProductViewModel.factory(
-                                    ProductRepository.instance(
-                                        LocalContext.current,
-                                    ),
-                                ),
+                    viewModel(
+                        factory =
+                        PostProductViewModel.factory(
+                            ProductRepository.instance(
+                                LocalContext.current,
+                            ),
                         ),
+                    ),
                 )
             }
             composable(NavItem.Chat.screenRoute) {
                 ChatScreen(navController)
             }
             composable(NavItem.User.screenRoute) {
-                UserInfoScreen(navController)
+                UserInfoScreen(
+                    navController = navController, viewModel = viewModel(
+                        factory = UserInfoViewModel.factory(
+                            UserRepository.instance()
+                        )
+                    )
+                )
             }
             composable(NavItem.Alert.screenRoute) {
                 AlertScreen(navController)
