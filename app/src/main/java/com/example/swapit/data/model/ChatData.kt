@@ -1,7 +1,5 @@
 package com.example.swapit.data.model
 
-import java.time.LocalDateTime
-
 data class ChatRoomData(
     val imageUri: String,
     val category: String,
@@ -15,5 +13,5 @@ data class Chat(
     val chatType: String,
     val content: String,
     val senderId: Long,
-    val createdAt: LocalDateTime,
+    val createdAt: String,
 )

@@ -12,11 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.swapit.R
+import com.example.swapit.data.model.Chat
 import com.example.swapit.ui.theme.BackgroundColor
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun ChatRoomContent(modifier: Modifier = Modifier) {
+fun ChatRoomContent(
+    chats: List<Chat>,
+    modifier: Modifier = Modifier,
+) {
     LazyColumn(
         modifier =
             modifier
