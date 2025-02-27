@@ -1,9 +1,6 @@
 package com.example.swapit.ui.navigation
 
-import ShoppingViewModel
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -26,6 +23,7 @@ import com.example.swapit.ui.shopping.ShoppingViewModelFactory
 import com.example.swapit.ui.shopping.detail.ShoppingDetailScreen
 import com.example.swapit.ui.shopping.detail.defaultShoppingDetailData
 import com.example.swapit.ui.shopping.detail.select.MyProductSelectionScreen
+import com.example.swapit.ui.splash.SplashScreen
 import com.example.swapit.ui.swap.SwapScreen
 import com.example.swapit.ui.user.UserInfoScreen
 import com.example.swapit.ui.user.profile.ProfileEditScreen
@@ -36,16 +34,14 @@ class NavigationModule {
         navController: NavHostController,
         loginViewModel: LoginViewModel,
     ) {
-        val shoppingRepository = ShoppingRepository.instance()
-        val isLoggedIn by loginViewModel.isLoggedIn.collectAsState()
-
-        val startDestination =
-            if (isLoggedIn) NavItem.Shopping.screenRoute else NavItem.Login.screenRoute
-
         NavHost(
             navController = navController,
-            startDestination = startDestination,
+            startDestination = NavItem.Splash.screenRoute,
         ) {
+            composable(NavItem.Splash.screenRoute) {
+                SplashScreen(navController, loginViewModel)
+            }
+
             composable(NavItem.Login.screenRoute) {
                 LoginScreen(
                     navController = navController,
@@ -55,7 +51,7 @@ class NavigationModule {
 
             composable(NavItem.Shopping.screenRoute) {
                 val shoppingViewModel: ShoppingViewModel =
-                    viewModel(factory = ShoppingViewModelFactory(shoppingRepository))
+                    viewModel(factory = ShoppingViewModelFactory(ShoppingRepository.instance()))
                 ShoppingScreen(navController, shoppingViewModel)
             }
             composable(NavItem.Swap.screenRoute) {
