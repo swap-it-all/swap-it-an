@@ -47,17 +47,19 @@ fun UserInfoScreen(
         ) {
             Column {
                 ProfileCard(navController = navController, userInfo = userInfo!!)
-                ProfileSwapCard()
+                ProfileSwapCard(
+                    userSwapStats = userInfo!!,
+                )
                 LazyColumn {
                     item {
                         ProfileItem(
                             text = "내가 등록한 물건",
-                            count = 5,
+                            count = userInfo!!.totalGoodsCount,
                         )
                         HorizontalDivider()
                         ProfileItem(
                             text = "받은 스왑 리뷰",
-                            count = 11,
+                            count = userInfo!!.reviews.size.toLong(),
                         )
                         HorizontalDivider()
                     }

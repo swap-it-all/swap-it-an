@@ -74,6 +74,12 @@ data class UserInfo(
     val reviews: List<Review>,
 )
 
+data class UserSwapStats(
+    val totalGoodsCount: Long,
+    val completedSwapCount: Long,
+    val ratingAverage: Double,
+)
+
 data class Review(
     val userId: Long,
     val profileImageUrl: String,
