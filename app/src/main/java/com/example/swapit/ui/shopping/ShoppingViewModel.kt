@@ -1,15 +1,19 @@
 import android.util.Log
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.swapit.data.datasource.remote.dto.response.shopping.Goods
-import com.example.swapit.data.datasource.remote.service.ShoppingService
+import com.example.swapit.domain.model.shopping.ShoppingProduct
+import com.example.swapit.domain.model.shopping.toDomainModel
 import com.example.swapit.domain.repository.ShoppingRepository
 import kotlinx.coroutines.launch
 
 class ShoppingViewModel(private val repository: ShoppingRepository) : ViewModel() {
-    private val _products = mutableStateOf<List<Goods>>(emptyList())
-    val products: List<Goods> get() = _products.value
+    private val _products = mutableStateOf<List<ShoppingProduct>>(emptyList())
+    val products: List<ShoppingProduct> get() = _products.value
+
+    private val _productCount = mutableIntStateOf(0)
+    val productCount get() = _productCount.intValue
 
     var bottomSheet = mutableStateOf(false)
     fun dismissBottomSheet() {
@@ -23,15 +27,20 @@ class ShoppingViewModel(private val repository: ShoppingRepository) : ViewModel(
     fun loadProducts() {
         viewModelScope.launch {
             try {
-                val response = repository.getShoppingData()
-                Log.d("API Response: ",response.toString()) // 디버깅용 로그")
+                val response = repository.getShoppingResponse()
+                val responseResult = repository.getShoppingResults(response)
+                Log.d("ShoppingData", "Response: $response")
                 if (response.success) {
-                    _products.value = response.results.goods.map { it }
+                    _products.value = responseResult.goodsList.map { it.toDomainModel() }
+                    _productCount.intValue = responseResult.count
+                    Log.d("ShoppingCountData", "Loaded ${_productCount.intValue} products")
+                } else {
+                    Log.e("ShoppingData", "API call failed")
                 }
             } catch (e: Exception) {
-                // 에러 처리
-                println("Error loading products: ${e.message}")
+                Log.e("ShoppingViewModel", "Error loading products", e)
             }
         }
     }
+
 }

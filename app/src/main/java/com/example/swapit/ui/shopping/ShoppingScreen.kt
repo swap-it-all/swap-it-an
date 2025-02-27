@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
@@ -19,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.swapit.data.datasource.toDomainModel
 import com.example.swapit.domain.repository.ShoppingRepository
 import com.example.swapit.ui.component.AppBar
 import com.example.swapit.ui.component.BottomNavigationBar
@@ -33,6 +33,7 @@ import com.example.swapit.ui.theme.SwapitTheme
 fun ShoppingScreen(navController: NavHostController, viewModel: ShoppingViewModel) {
     val sheetState = rememberModalBottomSheetState()
     viewModel.loadProducts()
+
     Scaffold(
         topBar = {
             AppBar(navController = navController)
@@ -43,9 +44,9 @@ fun ShoppingScreen(navController: NavHostController, viewModel: ShoppingViewMode
     ) { contentPadding ->
         Surface(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(contentPadding),
+            Modifier
+                .fillMaxSize()
+                .padding(contentPadding),
             color = BackgroundColor,
         ) {
             LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -58,9 +59,10 @@ fun ShoppingScreen(navController: NavHostController, viewModel: ShoppingViewMode
                 item {
                     CategorySection(Modifier) { viewModel.showBottomSheet() }
                 }
-                items(viewModel.products.size) {
-                    ShoppingCard(viewModel.products[it].toDomainModel()) {
-                        navController.navigate(NavItem.ShoppingDetail.screenRoute)
+                itemsIndexed(items = viewModel.products,
+                    key = { _, item -> item.goodsId }) { index, item ->
+                    ShoppingCard(item) {
+                        navController.navigate("${NavItem.ShoppingDetail.screenRoute}")
                     }
                 }
                 item {
@@ -80,7 +82,6 @@ fun ShoppingScreen(navController: NavHostController, viewModel: ShoppingViewMode
         }
     }
 }
-
 
 
 @Preview(showBackground = true)
