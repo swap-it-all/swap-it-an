@@ -2,13 +2,10 @@ package com.example.swapit.domain.repository
 
 import com.example.swapit.data.datasource.RemoteShoppingDataSource
 import com.example.swapit.data.datasource.remote.ServiceModule
-import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
-import com.example.swapit.data.datasource.remote.dto.response.shopping.ShoppingCardProductsResults
 import com.example.swapit.data.repository.DefaultShoppingRepository
 import com.example.swapit.domain.model.shopping.ShoppingProductResults
 
 interface ShoppingRepository {
-
     suspend fun shoppingCardResults(): ShoppingProductResults
 
     companion object {
