@@ -36,6 +36,7 @@ import com.example.swapit.data.datasource.local.model.post.QualityOption
 import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.ui.component.AlertDialog
 import com.example.swapit.ui.component.DefaultButton
+import com.example.swapit.ui.navigation.NavItem
 import com.example.swapit.ui.post.component.PostProductDescriptionTextField
 import com.example.swapit.ui.post.component.PostProductImagePicker
 import com.example.swapit.ui.post.component.PostProductNameTextField
@@ -144,7 +145,7 @@ fun PostProductScreen(
                         viewModel.showAlertDialog(
                             title = "물건을 등록할까요?",
                             onConfirm = {
-                                navController.navigate("ShoppingDetail")
+                                navController.navigate(NavItem.ShoppingDetail.screenRoute)
                             },
                             onCancel = {
                                 Log.d("PostProductScreen", "PostProductScreen: 취소")
