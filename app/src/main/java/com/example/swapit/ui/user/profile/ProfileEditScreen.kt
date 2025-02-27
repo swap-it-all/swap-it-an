@@ -8,43 +8,58 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import com.example.swapit.domain.repository.UserRepository
 import com.example.swapit.ui.component.DefaultButton
 import com.example.swapit.ui.theme.BackgroundColor
 import com.example.swapit.ui.theme.Paddings
+import com.example.swapit.ui.user.UserInfoViewModel
 
 @Composable
-fun ProfileEditScreen(navController: NavHostController) {
-    Scaffold(
-        topBar = {
-            ProfileEditAppBar(navController)
-        },
-    ) { contentPadding ->
-        Surface(
-            modifier =
+fun ProfileEditScreen(
+    navController: NavHostController,
+    viewModel: UserInfoViewModel,
+) {
+    val userInfo by viewModel.userInfo.collectAsState()
+
+    userInfo?.let { info ->
+        Scaffold(
+            topBar = {
+                ProfileEditAppBar(navController)
+            },
+        ) { contentPadding ->
+            Surface(
+                modifier =
                 Modifier
                     .fillMaxSize()
                     .padding(contentPadding),
-            color = BackgroundColor,
-        ) {
-            Column(
-                modifier =
+                color = BackgroundColor,
+            ) {
+                Column(
+                    modifier =
                     Modifier
                         .padding(Paddings.xlarge)
                         .fillMaxSize(),
-            ) {
-                ProfileImage()
-                ProfileNameTextField(
-                    label = "닉네임",
-                    name = "",
-                    placeHolder = "하울의움직이는성",
-                    onNameChange = {},
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                DefaultButton(text = "수정하기", enabled = true, modifier = Modifier.fillMaxWidth()) { }
+                ) {
+                    ProfileImage(info.profileImageUrl)
+                    ProfileNameTextField(
+                        label = "닉네임",
+                        name = info.nickname,
+                        placeHolder = info.nickname,
+                        onNameChange = viewModel::updateNickname,
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    DefaultButton(
+                        text = "수정하기",
+                        enabled = true,
+                        modifier = Modifier.fillMaxWidth()
+                    ) { }
+                }
             }
         }
     }
@@ -55,5 +70,6 @@ fun ProfileEditScreen(navController: NavHostController) {
 fun ProfileEditScreenPreview() {
     ProfileEditScreen(
         navController = NavHostController(LocalContext.current),
+        viewModel = UserInfoViewModel(repository = UserRepository.instance()),
     )
 }

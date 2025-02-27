@@ -23,11 +23,11 @@ class UserInfoViewModel(
                 profileImageUrl = "",
                 email = "",
                 swapStats =
-                    UserSwapStats(
-                        totalGoodsCount = 0,
-                        completedSwapCount = 0,
-                        ratingAverage = 0.0,
-                    ),
+                UserSwapStats(
+                    totalGoodsCount = 0,
+                    completedSwapCount = 0,
+                    ratingAverage = 0.0,
+                ),
                 reviews = emptyList(),
             ),
         )
@@ -36,6 +36,20 @@ class UserInfoViewModel(
     fun myUserInfo() {
         viewModelScope.launch {
             _userInfo.value = repository.myUserInfo()
+        }
+    }
+
+    fun updateProfileImage(imageUrl: String) {
+        viewModelScope.launch {
+            _userInfo.value = _userInfo.value.copy(profileImageUrl = imageUrl)
+            // todo server update
+        }
+    }
+
+    fun updateNickname(nickname: String) {
+        viewModelScope.launch {
+            _userInfo.value = _userInfo.value.copy(nickname = nickname)
+            // todo server update
         }
     }
 

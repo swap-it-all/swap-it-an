@@ -36,6 +36,7 @@ class NavigationModule {
         navController: NavHostController,
         loginViewModel: LoginViewModel,
     ) {
+        val userInfoViewModel = UserInfoViewModel(UserRepository.instance())
         NavHost(
             navController = navController,
             startDestination = NavItem.Splash.screenRoute,
@@ -55,12 +56,12 @@ class NavigationModule {
                 ShoppingScreen(
                     navController,
                     viewModel =
-                        viewModel(
-                            factory =
-                                ShoppingViewModel.factory(
-                                    ShoppingRepository.instance(),
-                                ),
+                    viewModel(
+                        factory =
+                        ShoppingViewModel.factory(
+                            ShoppingRepository.instance(),
                         ),
+                    ),
                 )
             }
             composable(NavItem.Swap.screenRoute) {
@@ -70,14 +71,14 @@ class NavigationModule {
                 PostProductScreen(
                     navController = navController,
                     viewModel =
-                        viewModel(
-                            factory =
-                                PostProductViewModel.factory(
-                                    ProductRepository.instance(
-                                        LocalContext.current,
-                                    ),
-                                ),
+                    viewModel(
+                        factory =
+                        PostProductViewModel.factory(
+                            ProductRepository.instance(
+                                LocalContext.current,
+                            ),
                         ),
+                    ),
                 )
             }
             composable(NavItem.Chat.screenRoute) {
@@ -87,12 +88,7 @@ class NavigationModule {
                 UserInfoScreen(
                     navController = navController,
                     viewModel =
-                        viewModel(
-                            factory =
-                                UserInfoViewModel.factory(
-                                    UserRepository.instance(),
-                                ),
-                        ),
+                    userInfoViewModel
                 )
             }
             composable(NavItem.Alert.screenRoute) {
@@ -108,11 +104,14 @@ class NavigationModule {
                 MyProductSelectionScreen(
                     navController,
                     viewModel =
-                        viewModel(),
+                    viewModel(),
                 )
             }
             composable(NavItem.ProfileEdit.screenRoute) {
-                ProfileEditScreen(navController)
+                ProfileEditScreen(
+                    navController,
+                    viewModel = userInfoViewModel
+                )
             }
             composable(NavItem.ChatRoom.screenRoute) {
                 ChatRoomScreen(navController)
