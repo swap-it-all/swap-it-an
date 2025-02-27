@@ -30,6 +30,7 @@ import com.example.swapit.R
 import com.example.swapit.data.datasource.local.model.post.CategoryOption
 import com.example.swapit.data.model.ShoppingCardData
 import com.example.swapit.domain.model.shopping.ShoppingProduct
+import com.example.swapit.ui.shopping.model.calculateTime
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray4
 import com.example.swapit.ui.theme.Paddings

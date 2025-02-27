@@ -20,7 +20,6 @@ import com.example.swapit.ui.post.PostProductViewModel
 import com.example.swapit.ui.search.SearchScreen
 import com.example.swapit.ui.search.SearchViewModel
 import com.example.swapit.ui.shopping.ShoppingScreen
-import com.example.swapit.ui.shopping.ShoppingViewModelFactory
 import com.example.swapit.ui.shopping.detail.ShoppingDetailScreen
 import com.example.swapit.ui.shopping.detail.defaultShoppingDetailData
 import com.example.swapit.ui.shopping.detail.select.MyProductSelectionScreen
@@ -51,9 +50,16 @@ class NavigationModule {
             }
 
             composable(NavItem.Shopping.screenRoute) {
-                val shoppingViewModel: ShoppingViewModel =
-                    viewModel(factory = ShoppingViewModelFactory(ShoppingRepository.instance()))
-                ShoppingScreen(navController, shoppingViewModel)
+                ShoppingScreen(
+                    navController,
+                    viewModel =
+                        viewModel(
+                            factory =
+                                ShoppingViewModel.factory(
+                                    ShoppingRepository.instance(),
+                                ),
+                        ),
+                )
             }
             composable(NavItem.Swap.screenRoute) {
                 SwapScreen(navController)
@@ -91,14 +97,7 @@ class NavigationModule {
                 MyProductSelectionScreen(
                     navController,
                     viewModel =
-                        viewModel(
-                            factory =
-                                PostProductViewModel.factory(
-                                    ProductRepository.instance(
-                                        LocalContext.current,
-                                    ),
-                                ),
-                        ),
+                        viewModel(),
                 )
             }
             composable(NavItem.ProfileEdit.screenRoute) {

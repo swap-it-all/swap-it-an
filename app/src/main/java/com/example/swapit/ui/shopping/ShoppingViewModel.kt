@@ -1,8 +1,10 @@
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.swapit.domain.model.shopping.ShoppingProduct
 import com.example.swapit.domain.repository.ShoppingRepository
+import com.example.swapit.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
 
 class ShoppingViewModel(private val repository: ShoppingRepository) : ViewModel() {
@@ -23,5 +25,16 @@ class ShoppingViewModel(private val repository: ShoppingRepository) : ViewModel(
 
     fun showBottomSheet() {
         bottomSheet.value = true
+    }
+
+    companion object {
+        private const val TAG = "ShoppingViewModel"
+
+        fun factory(repository: ShoppingRepository): ViewModelProvider.Factory =
+            BaseViewModelFactory {
+                ShoppingViewModel(
+                    repository = repository,
+                )
+            }
     }
 }

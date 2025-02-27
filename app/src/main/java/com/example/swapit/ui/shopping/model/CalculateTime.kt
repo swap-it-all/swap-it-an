@@ -1,4 +1,4 @@
-package com.example.swapit.ui.shopping
+package com.example.swapit.ui.shopping.model
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
