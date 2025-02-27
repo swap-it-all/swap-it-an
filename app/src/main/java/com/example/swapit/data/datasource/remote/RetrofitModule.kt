@@ -29,7 +29,7 @@ object RetrofitModule {
 
         val retrofit =
             Retrofit.Builder()
-                .baseUrl("http://3.36.159.6:8080")
+                .baseUrl("http://3.36.159.6")
                 .client(client)
                 .addConverterFactory(converterFactory)
                 .build()

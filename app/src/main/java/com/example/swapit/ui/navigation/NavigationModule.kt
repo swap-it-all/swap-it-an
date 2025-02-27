@@ -40,9 +40,9 @@ class NavigationModule {
     ) {
         val shoppingRepository = ShoppingRepository.instance()
         val isLoggedIn by loginViewModel.isLoggedIn.collectAsState()
-        val startDestination = NavItem.Shopping.screenRoute
-//        val startDestination =
-//            if (isLoggedIn) NavItem.Shopping.screenRoute else NavItem.Login.screenRoute
+
+        val startDestination =
+            if (isLoggedIn) NavItem.Shopping.screenRoute else NavItem.Login.screenRoute
 
         NavHost(
             navController = navController,

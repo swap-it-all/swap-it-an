@@ -5,7 +5,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.navigation.NavHostController
-import com.example.swapit.data.datasource.toDomainModel
 import com.example.swapit.ui.shopping.ShoppingCard
 import com.example.swapit.ui.shopping.productCardData
 
@@ -16,7 +15,7 @@ fun ProductListSection(
 ) {
     LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
         items(viewModel.products.size) {
-            ShoppingCard(viewModel.products[it].toDomainModel(), {
+            ShoppingCard(viewModel.products[it], {
                 openDialog()
             })
         }
