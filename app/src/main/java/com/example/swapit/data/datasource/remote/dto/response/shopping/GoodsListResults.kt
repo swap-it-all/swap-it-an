@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GoodsListResults(
-    @SerialName("goodsList") val goods: List<Goods>,
+    val goodsList: List<Goods>,
     val hasNext: Boolean,
     val lastCursorId: Int,
     val size: Int
