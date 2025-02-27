@@ -18,8 +18,10 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.swapit.R
 import com.example.swapit.domain.repository.UserInfo
 import com.example.swapit.ui.theme.Gray4
 import com.example.swapit.ui.theme.Paddings
@@ -66,7 +68,11 @@ fun ProfileSwapCard(
                     color = Primary
                 )
                 Spacer(modifier = Modifier.size(8.dp))
-                Text("물건 수", style = Typography.labelLarge, color = Gray4)
+                Text(
+                    text = stringResource(R.string.user_post_product_count),
+                    style = Typography.labelLarge,
+                    color = Gray4
+                )
             }
             VerticalDivider(
                 modifier = Modifier.height(60.dp),
@@ -85,7 +91,11 @@ fun ProfileSwapCard(
                     color = Primary
                 )
                 Spacer(modifier = Modifier.size(8.dp))
-                Text("스왑 수", style = Typography.labelLarge, color = Gray4)
+                Text(
+                    text = stringResource(R.string.user_swap_count),
+                    style = Typography.labelLarge,
+                    color = Gray4
+                )
             }
             VerticalDivider(
                 modifier = Modifier.height(60.dp),
@@ -104,7 +114,11 @@ fun ProfileSwapCard(
                     color = Primary
                 )
                 Spacer(modifier = Modifier.size(8.dp))
-                Text("리뷰 평점", style = Typography.labelLarge, color = Gray4)
+                Text(
+                    text = stringResource(R.string.user_review_average),
+                    style = Typography.labelLarge,
+                    color = Gray4
+                )
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.example.swapit.ui.user
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -13,8 +14,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import com.example.swapit.R
 import com.example.swapit.domain.repository.DefaultUserRepository
 import com.example.swapit.domain.repository.UserRepository
 import com.example.swapit.ui.component.AppBar
@@ -53,12 +56,12 @@ fun UserInfoScreen(
                 LazyColumn {
                     item {
                         ProfileItem(
-                            text = "내가 등록한 물건",
+                            text = stringResource(R.string.user_post_product),
                             count = userInfo!!.totalGoodsCount,
                         )
                         HorizontalDivider()
                         ProfileItem(
-                            text = "받은 스왑 리뷰",
+                            text = stringResource(R.string.user_swap_review),
                             count = userInfo!!.reviews.size.toLong(),
                         )
                         HorizontalDivider()
