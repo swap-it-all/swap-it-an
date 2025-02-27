@@ -44,8 +44,17 @@ fun SplashScreen(
         )
         Handler(Looper.getMainLooper()).postDelayed({
             when (isLoggedIn) {
-                true -> navController.navigate(NavItem.Shopping.screenRoute)
-                false -> navController.navigate(NavItem.Login.screenRoute)
+                true -> {
+                    navController.navigate(NavItem.Shopping.screenRoute) {
+                        popUpTo(NavItem.Splash.screenRoute) { inclusive = true }
+                    }
+                }
+
+                false -> {
+                    navController.navigate(NavItem.Login.screenRoute) {
+                        popUpTo(NavItem.Splash.screenRoute) { inclusive = true }
+                    }
+                }
             }
         }, 1000L)
     }
