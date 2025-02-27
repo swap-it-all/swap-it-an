@@ -29,7 +29,7 @@ object RetrofitModule {
 
         val retrofit =
             Retrofit.Builder()
-                .baseUrl((BuildConfig.SWAP_IT_BASE_URL))
+                .baseUrl(BuildConfig.SWAP_IT_BASE_URL)
                 .client(client)
                 .addConverterFactory(converterFactory)
                 .build()

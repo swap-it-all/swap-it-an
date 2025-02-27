@@ -34,7 +34,7 @@ fun ChatRoomScreen(navController: NavHostController) {
             verticalArrangement = Arrangement.SpaceBetween,
         ) {
             ChatRoomProduct()
-            ChatRoomContent(modifier = Modifier.weight(1f))
+            ChatRoomContent(chats = chats, modifier = Modifier.weight(1f))
             BottomChatBar()
         }
     }
@@ -42,10 +42,10 @@ fun ChatRoomScreen(navController: NavHostController) {
 
 val chats: List<Chat> =
     listOf(
-        Chat(1, "text", "안녕하세요", 1, LocalDateTime.now()),
-        Chat(2, "text", "안녕하세요", 2, LocalDateTime.now()),
-        Chat(3, "text", "안녕하세요", 1, LocalDateTime.now()),
-        Chat(4, "text", "안녕하세요", 2, LocalDateTime.now()),
+        Chat(1, "text", "안녕하세요", 1, LocalDateTime.now().toString()),
+        Chat(2, "text", "안녕하세요", 2, LocalDateTime.now().toString()),
+        Chat(3, "text", "안녕하세요", 1, LocalDateTime.now().toString()),
+        Chat(4, "text", "안녕하세요", 2, LocalDateTime.now().toString()),
     ) // todo: 채팅 데이터 만들기
 
 @Composable

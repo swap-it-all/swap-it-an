@@ -1,26 +1,25 @@
 package com.example.swapit.ui.shopping
 
+import ShoppingViewModel
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.swapit.domain.repository.ShoppingRepository
 import com.example.swapit.ui.component.AppBar
 import com.example.swapit.ui.component.BottomNavigationBar
 import com.example.swapit.ui.navigation.NavItem
@@ -30,9 +29,11 @@ import com.example.swapit.ui.theme.SwapitTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShoppingScreen(navController: NavHostController) {
+fun ShoppingScreen(
+    navController: NavHostController,
+    viewModel: ShoppingViewModel,
+) {
     val sheetState = rememberModalBottomSheetState()
-    var showBottomSheet by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -57,21 +58,24 @@ fun ShoppingScreen(navController: NavHostController) {
                     )
                 }
                 item {
-                    CategorySection(Modifier) { showBottomSheet = true }
+                    CategorySection(Modifier) { viewModel.showBottomSheet() }
                 }
-                items(10) {
-                    ShoppingCard(productCardData, navController) {
-                        navController.navigate(NavItem.ShoppingDetail.screenRoute)
+                itemsIndexed(
+                    items = viewModel.products,
+                    key = { _, item -> item.goodsId },
+                ) { _, item ->
+                    ShoppingCard(item) {
+                        navController.navigate("${NavItem.ShoppingDetail.screenRoute}")
                     }
                 }
                 item {
                     Spacer(modifier = Modifier.size(100.dp))
                 }
             }
-            if (showBottomSheet) {
+            if (viewModel.bottomSheet.value) {
                 ModalBottomSheet(
                     onDismissRequest = {
-                        showBottomSheet = false
+                        viewModel.dismissBottomSheet()
                     },
                     sheetState = sheetState,
                 ) {
@@ -86,6 +90,6 @@ fun ShoppingScreen(navController: NavHostController) {
 @Composable
 fun ProductScreenPreview() {
     SwapitTheme {
-        ShoppingScreen(rememberNavController())
+        ShoppingScreen(rememberNavController(), ShoppingViewModel(ShoppingRepository.instance()))
     }
 }
