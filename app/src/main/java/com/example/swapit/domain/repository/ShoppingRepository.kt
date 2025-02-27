@@ -1,17 +1,15 @@
 package com.example.swapit.domain.repository
 
-import android.content.Context
-import com.example.swapit.data.datasource.RemoteProductDataSource
 import com.example.swapit.data.datasource.RemoteShoppingDataSource
-import com.example.swapit.data.datasource.local.model.post.QualityOption
 import com.example.swapit.data.datasource.remote.ServiceModule
-import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
-import com.example.swapit.data.datasource.remote.dto.response.shopping.GoodsListResponse
-import com.example.swapit.data.datasource.remote.dto.response.shopping.GoodsListResults
 import com.example.swapit.data.repository.DefaultShoppingRepository
+import com.example.swapit.domain.model.shopping.ShoppingProduct
+import com.example.swapit.domain.model.shopping.ShoppingProductResponse
+import com.example.swapit.domain.model.shopping.ShoppingProductResults
 
 interface ShoppingRepository {
-    suspend fun getShoppingData(): GoodsListResponse
+    suspend fun getShoppingResponse(): ShoppingProductResponse
+    suspend fun getShoppingResults(shoppingProductResponse: ShoppingProductResponse): ShoppingProductResults
 
     companion object {
         @Volatile
