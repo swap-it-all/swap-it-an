@@ -59,14 +59,14 @@ class NavigationModule {
                 PostProductScreen(
                     navController = navController,
                     viewModel =
-                    viewModel(
-                        factory =
-                        PostProductViewModel.factory(
-                            ProductRepository.instance(
-                                LocalContext.current,
-                            ),
+                        viewModel(
+                            factory =
+                                PostProductViewModel.factory(
+                                    ProductRepository.instance(
+                                        LocalContext.current,
+                                    ),
+                                ),
                         ),
-                    ),
                 )
             }
             composable(NavItem.Chat.screenRoute) {
@@ -74,11 +74,14 @@ class NavigationModule {
             }
             composable(NavItem.User.screenRoute) {
                 UserInfoScreen(
-                    navController = navController, viewModel = viewModel(
-                        factory = UserInfoViewModel.factory(
-                            UserRepository.instance()
-                        )
-                    )
+                    navController = navController,
+                    viewModel =
+                        viewModel(
+                            factory =
+                                UserInfoViewModel.factory(
+                                    UserRepository.instance(),
+                                ),
+                        ),
                 )
             }
             composable(NavItem.Alert.screenRoute) {

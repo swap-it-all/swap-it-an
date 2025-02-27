@@ -41,9 +41,9 @@ fun UserInfoScreen(
     ) { contentPadding ->
         Surface(
             modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(contentPadding),
+                Modifier
+                    .fillMaxSize()
+                    .padding(contentPadding),
             color = BackgroundColor,
         ) {
             userInfo?.let { info ->
@@ -77,6 +77,6 @@ fun UserInfoScreen(
 fun UserInfoScreenPreview() {
     UserInfoScreen(
         navController = NavHostController(LocalContext.current),
-        viewModel = UserInfoViewModel(repository = UserRepository.instance())
+        viewModel = UserInfoViewModel(repository = UserRepository.instance()),
     )
 }

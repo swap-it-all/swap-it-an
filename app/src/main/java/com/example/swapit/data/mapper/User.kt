@@ -12,11 +12,12 @@ fun UserResponse.toDomain(): UserInfo {
         nickname = this.nickname,
         profileImageUrl = this.profileImageUrl,
         email = this.email,
-        swapStats = UserSwapStats(
-            totalGoodsCount = this.totalGoodsCount,
-            completedSwapCount = this.completedSwapCount,
-            ratingAverage = this.ratingAverage,
-        ),
+        swapStats =
+            UserSwapStats(
+                totalGoodsCount = this.totalGoodsCount,
+                completedSwapCount = this.completedSwapCount,
+                ratingAverage = this.ratingAverage,
+            ),
         reviews = this.reviews.map { it.toDomain() },
     )
 }

@@ -43,30 +43,30 @@ fun ProfileCard(
 ) {
     Card(
         modifier =
-        Modifier
-            .fillMaxWidth()
-            .padding(Paddings.xlarge, Paddings.smallMedium),
+            Modifier
+                .fillMaxWidth()
+                .padding(Paddings.xlarge, Paddings.smallMedium),
         colors =
-        CardDefaults.cardColors(
-            containerColor = White,
-        ),
+            CardDefaults.cardColors(
+                containerColor = White,
+            ),
         shape = RoundedCornerShape(20.dp),
     ) {
         Row(
             modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
         ) {
-
             AsyncImage(
                 model = userInfo.profileImageUrl,
                 contentDescription = "Profile Picture",
                 placeholder = painterResource(R.drawable.ic_user),
                 error = painterResource(R.drawable.ic_close),
-                modifier = Modifier
-                    .size(86.dp)
-                    .clip(CircleShape),
+                modifier =
+                    Modifier
+                        .size(86.dp)
+                        .clip(CircleShape),
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column(
@@ -98,18 +98,20 @@ fun ProfileCard(
 fun ProfileCardPreview() {
     ProfileCard(
         navController = NavController(LocalContext.current),
-        userInfo = UserInfo(
-            id = 0,
-            nickname = "하울의움직이는성",
-            profileImageUrl = "http://k.kakaocdn.net/dn/chCtzJ/btsKVwyW8kR/pkt9CkeCx2mF0MTFn4LCdK/img_640x640.jpg",
-            email = "",
-            swapStats = UserSwapStats(
-                totalGoodsCount = 0,
-                completedSwapCount = 0,
-                ratingAverage = 0.0,
+        userInfo =
+            UserInfo(
+                id = 0,
+                nickname = "하울의움직이는성",
+                profileImageUrl = "http://k.kakaocdn.net/dn/chCtzJ/btsKVwyW8kR/pkt9CkeCx2mF0MTFn4LCdK/img_640x640.jpg",
+                email = "",
+                swapStats =
+                    UserSwapStats(
+                        totalGoodsCount = 0,
+                        completedSwapCount = 0,
+                        ratingAverage = 0.0,
+                    ),
+                reviews =
+                    emptyList(),
             ),
-            reviews = emptyList(
-            )
-        )
     )
 }

@@ -13,9 +13,10 @@ interface UserRepository {
 
         fun instance(): UserRepository {
             if (instance == null) {
-                instance = DefaultUserRepository(
-                    remoteSource = RemoteUserDataSource(ServiceModule.userService),
-                )
+                instance =
+                    DefaultUserRepository(
+                        remoteSource = RemoteUserDataSource(ServiceModule.userService),
+                    )
             }
             return instance!!
         }

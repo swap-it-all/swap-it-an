@@ -30,45 +30,43 @@ import com.example.swapit.ui.theme.Typography
 import com.example.swapit.ui.theme.White
 
 @Composable
-fun ProfileSwapCard(
-    userSwapStats: UserSwapStats,
-) {
+fun ProfileSwapCard(userSwapStats: UserSwapStats) {
     Card(
         modifier =
-        Modifier
-            .fillMaxWidth()
-            .padding(Paddings.xlarge, Paddings.smallMedium),
+            Modifier
+                .fillMaxWidth()
+                .padding(Paddings.xlarge, Paddings.smallMedium),
         colors =
-        CardDefaults.cardColors(
-            containerColor = White,
-        ),
+            CardDefaults.cardColors(
+                containerColor = White,
+            ),
         shape = RoundedCornerShape(20.dp),
     ) {
         Row(
             modifier =
-            Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
+                Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
                 modifier =
-                Modifier
-                    .height(80.dp)
-                    .width(127.dp),
+                    Modifier
+                        .height(80.dp)
+                        .width(127.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
                 Text(
                     userSwapStats.totalGoodsCount.toString(),
                     style = Typography.headlineSmall,
-                    color = Primary
+                    color = Primary,
                 )
                 Spacer(modifier = Modifier.size(8.dp))
                 Text(
                     text = stringResource(R.string.user_post_product_count),
                     style = Typography.labelLarge,
-                    color = Gray4
+                    color = Gray4,
                 )
             }
             VerticalDivider(
@@ -76,22 +74,22 @@ fun ProfileSwapCard(
             )
             Column(
                 modifier =
-                Modifier
-                    .height(80.dp)
-                    .width(127.dp),
+                    Modifier
+                        .height(80.dp)
+                        .width(127.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
                 Text(
                     userSwapStats.completedSwapCount.toString(),
                     style = Typography.headlineSmall,
-                    color = Primary
+                    color = Primary,
                 )
                 Spacer(modifier = Modifier.size(8.dp))
                 Text(
                     text = stringResource(R.string.user_swap_count),
                     style = Typography.labelLarge,
-                    color = Gray4
+                    color = Gray4,
                 )
             }
             VerticalDivider(
@@ -99,22 +97,22 @@ fun ProfileSwapCard(
             )
             Column(
                 modifier =
-                Modifier
-                    .height(80.dp)
-                    .width(127.dp),
+                    Modifier
+                        .height(80.dp)
+                        .width(127.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
                 Text(
                     userSwapStats.ratingAverage.toString(),
                     style = Typography.headlineSmall,
-                    color = Primary
+                    color = Primary,
                 )
                 Spacer(modifier = Modifier.size(8.dp))
                 Text(
                     text = stringResource(R.string.user_review_average),
                     style = Typography.labelLarge,
-                    color = Gray4
+                    color = Gray4,
                 )
             }
         }
@@ -125,10 +123,11 @@ fun ProfileSwapCard(
 @Composable
 fun ProfileSwapCardPreview() {
     ProfileSwapCard(
-        userSwapStats = UserSwapStats(
-            totalGoodsCount = 0,
-            completedSwapCount = 0,
-            ratingAverage = 0.0
-        )
+        userSwapStats =
+            UserSwapStats(
+                totalGoodsCount = 0,
+                completedSwapCount = 0,
+                ratingAverage = 0.0,
+            ),
     )
 }

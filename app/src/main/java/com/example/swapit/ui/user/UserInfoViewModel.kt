@@ -13,22 +13,24 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class UserInfoViewModel(
-    private val repository: UserRepository
+    private val repository: UserRepository,
 ) : ViewModel() {
-    private var _userInfo: MutableStateFlow<UserInfo> = MutableStateFlow(
-        UserInfo(
-            id = 0,
-            nickname = "",
-            profileImageUrl = "",
-            email = "",
-            swapStats = UserSwapStats(
-                totalGoodsCount = 0,
-                completedSwapCount = 0,
-                ratingAverage = 0.0
+    private var _userInfo: MutableStateFlow<UserInfo> =
+        MutableStateFlow(
+            UserInfo(
+                id = 0,
+                nickname = "",
+                profileImageUrl = "",
+                email = "",
+                swapStats =
+                    UserSwapStats(
+                        totalGoodsCount = 0,
+                        completedSwapCount = 0,
+                        ratingAverage = 0.0,
+                    ),
+                reviews = emptyList(),
             ),
-            reviews = emptyList()
         )
-    )
     val userInfo: StateFlow<UserInfo?> = _userInfo.asStateFlow()
 
     fun myUserInfo() {
