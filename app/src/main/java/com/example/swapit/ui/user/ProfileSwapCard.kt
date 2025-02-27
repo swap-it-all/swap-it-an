@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.swapit.R
-import com.example.swapit.domain.repository.UserInfo
+import com.example.swapit.domain.model.user.UserSwapStats
 import com.example.swapit.ui.theme.Gray4
 import com.example.swapit.ui.theme.Paddings
 import com.example.swapit.ui.theme.Primary
@@ -31,10 +31,7 @@ import com.example.swapit.ui.theme.White
 
 @Composable
 fun ProfileSwapCard(
-    userSwapStats: UserInfo,
-    productCount: Int = 22,
-    swapCount: Int = 16,
-    review: Float = 4.8f,
+    userSwapStats: UserSwapStats,
 ) {
     Card(
         modifier =
@@ -128,15 +125,10 @@ fun ProfileSwapCard(
 @Composable
 fun ProfileSwapCardPreview() {
     ProfileSwapCard(
-        userSwapStats = UserInfo(
-            id = 0,
-            nickname = "하울의움직이는성",
-            profileImageUrl = "http://k.kakaocdn.net/dn/chCtzJ/btsKVwyW8kR/pkt9CkeCx2mF0MTFn4LCdK/img_640x640.jpg",
-            email = "",
-            totalGoodsCount = 22,
-            completedSwapCount = 16,
-            ratingAverage = 4.8,
-            reviews = emptyList()
+        userSwapStats = UserSwapStats(
+            totalGoodsCount = 0,
+            completedSwapCount = 0,
+            ratingAverage = 0.0
         )
     )
 }

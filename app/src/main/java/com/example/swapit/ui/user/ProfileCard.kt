@@ -27,7 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.example.swapit.R
-import com.example.swapit.domain.repository.UserInfo
+import com.example.swapit.domain.model.user.UserInfo
+import com.example.swapit.domain.model.user.UserSwapStats
 import com.example.swapit.ui.navigation.NavItem
 import com.example.swapit.ui.theme.Black
 import com.example.swapit.ui.theme.Gray4
@@ -38,8 +39,6 @@ import com.example.swapit.ui.theme.White
 @Composable
 fun ProfileCard(
     userInfo: UserInfo,
-    userName: String = "하울의움직이는성",
-    userEmail: String = "swapit202501@gmail.com",
     navController: NavController,
 ) {
     Card(
@@ -104,9 +103,11 @@ fun ProfileCardPreview() {
             nickname = "하울의움직이는성",
             profileImageUrl = "http://k.kakaocdn.net/dn/chCtzJ/btsKVwyW8kR/pkt9CkeCx2mF0MTFn4LCdK/img_640x640.jpg",
             email = "",
-            totalGoodsCount = 0,
-            completedSwapCount = 0,
-            ratingAverage = 0.0,
+            swapStats = UserSwapStats(
+                totalGoodsCount = 0,
+                completedSwapCount = 0,
+                ratingAverage = 0.0,
+            ),
             reviews = emptyList(
             )
         )

@@ -3,7 +3,8 @@ package com.example.swapit.ui.user
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.swapit.domain.repository.UserInfo
+import com.example.swapit.domain.model.user.UserInfo
+import com.example.swapit.domain.model.user.UserSwapStats
 import com.example.swapit.domain.repository.UserRepository
 import com.example.swapit.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,9 +21,11 @@ class UserInfoViewModel(
             nickname = "",
             profileImageUrl = "",
             email = "",
-            totalGoodsCount = 0,
-            completedSwapCount = 0,
-            ratingAverage = 0.0,
+            swapStats = UserSwapStats(
+                totalGoodsCount = 0,
+                completedSwapCount = 0,
+                ratingAverage = 0.0
+            ),
             reviews = emptyList()
         )
     )
