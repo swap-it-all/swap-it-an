@@ -9,8 +9,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.swapit.domain.repository.ProductRepository
-import com.example.swapit.domain.repository.UserRepository
 import com.example.swapit.domain.repository.ShoppingRepository
+import com.example.swapit.domain.repository.UserRepository
 import com.example.swapit.ui.alert.AlertScreen
 import com.example.swapit.ui.auth.LoginScreen
 import com.example.swapit.ui.auth.LoginViewModel
