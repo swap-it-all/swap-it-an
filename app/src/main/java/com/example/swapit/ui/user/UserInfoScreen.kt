@@ -8,16 +8,29 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import com.example.swapit.R
+import com.example.swapit.domain.repository.UserRepository
 import com.example.swapit.ui.component.AppBar
 import com.example.swapit.ui.component.BottomNavigationBar
 import com.example.swapit.ui.theme.BackgroundColor
 
 @Composable
-fun UserInfoScreen(navController: NavHostController) {
+fun UserInfoScreen(
+    navController: NavHostController,
+    viewModel: UserInfoViewModel,
+) {
+    val userInfo by viewModel.userInfo.collectAsState()
+
+    LaunchedEffect(Unit) { viewModel.myUserInfo() }
+
     Scaffold(
         topBar = {
             AppBar(navController = navController)
@@ -33,21 +46,25 @@ fun UserInfoScreen(navController: NavHostController) {
                     .padding(contentPadding),
             color = BackgroundColor,
         ) {
-            Column {
-                ProfileCard(navController = navController)
-                ProfileSwapCard()
-                LazyColumn {
-                    item {
-                        ProfileItem(
-                            text = "내가 등록한 물건",
-                            count = 5,
-                        )
-                        HorizontalDivider()
-                        ProfileItem(
-                            text = "받은 스왑 리뷰",
-                            count = 11,
-                        )
-                        HorizontalDivider()
+            userInfo?.let { info ->
+                Column {
+                    ProfileCard(navController = navController, userInfo = info)
+                    ProfileSwapCard(
+                        userSwapStats = info.swapStats,
+                    )
+                    LazyColumn {
+                        item {
+                            ProfileItem(
+                                text = stringResource(R.string.user_post_product),
+                                count = info.swapStats.totalGoodsCount,
+                            )
+                            HorizontalDivider()
+                            ProfileItem(
+                                text = stringResource(R.string.user_swap_review),
+                                count = info.reviews.size.toLong(),
+                            )
+                            HorizontalDivider()
+                        }
                     }
                 }
             }
@@ -58,5 +75,8 @@ fun UserInfoScreen(navController: NavHostController) {
 @Preview(showBackground = true)
 @Composable
 fun UserInfoScreenPreview() {
-    UserInfoScreen(navController = NavHostController(LocalContext.current))
+    UserInfoScreen(
+        navController = NavHostController(LocalContext.current),
+        viewModel = UserInfoViewModel(repository = UserRepository.instance()),
+    )
 }

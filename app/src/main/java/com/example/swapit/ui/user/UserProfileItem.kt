@@ -20,7 +20,7 @@ import com.example.swapit.ui.theme.Typography
 @Composable
 fun ProfileItem(
     text: String,
-    count: Int,
+    count: Long,
 ) {
     Row(
         modifier =

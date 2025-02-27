@@ -1,6 +1,5 @@
 package com.example.swapit.ui.user
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,7 +25,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil3.compose.AsyncImage
 import com.example.swapit.R
+import com.example.swapit.domain.model.user.UserInfo
+import com.example.swapit.domain.model.user.UserSwapStats
 import com.example.swapit.ui.navigation.NavItem
 import com.example.swapit.ui.theme.Black
 import com.example.swapit.ui.theme.Gray4
@@ -36,8 +38,7 @@ import com.example.swapit.ui.theme.White
 
 @Composable
 fun ProfileCard(
-    userName: String = "하울의움직이는성",
-    userEmail: String = "swapit202501@gmail.com",
+    userInfo: UserInfo,
     navController: NavController,
 ) {
     Card(
@@ -57,9 +58,11 @@ fun ProfileCard(
                     .fillMaxWidth()
                     .padding(16.dp),
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_add_plus_circle),
+            AsyncImage(
+                model = userInfo.profileImageUrl,
                 contentDescription = "Profile Picture",
+                placeholder = painterResource(R.drawable.ic_user),
+                error = painterResource(R.drawable.ic_close),
                 modifier =
                     Modifier
                         .size(86.dp)
@@ -75,7 +78,7 @@ fun ProfileCard(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.clickable { navController.navigate(NavItem.ProfileEdit.screenRoute) },
                 ) {
-                    Text(userName, style = Typography.titleLarge, color = Black)
+                    Text(text = userInfo.nickname, style = Typography.titleLarge, color = Black)
                     Spacer(modifier = Modifier.width(8.dp))
                     Icon(
                         painter = painterResource(id = R.drawable.ic_pencil),
@@ -84,7 +87,7 @@ fun ProfileCard(
                     )
                 }
                 Spacer(modifier = Modifier.height(10.dp))
-                Text(userEmail, style = Typography.bodyMedium, color = Gray4)
+                Text(text = userInfo.email, style = Typography.bodyMedium, color = Gray4)
             }
         }
     }
@@ -93,5 +96,22 @@ fun ProfileCard(
 @Preview(showBackground = true)
 @Composable
 fun ProfileCardPreview() {
-    ProfileCard(navController = NavController(LocalContext.current))
+    ProfileCard(
+        navController = NavController(LocalContext.current),
+        userInfo =
+            UserInfo(
+                id = 0,
+                nickname = "하울의움직이는성",
+                profileImageUrl = "http://k.kakaocdn.net/dn/chCtzJ/btsKVwyW8kR/pkt9CkeCx2mF0MTFn4LCdK/img_640x640.jpg",
+                email = "",
+                swapStats =
+                    UserSwapStats(
+                        totalGoodsCount = 0,
+                        completedSwapCount = 0,
+                        ratingAverage = 0.0,
+                    ),
+                reviews =
+                    emptyList(),
+            ),
+    )
 }

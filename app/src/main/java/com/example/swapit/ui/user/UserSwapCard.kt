@@ -18,8 +18,11 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.swapit.R
+import com.example.swapit.domain.model.user.UserSwapStats
 import com.example.swapit.ui.theme.Gray4
 import com.example.swapit.ui.theme.Paddings
 import com.example.swapit.ui.theme.Primary
@@ -27,11 +30,7 @@ import com.example.swapit.ui.theme.Typography
 import com.example.swapit.ui.theme.White
 
 @Composable
-fun ProfileSwapCard(
-    productCount: Int = 22,
-    swapCount: Int = 16,
-    review: Float = 4.8f,
-) {
+fun ProfileSwapCard(userSwapStats: UserSwapStats) {
     Card(
         modifier =
             Modifier
@@ -58,9 +57,17 @@ fun ProfileSwapCard(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                Text(productCount.toString(), style = Typography.headlineSmall, color = Primary)
+                Text(
+                    userSwapStats.totalGoodsCount.toString(),
+                    style = Typography.headlineSmall,
+                    color = Primary,
+                )
                 Spacer(modifier = Modifier.size(8.dp))
-                Text("물건 수", style = Typography.labelLarge, color = Gray4)
+                Text(
+                    text = stringResource(R.string.user_post_product_count),
+                    style = Typography.labelLarge,
+                    color = Gray4,
+                )
             }
             VerticalDivider(
                 modifier = Modifier.height(60.dp),
@@ -73,9 +80,17 @@ fun ProfileSwapCard(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                Text(swapCount.toString(), style = Typography.headlineSmall, color = Primary)
+                Text(
+                    userSwapStats.completedSwapCount.toString(),
+                    style = Typography.headlineSmall,
+                    color = Primary,
+                )
                 Spacer(modifier = Modifier.size(8.dp))
-                Text("스왑 수", style = Typography.labelLarge, color = Gray4)
+                Text(
+                    text = stringResource(R.string.user_swap_count),
+                    style = Typography.labelLarge,
+                    color = Gray4,
+                )
             }
             VerticalDivider(
                 modifier = Modifier.height(60.dp),
@@ -88,9 +103,17 @@ fun ProfileSwapCard(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                Text(review.toString(), style = Typography.headlineSmall, color = Primary)
+                Text(
+                    userSwapStats.ratingAverage.toString(),
+                    style = Typography.headlineSmall,
+                    color = Primary,
+                )
                 Spacer(modifier = Modifier.size(8.dp))
-                Text("리뷰 평점", style = Typography.labelLarge, color = Gray4)
+                Text(
+                    text = stringResource(R.string.user_review_average),
+                    style = Typography.labelLarge,
+                    color = Gray4,
+                )
             }
         }
     }
@@ -99,5 +122,12 @@ fun ProfileSwapCard(
 @Preview(showBackground = true)
 @Composable
 fun ProfileSwapCardPreview() {
-    ProfileSwapCard()
+    ProfileSwapCard(
+        userSwapStats =
+            UserSwapStats(
+                totalGoodsCount = 0,
+                completedSwapCount = 0,
+                ratingAverage = 0.0,
+            ),
+    )
 }
