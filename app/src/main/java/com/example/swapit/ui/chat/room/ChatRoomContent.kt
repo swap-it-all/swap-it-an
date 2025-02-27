@@ -17,7 +17,10 @@ import com.example.swapit.ui.theme.BackgroundColor
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun ChatRoomContent(chats: List<Chat>, modifier: Modifier = Modifier) {
+fun ChatRoomContent(
+    chats: List<Chat>,
+    modifier: Modifier = Modifier,
+) {
     LazyColumn(
         modifier =
             modifier

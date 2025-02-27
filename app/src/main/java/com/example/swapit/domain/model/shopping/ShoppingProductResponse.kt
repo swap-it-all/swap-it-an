@@ -6,7 +6,7 @@ import com.example.swapit.data.datasource.remote.dto.response.shopping.GoodsList
 data class ShoppingProductResponse(
     val success: Boolean,
     val message: String,
-    val results: GoodsListResults
+    val results: GoodsListResults,
 )
 
 fun GoodsListResponse.toDomainModel(): ShoppingProductResponse {
@@ -16,4 +16,3 @@ fun GoodsListResponse.toDomainModel(): ShoppingProductResponse {
         results = this.results,
     )
 }
-

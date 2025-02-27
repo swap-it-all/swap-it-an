@@ -1,6 +1,5 @@
 package com.example.swapit.data.datasource.remote
 
-import com.example.swapit.BuildConfig
 import com.example.swapit.SwapItApplication.Companion.appContext
 import com.example.swapit.data.datasource.local.LocalLoginDataSource
 import com.example.swapit.data.datasource.remote.interceptor.AuthAuthenticator

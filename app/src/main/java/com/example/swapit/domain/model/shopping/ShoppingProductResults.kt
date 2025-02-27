@@ -7,7 +7,7 @@ data class ShoppingProductResults(
     val goodsList: List<Goods>,
     val hasNext: Boolean,
     val lastCursorId: Int,
-    val count: Int
+    val count: Int,
 )
 
 fun GoodsListResults.toDomainModel(): ShoppingProductResults {
@@ -15,6 +15,6 @@ fun GoodsListResults.toDomainModel(): ShoppingProductResults {
         goodsList = this.goodsList,
         hasNext = this.hasNext,
         lastCursorId = this.lastCursorId,
-        count = this.size
+        count = this.size,
     )
 }

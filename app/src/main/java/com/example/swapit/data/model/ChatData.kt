@@ -1,7 +1,5 @@
 package com.example.swapit.data.model
 
-import java.time.LocalDateTime
-
 data class ChatRoomData(
     val imageUri: String,
     val category: String,

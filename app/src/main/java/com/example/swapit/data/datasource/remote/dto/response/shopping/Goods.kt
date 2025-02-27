@@ -12,5 +12,5 @@ data class Goods(
     val imageUrl: String?,
     val placeName: String?,
     val viewCount: Int,
-    val createdAt: String
+    val createdAt: String,
 )

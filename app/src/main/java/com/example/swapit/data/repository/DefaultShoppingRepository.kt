@@ -1,7 +1,6 @@
 package com.example.swapit.data.repository
 
 import com.example.swapit.data.datasource.RemoteShoppingDataSource
-import com.example.swapit.domain.model.shopping.ShoppingProduct
 import com.example.swapit.domain.model.shopping.ShoppingProductResponse
 import com.example.swapit.domain.model.shopping.ShoppingProductResults
 import com.example.swapit.domain.model.shopping.toDomainModel
@@ -19,6 +18,4 @@ class DefaultShoppingRepository(
         val results = shoppingProductResponse.results.toDomainModel()
         return results
     }
-
 }
-

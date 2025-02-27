@@ -1,7 +1,6 @@
 package com.example.swapit.ui.navigation
 
 import ShoppingViewModel
-import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -11,7 +10,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.swapit.data.datasource.remote.service.ShoppingService
 import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.domain.repository.ShoppingRepository
 import com.example.swapit.ui.alert.AlertScreen
@@ -93,14 +91,18 @@ class NavigationModule {
                 ShoppingDetailScreen(Modifier, navController, defaultShoppingDetailData)
             }
             composable(NavItem.MyProductSelection.screenRoute) {
-                MyProductSelectionScreen(navController, viewModel = viewModel(
-                    factory =
-                    PostProductViewModel.factory(
-                        ProductRepository.instance(
-                            LocalContext.current,
+                MyProductSelectionScreen(
+                    navController,
+                    viewModel =
+                        viewModel(
+                            factory =
+                                PostProductViewModel.factory(
+                                    ProductRepository.instance(
+                                        LocalContext.current,
+                                    ),
+                                ),
                         ),
-                    ),
-                ),)
+                )
             }
             composable(NavItem.ProfileEdit.screenRoute) {
                 ProfileEditScreen(navController)

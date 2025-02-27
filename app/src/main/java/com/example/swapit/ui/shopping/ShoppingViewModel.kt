@@ -16,6 +16,7 @@ class ShoppingViewModel(private val repository: ShoppingRepository) : ViewModel(
     val productCount get() = _productCount.intValue
 
     var bottomSheet = mutableStateOf(false)
+
     fun dismissBottomSheet() {
         bottomSheet.value = false
     }
@@ -42,5 +43,4 @@ class ShoppingViewModel(private val repository: ShoppingRepository) : ViewModel(
             }
         }
     }
-
 }

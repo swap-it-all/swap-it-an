@@ -1,9 +1,5 @@
 package com.example.swapit.ui.shopping
 
-import ShoppingViewModel
-import android.icu.util.Calendar
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,11 +25,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.example.swapit.R
 import com.example.swapit.data.datasource.local.model.post.CategoryOption
 import com.example.swapit.data.model.ShoppingCardData
+import com.example.swapit.data.model.calculateTime
 import com.example.swapit.domain.model.shopping.ShoppingProduct
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray4
@@ -42,9 +38,6 @@ import com.example.swapit.ui.theme.Primary
 import com.example.swapit.ui.theme.Typography
 import com.example.swapit.ui.theme.White
 import java.text.DecimalFormat
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun ShoppingCard(
@@ -52,7 +45,7 @@ fun ShoppingCard(
     onClick: () -> Unit = {},
 ) {
     val decimal = DecimalFormat(stringResource(R.string.decimal_format))
-    val convertTime = calculationWriteTime(cardData.createdAt)
+    val convertTime = calculateTime(cardData.createdAt)
     Card(
         modifier =
             Modifier
@@ -95,7 +88,8 @@ fun ShoppingCard(
                             Paddings.none,
                             Paddings.xsmall,
                         ),
-                    text = "${CategoryOption.entries.find { it.name == cardData.category }?.option } |" +
+                    text =
+                        "${CategoryOption.entries.find { it.name == cardData.category }?.option } |" +
                             "${cardData.placeName} |" +
                             " $convertTime",
                     style = Typography.labelLarge,
@@ -173,5 +167,4 @@ val productCardData =
 @Preview(showBackground = true)
 @Composable
 fun ShoppingCardPreview() {
-
 }

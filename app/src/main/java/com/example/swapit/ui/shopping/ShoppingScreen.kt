@@ -1,7 +1,6 @@
 package com.example.swapit.ui.shopping
 
 import ShoppingViewModel
-import android.util.Log
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -30,7 +29,10 @@ import com.example.swapit.ui.theme.SwapitTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShoppingScreen(navController: NavHostController, viewModel: ShoppingViewModel) {
+fun ShoppingScreen(
+    navController: NavHostController,
+    viewModel: ShoppingViewModel,
+) {
     val sheetState = rememberModalBottomSheetState()
     viewModel.loadProducts()
 
@@ -44,9 +46,9 @@ fun ShoppingScreen(navController: NavHostController, viewModel: ShoppingViewMode
     ) { contentPadding ->
         Surface(
             modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(contentPadding),
+                Modifier
+                    .fillMaxSize()
+                    .padding(contentPadding),
             color = BackgroundColor,
         ) {
             LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -59,8 +61,10 @@ fun ShoppingScreen(navController: NavHostController, viewModel: ShoppingViewMode
                 item {
                     CategorySection(Modifier) { viewModel.showBottomSheet() }
                 }
-                itemsIndexed(items = viewModel.products,
-                    key = { _, item -> item.goodsId }) { index, item ->
+                itemsIndexed(
+                    items = viewModel.products,
+                    key = { _, item -> item.goodsId },
+                ) { _, item ->
                     ShoppingCard(item) {
                         navController.navigate("${NavItem.ShoppingDetail.screenRoute}")
                     }
@@ -82,7 +86,6 @@ fun ShoppingScreen(navController: NavHostController, viewModel: ShoppingViewMode
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

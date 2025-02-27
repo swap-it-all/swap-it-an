@@ -17,7 +17,10 @@ import com.example.swapit.domain.repository.ShoppingRepository
 import com.example.swapit.ui.theme.BackgroundColor
 
 @Composable
-fun MyProductSelectionScreen(navController: NavHostController,viewModel: ShoppingViewModel) {
+fun MyProductSelectionScreen(
+    navController: NavHostController,
+    viewModel: ShoppingViewModel,
+) {
     var openDialog by remember { mutableStateOf(false) }
     Column(
         Modifier
@@ -25,7 +28,7 @@ fun MyProductSelectionScreen(navController: NavHostController,viewModel: Shoppin
             .background(BackgroundColor),
     ) {
         BackButtonAndTextSection(navController)
-        ProductListSection(viewModel = viewModel,{ openDialog = true })
+        ProductListSection(viewModel = viewModel, { openDialog = true })
         DialogSection(openDialog, onClickCancel = { openDialog = false }, navController)
     }
 }
@@ -33,5 +36,5 @@ fun MyProductSelectionScreen(navController: NavHostController,viewModel: Shoppin
 @Preview(showBackground = true)
 @Composable
 fun SwapRequestScreenPreview() {
-    MyProductSelectionScreen(rememberNavController(),ShoppingViewModel(ShoppingRepository.instance()))
+    MyProductSelectionScreen(rememberNavController(), ShoppingViewModel(ShoppingRepository.instance()))
 }

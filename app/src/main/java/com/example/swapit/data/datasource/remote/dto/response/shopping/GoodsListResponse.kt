@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 data class GoodsListResponse(
     val success: Boolean,
     val message: String,
-    val results: GoodsListResults
+    val results: GoodsListResults,
 )
