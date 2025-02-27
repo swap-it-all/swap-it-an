@@ -1,6 +1,6 @@
 package com.example.swapit.domain.model.shopping
 
-import com.example.swapit.data.datasource.remote.dto.response.shopping.Goods
+import com.example.swapit.data.datasource.remote.dto.response.shopping.ShoppingCardProduct
 
 data class ShoppingProduct(
     val goodsId: Int,
@@ -8,14 +8,14 @@ data class ShoppingProduct(
     val price: Int,
     val category: String,
     val imageUrl: String?,
-    val placeName: String?,
+    val placeName: String,
     val viewCount: Int,
     val createdAt: String,
 )
 
-fun Goods.toDomainModel(): ShoppingProduct {
+fun ShoppingCardProduct.toDomainModel(): ShoppingProduct {
     return ShoppingProduct(
-        goodsId = this.id,
+        goodsId = this.goodsId,
         title = this.title,
         price = this.price,
         category = this.category,

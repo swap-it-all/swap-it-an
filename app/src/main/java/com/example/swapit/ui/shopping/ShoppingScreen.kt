@@ -34,7 +34,6 @@ fun ShoppingScreen(
     viewModel: ShoppingViewModel,
 ) {
     val sheetState = rememberModalBottomSheetState()
-    viewModel.loadProducts()
 
     Scaffold(
         topBar = {

@@ -1,5 +1,6 @@
 package com.example.swapit.data.datasource.remote
 
+import com.example.swapit.BuildConfig
 import com.example.swapit.SwapItApplication.Companion.appContext
 import com.example.swapit.data.datasource.local.LocalLoginDataSource
 import com.example.swapit.data.datasource.remote.interceptor.AuthAuthenticator
@@ -28,7 +29,7 @@ object RetrofitModule {
 
         val retrofit =
             Retrofit.Builder()
-                .baseUrl("http://3.36.159.6")
+                .baseUrl(BuildConfig.SWAP_IT_BASE_URL)
                 .client(client)
                 .addConverterFactory(converterFactory)
                 .build()
