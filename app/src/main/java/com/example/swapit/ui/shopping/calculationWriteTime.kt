@@ -4,18 +4,15 @@ import android.icu.util.Calendar
 import java.util.concurrent.TimeUnit
 
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import java.util.*
 
 fun calculationWriteTime(createDateTime: String): String {
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-    dateFormat.timeZone = TimeZone.getTimeZone("UTC")
-
-    val createDate: Date = dateFormat.parse(createDateTime) ?: return "알 수 없음"
-
-    val createDateTimeMillis = createDate.time
-    val nowDateTimeMillis = Calendar.getInstance().timeInMillis
-
-    val differenceValue = nowDateTimeMillis - createDateTimeMillis
+    val now = LocalDateTime.now()
+    val convertTime = LocalDateTime.parse(createDateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+    val differenceValue = ChronoUnit.MILLIS.between(convertTime,now)
     return when {
         differenceValue < 60000 -> "방금 전"
         differenceValue < 3600000 -> "${TimeUnit.MILLISECONDS.toMinutes(differenceValue)}분 전"
