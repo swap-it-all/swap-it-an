@@ -21,7 +21,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.swapit.R
+import com.example.swapit.data.datasource.local.model.post.CategoryOption
+import com.example.swapit.data.datasource.local.model.post.QualityOption
 import com.example.swapit.domain.model.shopping.detail.ShoppingDetailData
+import com.example.swapit.ui.shopping.model.calculateTime
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray4
 import com.example.swapit.ui.theme.Gray5
@@ -41,8 +44,11 @@ fun ProductContentSection(shoppingDetailData: ShoppingDetailData) {
 
 @Composable
 fun TitleSection(shoppingDetailData: ShoppingDetailData) {
+    val convertTime = calculateTime(shoppingDetailData.createdAt)
     Text(
-        "${shoppingDetailData.category} | ${shoppingDetailData.quality} | ${shoppingDetailData.createdAt}",
+        "${CategoryOption.entries.find { it.name == shoppingDetailData.category}?.option} | " +
+                "${QualityOption.entries.find { it.name == shoppingDetailData.quality}?.option} | " +
+                convertTime,
         style = Typography.labelLarge,
         color = Gray4,
         modifier =
