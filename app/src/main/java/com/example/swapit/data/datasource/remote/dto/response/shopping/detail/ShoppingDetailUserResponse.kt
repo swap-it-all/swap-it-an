@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ShoppingDetailUserResponse(
-    val userId: Int,
+    val userId: Long,
     val nickname: String,
     val profileImageUrl: String,
-    val userRating: Int,
+    val userRating: Double,
 )

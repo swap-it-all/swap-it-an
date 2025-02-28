@@ -19,7 +19,7 @@ fun ShoppingDetailDataResponse.toDomain(): ShoppingDetailData {
         goodsTradeStatus = this.goodsTradeStatus,
         placeName = this.placeName,
         viewCount = this.viewCount,
-        imageUri = this.imageUri.map { it.toDomain() },
+        imageUri = this.images.map { it.toDomain() },
         createdAt = this.createdAt,
     )
 }

@@ -1,8 +1,8 @@
 package com.example.swapit.domain.model.shopping.detail
 
 data class ShoppingDetailUser(
-    val userId: Int,
+    val userId: Long,
     val nickname: String,
     val profileImageUrl: String,
-    val userRating: Int,
+    val userRating: Double,
 )

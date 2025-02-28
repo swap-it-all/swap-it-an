@@ -4,16 +4,16 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ShoppingDetailDataResponse(
-    val goodsId: Int,
+    val goodsId: Long,
     val user: ShoppingDetailUserResponse,
     val category: String,
     val title: String,
-    val price: Int,
+    val price: Long,
     val quality: String,
     val content: String,
     val goodsTradeStatus: String,
     val placeName: String,
-    val viewCount: Int,
-    val imageUri: List<ShoppingDetailImageResponse>,
+    val viewCount: Long,
+    val images: List<ShoppingDetailImageResponse>,
     val createdAt: String,
 )

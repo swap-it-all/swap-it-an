@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 data class ShoppingProductsResultsResponse(
     val goodsList: List<ShoppingProductResponse>,
     val hasNext: Boolean,
-    val lastCursorId: Int,
-    val size: Int,
+    val lastCursorId: Long,
+    val size: Long,
 )

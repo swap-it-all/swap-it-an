@@ -89,9 +89,9 @@ fun ShoppingCard(
                             Paddings.xsmall,
                         ),
                     text =
-                        "${CategoryOption.entries.find { it.name == cardData.category }?.option } |" +
-                            "${cardData.placeName} |" +
-                            " $convertTime",
+                        "${CategoryOption.entries.find { it.name == cardData.category }?.option } | " +
+                            "${cardData.placeName} | " +
+                            convertTime,
                     style = Typography.labelLarge,
                     color = Gray4,
                 )

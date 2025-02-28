@@ -18,7 +18,7 @@ class ShoppingDetailViewModel(repository: ShoppingDetailRepository,private val g
     private val shoppingDetailContents = mutableStateOf<ShoppingDetailData>(
         ShoppingDetailData(
             goodsId = 0,
-            user = ShoppingDetailUser(userId = 1, nickname = "", profileImageUrl = "",userRating = 1),
+            user = ShoppingDetailUser(userId = 1, nickname = "", profileImageUrl = "",userRating = 1.1),
             category = "",
             title = "",
             price = 0,

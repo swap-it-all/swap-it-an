@@ -4,12 +4,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ShoppingProductResponse(
-    val goodsId: Int,
+    val goodsId: Long,
     val title: String,
-    val price: Int,
+    val price: Long,
     val category: String,
     val imageUrl: String?,
     val placeName: String,
-    val viewCount: Int,
+    val viewCount: Long,
     val createdAt: String,
 )

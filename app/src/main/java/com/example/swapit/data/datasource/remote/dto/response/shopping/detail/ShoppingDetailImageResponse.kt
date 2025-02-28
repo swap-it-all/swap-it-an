@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ShoppingDetailImageResponse(
-    val imagesId: Int,
+    val imagesId: Long,
     val imageUrl: String,
 )
