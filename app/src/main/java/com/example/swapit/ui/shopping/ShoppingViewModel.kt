@@ -33,7 +33,7 @@ class ShoppingViewModel(private val repository: ShoppingRepository) : ViewModel(
         fun factory(repository: ShoppingRepository): ViewModelProvider.Factory =
             BaseViewModelFactory {
                 ShoppingViewModel(
-                    repository = repository,
+                    repository = repository
                 )
             }
     }
