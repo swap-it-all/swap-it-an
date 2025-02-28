@@ -2,6 +2,7 @@ package com.example.swapit.data.datasource.remote
 
 import com.example.swapit.data.datasource.remote.service.LoginService
 import com.example.swapit.data.datasource.remote.service.ProductService
+import com.example.swapit.data.datasource.remote.service.ShoppingDetailService
 import com.example.swapit.data.datasource.remote.service.ShoppingService
 import com.example.swapit.data.datasource.remote.service.UserService
 import retrofit2.create
@@ -20,6 +21,10 @@ object ServiceModule {
     }
 
     val userService: UserService by lazy {
+        RetrofitModule.retrofit().create()
+    }
+
+    val shoppingDetailService: ShoppingDetailService by lazy {
         RetrofitModule.retrofit().create()
     }
 }
