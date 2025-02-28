@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -70,6 +71,7 @@ fun ShoppingCard(
                 placeholder = ColorPainter(Primary),
                 fallback = rememberVectorPainter(Icons.Default.Call),
                 error = rememberVectorPainter(Icons.Default.Settings),
+                contentScale = ContentScale.Crop,
             )
             Column(
                 modifier =

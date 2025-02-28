@@ -15,10 +15,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
@@ -54,15 +56,17 @@ fun ProductImageSection(
                     .fillMaxWidth(),
             userScrollEnabled = true,
         ) { page ->
+
             AsyncImage(
                 modifier =
                     Modifier
                         .fillMaxWidth()
                         .height(412.dp),
                 model = shoppingDetailData.imageUri[page].imageUrl,
+                contentScale = ContentScale.Crop,
                 contentDescription = "상품 이미지",
                 placeholder = ColorPainter(Primary),
-                colorFilter = ColorFilter.tint(Gray5, blendMode = BlendMode.Darken),
+                colorFilter = ColorFilter.tint(Gray5, blendMode = BlendMode.Darken)
             )
         }
         Row(
