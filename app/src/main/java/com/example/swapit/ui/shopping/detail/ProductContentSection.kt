@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.swapit.R
-import com.example.swapit.data.model.ShoppingDetailData
+import com.example.swapit.domain.model.shopping.detail.ShoppingDetailData
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray4
 import com.example.swapit.ui.theme.Gray5
@@ -42,7 +42,7 @@ fun ProductContentSection(shoppingDetailData: ShoppingDetailData) {
 @Composable
 fun TitleSection(shoppingDetailData: ShoppingDetailData) {
     Text(
-        "${shoppingDetailData.category} | ${shoppingDetailData.quality} | ${shoppingDetailData.time}",
+        "${shoppingDetailData.category} | ${shoppingDetailData.quality} | ${shoppingDetailData.createdAt}",
         style = Typography.labelLarge,
         color = Gray4,
         modifier =
@@ -67,7 +67,7 @@ fun TitleSection(shoppingDetailData: ShoppingDetailData) {
             )
             Spacer(Modifier.width(Paddings.small))
             Text(
-                shoppingDetailData.viewCount,
+                shoppingDetailData.viewCount.toString(),
                 style = Typography.labelLarge,
                 color = Gray4,
             )
@@ -106,7 +106,7 @@ fun UserInfoSection(shoppingDetailData: ShoppingDetailData) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Spacer(modifier = Modifier.size(Paddings.xlarge))
         AsyncImage(
-            model = shoppingDetailData.userImageUri,
+            model = shoppingDetailData.user.profileImageUrl,
             contentDescription = stringResource(R.string.user_image_description),
             placeholder = ColorPainter(Primary),
             modifier =
@@ -119,7 +119,7 @@ fun UserInfoSection(shoppingDetailData: ShoppingDetailData) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(Paddings.large, Paddings.none),
             ) {
-                Text(shoppingDetailData.userName, style = Typography.titleSmall)
+                Text(shoppingDetailData.user.nickname, style = Typography.titleSmall)
                 Spacer(Modifier.width(8.dp))
                 Icon(
                     painter = painterResource(id = R.drawable.ic_filled_star),
@@ -131,13 +131,13 @@ fun UserInfoSection(shoppingDetailData: ShoppingDetailData) {
                             .size(16.dp),
                 )
                 Text(
-                    shoppingDetailData.rate.toString(),
+                    shoppingDetailData.user.userRating.toString(),
                     modifier = Modifier.padding(start = Paddings.small),
                     style = Typography.labelLarge,
                 )
             }
             Text(
-                shoppingDetailData.region,
+                shoppingDetailData.placeName,
                 modifier =
                     Modifier.padding(
                         Paddings.large,

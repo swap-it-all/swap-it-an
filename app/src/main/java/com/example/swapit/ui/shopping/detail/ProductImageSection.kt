@@ -20,7 +20,7 @@ import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
-import com.example.swapit.data.model.ShoppingDetailData
+import com.example.swapit.domain.model.shopping.detail.ShoppingDetailData
 import com.example.swapit.ui.component.BackButton
 import com.example.swapit.ui.component.MenuButton
 import com.example.swapit.ui.theme.Paddings
