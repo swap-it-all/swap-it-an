@@ -65,7 +65,7 @@ fun ShoppingScreen(
                     key = { _, item -> item.goodsId },
                 ) { _, item ->
                     ShoppingCard(item) {
-                        navController.navigate(NavItem.ShoppingDetail.screenRoute+"/${item.goodsId}")
+                        navController.navigate(NavItem.ShoppingDetail.screenRoute + "/${item.goodsId}")
                     }
                 }
                 item {

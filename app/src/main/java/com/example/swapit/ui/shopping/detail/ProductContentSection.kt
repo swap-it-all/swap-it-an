@@ -47,8 +47,8 @@ fun TitleSection(shoppingDetailData: ShoppingDetailData) {
     val convertTime = calculateTime(shoppingDetailData.createdAt)
     Text(
         "${CategoryOption.entries.find { it.name == shoppingDetailData.category}?.option} | " +
-                "${QualityOption.entries.find { it.name == shoppingDetailData.quality}?.option} | " +
-                convertTime,
+            "${QualityOption.entries.find { it.name == shoppingDetailData.quality}?.option} | " +
+            convertTime,
         style = Typography.bodyLarge,
         color = Gray4,
         modifier =

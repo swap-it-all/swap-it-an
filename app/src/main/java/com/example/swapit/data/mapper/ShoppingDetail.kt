@@ -36,6 +36,6 @@ fun ShoppingDetailUserResponse.toDomain(): ShoppingDetailUser {
 fun ShoppingDetailImageResponse.toDomain(): ShoppingDetailImage {
     return ShoppingDetailImage(
         imagesId = this.imagesId,
-        imageUrl = this.imageUrl
+        imageUrl = this.imageUrl,
     )
 }

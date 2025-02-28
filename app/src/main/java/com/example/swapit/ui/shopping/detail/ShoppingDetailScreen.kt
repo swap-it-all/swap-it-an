@@ -53,6 +53,6 @@ fun DetailContent(
 fun ShoppingDetailScreenPreview() {
     ShoppingDetailScreen(
         navController = rememberNavController(),
-        viewModel = viewModel<ShoppingDetailViewModel>()
+        viewModel = viewModel<ShoppingDetailViewModel>(),
     )
 }

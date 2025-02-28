@@ -2,10 +2,8 @@ package com.example.swapit.data.mapper
 
 import com.example.swapit.data.datasource.remote.dto.response.shopping.ShoppingProductResponse
 import com.example.swapit.data.datasource.remote.dto.response.shopping.ShoppingProductsResultsResponse
-import com.example.swapit.data.datasource.remote.dto.response.shopping.detail.ShoppingDetailDataResponse
 import com.example.swapit.domain.model.shopping.ShoppingProduct
 import com.example.swapit.domain.model.shopping.ShoppingProductResults
-import com.example.swapit.domain.model.shopping.detail.ShoppingDetailData
 
 fun ShoppingProductResponse.toDomain(): ShoppingProduct {
     return ShoppingProduct(
@@ -28,4 +26,3 @@ fun ShoppingProductsResultsResponse.toDomain(): ShoppingProductResults {
         count = this.size,
     )
 }
-
