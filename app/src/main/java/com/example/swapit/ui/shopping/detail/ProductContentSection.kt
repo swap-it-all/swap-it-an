@@ -49,7 +49,7 @@ fun TitleSection(shoppingDetailData: ShoppingDetailData) {
         "${CategoryOption.entries.find { it.name == shoppingDetailData.category}?.option} | " +
             "${QualityOption.entries.find { it.name == shoppingDetailData.quality}?.option} | " +
             convertTime,
-        style = Typography.bodyLarge,
+        style = Typography.labelLarge,
         color = Gray4,
         modifier =
             Modifier.padding(
