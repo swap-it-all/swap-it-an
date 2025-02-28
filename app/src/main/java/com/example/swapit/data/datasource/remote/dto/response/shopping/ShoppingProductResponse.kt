@@ -3,7 +3,7 @@ package com.example.swapit.data.datasource.remote.dto.response.shopping
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ShoppingCardProduct(
+data class ShoppingProductResponse(
     val goodsId: Int,
     val title: String,
     val price: Int,
