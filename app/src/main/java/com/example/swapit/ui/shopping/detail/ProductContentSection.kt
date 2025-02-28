@@ -49,7 +49,7 @@ fun TitleSection(shoppingDetailData: ShoppingDetailData) {
         "${CategoryOption.entries.find { it.name == shoppingDetailData.category}?.option} | " +
                 "${QualityOption.entries.find { it.name == shoppingDetailData.quality}?.option} | " +
                 convertTime,
-        style = Typography.labelLarge,
+        style = Typography.bodyLarge,
         color = Gray4,
         modifier =
             Modifier.padding(
@@ -62,7 +62,7 @@ fun TitleSection(shoppingDetailData: ShoppingDetailData) {
     Row(modifier = Modifier.padding(Paddings.xlarge, Paddings.none)) {
         Text(
             shoppingDetailData.title,
-            style = Typography.titleLarge,
+            style = Typography.bodyLarge,
             modifier = Modifier.weight(1f),
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -91,12 +91,12 @@ fun PriceSection(shoppingDetailData: ShoppingDetailData) {
     )
     Text(
         text = stringResource(R.string.shopping_detail_price_predict),
-        style = Typography.titleLarge,
+        style = Typography.bodyMedium,
         color = Gray3,
         modifier = Modifier.padding(Paddings.xlarge, Paddings.none),
     )
     Row(modifier = Modifier.padding(Paddings.xlarge, Paddings.small)) {
-        Text(decimal.format(shoppingDetailData.price), style = Typography.titleLarge)
+        Text(decimal.format(shoppingDetailData.price), style = Typography.bodyLarge)
         Text(stringResource(R.string.won), style = Typography.titleLarge, color = Gray3)
     }
 
@@ -125,7 +125,7 @@ fun UserInfoSection(shoppingDetailData: ShoppingDetailData) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(Paddings.large, Paddings.none),
             ) {
-                Text(shoppingDetailData.user.nickname, style = Typography.titleSmall)
+                Text(shoppingDetailData.user.nickname, style = Typography.bodySmall)
                 Spacer(Modifier.width(8.dp))
                 Icon(
                     painter = painterResource(id = R.drawable.ic_filled_star),

@@ -104,7 +104,7 @@ fun ShoppingCard(
                             Paddings.small,
                         ),
                     text = cardData.title,
-                    style = Typography.titleMedium,
+                    style = Typography.bodyMedium,
                     maxLines = 1,
                 )
                 Row(
@@ -128,7 +128,7 @@ fun ShoppingCard(
                         )
                         Text(
                             text = decimal.format(cardData.price),
-                            style = Typography.titleMedium,
+                            style = Typography.bodyMedium,
                         )
                         Text(
                             text = stringResource(R.string.won),
