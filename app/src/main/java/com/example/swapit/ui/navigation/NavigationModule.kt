@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.swapit.domain.repository.MyProductSelectRepository
 import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.domain.repository.ShoppingDetailRepository
 import com.example.swapit.domain.repository.ShoppingRepository
@@ -26,13 +27,13 @@ import com.example.swapit.ui.search.SearchViewModel
 import com.example.swapit.ui.shopping.ShoppingScreen
 import com.example.swapit.ui.shopping.detail.ShoppingDetailScreen
 import com.example.swapit.ui.shopping.detail.ShoppingDetailViewModel
-import com.example.swapit.ui.shopping.detail.select.MyProductSelectionScreen
+import com.example.swapit.ui.shopping.detail.select.MyProductSelectScreen
+import com.example.swapit.ui.shopping.detail.select.MyProductSelectionViewModel
 import com.example.swapit.ui.splash.SplashScreen
 import com.example.swapit.ui.swap.SwapScreen
 import com.example.swapit.ui.user.UserInfoScreen
 import com.example.swapit.ui.user.UserInfoViewModel
 import com.example.swapit.ui.user.profile.ProfileEditScreen
-import com.kakao.sdk.common.KakaoSdk.type
 
 class NavigationModule {
     @Composable
@@ -127,11 +128,17 @@ class NavigationModule {
                         ),
                 )
             }
-            composable(NavItem.MyProductSelection.screenRoute) {
-                MyProductSelectionScreen(
+            composable(route = NavItem.MyProductSelection.screenRoute
+            ) {
+                MyProductSelectScreen(
                     navController,
                     viewModel =
-                        viewModel(),
+                        viewModel(
+                            factory =
+                                MyProductSelectionViewModel.factory(
+                                    MyProductSelectRepository.instance(),
+                                ),
+                        ),
                 )
             }
             composable(NavItem.ProfileEdit.screenRoute) {

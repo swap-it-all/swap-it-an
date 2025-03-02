@@ -32,7 +32,7 @@ fun ShoppingDetailScreen(
                     .align(Alignment.BottomCenter)
                     .padding(Paddings.xlarge, 40.dp),
         ) {
-            BottomButtonSection(navController)
+            BottomButtonSection(navController, viewModel = viewModel)
         }
     }
 }
