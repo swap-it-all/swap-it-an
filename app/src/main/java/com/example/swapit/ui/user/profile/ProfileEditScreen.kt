@@ -1,5 +1,8 @@
 package com.example.swapit.ui.user.profile
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +30,15 @@ fun ProfileEditScreen(
 ) {
     val userInfo by viewModel.userInfo.collectAsState()
 
+    val photoLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri ->
+            uri?.let {
+                viewModel.updateProfileImage(uri)
+            }
+        },
+    )
+
     userInfo?.let { info ->
         Scaffold(
             topBar = {
@@ -46,7 +58,13 @@ fun ProfileEditScreen(
                         .padding(Paddings.xlarge)
                         .fillMaxSize(),
                 ) {
-                    ProfileImage(info.profileImageUrl)
+                    ProfileImage(imageUrl = info.profileImageUrl,
+                        onImageChange = {
+                            photoLauncher.launch(
+                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                            )
+                        }
+                    )
                     ProfileNameTextField(
                         label = "닉네임",
                         name = info.nickname,

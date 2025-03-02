@@ -1,6 +1,5 @@
 package com.example.swapit.ui.user.profile
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +22,7 @@ import com.example.swapit.ui.theme.White
 @Composable
 fun ProfileImage(
     imageUrl: String,
+    onImageChange: () -> Unit,
 ) {
     Box(
         modifier =
@@ -44,7 +44,10 @@ fun ProfileImage(
                 .background(Black.copy(alpha = 0.4f), CircleShape),
             contentAlignment = Alignment.Center,
         ) {
-            IconButton(onClick = {}, modifier = Modifier.matchParentSize()) {
+            IconButton(
+                onClick = onImageChange,
+                modifier = Modifier.matchParentSize(),
+            ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_pencil),
                     contentDescription = "프로필 이미지 수정",
@@ -60,5 +63,6 @@ fun ProfileImage(
 fun ProfileImagePreview() {
     ProfileImage(
         imageUrl = "",
+        onImageChange = {},
     )
 }

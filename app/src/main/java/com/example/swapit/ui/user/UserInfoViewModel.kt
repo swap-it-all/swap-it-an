@@ -1,5 +1,6 @@
 package com.example.swapit.ui.user
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -39,9 +40,9 @@ class UserInfoViewModel(
         }
     }
 
-    fun updateProfileImage(imageUrl: String) {
+    fun updateProfileImage(image: Uri) {
         viewModelScope.launch {
-            _userInfo.value = _userInfo.value.copy(profileImageUrl = imageUrl)
+            _userInfo.value = _userInfo.value.copy(profileImageUrl = image.toString())
             // todo server update
         }
     }

@@ -1,5 +1,7 @@
 package com.example.swapit.ui.user
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -41,9 +43,9 @@ fun UserInfoScreen(
     ) { contentPadding ->
         Surface(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(contentPadding),
+            Modifier
+                .fillMaxSize()
+                .padding(contentPadding),
             color = BackgroundColor,
         ) {
             userInfo?.let { info ->
