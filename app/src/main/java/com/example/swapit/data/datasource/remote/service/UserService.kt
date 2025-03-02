@@ -1,10 +1,16 @@
 package com.example.swapit.data.datasource.remote.service
 
+import com.example.swapit.data.datasource.remote.dto.request.user.UserProfileRequest
 import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
 import com.example.swapit.data.datasource.remote.dto.response.user.UserResponse
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 
 interface UserService {
     @GET("api/user/auth/info/my")
     suspend fun myUserInfo(): BaseResponse<UserResponse>
+
+    @PATCH("api/user/auth/profile/nickname")
+    suspend fun updateNickname(@Body nickname: UserProfileRequest): BaseResponse<Unit>
 }

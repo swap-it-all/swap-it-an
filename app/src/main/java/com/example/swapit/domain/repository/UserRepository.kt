@@ -8,6 +8,8 @@ import com.example.swapit.domain.model.user.UserInfo
 interface UserRepository {
     suspend fun myUserInfo(): UserInfo
 
+    suspend fun updateNickname(nickname: String)
+
     companion object {
         private var instance: UserRepository? = null
 

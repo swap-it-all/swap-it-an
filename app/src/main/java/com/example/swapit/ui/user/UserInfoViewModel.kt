@@ -54,6 +54,13 @@ class UserInfoViewModel(
         }
     }
 
+    fun saveUserInfo(){
+        viewModelScope.launch {
+            repository.updateNickname(_userInfo.value.nickname)
+        }
+    }
+
+
     companion object {
         fun factory(repository: UserRepository): ViewModelProvider.Factory =
             BaseViewModelFactory {

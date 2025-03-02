@@ -76,7 +76,10 @@ fun ProfileEditScreen(
                         text = "수정하기",
                         enabled = true,
                         modifier = Modifier.fillMaxWidth()
-                    ) { }
+                    ) {
+                        viewModel.saveUserInfo()
+                        navController.popBackStack()
+                    }
                 }
             }
         }

@@ -11,4 +11,8 @@ class DefaultUserRepository(
     override suspend fun myUserInfo(): UserInfo {
         return remoteSource.myUserInfo().toDomain()
     }
+
+    override suspend fun updateNickname(nickname: String) {
+        remoteSource.updateNickname(nickname)
+    }
 }
