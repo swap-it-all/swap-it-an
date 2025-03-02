@@ -15,16 +15,6 @@ import com.example.swapit.ui.theme.Typography
 
 @Composable
 fun BackButtonAndTextSection(navController: NavHostController) {
-    BackButton(
-        Modifier.padding(
-            Paddings.xlarge,
-            Paddings.xlarge,
-            Paddings.none,
-            Paddings.xextra,
-        ),
-        navController,
-        color = Black,
-    )
     Text(
         stringResource(R.string.product_select_request_message),
         style = Typography.titleLarge,
