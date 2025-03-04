@@ -72,7 +72,7 @@ fun SwapCard(swapCardData: SwapCardData) {
                 )
                 Text(
                     text = swapCardData.title,
-                    style = Typography.titleMedium,
+                    style = Typography.bodyMedium,
                     maxLines = 1,
                     modifier =
                         Modifier.padding(
@@ -95,16 +95,16 @@ fun SwapCard(swapCardData: SwapCardData) {
                 ) {
                     Text(
                         text = stringResource(R.string.prediction),
-                        style = Typography.titleMedium,
+                        style = Typography.bodyMedium,
                         color = Gray3,
                     )
                     Text(
                         text = decimal.format(swapCardData.price),
-                        style = Typography.titleMedium,
+                        style = Typography.bodyMedium,
                     )
                     Text(
                         text = stringResource(R.string.won),
-                        style = Typography.titleMedium,
+                        style = Typography.bodyMedium,
                         color = Gray3,
                     )
                 }
