@@ -35,7 +35,7 @@ fun SentSwapSection(
     ) {
         Text(
             text = stringResource(R.string.swap_request_message),
-            style = Typography.titleLarge,
+            style = Typography.bodyLarge,
             textAlign = TextAlign.Center,
         )
         IconButton(
