@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.swapit.R
@@ -29,7 +28,7 @@ fun BottomButtonSection(navController: NavHostController, viewModel: ShoppingDet
         ),
         containerColor = Gray5,
     ) {
-        navController.navigate(NavItem.MyProductSelection.screenRoute)
+        navController.navigate(NavItem.MyProductSelection.screenRoute+"/${viewModel.goodsId}")
     }
     DefaultButton(
         text = stringResource(R.string.shopping_detail_chat_bottom_button),
@@ -51,7 +50,7 @@ fun BottomButtonSection() {
         rememberNavController(),
         viewModel = ShoppingDetailViewModel(
             repository = ShoppingDetailRepository.instance(),
-            goodsId = ""
+            _goodsId = ""
         )
     )
 }
