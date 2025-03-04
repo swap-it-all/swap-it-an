@@ -43,22 +43,6 @@ fun BottomChatBar() {
                 .fillMaxWidth()
                 .padding(horizontal = Paddings.small, vertical = Paddings.small).background(White),
     ) {
-        IconButton(onClick = {}) {
-            Box(
-                modifier =
-                    Modifier
-                        .clip(CircleShape)
-                        .size(32.dp)
-                        .background(Gray6),
-                contentAlignment = Alignment.Center,
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_add_plus),
-                    contentDescription = "추가 행위",
-                    tint = Gray4,
-                )
-            }
-        }
         ChatField(
             modifier = Modifier.weight(1f),
             message = message,

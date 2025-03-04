@@ -21,7 +21,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.swapit.R
-import com.example.swapit.data.model.ShoppingDetailData
+import com.example.swapit.data.datasource.local.model.post.CategoryOption
+import com.example.swapit.data.datasource.local.model.post.QualityOption
+import com.example.swapit.domain.model.shopping.detail.ShoppingDetailData
+import com.example.swapit.ui.shopping.model.calculateTime
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray4
 import com.example.swapit.ui.theme.Gray5
@@ -41,8 +44,11 @@ fun ProductContentSection(shoppingDetailData: ShoppingDetailData) {
 
 @Composable
 fun TitleSection(shoppingDetailData: ShoppingDetailData) {
+    val convertTime = calculateTime(shoppingDetailData.createdAt)
     Text(
-        "${shoppingDetailData.category} | ${shoppingDetailData.quality} | ${shoppingDetailData.time}",
+        "${CategoryOption.entries.find { it.name == shoppingDetailData.category}?.option} | " +
+            "${QualityOption.entries.find { it.name == shoppingDetailData.quality}?.option} | " +
+            convertTime,
         style = Typography.labelLarge,
         color = Gray4,
         modifier =
@@ -56,7 +62,7 @@ fun TitleSection(shoppingDetailData: ShoppingDetailData) {
     Row(modifier = Modifier.padding(Paddings.xlarge, Paddings.none)) {
         Text(
             shoppingDetailData.title,
-            style = Typography.titleLarge,
+            style = Typography.bodyLarge,
             modifier = Modifier.weight(1f),
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -67,7 +73,7 @@ fun TitleSection(shoppingDetailData: ShoppingDetailData) {
             )
             Spacer(Modifier.width(Paddings.small))
             Text(
-                shoppingDetailData.viewCount,
+                shoppingDetailData.viewCount.toString(),
                 style = Typography.labelLarge,
                 color = Gray4,
             )
@@ -85,12 +91,12 @@ fun PriceSection(shoppingDetailData: ShoppingDetailData) {
     )
     Text(
         text = stringResource(R.string.shopping_detail_price_predict),
-        style = Typography.titleLarge,
+        style = Typography.bodyMedium,
         color = Gray3,
         modifier = Modifier.padding(Paddings.xlarge, Paddings.none),
     )
     Row(modifier = Modifier.padding(Paddings.xlarge, Paddings.small)) {
-        Text(decimal.format(shoppingDetailData.price), style = Typography.titleLarge)
+        Text(decimal.format(shoppingDetailData.price), style = Typography.bodyLarge)
         Text(stringResource(R.string.won), style = Typography.titleLarge, color = Gray3)
     }
 
@@ -106,7 +112,7 @@ fun UserInfoSection(shoppingDetailData: ShoppingDetailData) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Spacer(modifier = Modifier.size(Paddings.xlarge))
         AsyncImage(
-            model = shoppingDetailData.userImageUri,
+            model = shoppingDetailData.user.profileImageUrl,
             contentDescription = stringResource(R.string.user_image_description),
             placeholder = ColorPainter(Primary),
             modifier =
@@ -119,7 +125,7 @@ fun UserInfoSection(shoppingDetailData: ShoppingDetailData) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(Paddings.large, Paddings.none),
             ) {
-                Text(shoppingDetailData.userName, style = Typography.titleSmall)
+                Text(shoppingDetailData.user.nickname, style = Typography.bodySmall)
                 Spacer(Modifier.width(8.dp))
                 Icon(
                     painter = painterResource(id = R.drawable.ic_filled_star),
@@ -131,13 +137,13 @@ fun UserInfoSection(shoppingDetailData: ShoppingDetailData) {
                             .size(16.dp),
                 )
                 Text(
-                    shoppingDetailData.rate.toString(),
+                    shoppingDetailData.user.userRating.toString(),
                     modifier = Modifier.padding(start = Paddings.small),
                     style = Typography.labelLarge,
                 )
             }
             Text(
-                shoppingDetailData.region,
+                shoppingDetailData.placeName,
                 modifier =
                     Modifier.padding(
                         Paddings.large,

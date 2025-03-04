@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -70,6 +71,7 @@ fun ShoppingCard(
                 placeholder = ColorPainter(Primary),
                 fallback = rememberVectorPainter(Icons.Default.Call),
                 error = rememberVectorPainter(Icons.Default.Settings),
+                contentScale = ContentScale.Crop,
             )
             Column(
                 modifier =
@@ -89,9 +91,9 @@ fun ShoppingCard(
                             Paddings.xsmall,
                         ),
                     text =
-                        "${CategoryOption.entries.find { it.name == cardData.category }?.option } |" +
-                            "${cardData.placeName} |" +
-                            " $convertTime",
+                        "${CategoryOption.entries.find { it.name == cardData.category }?.option } | " +
+                            "${cardData.placeName} | " +
+                            convertTime,
                     style = Typography.labelLarge,
                     color = Gray4,
                 )
@@ -104,7 +106,7 @@ fun ShoppingCard(
                             Paddings.small,
                         ),
                     text = cardData.title,
-                    style = Typography.titleMedium,
+                    style = Typography.bodyMedium,
                     maxLines = 1,
                 )
                 Row(
@@ -128,7 +130,7 @@ fun ShoppingCard(
                         )
                         Text(
                             text = decimal.format(cardData.price),
-                            style = Typography.titleMedium,
+                            style = Typography.bodyMedium,
                         )
                         Text(
                             text = stringResource(R.string.won),

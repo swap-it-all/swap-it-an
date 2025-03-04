@@ -7,6 +7,9 @@ import java.util.concurrent.TimeUnit
 
 fun calculateTime(createDateTime: String): String {
     val now = LocalDateTime.now()
+    if (createDateTime == "") {
+        return ""
+    }
     val convertTime = LocalDateTime.parse(createDateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
     val differenceValue = ChronoUnit.MILLIS.between(convertTime, now)
     return when {
