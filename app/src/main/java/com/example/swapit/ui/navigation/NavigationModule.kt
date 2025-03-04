@@ -28,7 +28,7 @@ import com.example.swapit.ui.shopping.ShoppingScreen
 import com.example.swapit.ui.shopping.detail.ShoppingDetailScreen
 import com.example.swapit.ui.shopping.detail.ShoppingDetailViewModel
 import com.example.swapit.ui.shopping.detail.select.MyProductSelectScreen
-import com.example.swapit.ui.shopping.detail.select.MyProductSelectionViewModel
+import com.example.swapit.ui.shopping.detail.select.MyProductSelectViewModel
 import com.example.swapit.ui.splash.SplashScreen
 import com.example.swapit.ui.swap.SwapScreen
 import com.example.swapit.ui.user.UserInfoScreen
@@ -128,17 +128,23 @@ class NavigationModule {
                         ),
                 )
             }
-            composable(route = NavItem.MyProductSelection.screenRoute
-            ) {
+            composable(route = NavItem.MyProductSelection.screenRoute +"/{targetProductId}",
+                arguments = listOf(
+                    navArgument("targetProductId") {
+                        type = NavType.StringType
+                    },
+                )
+            ) { backStackEntry ->
                 MyProductSelectScreen(
                     navController,
                     viewModel =
                         viewModel(
                             factory =
-                                MyProductSelectionViewModel.factory(
+                                MyProductSelectViewModel.factory(
                                     MyProductSelectRepository.instance(),
                                 ),
                         ),
+                    targetProductId = backStackEntry.arguments?.getString("targetProductId")?.toLong() ?: 0
                 )
             }
             composable(NavItem.ProfileEdit.screenRoute) {
