@@ -11,15 +11,16 @@ import com.example.swapit.ui.shopping.productCardData
 fun DialogSection(
     openDialog: Boolean,
     onClickCancel: () -> Unit,
-    navController: NavHostController,
+    onClickConfirm: () -> Unit,
+    imgUri: String?,
 ) {
     if (openDialog) {
         AlertDialog(
             description = stringResource(R.string.product_select_dialog_description),
             title = stringResource(R.string.product_select_dialog_message),
-            imgUri = productCardData.imageUri,
+            imgUri = imgUri?:"",
             onClickCancel = onClickCancel,
-            onClickConfirm = { navController.popBackStack() },
+            onClickConfirm = onClickConfirm,
             cancelText = stringResource(R.string.cancel_message),
             confirmText = stringResource(R.string.product_select_swap_request_dialog_confirm_button),
         )
