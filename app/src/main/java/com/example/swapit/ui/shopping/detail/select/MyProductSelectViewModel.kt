@@ -10,7 +10,7 @@ import com.example.swapit.domain.repository.MyProductSelectRepository
 import com.example.swapit.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
 
-class MyProductSelectionViewModel(repository: MyProductSelectRepository) : ViewModel() {
+class MyProductSelectViewModel(repository: MyProductSelectRepository) : ViewModel() {
     private val _products = mutableStateOf<List<ShoppingProduct>>(emptyList())
     val products: List<ShoppingProduct> get() = _products.value
 
@@ -18,7 +18,7 @@ class MyProductSelectionViewModel(repository: MyProductSelectRepository) : ViewM
         viewModelScope.launch {
             val response = repository.myProductSelectResponse()
             if (response.success) {
-                Log.e(TAG, "상품 조회 성공")
+                Log.d(TAG, "상품 조회 성공")
                 _products.value = repository.myProductSelectResults()
             }
             else {
@@ -32,7 +32,7 @@ class MyProductSelectionViewModel(repository: MyProductSelectRepository) : ViewM
 
         fun factory(repository: MyProductSelectRepository): ViewModelProvider.Factory =
             BaseViewModelFactory {
-                MyProductSelectionViewModel(
+                MyProductSelectViewModel(
                     repository = repository,
                 )
             }
