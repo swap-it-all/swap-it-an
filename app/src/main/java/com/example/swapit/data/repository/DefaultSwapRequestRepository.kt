@@ -10,7 +10,7 @@ class DefaultSwapRequestRepository(
 ) :SwapRequestRepository{
     override suspend fun swapRequest(
         swapRequest: SwapRequest
-    ): BaseResponse<Unit> {
+    ): BaseResponse<Long> {
         return remoteSource.swapRequest(swapRequest)
     }
 
