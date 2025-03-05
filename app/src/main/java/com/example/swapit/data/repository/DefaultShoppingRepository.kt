@@ -10,11 +10,39 @@ class DefaultShoppingRepository(
     private val remoteSource: RemoteShoppingDataSource,
 ) :
     ShoppingRepository {
-    override suspend fun shoppingCardResults(): ShoppingProductResults {
-        return remoteSource.shoppingProductResponse().results.toDomain()
+    override suspend fun shoppingCardResults(
+        cursorId: Long?,
+        createdAt: String?,
+        cursorValue: Long?,
+        sortBy: String?,
+        keyword: String?,
+        categoryIds: List<Int>?
+    ): ShoppingProductResults {
+        return remoteSource.shoppingProductResponse(
+            cursorId = cursorId,
+            createdAt = createdAt,
+            cursorValue = cursorValue,
+            sortBy = sortBy,
+            keyword = keyword,
+            categoryIds = categoryIds
+        ).results.toDomain()
     }
 
-    override suspend fun shoppingCardProducts(): List<ShoppingProduct> {
-        return shoppingCardResults().goodsList.map { it.toDomain() }
+    override suspend fun shoppingCardProducts(
+        cursorId: Long?,
+        createdAt: String?,
+        cursorValue: Long?,
+        sortBy: String?,
+        keyword: String?,
+        categoryIds: List<Int>?
+    ): List<ShoppingProduct> {
+        return shoppingCardResults(
+            cursorId = cursorId,
+            createdAt = createdAt,
+            cursorValue = cursorValue,
+            sortBy = sortBy,
+            keyword = keyword,
+            categoryIds = categoryIds
+        ).goodsList.map { it.toDomain() }
     }
 }
