@@ -36,7 +36,7 @@ class NavigationModule {
         navController: NavHostController,
         loginViewModel: LoginViewModel,
     ) {
-        val userInfoViewModel = UserInfoViewModel(UserRepository.instance())
+        val userInfoViewModel = UserInfoViewModel(UserRepository.instance(LocalContext.current))
         NavHost(
             navController = navController,
             startDestination = NavItem.Splash.screenRoute,

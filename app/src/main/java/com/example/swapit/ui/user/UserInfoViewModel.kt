@@ -33,6 +33,7 @@ class UserInfoViewModel(
             ),
         )
     val userInfo: StateFlow<UserInfo?> = _userInfo.asStateFlow()
+    private var isProfileImageUpdated = false
 
     fun myUserInfo() {
         viewModelScope.launch {
@@ -43,23 +44,25 @@ class UserInfoViewModel(
     fun updateProfileImage(image: Uri) {
         viewModelScope.launch {
             _userInfo.value = _userInfo.value.copy(profileImageUrl = image.toString())
-            // todo server update
+            isProfileImageUpdated = true
         }
     }
 
     fun updateNickname(nickname: String) {
         viewModelScope.launch {
             _userInfo.value = _userInfo.value.copy(nickname = nickname)
-            // todo server update
         }
     }
 
-    fun saveUserInfo(){
+    fun saveUserInfo() {
         viewModelScope.launch {
+            if (isProfileImageUpdated) {
+                repository.updateProfileImage(Uri.parse(_userInfo.value.profileImageUrl))
+                isProfileImageUpdated = false
+            }
             repository.updateNickname(_userInfo.value.nickname)
         }
     }
-
 
     companion object {
         fun factory(repository: UserRepository): ViewModelProvider.Factory =

@@ -79,6 +79,6 @@ fun UserInfoScreen(
 fun UserInfoScreenPreview() {
     UserInfoScreen(
         navController = NavHostController(LocalContext.current),
-        viewModel = UserInfoViewModel(repository = UserRepository.instance()),
+        viewModel = UserInfoViewModel(repository = UserRepository.instance(LocalContext.current)),
     )
 }
