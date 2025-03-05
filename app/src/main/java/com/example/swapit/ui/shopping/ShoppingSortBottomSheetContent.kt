@@ -1,5 +1,6 @@
 package com.example.swapit.ui.shopping
 
+import ShoppingViewModel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -13,10 +14,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,31 +28,27 @@ import com.example.swapit.ui.theme.Primary
 import com.example.swapit.ui.theme.Typography
 
 @Composable
-fun ModalBottomSheetContent() {
-    var option = SortOption.POPULAR
+fun ShoppingSortBottomSheetContent(viewModel: ShoppingViewModel) {
     Column(modifier = Modifier.padding(Paddings.large)) {
         Text(text = stringResource(R.string.shopping_arrange), style = Typography.titleLarge)
-        SortButtons(onSortOptionSelected = { option = it })
+        SortButtons(viewModel = viewModel)
         Text(text = stringResource(R.string.shopping_category_title), style = Typography.titleLarge)
-        CategoryButtons()
+        CategoryButtons(viewModel = viewModel)
         Spacer(modifier = Modifier.size(48.dp))
     }
 }
 
 @Composable
 fun SortButtons(
-    initialSortOption: SortOption = SortOption.POPULAR,
-    onSortOptionSelected: (SortOption) -> Unit,
+    viewModel: ShoppingViewModel,
 ) {
-    var selectedOption by remember { mutableStateOf(initialSortOption) }
     Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
         SortOption.entries.forEach {
             SortButton(
                 text = it.option,
-                isSelected = selectedOption == it,
+                isSelected = viewModel.selectedOption.value == it,
                 onClick = {
-                    selectedOption = it
-                    onSortOptionSelected(it)
+                    viewModel.selectOption(it)
                 },
             )
         }
@@ -86,7 +79,7 @@ fun SortButton(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun CategoryButtons() {
+fun CategoryButtons(viewModel: ShoppingViewModel) {
     FlowRow(
         horizontalArrangement = Arrangement.Center,
         modifier =
@@ -97,10 +90,12 @@ fun CategoryButtons() {
         CategoryOption.entries.forEach {
             CategoryButton(
                 text = it.option,
-                isSelected = true,
+                isSelected = viewModel.selectedCategory.value.contains(it),
                 modifier = Modifier.padding(Paddings.small),
-            ) {
-            }
+                onClick = {
+                    viewModel.selectCategory(it)
+                }
+            )
         }
     }
 }

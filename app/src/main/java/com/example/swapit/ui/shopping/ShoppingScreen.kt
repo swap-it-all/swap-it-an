@@ -55,6 +55,7 @@ fun ShoppingScreen(
                     SearchBarButton(
                         Modifier.padding(Paddings.xlarge, Paddings.smallMedium),
                         navController,
+                        viewModel = viewModel
                     )
                 }
                 item {
@@ -79,7 +80,7 @@ fun ShoppingScreen(
                     },
                     sheetState = sheetState,
                 ) {
-                    ModalBottomSheetContent()
+                    ShoppingSortBottomSheetContent(viewModel = viewModel)
                 }
             }
         }
