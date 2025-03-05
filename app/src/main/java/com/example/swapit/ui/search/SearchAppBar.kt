@@ -18,6 +18,7 @@ fun SearchAppBar(
     navController: NavHostController,
     searchTerm: String,
     onValueChange: (String) -> Unit,
+    onValueChanged: (String) -> Unit,
 ) {
     TopAppBar(
         navigationIcon = { BackButton(modifier = Modifier.padding(Paddings.large), navController = navController) },
@@ -26,6 +27,8 @@ fun SearchAppBar(
                 searchTerm,
                 Modifier,
                 onValueChange = onValueChange,
+                onValueChanged = onValueChanged,
+                navController
             )
         },
         colors =
