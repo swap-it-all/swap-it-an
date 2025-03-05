@@ -1,7 +1,9 @@
 package com.example.swapit.ui.shopping.detail.select
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -13,6 +15,21 @@ import kotlinx.coroutines.launch
 class SwapProductViewModel(private val repository: SwapRequestRepository) : ViewModel() {
     val requestedProductId = mutableLongStateOf(0)
     val targetProductId = mutableLongStateOf(0)
+    private val _dialogStates = mutableStateOf(mutableMapOf<Long, Boolean>())
+    val dialogStates: MutableState<MutableMap<Long, Boolean>> = _dialogStates
+
+    fun openDialog(goodsId: Long) {
+        _dialogStates.value = _dialogStates.value.toMutableMap().apply {
+            this[goodsId] = true
+        }
+    }
+
+    fun closeDialog(goodsId: Long) {
+        _dialogStates.value = _dialogStates.value.toMutableMap().apply {
+            this[goodsId] = false
+        }
+    }
+
 
     fun swapRequest() {
         Log.d(TAG, "거래 시작")
@@ -22,8 +39,6 @@ class SwapProductViewModel(private val repository: SwapRequestRepository) : View
                 Log.e(TAG, "ID값 누락")
                 return@launch
             }
-            Log.d(TAG, requestedProductId.longValue.toString())
-            Log.d(TAG, targetProductId.longValue.toString())
             val response =
                 repository.swapRequest(
                     swapRequest = SwapRequest(
