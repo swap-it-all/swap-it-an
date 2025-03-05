@@ -13,5 +13,5 @@ interface SwapRequestService {
     @POST("api/user/swap/request")
     suspend fun swapRequest(
         @Body request: SwapRequest
-    ): BaseResponse<Unit>
+    ): BaseResponse<Long>
 }
