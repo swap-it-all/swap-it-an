@@ -12,5 +12,6 @@ data class UserResponse(
     val totalGoodsCount: Long,
     val completedSwapCount: Long,
     val ratingAverage: Double,
+    val totalReviewCount: Long,
     val reviews: List<ReviewResponse>,
 )
