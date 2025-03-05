@@ -6,9 +6,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.swapit.domain.repository.ProductRepository
+import com.example.swapit.domain.repository.ShoppingDetailRepository
 import com.example.swapit.domain.repository.ShoppingRepository
 import com.example.swapit.domain.repository.UserRepository
 import com.example.swapit.ui.alert.AlertScreen
@@ -22,13 +25,14 @@ import com.example.swapit.ui.search.SearchScreen
 import com.example.swapit.ui.search.SearchViewModel
 import com.example.swapit.ui.shopping.ShoppingScreen
 import com.example.swapit.ui.shopping.detail.ShoppingDetailScreen
-import com.example.swapit.ui.shopping.detail.defaultShoppingDetailData
+import com.example.swapit.ui.shopping.detail.ShoppingDetailViewModel
 import com.example.swapit.ui.shopping.detail.select.MyProductSelectionScreen
 import com.example.swapit.ui.splash.SplashScreen
 import com.example.swapit.ui.swap.SwapScreen
 import com.example.swapit.ui.user.UserInfoScreen
 import com.example.swapit.ui.user.UserInfoViewModel
 import com.example.swapit.ui.user.profile.ProfileEditScreen
+import com.kakao.sdk.common.KakaoSdk.type
 
 class NavigationModule {
     @Composable
@@ -97,8 +101,27 @@ class NavigationModule {
             composable(NavItem.Search.screenRoute) {
                 SearchScreen(navController, viewModel = SearchViewModel())
             }
-            composable(NavItem.ShoppingDetail.screenRoute) {
-                ShoppingDetailScreen(Modifier, navController, defaultShoppingDetailData)
+            composable(
+                route = NavItem.ShoppingDetail.screenRoute + "/{goodsId}",
+                arguments =
+                    listOf(
+                        navArgument("goodsId") {
+                            type = NavType.StringType
+                        },
+                    ),
+            ) { backStackEntry ->
+                ShoppingDetailScreen(
+                    Modifier,
+                    navController,
+                    viewModel =
+                        viewModel(
+                            factory =
+                                ShoppingDetailViewModel.factory(
+                                    ShoppingDetailRepository.instance(),
+                                    backStackEntry.arguments?.getString("goodsId") ?: "",
+                                ),
+                        ),
+                )
             }
             composable(NavItem.MyProductSelection.screenRoute) {
                 MyProductSelectionScreen(

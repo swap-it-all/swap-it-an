@@ -15,14 +15,19 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
-import com.example.swapit.data.model.ShoppingDetailData
+import com.example.swapit.domain.model.shopping.detail.ShoppingDetailData
 import com.example.swapit.ui.component.BackButton
 import com.example.swapit.ui.component.MenuButton
+import com.example.swapit.ui.theme.Gray5
 import com.example.swapit.ui.theme.Paddings
 import com.example.swapit.ui.theme.Primary
 import com.example.swapit.ui.theme.White
@@ -47,14 +52,17 @@ fun ProductImageSection(
                     .fillMaxWidth(),
             userScrollEnabled = true,
         ) { page ->
+
             AsyncImage(
                 modifier =
                     Modifier
                         .fillMaxWidth()
                         .height(412.dp),
-                model = shoppingDetailData.imageUri[page],
+                model = shoppingDetailData.imageUri[page].imageUrl,
+                contentScale = ContentScale.Crop,
                 contentDescription = "상품 이미지",
                 placeholder = ColorPainter(Primary),
+                colorFilter = ColorFilter.tint(Gray5, blendMode = BlendMode.Darken),
             )
         }
         Row(
@@ -82,7 +90,7 @@ fun ProductImageSection(
             modifier =
                 Modifier
                     .align(Alignment.TopStart)
-                    .padding(Paddings.largeExtra, Paddings.xlarge, Paddings.none, Paddings.none),
+                    .padding(Paddings.largeExtra, Paddings.xextra * 2, Paddings.none, Paddings.none),
             navController,
             color = White,
         )
@@ -90,7 +98,7 @@ fun ProductImageSection(
             modifier =
                 Modifier
                     .align(Alignment.TopEnd)
-                    .padding(Paddings.none, Paddings.xlarge, Paddings.xlarge, Paddings.none),
+                    .padding(Paddings.none, Paddings.xextra * 2, Paddings.xlarge, Paddings.none),
             navController,
             White,
         )
