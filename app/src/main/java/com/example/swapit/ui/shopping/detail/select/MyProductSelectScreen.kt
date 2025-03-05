@@ -36,7 +36,7 @@ fun MyProductSelectScreen(
                 .padding(contentPadding)
                 .background(BackgroundColor),
         ) {
-            BackButtonAndTextSection(navController)
+            TextSection(navController)
             ProductListSection(
                 myProductSelectionViewModel = viewModel,
                 swapViewModel = SwapProductViewModel(repository = SwapRequestRepository.instance()),
