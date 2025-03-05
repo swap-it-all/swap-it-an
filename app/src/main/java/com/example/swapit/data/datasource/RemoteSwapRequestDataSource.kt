@@ -5,7 +5,7 @@ import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
 import com.example.swapit.data.datasource.remote.service.SwapRequestService
 
 class RemoteSwapRequestDataSource(private val swapRequestService: SwapRequestService) {
-    suspend fun swapRequest(swapRequest: SwapRequest): BaseResponse<Unit> =
+    suspend fun swapRequest(swapRequest: SwapRequest): BaseResponse<Long> =
         swapRequestService.swapRequest(
             swapRequest
         )
