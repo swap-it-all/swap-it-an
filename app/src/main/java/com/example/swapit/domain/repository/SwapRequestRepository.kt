@@ -10,7 +10,7 @@ import com.example.swapit.data.repository.DefaultSwapRequestRepository
 interface SwapRequestRepository {
     suspend fun swapRequest(
         swapRequest: SwapRequest
-    ): BaseResponse<Unit>
+    ): BaseResponse<Long>
 
     companion object {
         private var instance: SwapRequestRepository? = null
