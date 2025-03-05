@@ -2,10 +2,8 @@ package com.example.swapit.ui.shopping.detail.select
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
 import com.example.swapit.R
 import com.example.swapit.ui.component.AlertDialog
-import com.example.swapit.ui.shopping.productCardData
 
 @Composable
 fun DialogSection(
@@ -18,7 +16,7 @@ fun DialogSection(
         AlertDialog(
             description = stringResource(R.string.product_select_dialog_description),
             title = stringResource(R.string.product_select_dialog_message),
-            imgUri = imgUri?:"",
+            imgUri = imgUri ?: "",
             onClickCancel = onClickCancel,
             onClickConfirm = onClickConfirm,
             cancelText = stringResource(R.string.cancel_message),

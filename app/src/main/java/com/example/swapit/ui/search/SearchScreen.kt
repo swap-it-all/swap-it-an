@@ -30,7 +30,8 @@ fun SearchScreen(
             navController,
             viewModel.searchKeyword.value,
             onValueChange = { viewModel.writeSearch(it) },
-            onValueChanged = { viewModel.search() },)
+            onValueChanged = { viewModel.search() },
+        )
     }) { contentPadding ->
         Column(
             Modifier
@@ -42,12 +43,12 @@ fun SearchScreen(
                 stringResource(R.string.search_current_term),
                 style = Typography.titleLarge,
                 modifier =
-                Modifier.padding(
-                    Paddings.xlarge,
-                    Paddings.large,
-                    Paddings.none,
-                    Paddings.smallMedium,
-                ),
+                    Modifier.padding(
+                        Paddings.xlarge,
+                        Paddings.large,
+                        Paddings.none,
+                        Paddings.smallMedium,
+                    ),
             )
             RecentTermButtonField(viewModel)
         }

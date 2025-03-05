@@ -55,7 +55,7 @@ fun ShoppingScreen(
                     SearchBarButton(
                         Modifier.padding(Paddings.xlarge, Paddings.smallMedium),
                         navController,
-                        viewModel = viewModel
+                        viewModel = viewModel,
                     )
                 }
                 item {

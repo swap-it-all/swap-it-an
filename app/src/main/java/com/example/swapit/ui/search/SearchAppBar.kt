@@ -28,7 +28,7 @@ fun SearchAppBar(
                 Modifier,
                 onValueChange = onValueChange,
                 onValueChanged = onValueChanged,
-                navController
+                navController,
             )
         },
         colors =

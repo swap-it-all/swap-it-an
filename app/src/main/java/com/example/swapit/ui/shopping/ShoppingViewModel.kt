@@ -21,7 +21,7 @@ class ShoppingViewModel(private val repository: ShoppingRepository) : ViewModel(
         searchKeyword.value = keyword
     }
 
-    fun search(){
+    fun search() {
         if (!recentKeyword.value.contains(searchKeyword.value) || searchKeyword.value.isNotEmpty()) {
             recentKeyword.value += searchKeyword.value
         }
@@ -41,28 +41,32 @@ class ShoppingViewModel(private val repository: ShoppingRepository) : ViewModel(
         }
         fetchProducts()
     }
+
     private fun fetchProducts() {
         viewModelScope.launch {
-            _products.value = repository.shoppingCardProducts(
-                cursorId = null,
-                createdAt = null,
-                cursorValue = null,
-                sortBy = selectedOption.value.key,
-                keyword = searchKeyword.value,
-                categoryIds = selectedCategory.value.map { it.id }
-            )
+            _products.value =
+                repository.shoppingCardProducts(
+                    cursorId = null,
+                    createdAt = null,
+                    cursorValue = null,
+                    sortBy = selectedOption.value.key,
+                    keyword = searchKeyword.value,
+                    categoryIds = selectedCategory.value.map { it.id },
+                )
         }
     }
+
     init {
         viewModelScope.launch {
-            _products.value = repository.shoppingCardProducts(
-                cursorId = null,
-                createdAt = null,
-                cursorValue = null,
-                sortBy = selectedOption.value.key,
-                keyword = null,
-                categoryIds = selectedCategory.value.map { it.id }
-            )
+            _products.value =
+                repository.shoppingCardProducts(
+                    cursorId = null,
+                    createdAt = null,
+                    cursorValue = null,
+                    sortBy = selectedOption.value.key,
+                    keyword = null,
+                    categoryIds = selectedCategory.value.map { it.id },
+                )
         }
     }
 

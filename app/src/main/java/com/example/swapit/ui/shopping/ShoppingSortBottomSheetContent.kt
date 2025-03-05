@@ -39,9 +39,7 @@ fun ShoppingSortBottomSheetContent(viewModel: ShoppingViewModel) {
 }
 
 @Composable
-fun SortButtons(
-    viewModel: ShoppingViewModel,
-) {
+fun SortButtons(viewModel: ShoppingViewModel) {
     Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
         SortOption.entries.forEach {
             SortButton(
@@ -94,7 +92,7 @@ fun CategoryButtons(viewModel: ShoppingViewModel) {
                 modifier = Modifier.padding(Paddings.small),
                 onClick = {
                     viewModel.selectCategory(it)
-                }
+                },
             )
         }
     }

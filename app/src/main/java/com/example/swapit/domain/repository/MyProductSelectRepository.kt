@@ -9,6 +9,7 @@ import com.example.swapit.domain.model.shopping.ShoppingProduct
 
 interface MyProductSelectRepository {
     suspend fun myProductSelectResults(): List<ShoppingProduct>
+
     suspend fun myProductSelectResponse(): BaseResponse<List<ShoppingProductResponse>>
 
     companion object {

@@ -11,7 +11,7 @@ class RemoteShoppingDataSource(private val shoppingService: ShoppingService) {
         cursorValue: Long?,
         sortBy: String?,
         keyword: String?,
-        categoryIds: List<Int>?
+        categoryIds: List<Int>?,
     ): BaseResponse<ShoppingProductsResultsResponse> {
         return shoppingService.shoppingProductsResponse(
             cursorId = cursorId,
@@ -19,7 +19,7 @@ class RemoteShoppingDataSource(private val shoppingService: ShoppingService) {
             cursorValue = cursorValue,
             sortBy = sortBy,
             keyword = keyword,
-            categoryIds = categoryIds
+            categoryIds = categoryIds,
         )
     }
 }

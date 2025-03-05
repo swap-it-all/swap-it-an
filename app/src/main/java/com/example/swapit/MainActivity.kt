@@ -7,12 +7,10 @@ import androidx.activity.compose.setContent
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.swapit.domain.repository.LoginRepository
-import com.example.swapit.domain.repository.MyProductSelectRepository
 import com.example.swapit.domain.repository.ShoppingRepository
 import com.example.swapit.ui.auth.LoginManager
 import com.example.swapit.ui.auth.LoginViewModel
 import com.example.swapit.ui.navigation.NavigationModule
-import com.example.swapit.ui.shopping.detail.select.MyProductSelectViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,18 +21,18 @@ class MainActivity : ComponentActivity() {
             val loginViewModel: LoginViewModel =
                 viewModel(
                     factory =
-                    LoginViewModel.factory(
-                        application,
-                        LoginRepository.instance(this),
-                        LoginManager(this),
-                    ),
+                        LoginViewModel.factory(
+                            application,
+                            LoginRepository.instance(this),
+                            LoginManager(this),
+                        ),
                 )
             val shoppingViewModel: ShoppingViewModel =
                 viewModel(
                     factory =
-                    ShoppingViewModel.factory(
-                        ShoppingRepository.instance()
-                    )
+                        ShoppingViewModel.factory(
+                            ShoppingRepository.instance(),
+                        ),
                 )
 
             navigationModule.NavigationGraph(

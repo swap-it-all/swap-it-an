@@ -20,8 +20,7 @@ class MyProductSelectViewModel(repository: MyProductSelectRepository) : ViewMode
             if (response.success) {
                 Log.d(TAG, "상품 조회 성공")
                 _products.value = repository.myProductSelectResults()
-            }
-            else {
+            } else {
                 Log.e(TAG, "상품 조회 실패")
             }
         }

@@ -1,4 +1,3 @@
-import android.widget.ImageButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -11,7 +10,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -37,7 +35,7 @@ fun SearchField(
     modifier: Modifier = Modifier,
     onValueChange: (String) -> Unit = {},
     onValueChanged: (String) -> Unit = {},
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     BasicTextField(
         value = searchTerm,
@@ -50,15 +48,17 @@ fun SearchField(
                 .height(44.dp)
                 .background(Gray6, shape = RoundedCornerShape(32.dp))
                 .padding(horizontal = 16.dp),
-        keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Search
-        ),
-        keyboardActions = KeyboardActions(
-            onSearch = {
-                navController.navigateUp()
-                onValueChanged(searchTerm)
-            }
-        ),
+        keyboardOptions =
+            KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Search,
+            ),
+        keyboardActions =
+            KeyboardActions(
+                onSearch = {
+                    navController.navigateUp()
+                    onValueChanged(searchTerm)
+                },
+            ),
         decorationBox = { innerTextField ->
             Row(
                 modifier =
@@ -77,7 +77,7 @@ fun SearchField(
                     }
                     innerTextField()
                 }
-                TextButton (
+                TextButton(
                     onClick = {
                         navController.navigateUp()
                         onValueChanged(searchTerm)
@@ -89,7 +89,7 @@ fun SearchField(
                             colorFilter = ColorFilter.tint(Gray3),
                         )
                     },
-                    contentPadding = PaddingValues(Paddings.none)
+                    contentPadding = PaddingValues(Paddings.none),
                 )
             }
         },

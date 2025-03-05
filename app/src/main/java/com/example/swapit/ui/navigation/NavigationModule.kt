@@ -40,7 +40,6 @@ class NavigationModule {
         loginViewModel: LoginViewModel,
         shoppingViewModel: ShoppingViewModel,
     ) {
-
         NavHost(
             navController = navController,
             startDestination = NavItem.Splash.screenRoute,
@@ -59,7 +58,7 @@ class NavigationModule {
             composable(NavItem.Shopping.screenRoute) {
                 ShoppingScreen(
                     navController,
-                    shoppingViewModel
+                    shoppingViewModel,
                 )
             }
             composable(NavItem.Swap.screenRoute) {
@@ -120,30 +119,34 @@ class NavigationModule {
                                     backStackEntry.arguments?.getString("goodsId") ?: "",
                                 ),
                         ),
-                    myProductSelectViewModel = viewModel(
-                        factory =
-                        MyProductSelectViewModel.factory(
-                            MyProductSelectRepository.instance()
-                        )
-                    )
+                    myProductSelectViewModel =
+                        viewModel(
+                            factory =
+                                MyProductSelectViewModel.factory(
+                                    MyProductSelectRepository.instance(),
+                                ),
+                        ),
                 )
             }
-            composable(route = NavItem.MyProductSelection.screenRoute +"/{targetProductId}",
-                arguments = listOf(
-                    navArgument("targetProductId") {
-                        type = NavType.StringType
-                    },
-                )
+            composable(
+                route = NavItem.MyProductSelection.screenRoute + "/{targetProductId}",
+                arguments =
+                    listOf(
+                        navArgument("targetProductId") {
+                            type = NavType.StringType
+                        },
+                    ),
             ) { backStackEntry ->
                 MyProductSelectScreen(
                     navController,
-                    viewModel = viewModel(
-                        factory =
-                        MyProductSelectViewModel.factory(
-                            MyProductSelectRepository.instance()
-                        )
-                    ),
-                    targetProductId = backStackEntry.arguments?.getString("targetProductId")?.toLong() ?: 0
+                    viewModel =
+                        viewModel(
+                            factory =
+                                MyProductSelectViewModel.factory(
+                                    MyProductSelectRepository.instance(),
+                                ),
+                        ),
+                    targetProductId = backStackEntry.arguments?.getString("targetProductId")?.toLong() ?: 0,
                 )
             }
             composable(NavItem.ProfileEdit.screenRoute) {

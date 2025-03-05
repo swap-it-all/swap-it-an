@@ -16,5 +16,4 @@ class DefaultMyProductSelectRepository(private val remoteSource: RemoteMyProduct
     override suspend fun myProductSelectResponse(): BaseResponse<List<ShoppingProductResponse>> {
         return remoteSource.myProductSelectResponse()
     }
-
 }

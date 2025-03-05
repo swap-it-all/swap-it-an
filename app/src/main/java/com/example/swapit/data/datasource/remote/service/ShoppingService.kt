@@ -13,6 +13,6 @@ interface ShoppingService {
         @Query("cursorValue") cursorValue: Long?,
         @Query("sortBy") sortBy: String?,
         @Query("keyword") keyword: String?,
-        @Query("categoryIds") categoryIds: List<Int>?
+        @Query("categoryIds") categoryIds: List<Int>?,
     ): BaseResponse<ShoppingProductsResultsResponse>
 }

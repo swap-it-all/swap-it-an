@@ -78,6 +78,6 @@ fun SearchBarButton(
 @Preview(showBackground = true)
 fun SearchBarButtonPreview() {
     SwapitTheme {
-        SearchBarButton(Modifier, rememberNavController(),viewModel = ShoppingViewModel(ShoppingRepository.instance()))
+        SearchBarButton(Modifier, rememberNavController(), viewModel = ShoppingViewModel(ShoppingRepository.instance()))
     }
 }

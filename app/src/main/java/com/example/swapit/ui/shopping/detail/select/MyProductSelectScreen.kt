@@ -26,9 +26,8 @@ fun MyProductSelectScreen(
     viewModel: MyProductSelectViewModel,
     targetProductId: Long,
 ) {
-
     Scaffold(
-        topBar = { MyProductAppBar(navController) }
+        topBar = { MyProductAppBar(navController) },
     ) { contentPadding ->
         Column(
             Modifier
@@ -40,11 +39,10 @@ fun MyProductSelectScreen(
             ProductListSection(
                 myProductSelectionViewModel = viewModel,
                 swapViewModel = SwapProductViewModel(repository = SwapRequestRepository.instance()),
-                targetProductId = targetProductId
+                targetProductId = targetProductId,
             )
         }
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,18 +52,18 @@ fun MyProductAppBar(navController: NavHostController) {
         navigationIcon = {
             BackButton(
                 modifier = Modifier.padding(start = Paddings.xlarge),
-                navController = navController
+                navController = navController,
             )
         },
         title = {},
         colors =
-        TopAppBarColors(
-            containerColor = BackgroundColor,
-            navigationIconContentColor = BackgroundColor,
-            actionIconContentColor = BackgroundColor,
-            scrolledContainerColor = BackgroundColor,
-            titleContentColor = BackgroundColor,
-        ),
+            TopAppBarColors(
+                containerColor = BackgroundColor,
+                navigationIconContentColor = BackgroundColor,
+                actionIconContentColor = BackgroundColor,
+                scrolledContainerColor = BackgroundColor,
+                titleContentColor = BackgroundColor,
+            ),
     )
 }
 
@@ -75,6 +73,6 @@ fun SwapRequestScreenPreview() {
     MyProductSelectScreen(
         rememberNavController(),
         viewModel = MyProductSelectViewModel(repository = MyProductSelectRepository.instance()),
-        targetProductId = 0
+        targetProductId = 0,
     )
 }

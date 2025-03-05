@@ -19,32 +19,33 @@ class SwapProductViewModel(private val repository: SwapRequestRepository) : View
     val dialogStates: MutableState<MutableMap<Long, Boolean>> = _dialogStates
 
     fun openDialog(goodsId: Long) {
-        _dialogStates.value = _dialogStates.value.toMutableMap().apply {
-            this[goodsId] = true
-        }
+        _dialogStates.value =
+            _dialogStates.value.toMutableMap().apply {
+                this[goodsId] = true
+            }
     }
 
     fun closeDialog(goodsId: Long) {
-        _dialogStates.value = _dialogStates.value.toMutableMap().apply {
-            this[goodsId] = false
-        }
+        _dialogStates.value =
+            _dialogStates.value.toMutableMap().apply {
+                this[goodsId] = false
+            }
     }
-
 
     fun swapRequest() {
         Log.d(TAG, "거래 시작")
         viewModelScope.launch {
-
             if (requestedProductId.longValue == 0L || targetProductId.longValue == 0L) {
                 Log.e(TAG, "ID값 누락")
                 return@launch
             }
             val response =
                 repository.swapRequest(
-                    swapRequest = SwapRequest(
-                        requestedGoodsId = requestedProductId.longValue,
-                        targetGoodsId = targetProductId.longValue
-                    )
+                    swapRequest =
+                        SwapRequest(
+                            requestedGoodsId = requestedProductId.longValue,
+                            targetGoodsId = targetProductId.longValue,
+                        ),
                 )
             if (response.success) {
                 Log.d(TAG, "거래 성공")

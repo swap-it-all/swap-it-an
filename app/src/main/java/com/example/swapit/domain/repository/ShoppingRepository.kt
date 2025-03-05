@@ -13,7 +13,7 @@ interface ShoppingRepository {
         cursorValue: Long? = null,
         sortBy: String? = null,
         keyword: String? = null,
-        categoryIds: List<Int>? = null
+        categoryIds: List<Int>? = null,
     ): ShoppingProductResults
 
     suspend fun shoppingCardProducts(
@@ -22,7 +22,7 @@ interface ShoppingRepository {
         cursorValue: Long?,
         sortBy: String?,
         keyword: String?,
-        categoryIds: List<Int>?
+        categoryIds: List<Int>?,
     ): List<ShoppingProduct>
 
     companion object {

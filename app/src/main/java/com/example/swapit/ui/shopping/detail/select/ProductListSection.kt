@@ -1,6 +1,5 @@
 package com.example.swapit.ui.shopping.detail.select
 
-import android.util.Log
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
@@ -11,9 +10,8 @@ import com.example.swapit.ui.shopping.ShoppingCard
 fun ProductListSection(
     myProductSelectionViewModel: MyProductSelectViewModel,
     swapViewModel: SwapProductViewModel,
-    targetProductId: Long
+    targetProductId: Long,
 ) {
-
     LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
         itemsIndexed(
             items = myProductSelectionViewModel.products,
@@ -33,9 +31,8 @@ fun ProductListSection(
                     swapViewModel.targetProductId.longValue = targetProductId
                     swapViewModel.swapRequest()
                 },
-                item.imageUrl
+                item.imageUrl,
             )
         }
     }
-
 }

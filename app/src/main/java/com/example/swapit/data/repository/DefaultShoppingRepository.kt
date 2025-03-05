@@ -16,7 +16,7 @@ class DefaultShoppingRepository(
         cursorValue: Long?,
         sortBy: String?,
         keyword: String?,
-        categoryIds: List<Int>?
+        categoryIds: List<Int>?,
     ): ShoppingProductResults {
         return remoteSource.shoppingProductResponse(
             cursorId = cursorId,
@@ -24,7 +24,7 @@ class DefaultShoppingRepository(
             cursorValue = cursorValue,
             sortBy = sortBy,
             keyword = keyword,
-            categoryIds = categoryIds
+            categoryIds = categoryIds,
         ).results.toDomain()
     }
 
@@ -34,7 +34,7 @@ class DefaultShoppingRepository(
         cursorValue: Long?,
         sortBy: String?,
         keyword: String?,
-        categoryIds: List<Int>?
+        categoryIds: List<Int>?,
     ): List<ShoppingProduct> {
         return shoppingCardResults(
             cursorId = cursorId,
@@ -42,7 +42,7 @@ class DefaultShoppingRepository(
             cursorValue = cursorValue,
             sortBy = sortBy,
             keyword = keyword,
-            categoryIds = categoryIds
+            categoryIds = categoryIds,
         ).goodsList.map { it.toDomain() }
     }
 }

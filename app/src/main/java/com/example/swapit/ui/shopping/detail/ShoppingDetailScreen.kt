@@ -31,14 +31,13 @@ fun ShoppingDetailScreen(
         if (myProductSelectViewModel.products.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null) {
             Row(
                 modifier =
-                Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(Paddings.xlarge, 40.dp),
+                    Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(Paddings.xlarge, 40.dp),
             ) {
                 BottomButtonSection(navController, viewModel = shoppingDetailViewModel)
             }
         }
-
     }
 }
 
@@ -59,6 +58,6 @@ fun ShoppingDetailScreenPreview() {
     ShoppingDetailScreen(
         navController = rememberNavController(),
         shoppingDetailViewModel = viewModel<ShoppingDetailViewModel>(),
-        myProductSelectViewModel = viewModel<MyProductSelectViewModel>()
+        myProductSelectViewModel = viewModel<MyProductSelectViewModel>(),
     )
 }
