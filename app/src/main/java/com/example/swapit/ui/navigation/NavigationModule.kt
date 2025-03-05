@@ -13,7 +13,6 @@ import androidx.navigation.navArgument
 import com.example.swapit.domain.repository.MyProductSelectRepository
 import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.domain.repository.ShoppingDetailRepository
-import com.example.swapit.domain.repository.ShoppingRepository
 import com.example.swapit.domain.repository.UserRepository
 import com.example.swapit.ui.alert.AlertScreen
 import com.example.swapit.ui.auth.LoginScreen
@@ -23,7 +22,6 @@ import com.example.swapit.ui.chat.room.ChatRoomScreen
 import com.example.swapit.ui.post.PostProductScreen
 import com.example.swapit.ui.post.PostProductViewModel
 import com.example.swapit.ui.search.SearchScreen
-import com.example.swapit.ui.search.SearchViewModel
 import com.example.swapit.ui.shopping.ShoppingScreen
 import com.example.swapit.ui.shopping.detail.ShoppingDetailScreen
 import com.example.swapit.ui.shopping.detail.ShoppingDetailViewModel
@@ -40,7 +38,9 @@ class NavigationModule {
     fun NavigationGraph(
         navController: NavHostController,
         loginViewModel: LoginViewModel,
+        shoppingViewModel: ShoppingViewModel,
     ) {
+
         NavHost(
             navController = navController,
             startDestination = NavItem.Splash.screenRoute,
@@ -59,13 +59,7 @@ class NavigationModule {
             composable(NavItem.Shopping.screenRoute) {
                 ShoppingScreen(
                     navController,
-                    viewModel =
-                        viewModel(
-                            factory =
-                                ShoppingViewModel.factory(
-                                    ShoppingRepository.instance(),
-                                ),
-                        ),
+                    shoppingViewModel
                 )
             }
             composable(NavItem.Swap.screenRoute) {
@@ -104,7 +98,7 @@ class NavigationModule {
                 AlertScreen(navController)
             }
             composable(NavItem.Search.screenRoute) {
-                SearchScreen(navController, viewModel = SearchViewModel())
+                SearchScreen(navController, viewModel = shoppingViewModel)
             }
             composable(
                 route = NavItem.ShoppingDetail.screenRoute + "/{goodsId}",
@@ -118,7 +112,7 @@ class NavigationModule {
                 ShoppingDetailScreen(
                     Modifier,
                     navController,
-                    viewModel =
+                    shoppingDetailViewModel =
                         viewModel(
                             factory =
                                 ShoppingDetailViewModel.factory(
@@ -126,6 +120,12 @@ class NavigationModule {
                                     backStackEntry.arguments?.getString("goodsId") ?: "",
                                 ),
                         ),
+                    myProductSelectViewModel = viewModel(
+                        factory =
+                        MyProductSelectViewModel.factory(
+                            MyProductSelectRepository.instance()
+                        )
+                    )
                 )
             }
             composable(route = NavItem.MyProductSelection.screenRoute +"/{targetProductId}",
@@ -137,13 +137,12 @@ class NavigationModule {
             ) { backStackEntry ->
                 MyProductSelectScreen(
                     navController,
-                    viewModel =
-                        viewModel(
-                            factory =
-                                MyProductSelectViewModel.factory(
-                                    MyProductSelectRepository.instance(),
-                                ),
-                        ),
+                    viewModel = viewModel(
+                        factory =
+                        MyProductSelectViewModel.factory(
+                            MyProductSelectRepository.instance()
+                        )
+                    ),
                     targetProductId = backStackEntry.arguments?.getString("targetProductId")?.toLong() ?: 0
                 )
             }
