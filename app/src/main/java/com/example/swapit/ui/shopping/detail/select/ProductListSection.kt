@@ -5,11 +5,12 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import com.example.swapit.ui.shopping.ShoppingCard
+import com.example.swapit.ui.swap.SwapViewModel
 
 @Composable
 fun ProductListSection(
     myProductSelectionViewModel: MyProductSelectViewModel,
-    swapViewModel: SwapProductViewModel,
+    swapViewModel: SwapViewModel,
     targetProductId: Long,
 ) {
     LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
