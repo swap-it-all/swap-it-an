@@ -1,11 +1,13 @@
 package com.example.swapit
 
+import ShoppingViewModel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.swapit.domain.repository.LoginRepository
+import com.example.swapit.domain.repository.ShoppingRepository
 import com.example.swapit.ui.auth.LoginManager
 import com.example.swapit.ui.auth.LoginViewModel
 import com.example.swapit.ui.navigation.NavigationModule
@@ -25,7 +27,19 @@ class MainActivity : ComponentActivity() {
                             LoginManager(this),
                         ),
                 )
-            navigationModule.NavigationGraph(navController, loginViewModel)
+            val shoppingViewModel: ShoppingViewModel =
+                viewModel(
+                    factory =
+                        ShoppingViewModel.factory(
+                            ShoppingRepository.instance(),
+                        ),
+                )
+
+            navigationModule.NavigationGraph(
+                navController,
+                loginViewModel,
+                shoppingViewModel,
+            )
         }
     }
 }

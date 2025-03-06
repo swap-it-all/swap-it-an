@@ -28,7 +28,7 @@
     <string name="search_search_button">검색</string>
     <string name="alert_alert">알림</string>
     <string name="alert_icon">알림 아이콘</string>
-    <string name="swap_requested_message">스왑 요청이 들어왔어요!</string>
+    <string name="swap_requested_message">스왑 요청을 받았어요!</string>
     <string name="swap_go_to_received">요청된 스왑으로 가기</string>
     <string name="swap_request_message">내가 요청한 스왑이예요</string>
     <string name="swap_go_to_sent">요청한 스왑으로 가기</string>

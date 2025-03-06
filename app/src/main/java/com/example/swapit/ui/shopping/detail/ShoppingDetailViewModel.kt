@@ -11,7 +11,8 @@ import com.example.swapit.domain.repository.ShoppingDetailRepository
 import com.example.swapit.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
 
-class ShoppingDetailViewModel(repository: ShoppingDetailRepository, private val goodsId: String) : ViewModel() {
+class ShoppingDetailViewModel(repository: ShoppingDetailRepository, private val _goodsId: String) : ViewModel() {
+    val goodsId: String get() = _goodsId
     private val shoppingDetailContents =
         mutableStateOf<ShoppingDetailData>(
             ShoppingDetailData(
@@ -34,7 +35,7 @@ class ShoppingDetailViewModel(repository: ShoppingDetailRepository, private val 
 
     init {
         viewModelScope.launch {
-            shoppingDetailContents.value = repository.shoppingDetailResults(goodsId).toDomain()
+            shoppingDetailContents.value = repository.shoppingDetailResults(_goodsId).toDomain()
         }
     }
 
@@ -48,7 +49,7 @@ class ShoppingDetailViewModel(repository: ShoppingDetailRepository, private val 
             BaseViewModelFactory {
                 ShoppingDetailViewModel(
                     repository = repository,
-                    goodsId = goodsId,
+                    _goodsId = goodsId,
                 )
             }
     }

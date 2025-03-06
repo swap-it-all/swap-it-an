@@ -7,24 +7,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.example.swapit.R
-import com.example.swapit.ui.component.BackButton
-import com.example.swapit.ui.theme.Black
 import com.example.swapit.ui.theme.Paddings
 import com.example.swapit.ui.theme.Primary
 import com.example.swapit.ui.theme.Typography
 
 @Composable
-fun BackButtonAndTextSection(navController: NavHostController) {
-    BackButton(
-        Modifier.padding(
-            Paddings.xlarge,
-            Paddings.xlarge,
-            Paddings.none,
-            Paddings.xextra,
-        ),
-        navController,
-        color = Black,
-    )
+fun TextSection(navController: NavHostController) {
     Text(
         stringResource(R.string.product_select_request_message),
         style = Typography.titleLarge,

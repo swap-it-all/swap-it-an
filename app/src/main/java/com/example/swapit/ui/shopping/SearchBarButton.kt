@@ -1,5 +1,6 @@
 package com.example.swapit.ui.shopping
 
+import ShoppingViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.swapit.R
+import com.example.swapit.domain.repository.ShoppingRepository
 import com.example.swapit.ui.navigation.NavItem
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray6
@@ -30,6 +32,7 @@ import com.example.swapit.ui.theme.SwapitTheme
 fun SearchBarButton(
     modifier: Modifier = Modifier,
     navController: NavHostController,
+    viewModel: ShoppingViewModel,
 ) {
     Button(
         modifier =
@@ -53,7 +56,11 @@ fun SearchBarButton(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    stringResource(R.string.shopping_search_button_content),
+                    if (viewModel.searchKeyword.value.isEmpty()) {
+                        "스왑에서 찾아보세요!"
+                    } else {
+                        viewModel.searchKeyword.value
+                    },
                     modifier = modifier.weight(1f),
                     color = Gray3,
                 )
@@ -71,6 +78,6 @@ fun SearchBarButton(
 @Preview(showBackground = true)
 fun SearchBarButtonPreview() {
     SwapitTheme {
-        SearchBarButton(Modifier, rememberNavController())
+        SearchBarButton(Modifier, rememberNavController(), viewModel = ShoppingViewModel(ShoppingRepository.instance()))
     }
 }
