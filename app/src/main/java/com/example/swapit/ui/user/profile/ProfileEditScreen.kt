@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -29,6 +30,7 @@ fun ProfileEditScreen(
     viewModel: UserInfoViewModel,
 ) {
     val userInfo by viewModel.userInfo.collectAsState()
+    val saveCompleted by viewModel.saveCompleted.collectAsState()
 
     val photoLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
@@ -38,6 +40,13 @@ fun ProfileEditScreen(
             }
         },
     )
+
+    LaunchedEffect(saveCompleted) {
+        if (saveCompleted) {
+            viewModel.resetSaveCompleted()
+            navController.popBackStack()
+        }
+    }
 
     userInfo?.let { info ->
         Scaffold(
@@ -78,7 +87,6 @@ fun ProfileEditScreen(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         viewModel.saveUserInfo()
-                        navController.popBackStack()
                     }
                 }
             }

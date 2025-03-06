@@ -33,6 +33,10 @@ class UserInfoViewModel(
             ),
         )
     val userInfo: StateFlow<UserInfo?> = _userInfo.asStateFlow()
+
+    private var _saveCompleted: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val saveCompleted: StateFlow<Boolean> = _saveCompleted.asStateFlow()
+
     private var isProfileImageUpdated = false
 
     fun myUserInfo() {
@@ -61,7 +65,12 @@ class UserInfoViewModel(
                 isProfileImageUpdated = false
             }
             repository.updateNickname(_userInfo.value.nickname)
+            _saveCompleted.value = true
         }
+    }
+
+    fun resetSaveCompleted(){
+        _saveCompleted.value = false
     }
 
     companion object {
