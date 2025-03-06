@@ -4,14 +4,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.swapit.data.datasource.local.model.bottomsheet.SortOption
 import com.example.swapit.data.datasource.local.model.post.CategoryOption
-import com.example.swapit.domain.model.shopping.ShoppingProduct
-import com.example.swapit.domain.repository.ShoppingRepository
+import com.example.swapit.domain.model.product.Product
+import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
 
-class ShoppingViewModel(private val repository: ShoppingRepository) : ViewModel() {
-    private val _products = mutableStateOf<List<ShoppingProduct>>(emptyList())
-    val products: List<ShoppingProduct> get() = _products.value
+class ShoppingViewModel(private val repository: ProductRepository) : ViewModel() {
+    private val _products = mutableStateOf<List<Product>>(emptyList())
+    val products: List<Product> get() = _products.value
     val selectedOption = mutableStateOf(SortOption.POPULAR)
     val selectedCategory = mutableStateOf(emptyList<CategoryOption>())
     val searchKeyword = mutableStateOf("")
@@ -45,7 +45,7 @@ class ShoppingViewModel(private val repository: ShoppingRepository) : ViewModel(
     private fun fetchProducts() {
         viewModelScope.launch {
             _products.value =
-                repository.shoppingCardProducts(
+                repository.productCardProducts(
                     cursorId = null,
                     createdAt = null,
                     cursorValue = null,
@@ -59,7 +59,7 @@ class ShoppingViewModel(private val repository: ShoppingRepository) : ViewModel(
     init {
         viewModelScope.launch {
             _products.value =
-                repository.shoppingCardProducts(
+                repository.productCardProducts(
                     cursorId = null,
                     createdAt = null,
                     cursorValue = null,
@@ -83,7 +83,7 @@ class ShoppingViewModel(private val repository: ShoppingRepository) : ViewModel(
     companion object {
         private const val TAG = "ShoppingViewModel"
 
-        fun factory(repository: ShoppingRepository): ViewModelProvider.Factory =
+        fun factory(repository: ProductRepository): ViewModelProvider.Factory =
             BaseViewModelFactory {
                 ShoppingViewModel(
                     repository = repository,

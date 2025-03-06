@@ -1,8 +1,8 @@
-package com.example.swapit.domain.model.shopping.detail
+package com.example.swapit.domain.model.product.detail
 
-data class ShoppingDetailData(
+data class ProductDetail(
     val goodsId: Long,
-    val user: ShoppingDetailUser,
+    val user: ProductDetailUser,
     val category: String,
     val title: String,
     val price: Long,
@@ -11,6 +11,6 @@ data class ShoppingDetailData(
     val goodsTradeStatus: String,
     val placeName: String,
     val viewCount: Long,
-    val imageUri: List<ShoppingDetailImage>,
+    val imageUri: List<ProductDetailImage>,
     val createdAt: String,
 )

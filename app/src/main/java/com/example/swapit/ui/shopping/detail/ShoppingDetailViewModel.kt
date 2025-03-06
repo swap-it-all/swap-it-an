@@ -5,19 +5,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.swapit.data.mapper.toDomain
-import com.example.swapit.domain.model.shopping.detail.ShoppingDetailData
-import com.example.swapit.domain.model.shopping.detail.ShoppingDetailUser
-import com.example.swapit.domain.repository.ShoppingDetailRepository
+import com.example.swapit.domain.model.product.detail.ProductDetail
+import com.example.swapit.domain.model.product.detail.ProductDetailUser
+import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
 
-class ShoppingDetailViewModel(repository: ShoppingDetailRepository, private val _goodsId: String) : ViewModel() {
+class ShoppingDetailViewModel(repository: ProductRepository, private val _goodsId: String) : ViewModel() {
     val goodsId: String get() = _goodsId
     private val shoppingDetailContents =
-        mutableStateOf<ShoppingDetailData>(
-            ShoppingDetailData(
+        mutableStateOf<ProductDetail>(
+            ProductDetail(
                 goodsId = 0,
-                user = ShoppingDetailUser(userId = 1, nickname = "", profileImageUrl = "", userRating = 1.1),
+                user = ProductDetailUser(userId = 1, nickname = "", profileImageUrl = "", userRating = 1.1),
                 category = "",
                 title = "",
                 price = 0,
@@ -31,11 +31,11 @@ class ShoppingDetailViewModel(repository: ShoppingDetailRepository, private val 
             ),
         )
 
-    val detailContents: ShoppingDetailData get() = shoppingDetailContents.value
+    val detailContents: ProductDetail get() = shoppingDetailContents.value
 
     init {
         viewModelScope.launch {
-            shoppingDetailContents.value = repository.shoppingDetailResults(_goodsId).toDomain()
+            shoppingDetailContents.value = repository.productDetailResults(_goodsId).toDomain()
         }
     }
 
@@ -43,7 +43,7 @@ class ShoppingDetailViewModel(repository: ShoppingDetailRepository, private val 
         private const val TAG = "ShoppingDetailViewModel"
 
         fun factory(
-            repository: ShoppingDetailRepository,
+            repository: ProductRepository,
             goodsId: String,
         ): ViewModelProvider.Factory =
             BaseViewModelFactory {

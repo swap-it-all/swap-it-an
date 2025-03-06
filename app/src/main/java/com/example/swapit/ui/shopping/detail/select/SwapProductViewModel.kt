@@ -8,11 +8,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.swapit.data.datasource.remote.dto.request.swap.SwapRequest
-import com.example.swapit.domain.repository.SwapRequestRepository
+import com.example.swapit.domain.repository.SwapRepository
 import com.example.swapit.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
 
-class SwapProductViewModel(private val repository: SwapRequestRepository) : ViewModel() {
+class SwapProductViewModel(private val repository: SwapRepository) : ViewModel() {
     val requestedProductId = mutableLongStateOf(0)
     val targetProductId = mutableLongStateOf(0)
     private val _dialogStates = mutableStateOf(mutableMapOf<Long, Boolean>())
@@ -58,7 +58,7 @@ class SwapProductViewModel(private val repository: SwapRequestRepository) : View
     companion object {
         private const val TAG = "SwapProductViewModel"
 
-        fun factory(repository: SwapRequestRepository): ViewModelProvider.Factory =
+        fun factory(repository: SwapRepository): ViewModelProvider.Factory =
             BaseViewModelFactory {
                 SwapProductViewModel(repository = repository)
             }

@@ -1,22 +1,22 @@
 package com.example.swapit.domain.repository
 
-import com.example.swapit.data.datasource.RemoteSwapRequestDataSource
+import com.example.swapit.data.datasource.RemoteSwapDataSource
 import com.example.swapit.data.datasource.remote.ServiceModule
 import com.example.swapit.data.datasource.remote.dto.request.swap.SwapRequest
 import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
-import com.example.swapit.data.repository.DefaultSwapRequestRepository
+import com.example.swapit.data.repository.DefaultSwapRepository
 
-interface SwapRequestRepository {
+interface SwapRepository {
     suspend fun swapRequest(swapRequest: SwapRequest): BaseResponse<Long>
 
     companion object {
-        private var instance: SwapRequestRepository? = null
+        private var instance: SwapRepository? = null
 
-        fun instance(): SwapRequestRepository {
+        fun instance(): SwapRepository {
             if (instance == null) {
                 instance =
-                    DefaultSwapRequestRepository(
-                        remoteSource = RemoteSwapRequestDataSource(ServiceModule.swapRequestService),
+                    DefaultSwapRepository(
+                        remoteSource = RemoteSwapDataSource(ServiceModule.swapRequestService),
                     )
             }
             return instance!!

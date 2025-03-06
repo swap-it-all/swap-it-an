@@ -15,7 +15,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.ColorFilter
@@ -24,7 +23,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
-import com.example.swapit.domain.model.shopping.detail.ShoppingDetailData
+import com.example.swapit.domain.model.product.detail.ProductDetail
 import com.example.swapit.ui.component.BackButton
 import com.example.swapit.ui.component.MenuButton
 import com.example.swapit.ui.theme.Gray5
@@ -34,7 +33,7 @@ import com.example.swapit.ui.theme.White
 
 @Composable
 fun ProductImageSection(
-    shoppingDetailData: ShoppingDetailData,
+    shoppingDetailData: ProductDetail,
     navController: NavHostController,
 ) {
     val pagerState =

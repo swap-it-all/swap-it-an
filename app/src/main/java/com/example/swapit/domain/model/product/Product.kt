@@ -1,6 +1,6 @@
-package com.example.swapit.domain.model.shopping
+package com.example.swapit.domain.model.product
 
-data class ShoppingProduct(
+data class Product(
     val goodsId: Long,
     val title: String,
     val price: Long,

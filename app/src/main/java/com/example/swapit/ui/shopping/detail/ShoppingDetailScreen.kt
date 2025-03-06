@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.swapit.domain.model.shopping.detail.ShoppingDetailData
+import com.example.swapit.domain.model.product.detail.ProductDetail
 import com.example.swapit.ui.shopping.detail.select.MyProductSelectViewModel
 import com.example.swapit.ui.theme.Paddings
 
@@ -44,7 +44,7 @@ fun ShoppingDetailScreen(
 @Composable
 fun DetailContent(
     navController: NavHostController,
-    shoppingDetailData: ShoppingDetailData,
+    shoppingDetailData: ProductDetail,
 ) {
     Column(Modifier.verticalScroll(rememberScrollState())) {
         ProductImageSection(shoppingDetailData, navController)
