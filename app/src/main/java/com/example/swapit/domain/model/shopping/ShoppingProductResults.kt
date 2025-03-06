@@ -5,6 +5,6 @@ import com.example.swapit.data.datasource.remote.dto.response.shopping.ShoppingP
 data class ShoppingProductResults(
     val goodsList: List<ShoppingProductResponse>,
     val hasNext: Boolean,
-    val lastCursorId: Long,
+    val lastCursorId: Long?,
     val count: Long,
 )

@@ -145,7 +145,7 @@ fun PostProductScreen(
                         viewModel.showAlertDialog(
                             title = "물건을 등록할까요?",
                             onConfirm = {
-                                navController.navigate(NavItem.ShoppingDetail.screenRoute)
+                                navController.navigate(NavItem.Shopping.screenRoute)
                             },
                             onCancel = {
                                 Log.d("PostProductScreen", "PostProductScreen: 취소")

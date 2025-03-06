@@ -16,23 +16,27 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.swapit.domain.model.shopping.detail.ShoppingDetailData
+import com.example.swapit.ui.shopping.detail.select.MyProductSelectViewModel
 import com.example.swapit.ui.theme.Paddings
 
 @Composable
 fun ShoppingDetailScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    viewModel: ShoppingDetailViewModel,
+    shoppingDetailViewModel: ShoppingDetailViewModel,
+    myProductSelectViewModel: MyProductSelectViewModel,
 ) {
     Box(modifier.fillMaxSize()) {
-        DetailContent(navController, viewModel.detailContents)
-        Row(
-            modifier =
-                Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(Paddings.xlarge, 40.dp),
-        ) {
-            BottomButtonSection(navController)
+        DetailContent(navController, shoppingDetailViewModel.detailContents)
+        if (myProductSelectViewModel.products.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null) {
+            Row(
+                modifier =
+                    Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(Paddings.xlarge, 40.dp),
+            ) {
+                BottomButtonSection(navController, viewModel = shoppingDetailViewModel)
+            }
         }
     }
 }
@@ -53,6 +57,7 @@ fun DetailContent(
 fun ShoppingDetailScreenPreview() {
     ShoppingDetailScreen(
         navController = rememberNavController(),
-        viewModel = viewModel<ShoppingDetailViewModel>(),
+        shoppingDetailViewModel = viewModel<ShoppingDetailViewModel>(),
+        myProductSelectViewModel = viewModel<MyProductSelectViewModel>(),
     )
 }

@@ -1,5 +1,6 @@
 package com.example.swapit.ui.search
 
+import ShoppingViewModel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -12,7 +13,7 @@ import com.example.swapit.ui.theme.Paddings
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun RecentTermButtonField(viewModel: SearchViewModel) {
+fun RecentTermButtonField(viewModel: ShoppingViewModel) {
     FlowRow(
         horizontalArrangement = Arrangement.Start,
         modifier =
@@ -20,9 +21,9 @@ fun RecentTermButtonField(viewModel: SearchViewModel) {
                 .fillMaxWidth()
                 .padding(Paddings.mediumLarge),
     ) {
-        viewModel.allRecentSearchTerm.forEach {
+        viewModel.recentKeyword.value.forEach {
             SearchTermButton(
-                text = it.categoryName,
+                text = it,
                 modifier = Modifier.padding(Paddings.smallMedium),
             ) {
             }
