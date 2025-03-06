@@ -8,6 +8,11 @@ import com.example.swapit.data.datasource.RemoteProductDataSource
 import com.example.swapit.data.datasource.local.model.post.QualityOption
 import com.example.swapit.data.datasource.remote.dto.request.product.ProductRequest
 import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
+import com.example.swapit.data.datasource.remote.dto.response.product.ProductResponse
+import com.example.swapit.data.datasource.remote.dto.response.product.detail.ProductDetailResponse
+import com.example.swapit.data.mapper.toDomain
+import com.example.swapit.domain.model.shopping.ShoppingProduct
+import com.example.swapit.domain.model.shopping.ShoppingProductResults
 import com.example.swapit.domain.repository.ProductRepository
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -103,6 +108,53 @@ class DefaultProductRepository(
         val ext = context.contentResolver.getType(uri.toAndroidUri())!!.split("/").last()
 
         return "$name.$ext"
+    }
+
+    override suspend fun shoppingCardResults(
+        cursorId: Long?,
+        createdAt: String?,
+        cursorValue: Long?,
+        sortBy: String?,
+        keyword: String?,
+        categoryIds: List<Int>?,
+    ): ShoppingProductResults {
+        return remoteSource.shoppingProductResponse(
+            cursorId = cursorId,
+            createdAt = createdAt,
+            cursorValue = cursorValue,
+            sortBy = sortBy,
+            keyword = keyword,
+            categoryIds = categoryIds,
+        ).results.toDomain()
+    }
+
+    override suspend fun shoppingCardProducts(
+        cursorId: Long?,
+        createdAt: String?,
+        cursorValue: Long?,
+        sortBy: String?,
+        keyword: String?,
+        categoryIds: List<Int>?,
+    ): List<ShoppingProduct> {
+        return shoppingCardResults(
+            cursorId = cursorId,
+            createdAt = createdAt,
+            cursorValue = cursorValue,
+            sortBy = sortBy,
+            keyword = keyword,
+            categoryIds = categoryIds,
+        ).goodsList.map { it.toDomain() }
+    }
+    override suspend fun shoppingDetailResults(goodsId: String): ProductDetailResponse {
+        return remoteSource.shoppingDetailResponse(goodsId).results
+    }
+
+    override suspend fun myProductSelectResults(): List<ShoppingProduct> {
+        return remoteSource.myProductSelectResponse().results.map { it.toDomain() }
+    }
+
+    override suspend fun myProductSelectResponse(): BaseResponse<List<ProductResponse>> {
+        return remoteSource.myProductSelectResponse()
     }
 }
 

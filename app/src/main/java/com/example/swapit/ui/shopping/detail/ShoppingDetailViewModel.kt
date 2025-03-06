@@ -7,11 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.swapit.data.mapper.toDomain
 import com.example.swapit.domain.model.shopping.detail.ShoppingDetailData
 import com.example.swapit.domain.model.shopping.detail.ShoppingDetailUser
-import com.example.swapit.domain.repository.ShoppingDetailRepository
+import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
 
-class ShoppingDetailViewModel(repository: ShoppingDetailRepository, private val _goodsId: String) : ViewModel() {
+class ShoppingDetailViewModel(repository: ProductRepository, private val _goodsId: String) : ViewModel() {
     val goodsId: String get() = _goodsId
     private val shoppingDetailContents =
         mutableStateOf<ShoppingDetailData>(
@@ -43,7 +43,7 @@ class ShoppingDetailViewModel(repository: ShoppingDetailRepository, private val 
         private const val TAG = "ShoppingDetailViewModel"
 
         fun factory(
-            repository: ShoppingDetailRepository,
+            repository: ProductRepository,
             goodsId: String,
         ): ViewModelProvider.Factory =
             BaseViewModelFactory {

@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.swapit.domain.model.shopping.ShoppingProduct
-import com.example.swapit.domain.repository.MyProductSelectRepository
+import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
 
-class MyProductSelectViewModel(repository: MyProductSelectRepository) : ViewModel() {
+class MyProductSelectViewModel(repository: ProductRepository) : ViewModel() {
     private val _products = mutableStateOf<List<ShoppingProduct>>(emptyList())
     val products: List<ShoppingProduct> get() = _products.value
 
@@ -29,7 +29,7 @@ class MyProductSelectViewModel(repository: MyProductSelectRepository) : ViewMode
     companion object {
         private const val TAG = "MyProductSelectionViewModel"
 
-        fun factory(repository: MyProductSelectRepository): ViewModelProvider.Factory =
+        fun factory(repository: ProductRepository): ViewModelProvider.Factory =
             BaseViewModelFactory {
                 MyProductSelectViewModel(
                     repository = repository,

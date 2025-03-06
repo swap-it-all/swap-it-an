@@ -2,6 +2,9 @@ package com.example.swapit.data.datasource
 
 import com.example.swapit.data.datasource.remote.dto.request.product.ProductRequest
 import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
+import com.example.swapit.data.datasource.remote.dto.response.product.ProductResponse
+import com.example.swapit.data.datasource.remote.dto.response.product.ProductResultResponse
+import com.example.swapit.data.datasource.remote.dto.response.product.detail.ProductDetailResponse
 import com.example.swapit.data.datasource.remote.service.ProductService
 import okhttp3.MultipartBody
 
@@ -12,4 +15,30 @@ class RemoteProductDataSource(private val productService: ProductService) {
         goodsId: Long,
         images: List<MultipartBody.Part>,
     ): BaseResponse<Unit> = productService.postProductImages(goodsId = goodsId, images = images)
+
+    suspend fun shoppingDetailResponse(goodsId: String): BaseResponse<ProductDetailResponse> {
+        return productService.shoppingProductDetail(goodsId)
+    }
+
+    suspend fun shoppingProductResponse(
+        cursorId: Long?,
+        createdAt: String?,
+        cursorValue: Long?,
+        sortBy: String?,
+        keyword: String?,
+        categoryIds: List<Int>?,
+    ): BaseResponse<ProductResultResponse> {
+        return productService.shoppingProducts(
+            cursorId = cursorId,
+            createdAt = createdAt,
+            cursorValue = cursorValue,
+            sortBy = sortBy,
+            keyword = keyword,
+            categoryIds = categoryIds,
+        )
+    }
+
+    suspend fun myProductSelectResponse(): BaseResponse<List<ProductResponse>> {
+        return productService.myProductSelection()
+    }
 }

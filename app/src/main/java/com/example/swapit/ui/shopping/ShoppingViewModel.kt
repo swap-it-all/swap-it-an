@@ -5,11 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.swapit.data.datasource.local.model.bottomsheet.SortOption
 import com.example.swapit.data.datasource.local.model.post.CategoryOption
 import com.example.swapit.domain.model.shopping.ShoppingProduct
-import com.example.swapit.domain.repository.ShoppingRepository
+import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
 
-class ShoppingViewModel(private val repository: ShoppingRepository) : ViewModel() {
+class ShoppingViewModel(private val repository: ProductRepository) : ViewModel() {
     private val _products = mutableStateOf<List<ShoppingProduct>>(emptyList())
     val products: List<ShoppingProduct> get() = _products.value
     val selectedOption = mutableStateOf(SortOption.POPULAR)
@@ -83,7 +83,7 @@ class ShoppingViewModel(private val repository: ShoppingRepository) : ViewModel(
     companion object {
         private const val TAG = "ShoppingViewModel"
 
-        fun factory(repository: ShoppingRepository): ViewModelProvider.Factory =
+        fun factory(repository: ProductRepository): ViewModelProvider.Factory =
             BaseViewModelFactory {
                 ShoppingViewModel(
                     repository = repository,

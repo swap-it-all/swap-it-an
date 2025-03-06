@@ -10,9 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.swapit.domain.repository.MyProductSelectRepository
 import com.example.swapit.domain.repository.ProductRepository
-import com.example.swapit.domain.repository.ShoppingDetailRepository
 import com.example.swapit.domain.repository.UserRepository
 import com.example.swapit.ui.alert.AlertScreen
 import com.example.swapit.ui.auth.LoginScreen
@@ -38,7 +36,6 @@ class NavigationModule {
     fun NavigationGraph(
         navController: NavHostController,
         loginViewModel: LoginViewModel,
-        shoppingViewModel: ShoppingViewModel,
     ) {
         NavHost(
             navController = navController,
@@ -58,7 +55,12 @@ class NavigationModule {
             composable(NavItem.Shopping.screenRoute) {
                 ShoppingScreen(
                     navController,
-                    shoppingViewModel,
+                    viewModel(
+                        factory =
+                        ShoppingViewModel.factory(
+                            ProductRepository.instance(context = LocalContext.current),
+                        ),
+                    ),
                 )
             }
             composable(NavItem.Swap.screenRoute) {
@@ -97,7 +99,12 @@ class NavigationModule {
                 AlertScreen(navController)
             }
             composable(NavItem.Search.screenRoute) {
-                SearchScreen(navController, viewModel = shoppingViewModel)
+                SearchScreen(navController, viewModel =                 viewModel(
+                    factory =
+                    ShoppingViewModel.factory(
+                        ProductRepository.instance(context = LocalContext.current),
+                    ),
+                ))
             }
             composable(
                 route = NavItem.ShoppingDetail.screenRoute + "/{goodsId}",
@@ -115,7 +122,7 @@ class NavigationModule {
                         viewModel(
                             factory =
                                 ShoppingDetailViewModel.factory(
-                                    ShoppingDetailRepository.instance(),
+                                    ProductRepository.instance(context = LocalContext.current),
                                     backStackEntry.arguments?.getString("goodsId") ?: "",
                                 ),
                         ),
@@ -123,7 +130,7 @@ class NavigationModule {
                         viewModel(
                             factory =
                                 MyProductSelectViewModel.factory(
-                                    MyProductSelectRepository.instance(),
+                                    ProductRepository.instance(LocalContext.current),
                                 ),
                         ),
                 )
@@ -143,7 +150,7 @@ class NavigationModule {
                         viewModel(
                             factory =
                                 MyProductSelectViewModel.factory(
-                                    MyProductSelectRepository.instance(),
+                                    ProductRepository.instance(LocalContext.current),
                                 ),
                         ),
                     targetProductId = backStackEntry.arguments?.getString("targetProductId")?.toLong() ?: 0,

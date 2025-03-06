@@ -9,12 +9,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.swapit.R
-import com.example.swapit.domain.repository.ShoppingRepository
+import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.ui.theme.BackgroundColor
 import com.example.swapit.ui.theme.Paddings
 import com.example.swapit.ui.theme.SwapitTheme
@@ -59,6 +60,6 @@ fun SearchScreen(
 @Composable
 fun SearchScreenPreview() {
     SwapitTheme {
-        SearchScreen(rememberNavController(), ShoppingViewModel(ShoppingRepository.instance()))
+        SearchScreen(rememberNavController(), ShoppingViewModel(ProductRepository.instance(LocalContext.current)))
     }
 }

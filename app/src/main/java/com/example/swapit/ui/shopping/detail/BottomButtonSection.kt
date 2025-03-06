@@ -5,13 +5,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.swapit.R
-import com.example.swapit.domain.repository.ShoppingDetailRepository
+import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.ui.component.DefaultButton
 import com.example.swapit.ui.component.ModalButton
 import com.example.swapit.ui.navigation.NavItem
@@ -57,7 +58,7 @@ fun BottomButtonSection() {
         rememberNavController(),
         viewModel =
             ShoppingDetailViewModel(
-                repository = ShoppingDetailRepository.instance(),
+                repository = ProductRepository.instance(LocalContext.current),
                 _goodsId = "",
             ),
     )
