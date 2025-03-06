@@ -40,6 +40,7 @@ class NavigationModule {
         loginViewModel: LoginViewModel,
         shoppingViewModel: ShoppingViewModel,
     ) {
+        val userInfoViewModel = UserInfoViewModel(UserRepository.instance(LocalContext.current))
         NavHost(
             navController = navController,
             startDestination = NavItem.Splash.screenRoute,
@@ -85,12 +86,7 @@ class NavigationModule {
                 UserInfoScreen(
                     navController = navController,
                     viewModel =
-                        viewModel(
-                            factory =
-                                UserInfoViewModel.factory(
-                                    UserRepository.instance(),
-                                ),
-                        ),
+                    userInfoViewModel,
                 )
             }
             composable(NavItem.Alert.screenRoute) {
@@ -150,7 +146,10 @@ class NavigationModule {
                 )
             }
             composable(NavItem.ProfileEdit.screenRoute) {
-                ProfileEditScreen(navController)
+                ProfileEditScreen(
+                    navController,
+                    viewModel = userInfoViewModel,
+                )
             }
             composable(NavItem.ChatRoom.screenRoute) {
                 ChatRoomScreen(navController)

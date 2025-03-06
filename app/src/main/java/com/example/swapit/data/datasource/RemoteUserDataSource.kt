@@ -1,7 +1,10 @@
 package com.example.swapit.data.datasource
 
+import com.example.swapit.data.datasource.remote.dto.request.user.UserProfileRequest
+import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
 import com.example.swapit.data.datasource.remote.dto.response.user.UserResponse
 import com.example.swapit.data.datasource.remote.service.UserService
+import okhttp3.MultipartBody
 
 class RemoteUserDataSource(
     private val userService: UserService,
@@ -11,6 +14,26 @@ class RemoteUserDataSource(
 
         return if (response.success) {
             response.results
+        } else {
+            throw Exception(response.message)
+        }
+    }
+
+    suspend fun updateNickname(nickname: String): BaseResponse<Unit> {
+        val response = userService.updateNickname(UserProfileRequest(nickname))
+
+        return if (response.success) {
+            response
+        } else {
+            throw Exception(response.message)
+        }
+    }
+
+    suspend fun updateProfileImage(image: MultipartBody.Part): BaseResponse<Unit> {
+        val response = userService.updateProfileImage(image)
+
+        return if (response.success) {
+            response
         } else {
             throw Exception(response.message)
         }
