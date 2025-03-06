@@ -145,6 +145,7 @@ class DefaultProductRepository(
             categoryIds = categoryIds,
         ).goodsList.map { it.toDomain() }
     }
+
     override suspend fun productDetailResults(goodsId: String): ProductDetailResponse {
         return remoteSource.productDetail(goodsId).results
     }

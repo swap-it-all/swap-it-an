@@ -15,11 +15,9 @@ object ServiceModule {
         RetrofitModule.retrofit().create()
     }
 
-
     val userService: UserService by lazy {
         RetrofitModule.retrofit().create()
     }
-
 
     val swapRequestService: SwapService by lazy {
         RetrofitModule.retrofit().create()

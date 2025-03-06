@@ -51,7 +51,6 @@ interface ProductRepository {
         categoryIds: List<Int>?,
     ): List<Product>
 
-
     companion object {
         private var instance: ProductRepository? = null
 

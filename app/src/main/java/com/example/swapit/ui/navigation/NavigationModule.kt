@@ -58,9 +58,9 @@ class NavigationModule {
                     navController,
                     viewModel(
                         factory =
-                        ShoppingViewModel.factory(
-                            ProductRepository.instance(context = LocalContext.current),
-                        ),
+                            ShoppingViewModel.factory(
+                                ProductRepository.instance(context = LocalContext.current),
+                            ),
                     ),
                 )
             }
@@ -95,12 +95,16 @@ class NavigationModule {
                 AlertScreen(navController)
             }
             composable(NavItem.Search.screenRoute) {
-                SearchScreen(navController, viewModel =                 viewModel(
-                    factory =
-                    ShoppingViewModel.factory(
-                        ProductRepository.instance(context = LocalContext.current),
-                    ),
-                ))
+                SearchScreen(
+                    navController,
+                    viewModel =
+                        viewModel(
+                            factory =
+                                ShoppingViewModel.factory(
+                                    ProductRepository.instance(context = LocalContext.current),
+                                ),
+                        ),
+                )
             }
             composable(
                 route = NavItem.ShoppingDetail.screenRoute + "/{goodsId}",
