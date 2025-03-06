@@ -27,7 +27,7 @@ fun ProfileNameTextField(
         value = name,
         modifier = Modifier.fillMaxWidth(),
         placeholder = { Text(text = placeHolder) },
-        onValueChange = { onNameChange(it) },
+        onValueChange = onNameChange,
     )
 }
 

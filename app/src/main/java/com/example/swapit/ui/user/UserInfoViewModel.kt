@@ -1,5 +1,6 @@
 package com.example.swapit.ui.user
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -33,10 +34,43 @@ class UserInfoViewModel(
         )
     val userInfo: StateFlow<UserInfo?> = _userInfo.asStateFlow()
 
+    private var _saveCompleted: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val saveCompleted: StateFlow<Boolean> = _saveCompleted.asStateFlow()
+
+    private var isProfileImageUpdated = false
+
     fun myUserInfo() {
         viewModelScope.launch {
             _userInfo.value = repository.myUserInfo()
         }
+    }
+
+    fun updateProfileImage(image: Uri) {
+        viewModelScope.launch {
+            _userInfo.value = _userInfo.value.copy(profileImageUrl = image.toString())
+            isProfileImageUpdated = true
+        }
+    }
+
+    fun updateNickname(nickname: String) {
+        viewModelScope.launch {
+            _userInfo.value = _userInfo.value.copy(nickname = nickname)
+        }
+    }
+
+    fun saveUserInfo() {
+        viewModelScope.launch {
+            if (isProfileImageUpdated) {
+                repository.updateProfileImage(Uri.parse(_userInfo.value.profileImageUrl))
+                isProfileImageUpdated = false
+            }
+            repository.updateNickname(_userInfo.value.nickname)
+            _saveCompleted.value = true
+        }
+    }
+
+    fun resetSaveCompleted() {
+        _saveCompleted.value = false
     }
 
     companion object {
