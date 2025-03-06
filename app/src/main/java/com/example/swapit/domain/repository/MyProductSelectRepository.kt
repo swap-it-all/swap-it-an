@@ -19,7 +19,7 @@ interface MyProductSelectRepository {
         fun instance(): MyProductSelectRepository {
             return instance ?: synchronized(this) {
                 instance ?: DefaultMyProductSelectRepository(
-                    remoteSource = RemoteMyProductSelectDataSource(ServiceModule.myProductSelectService),
+                    remoteSource = RemoteMyProductSelectDataSource(ServiceModule.productService),
                 ).also { instance = it }
             }
         }

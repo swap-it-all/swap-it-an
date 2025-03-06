@@ -5,7 +5,7 @@ import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface SwapRequestService {
+interface SwapService {
     @POST("api/user/swap/request")
     suspend fun swapRequest(
         @Body request: SwapRequest,
