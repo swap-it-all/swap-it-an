@@ -1,7 +1,7 @@
 package com.example.swapit.data.datasource
 
 import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
-import com.example.swapit.data.datasource.remote.dto.response.shopping.ShoppingProductsResultsResponse
+import com.example.swapit.data.datasource.remote.dto.response.product.ProductResultResponse
 import com.example.swapit.data.datasource.remote.service.ShoppingService
 
 class RemoteShoppingDataSource(private val shoppingService: ShoppingService) {
@@ -12,7 +12,7 @@ class RemoteShoppingDataSource(private val shoppingService: ShoppingService) {
         sortBy: String?,
         keyword: String?,
         categoryIds: List<Int>?,
-    ): BaseResponse<ShoppingProductsResultsResponse> {
+    ): BaseResponse<ProductResultResponse> {
         return shoppingService.shoppingProductsResponse(
             cursorId = cursorId,
             createdAt = createdAt,

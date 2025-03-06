@@ -2,7 +2,7 @@ package com.example.swapit.data.datasource.remote.service
 
 import com.example.swapit.data.datasource.remote.dto.request.product.ProductRequest
 import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
-import com.example.swapit.data.datasource.remote.dto.response.shopping.ShoppingProductResponse
+import com.example.swapit.data.datasource.remote.dto.response.product.ProductResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -25,5 +25,5 @@ interface ProductService {
     ): BaseResponse<Unit>
 
     @GET("/api/user/goods/my")
-    suspend fun myProductSelectResponse(): BaseResponse<List<ShoppingProductResponse>>
+    suspend fun myProductSelectResponse(): BaseResponse<List<ProductResponse>>
 }

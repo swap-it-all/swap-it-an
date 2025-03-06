@@ -1,9 +1,9 @@
-package com.example.swapit.data.datasource.remote.dto.response.shopping.detail
+package com.example.swapit.data.datasource.remote.dto.response.product.detail
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ShoppingDetailUserResponse(
+data class ProductDetailUserResponse(
     val userId: Long,
     val nickname: String,
     val profileImageUrl: String,

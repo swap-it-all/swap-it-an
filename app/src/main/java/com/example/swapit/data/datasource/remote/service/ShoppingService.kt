@@ -1,7 +1,7 @@
 package com.example.swapit.data.datasource.remote.service
 
 import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
-import com.example.swapit.data.datasource.remote.dto.response.shopping.ShoppingProductsResultsResponse
+import com.example.swapit.data.datasource.remote.dto.response.product.ProductResultResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -14,5 +14,5 @@ interface ShoppingService {
         @Query("sortBy") sortBy: String?,
         @Query("keyword") keyword: String?,
         @Query("categoryIds") categoryIds: List<Int>?,
-    ): BaseResponse<ShoppingProductsResultsResponse>
+    ): BaseResponse<ProductResultResponse>
 }

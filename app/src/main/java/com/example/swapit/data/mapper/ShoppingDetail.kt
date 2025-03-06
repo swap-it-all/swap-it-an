@@ -1,13 +1,13 @@
 package com.example.swapit.data.mapper
 
-import com.example.swapit.data.datasource.remote.dto.response.shopping.detail.ShoppingDetailDataResponse
-import com.example.swapit.data.datasource.remote.dto.response.shopping.detail.ShoppingDetailImageResponse
-import com.example.swapit.data.datasource.remote.dto.response.shopping.detail.ShoppingDetailUserResponse
+import com.example.swapit.data.datasource.remote.dto.response.product.detail.ProductDetailResponse
+import com.example.swapit.data.datasource.remote.dto.response.product.detail.ProductDetailImageResponse
+import com.example.swapit.data.datasource.remote.dto.response.product.detail.ProductDetailUserResponse
 import com.example.swapit.domain.model.shopping.detail.ShoppingDetailData
 import com.example.swapit.domain.model.shopping.detail.ShoppingDetailImage
 import com.example.swapit.domain.model.shopping.detail.ShoppingDetailUser
 
-fun ShoppingDetailDataResponse.toDomain(): ShoppingDetailData {
+fun ProductDetailResponse.toDomain(): ShoppingDetailData {
     return ShoppingDetailData(
         goodsId = this.goodsId,
         user = this.user.toDomain(),
@@ -24,7 +24,7 @@ fun ShoppingDetailDataResponse.toDomain(): ShoppingDetailData {
     )
 }
 
-fun ShoppingDetailUserResponse.toDomain(): ShoppingDetailUser {
+fun ProductDetailUserResponse.toDomain(): ShoppingDetailUser {
     return ShoppingDetailUser(
         userId = this.userId,
         nickname = this.nickname,
@@ -33,7 +33,7 @@ fun ShoppingDetailUserResponse.toDomain(): ShoppingDetailUser {
     )
 }
 
-fun ShoppingDetailImageResponse.toDomain(): ShoppingDetailImage {
+fun ProductDetailImageResponse.toDomain(): ShoppingDetailImage {
     return ShoppingDetailImage(
         imagesId = this.imagesId,
         imageUrl = this.imageUrl,
