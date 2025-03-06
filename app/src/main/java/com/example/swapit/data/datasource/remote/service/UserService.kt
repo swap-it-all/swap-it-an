@@ -15,7 +15,9 @@ interface UserService {
     suspend fun myUserInfo(): BaseResponse<UserResponse>
 
     @PATCH("api/user/auth/profile/nickname")
-    suspend fun updateNickname(@Body nickname: UserProfileRequest): BaseResponse<Unit>
+    suspend fun updateNickname(
+        @Body nickname: UserProfileRequest,
+    ): BaseResponse<Unit>
 
     @Multipart
     @PATCH("api/user/auth/profile/image")

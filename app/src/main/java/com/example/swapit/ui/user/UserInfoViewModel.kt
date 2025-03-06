@@ -24,11 +24,11 @@ class UserInfoViewModel(
                 profileImageUrl = "",
                 email = "",
                 swapStats =
-                UserSwapStats(
-                    totalGoodsCount = 0,
-                    completedSwapCount = 0,
-                    ratingAverage = 0.0,
-                ),
+                    UserSwapStats(
+                        totalGoodsCount = 0,
+                        completedSwapCount = 0,
+                        ratingAverage = 0.0,
+                    ),
                 reviews = emptyList(),
             ),
         )
@@ -69,7 +69,7 @@ class UserInfoViewModel(
         }
     }
 
-    fun resetSaveCompleted(){
+    fun resetSaveCompleted()  {
         _saveCompleted.value = false
     }
 

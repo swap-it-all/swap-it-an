@@ -26,22 +26,23 @@ fun ProfileImage(
 ) {
     Box(
         modifier =
-        Modifier
-            .fillMaxWidth(),
+            Modifier
+                .fillMaxWidth(),
         contentAlignment = Alignment.Center,
     ) {
         AsyncImage(
             model = imageUrl,
             contentDescription = "프로필 이미지",
-            modifier = Modifier
-                .size(86.dp)
-                .clip(CircleShape),
+            modifier =
+                Modifier
+                    .size(86.dp)
+                    .clip(CircleShape),
         )
         Box(
             modifier =
-            Modifier
-                .size(86.dp)
-                .background(Black.copy(alpha = 0.4f), CircleShape),
+                Modifier
+                    .size(86.dp)
+                    .background(Black.copy(alpha = 0.4f), CircleShape),
             contentAlignment = Alignment.Center,
         ) {
             IconButton(

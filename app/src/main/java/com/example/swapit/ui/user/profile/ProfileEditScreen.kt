@@ -32,14 +32,15 @@ fun ProfileEditScreen(
     val userInfo by viewModel.userInfo.collectAsState()
     val saveCompleted by viewModel.saveCompleted.collectAsState()
 
-    val photoLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri ->
-            uri?.let {
-                viewModel.updateProfileImage(uri)
-            }
-        },
-    )
+    val photoLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.PickVisualMedia(),
+            onResult = { uri ->
+                uri?.let {
+                    viewModel.updateProfileImage(uri)
+                }
+            },
+        )
 
     LaunchedEffect(saveCompleted) {
         if (saveCompleted) {
@@ -56,23 +57,24 @@ fun ProfileEditScreen(
         ) { contentPadding ->
             Surface(
                 modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(contentPadding),
+                    Modifier
+                        .fillMaxSize()
+                        .padding(contentPadding),
                 color = BackgroundColor,
             ) {
                 Column(
                     modifier =
-                    Modifier
-                        .padding(Paddings.xlarge)
-                        .fillMaxSize(),
+                        Modifier
+                            .padding(Paddings.xlarge)
+                            .fillMaxSize(),
                 ) {
-                    ProfileImage(imageUrl = info.profileImageUrl,
+                    ProfileImage(
+                        imageUrl = info.profileImageUrl,
                         onImageChange = {
                             photoLauncher.launch(
-                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly),
                             )
-                        }
+                        },
                     )
                     ProfileNameTextField(
                         label = "닉네임",
@@ -84,7 +86,7 @@ fun ProfileEditScreen(
                     DefaultButton(
                         text = "수정하기",
                         enabled = true,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
                     ) {
                         viewModel.saveUserInfo()
                     }

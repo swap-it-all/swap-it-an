@@ -19,20 +19,20 @@ class RemoteUserDataSource(
         }
     }
 
-    suspend fun updateNickname(nickname: String) : BaseResponse<Unit> {
+    suspend fun updateNickname(nickname: String): BaseResponse<Unit> {
         val response = userService.updateNickname(UserProfileRequest(nickname))
 
-        return if(response.success) {
+        return if (response.success) {
             response
         } else {
             throw Exception(response.message)
         }
     }
 
-    suspend fun updateProfileImage(image: MultipartBody.Part) : BaseResponse<Unit> {
+    suspend fun updateProfileImage(image: MultipartBody.Part): BaseResponse<Unit> {
         val response = userService.updateProfileImage(image)
 
-        return if(response.success) {
+        return if (response.success) {
             response
         } else {
             throw Exception(response.message)
