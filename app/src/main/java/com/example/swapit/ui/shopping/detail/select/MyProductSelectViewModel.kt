@@ -5,14 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.swapit.domain.model.shopping.ShoppingProduct
+import com.example.swapit.domain.model.product.Product
 import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
 
 class MyProductSelectViewModel(repository: ProductRepository) : ViewModel() {
-    private val _products = mutableStateOf<List<ShoppingProduct>>(emptyList())
-    val products: List<ShoppingProduct> get() = _products.value
+    private val _products = mutableStateOf<List<Product>>(emptyList())
+    val products: List<Product> get() = _products.value
 
     init {
         viewModelScope.launch {

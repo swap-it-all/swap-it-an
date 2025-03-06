@@ -28,15 +28,15 @@ interface ProductService {
     ): BaseResponse<Unit>
 
     @GET("/api/user/goods/my")
-    suspend fun myProductSelection(): BaseResponse<List<ProductResponse>>
+    suspend fun myProductList(): BaseResponse<List<ProductResponse>>
 
     @GET("/api/all/goods/{goodsId}")
-    suspend fun shoppingProductDetail(
+    suspend fun productDetail(
         @Path("goodsId") goodsId: String,
     ): BaseResponse<ProductDetailResponse>
 
     @GET("api/all/goods")
-    suspend fun shoppingProducts(
+    suspend fun productsList(
         @Query("cursorId") cursorId: Long?,
         @Query("createdAt") createdAt: String?,
         @Query("cursorValue") cursorValue: Long?,

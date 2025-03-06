@@ -16,11 +16,11 @@ class RemoteProductDataSource(private val productService: ProductService) {
         images: List<MultipartBody.Part>,
     ): BaseResponse<Unit> = productService.postProductImages(goodsId = goodsId, images = images)
 
-    suspend fun shoppingDetailResponse(goodsId: String): BaseResponse<ProductDetailResponse> {
-        return productService.shoppingProductDetail(goodsId)
+    suspend fun productDetail(goodsId: String): BaseResponse<ProductDetailResponse> {
+        return productService.productDetail(goodsId)
     }
 
-    suspend fun shoppingProductResponse(
+    suspend fun productList(
         cursorId: Long?,
         createdAt: String?,
         cursorValue: Long?,
@@ -28,7 +28,7 @@ class RemoteProductDataSource(private val productService: ProductService) {
         keyword: String?,
         categoryIds: List<Int>?,
     ): BaseResponse<ProductResultResponse> {
-        return productService.shoppingProducts(
+        return productService.productsList(
             cursorId = cursorId,
             createdAt = createdAt,
             cursorValue = cursorValue,
@@ -38,7 +38,7 @@ class RemoteProductDataSource(private val productService: ProductService) {
         )
     }
 
-    suspend fun myProductSelectResponse(): BaseResponse<List<ProductResponse>> {
-        return productService.myProductSelection()
+    suspend fun myProductList(): BaseResponse<List<ProductResponse>> {
+        return productService.myProductList()
     }
 }

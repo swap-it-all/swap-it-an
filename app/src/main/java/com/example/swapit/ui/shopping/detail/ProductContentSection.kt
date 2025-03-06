@@ -23,7 +23,7 @@ import coil3.compose.AsyncImage
 import com.example.swapit.R
 import com.example.swapit.data.datasource.local.model.post.CategoryOption
 import com.example.swapit.data.datasource.local.model.post.QualityOption
-import com.example.swapit.domain.model.shopping.detail.ShoppingDetailData
+import com.example.swapit.domain.model.product.detail.ProductDetail
 import com.example.swapit.ui.shopping.model.calculateTime
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray4
@@ -35,7 +35,7 @@ import com.example.swapit.ui.theme.Typography
 import java.text.DecimalFormat
 
 @Composable
-fun ProductContentSection(shoppingDetailData: ShoppingDetailData) {
+fun ProductContentSection(shoppingDetailData: ProductDetail) {
     TitleSection(shoppingDetailData)
     PriceSection(shoppingDetailData)
     UserInfoSection(shoppingDetailData)
@@ -43,7 +43,7 @@ fun ProductContentSection(shoppingDetailData: ShoppingDetailData) {
 }
 
 @Composable
-fun TitleSection(shoppingDetailData: ShoppingDetailData) {
+fun TitleSection(shoppingDetailData: ProductDetail) {
     val convertTime = calculateTime(shoppingDetailData.createdAt)
     Text(
         "${CategoryOption.entries.find { it.name == shoppingDetailData.category}?.option} | " +
@@ -82,7 +82,7 @@ fun TitleSection(shoppingDetailData: ShoppingDetailData) {
 }
 
 @Composable
-fun PriceSection(shoppingDetailData: ShoppingDetailData) {
+fun PriceSection(shoppingDetailData: ProductDetail) {
     val decimal = DecimalFormat(stringResource(R.string.decimal_format))
     HorizontalDivider(
         thickness = 1.dp,
@@ -108,7 +108,7 @@ fun PriceSection(shoppingDetailData: ShoppingDetailData) {
 }
 
 @Composable
-fun UserInfoSection(shoppingDetailData: ShoppingDetailData) {
+fun UserInfoSection(shoppingDetailData: ProductDetail) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Spacer(modifier = Modifier.size(Paddings.xlarge))
         AsyncImage(
@@ -159,7 +159,7 @@ fun UserInfoSection(shoppingDetailData: ShoppingDetailData) {
 }
 
 @Composable
-fun DecriptionSection(shoppingDetailData: ShoppingDetailData) {
+fun DecriptionSection(shoppingDetailData: ProductDetail) {
     HorizontalDivider(
         thickness = 10.dp,
         color = Gray6,
