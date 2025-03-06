@@ -69,7 +69,7 @@ class UserInfoViewModel(
         }
     }
 
-    fun resetSaveCompleted()  {
+    fun resetSaveCompleted() {
         _saveCompleted.value = false
     }
 
