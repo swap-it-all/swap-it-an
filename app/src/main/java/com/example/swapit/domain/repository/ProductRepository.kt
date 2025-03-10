@@ -8,9 +8,12 @@ import com.example.swapit.data.datasource.remote.ServiceModule
 import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
 import com.example.swapit.data.datasource.remote.dto.response.product.ProductResponse
 import com.example.swapit.data.datasource.remote.dto.response.product.detail.ProductDetailResponse
+import com.example.swapit.data.datasource.remote.dto.response.product.detail.slelect.ProductSelectResponse
+import com.example.swapit.data.datasource.remote.dto.response.product.detail.slelect.ProductSelectResultResponse
 import com.example.swapit.data.repository.DefaultProductRepository
 import com.example.swapit.domain.model.product.Product
 import com.example.swapit.domain.model.product.ProductResults
+import com.example.swapit.domain.model.product.detail.select.ProductSelect
 
 interface ProductRepository {
     suspend fun postProduct(
@@ -27,9 +30,13 @@ interface ProductRepository {
         images: List<Uri>,
     ): BaseResponse<Unit>
 
-    suspend fun myProductSelectResults(): List<Product>
+    suspend fun myOnSaleProductSelectResults(): List<ProductSelect>
 
-    suspend fun myProductSelectResponse(): BaseResponse<List<ProductResponse>>
+    suspend fun myOnSaleProductSelectResponse(): BaseResponse<ProductSelectResultResponse>
+
+    suspend fun mySoldOutProductSelectResults(): List<ProductSelect>
+
+    suspend fun mySoldOutProductSelectResponse(): BaseResponse<ProductSelectResultResponse>
 
     suspend fun productDetailResults(goodsId: String): ProductDetailResponse
 

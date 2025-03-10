@@ -15,10 +15,10 @@ fun ProductListSection(
 ) {
     LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
         itemsIndexed(
-            items = myProductSelectionViewModel.products,
+            items = myProductSelectionViewModel.onSaleProducts,
             key = { _, item -> item.goodsId },
         ) { _, item ->
-            ShoppingCard(item) {
+            MyProductCard(item) {
                 swapViewModel.openDialog(item.goodsId)
             }
             DialogSection(

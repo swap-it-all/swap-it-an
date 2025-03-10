@@ -5,6 +5,8 @@ import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
 import com.example.swapit.data.datasource.remote.dto.response.product.ProductResponse
 import com.example.swapit.data.datasource.remote.dto.response.product.ProductResultResponse
 import com.example.swapit.data.datasource.remote.dto.response.product.detail.ProductDetailResponse
+import com.example.swapit.data.datasource.remote.dto.response.product.detail.slelect.ProductSelectResponse
+import com.example.swapit.data.datasource.remote.dto.response.product.detail.slelect.ProductSelectResultResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -27,8 +29,11 @@ interface ProductService {
         @Part images: List<MultipartBody.Part>,
     ): BaseResponse<Unit>
 
-    @GET("/api/user/goods/my")
-    suspend fun myProductList(): BaseResponse<List<ProductResponse>>
+    @GET("/api/user/goods/my/onsale")
+    suspend fun myOnSaleProductList(): BaseResponse<ProductSelectResultResponse>
+
+    @GET("/api/user/goods/my/soldout")
+    suspend fun mySoldOutProductList(): BaseResponse<ProductSelectResultResponse>
 
     @GET("/api/all/goods/{goodsId}")
     suspend fun productDetail(
