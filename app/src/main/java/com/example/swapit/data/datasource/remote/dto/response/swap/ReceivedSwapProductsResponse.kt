@@ -13,3 +13,8 @@ data class ReceivedSwapProductsResponse(
     val createdAt: String,
 )
 
+@Serializable
+data class ReceivedSwapProductsResultResponse(
+    val myGoodsTitle: String,
+    val goodsList: List<ReceivedSwapProductsResponse>,
+)

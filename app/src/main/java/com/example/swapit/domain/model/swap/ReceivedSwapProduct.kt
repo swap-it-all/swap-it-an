@@ -1,6 +1,6 @@
 package com.example.swapit.domain.model.swap
 
-data class ReceivedSwapProducts(
+data class ReceivedSwapProduct(
     val goodsId: Long,
     val title: String,
     val price: Long,

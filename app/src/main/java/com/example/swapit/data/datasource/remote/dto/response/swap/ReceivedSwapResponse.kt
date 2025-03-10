@@ -16,4 +16,7 @@ data class ReceivedSwapResponse(
     val createdAt: String,
 )
 
-
+@Serializable
+data class ReceivedSwapResultResponse(
+    val goodsList: List<ReceivedSwapResponse>,
+)

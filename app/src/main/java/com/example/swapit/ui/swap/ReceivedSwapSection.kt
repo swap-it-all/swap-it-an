@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.swapit.R
+import com.example.swapit.ui.navigation.NavItem
 import com.example.swapit.ui.theme.Paddings
 import com.example.swapit.ui.theme.Typography
 
@@ -25,6 +26,7 @@ import com.example.swapit.ui.theme.Typography
 fun ReceivedSwapSection(
     modifier: Modifier,
     navController: NavHostController,
+    viewModel: SwapViewModel,
 ) {
     Row(
         modifier
@@ -40,7 +42,7 @@ fun ReceivedSwapSection(
         )
         IconButton(
             onClick = {
-                navController.navigateUp()
+                navController.navigate(NavItem.RECEIVED_SWAP)
             },
             modifier = modifier.size(24.dp),
         ) {
@@ -51,8 +53,10 @@ fun ReceivedSwapSection(
         }
     }
     LazyRow {
-        items(10) {
-            SwapCard(swapCardData = swapCardData)
+        items(viewModel.receivedSwap.value.size,
+            key = { index -> viewModel.receivedSwap.value[index].goodsId }) { index ->
+            val receivedSwap = viewModel.receivedSwap.value[index]
+            ReceivedSwapCard(receivedSwap = receivedSwap, navController = navController)
         }
     }
 }
