@@ -6,20 +6,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.swapit.domain.model.product.Product
+import com.example.swapit.domain.model.product.detail.select.ProductSelect
 import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
 
 class MyProductSelectViewModel(repository: ProductRepository) : ViewModel() {
-    private val _products = mutableStateOf<List<Product>>(emptyList())
-    val products: List<Product> get() = _products.value
+    private val _onSaleProducts = mutableStateOf<List<ProductSelect>>(emptyList())
+    val onSaleProducts: List<ProductSelect> get() = _onSaleProducts.value
+    private val _soldOutProducts = mutableStateOf<List<ProductSelect>>(emptyList())
+    val soldOutProducts: List<ProductSelect> get() = _soldOutProducts.value
 
     init {
         viewModelScope.launch {
-            val response = repository.myProductSelectResponse()
-            if (response.success) {
+            val onSaleResponse = repository.myOnSaleProductSelectResponse()
+            val soldOutResponse = repository.mySoldOutProductSelectResponse()
+            if (onSaleResponse.success && soldOutResponse.success) {
                 Log.d(TAG, "상품 조회 성공")
-                _products.value = repository.myProductSelectResults()
+                _onSaleProducts.value = repository.myOnSaleProductSelectResults()
+                _soldOutProducts.value = repository.mySoldOutProductSelectResults()
             } else {
                 Log.e(TAG, "상품 조회 실패")
             }
