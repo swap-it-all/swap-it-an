@@ -12,6 +12,14 @@ import com.example.swapit.domain.model.swap.SentSwap
 interface SwapRepository {
     suspend fun swapRequest(swapRequest: SwapRequest): BaseResponse<Long>
 
+    suspend fun swapCancel(tradesId: Long): BaseResponse<Unit>
+
+    suspend fun swapAccept(tradesId: Long): BaseResponse<Unit>
+
+    suspend fun swapReject(tradesId: Long): BaseResponse<Unit>
+
+    suspend fun swapComplete(tradesId: Long): BaseResponse<Unit>
+
     suspend fun receivedSwap(): List<ReceivedSwap>
 
     suspend fun receivedSwapProductsResult(goodsId: Long): ReceivedSwapProductsResult

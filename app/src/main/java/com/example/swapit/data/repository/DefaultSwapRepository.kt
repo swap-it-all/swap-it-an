@@ -17,8 +17,24 @@ class DefaultSwapRepository(
         return remoteSource.swapRequest(swapRequest)
     }
 
+    override suspend fun swapCancel(tradesId: Long): BaseResponse<Unit> {
+        return remoteSource.swapCancel(tradesId)
+    }
+
+    override suspend fun swapAccept(tradesId: Long): BaseResponse<Unit> {
+        return remoteSource.swapAccept(tradesId)
+    }
+
+    override suspend fun swapReject(tradesId: Long): BaseResponse<Unit> {
+        return remoteSource.swapReject(tradesId)
+    }
+
+    override suspend fun swapComplete(tradesId: Long): BaseResponse<Unit> {
+        return remoteSource.swapComplete(tradesId)
+    }
+
     override suspend fun receivedSwap(): List<ReceivedSwap> {
-        if (remoteSource.receivedSwap().success){
+        if (remoteSource.receivedSwap().success) {
             Log.d("SwapRepository", "Received swap success")
         } else {
             Log.e("SwapRepository", "Received swap failed")
@@ -27,7 +43,7 @@ class DefaultSwapRepository(
     }
 
     override suspend fun receivedSwapProductsResult(goodsId: Long): ReceivedSwapProductsResult {
-        if (remoteSource.receivedSwapProductsResult(goodsId).success){
+        if (remoteSource.receivedSwapProductsResult(goodsId).success) {
             Log.d("SwapRepository", "Received swap products result success")
         } else {
             Log.e("SwapRepository", "Received swap products result failed")
@@ -36,7 +52,7 @@ class DefaultSwapRepository(
     }
 
     override suspend fun sentSwap(): List<SentSwap> {
-        if (remoteSource.sentSwap().success){
+        if (remoteSource.sentSwap().success) {
             Log.d("SwapRepository", "Sent swap success")
         } else {
             Log.e("SwapRepository", "Sent swap failed")

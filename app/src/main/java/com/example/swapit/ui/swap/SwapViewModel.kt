@@ -40,6 +40,30 @@ class SwapViewModel(private val repository: SwapRepository) : ViewModel() {
             }
     }
 
+    fun swapCancel(tradesId: Long) {
+        viewModelScope.launch {
+            repository.swapCancel(tradesId)
+        }
+    }
+
+    fun swapAccept(tradesId: Long) {
+        viewModelScope.launch {
+            repository.swapAccept(tradesId)
+        }
+    }
+
+    fun swapReject(tradesId: Long) {
+        viewModelScope.launch {
+            repository.swapReject(tradesId)
+        }
+    }
+
+    fun swapComplete(tradesId: Long) {
+        viewModelScope.launch {
+            repository.swapComplete(tradesId)
+        }
+    }
+
     fun fetchReceivedSwap() {
         viewModelScope.launch {
             receivedSwap.value = repository.receivedSwap()
