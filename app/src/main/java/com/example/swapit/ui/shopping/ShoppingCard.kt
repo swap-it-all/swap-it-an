@@ -154,17 +154,6 @@ fun ShoppingCard(
     }
 }
 
-val productCardData =
-    ShoppingCardData(
-        imageUri = "https://static.nike.com/a/images",
-        category = "가방",
-        viewCount = "100",
-        region = "강서구",
-        time = "1일전",
-        price = 1000000,
-        title = "나이키 운동화",
-        goodsId = 1,
-    )
 
 @Preview(showBackground = true)
 @Composable

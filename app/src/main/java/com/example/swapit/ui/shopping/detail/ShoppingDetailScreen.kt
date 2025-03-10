@@ -28,12 +28,12 @@ fun ShoppingDetailScreen(
 ) {
     Box(modifier.fillMaxSize()) {
         DetailContent(navController, shoppingDetailViewModel.detailContents)
-        if (myProductSelectViewModel.products.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null) {
+        if (myProductSelectViewModel.onSaleProducts.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null && myProductSelectViewModel.soldOutProducts.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null) {
             Row(
                 modifier =
-                    Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(Paddings.xlarge, 40.dp),
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(Paddings.xlarge, 40.dp),
             ) {
                 BottomButtonSection(navController, viewModel = shoppingDetailViewModel)
             }
