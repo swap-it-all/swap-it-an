@@ -5,11 +5,14 @@ import com.example.swapit.data.datasource.remote.dto.response.product.ProductRes
 import com.example.swapit.data.datasource.remote.dto.response.product.detail.ProductDetailImageResponse
 import com.example.swapit.data.datasource.remote.dto.response.product.detail.ProductDetailResponse
 import com.example.swapit.data.datasource.remote.dto.response.product.detail.ProductDetailUserResponse
+import com.example.swapit.data.datasource.remote.dto.response.product.detail.slelect.ProductSelectResponse
+import com.example.swapit.data.datasource.remote.dto.response.product.detail.slelect.ProductSelectResultResponse
 import com.example.swapit.domain.model.product.Product
 import com.example.swapit.domain.model.product.ProductResults
 import com.example.swapit.domain.model.product.detail.ProductDetail
 import com.example.swapit.domain.model.product.detail.ProductDetailImage
 import com.example.swapit.domain.model.product.detail.ProductDetailUser
+import com.example.swapit.domain.model.product.detail.select.ProductSelect
 
 fun ProductResponse.toDomain(): Product {
     return Product(
@@ -63,5 +66,19 @@ fun ProductDetailImageResponse.toDomain(): ProductDetailImage {
     return ProductDetailImage(
         imagesId = this.imagesId,
         imageUrl = this.imageUrl,
+    )
+}
+
+fun ProductSelectResponse.toDomain(): ProductSelect {
+    return ProductSelect(
+        goodsId = this.goodsId,
+        title = this.title,
+        price = this.price,
+        category = this.category,
+        goodTradeStatus = this.goodTradeStatus,
+        imageUrl = this.imageUrl,
+        placeName = this.placeName,
+        viewCount = this.viewCount,
+        createdAt = this.createdAt,
     )
 }
