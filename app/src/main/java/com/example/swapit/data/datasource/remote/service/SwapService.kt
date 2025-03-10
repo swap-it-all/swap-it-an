@@ -4,7 +4,9 @@ import com.example.swapit.data.datasource.remote.dto.request.swap.SwapRequest
 import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
 import com.example.swapit.data.datasource.remote.dto.response.swap.ReceivedSwapProductsResultResponse
 import com.example.swapit.data.datasource.remote.dto.response.swap.ReceivedSwapResponse
+import com.example.swapit.data.datasource.remote.dto.response.swap.ReceivedSwapResultResponse
 import com.example.swapit.data.datasource.remote.dto.response.swap.SentSwapResponse
+import com.example.swapit.data.datasource.remote.dto.response.swap.SentSwapResultResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -17,7 +19,7 @@ interface SwapService {
     ): BaseResponse<Long>
 
     @GET("api/user/swap/my-goods")
-    suspend fun receivedSwap(): BaseResponse<ReceivedSwapResponse>
+    suspend fun receivedSwap(): BaseResponse<ReceivedSwapResultResponse>
 
     @GET("api/user/swap/my-goods/{goodsId}/requests")
     suspend fun receivedSwapProductsResult(
@@ -25,5 +27,5 @@ interface SwapService {
     ): BaseResponse<ReceivedSwapProductsResultResponse>
 
     @GET("api/user/swap/my-requests")
-    suspend fun sentSwap(): BaseResponse<SentSwapResponse>
+    suspend fun sentSwap(): BaseResponse<SentSwapResultResponse>
 }

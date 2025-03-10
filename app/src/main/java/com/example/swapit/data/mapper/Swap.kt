@@ -5,12 +5,12 @@ import com.example.swapit.data.datasource.remote.dto.response.swap.ReceivedSwapP
 import com.example.swapit.data.datasource.remote.dto.response.swap.ReceivedSwapResponse
 import com.example.swapit.data.datasource.remote.dto.response.swap.SentSwapResponse
 import com.example.swapit.domain.model.swap.ReceivedSwap
-import com.example.swapit.domain.model.swap.ReceivedSwapProducts
+import com.example.swapit.domain.model.swap.ReceivedSwapProduct
 import com.example.swapit.domain.model.swap.ReceivedSwapProductsResult
 import com.example.swapit.domain.model.swap.SentSwap
 
-fun ReceivedSwapProductsResponse.toDomain(): ReceivedSwapProducts {
-    return ReceivedSwapProducts(
+fun ReceivedSwapProductsResponse.toDomain(): ReceivedSwapProduct {
+    return ReceivedSwapProduct(
         goodsId = this.goodsId,
         title = this.title,
         price = this.price,
@@ -45,6 +45,7 @@ fun ReceivedSwapResponse.toDomain(): ReceivedSwap {
 
 fun SentSwapResponse.toDomain(): SentSwap {
     return SentSwap(
+        tradesId = this.tradesId,
         goodsId = this.goodsId,
         title = this.title,
         price = this.price,

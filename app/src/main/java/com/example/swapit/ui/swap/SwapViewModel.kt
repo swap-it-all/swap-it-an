@@ -8,6 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.swapit.data.datasource.remote.dto.request.swap.SwapRequest
+import com.example.swapit.data.mapper.toDomain
+import com.example.swapit.domain.model.swap.ReceivedSwap
+import com.example.swapit.domain.model.swap.ReceivedSwapProduct
+import com.example.swapit.domain.model.swap.SentSwap
 import com.example.swapit.domain.repository.SwapRepository
 import com.example.swapit.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
@@ -17,6 +21,10 @@ class SwapViewModel(private val repository: SwapRepository) : ViewModel() {
     val targetProductId = mutableLongStateOf(0)
     private val _dialogStates = mutableStateOf(mutableMapOf<Long, Boolean>())
     val dialogStates: MutableState<MutableMap<Long, Boolean>> = _dialogStates
+    var receivedSwap = mutableStateOf(emptyList<ReceivedSwap>())
+    var sentSwap = mutableStateOf(emptyList<SentSwap>())
+    var receivedSwapProductsResult = mutableStateOf(emptyList<ReceivedSwapProduct>())
+    var myGoodsTitle = mutableStateOf("")
 
     fun openDialog(goodsId: Long) {
         _dialogStates.value =
@@ -32,6 +40,25 @@ class SwapViewModel(private val repository: SwapRepository) : ViewModel() {
             }
     }
 
+    fun fetchReceivedSwap() {
+        viewModelScope.launch {
+            receivedSwap.value = repository.receivedSwap()
+        }
+    }
+
+    fun fetchReceivedSwapProductsResult(goodsId: Long) {
+        viewModelScope.launch {
+            myGoodsTitle.value = repository.receivedSwapProductsResult(goodsId).myGoodsTitle
+            receivedSwapProductsResult.value = repository.receivedSwapProductsResult(goodsId).goodsList.map {it.toDomain()}
+        }
+    }
+
+    fun fetchSentSwap() {
+        viewModelScope.launch {
+            sentSwap.value = repository.sentSwap()
+        }
+    }
+
     fun swapRequest() {
         Log.d(TAG, "거래 시작")
         viewModelScope.launch {
@@ -39,7 +66,7 @@ class SwapViewModel(private val repository: SwapRepository) : ViewModel() {
                 Log.e(TAG, "ID값 누락")
                 return@launch
             }
-            val response =
+            val request =
                 repository.swapRequest(
                     swapRequest =
                         SwapRequest(
@@ -47,7 +74,7 @@ class SwapViewModel(private val repository: SwapRepository) : ViewModel() {
                             targetGoodsId = targetProductId.longValue,
                         ),
                 )
-            if (response.success) {
+            if (request.success) {
                 Log.d(TAG, "거래 성공")
             } else {
                 Log.e(TAG, "거래 실패")

@@ -4,19 +4,19 @@ import com.example.swapit.data.datasource.RemoteSwapDataSource
 import com.example.swapit.data.datasource.remote.ServiceModule
 import com.example.swapit.data.datasource.remote.dto.request.swap.SwapRequest
 import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
-import com.example.swapit.data.datasource.remote.dto.response.swap.ReceivedSwapProductsResultResponse
-import com.example.swapit.data.datasource.remote.dto.response.swap.ReceivedSwapResponse
-import com.example.swapit.data.datasource.remote.dto.response.swap.SentSwapResponse
 import com.example.swapit.data.repository.DefaultSwapRepository
+import com.example.swapit.domain.model.swap.ReceivedSwap
+import com.example.swapit.domain.model.swap.ReceivedSwapProductsResult
+import com.example.swapit.domain.model.swap.SentSwap
 
 interface SwapRepository {
     suspend fun swapRequest(swapRequest: SwapRequest): BaseResponse<Long>
 
-    suspend fun receivedSwap(): BaseResponse<ReceivedSwapResponse>
+    suspend fun receivedSwap(): List<ReceivedSwap>
 
-    suspend fun receivedSwapProductsResult(goodsId: Long): BaseResponse<ReceivedSwapProductsResultResponse>
+    suspend fun receivedSwapProductsResult(goodsId: Long): ReceivedSwapProductsResult
 
-    suspend fun sentSwap(): BaseResponse<SentSwapResponse>
+    suspend fun sentSwap(): List<SentSwap>
 
     companion object {
         private var instance: SwapRepository? = null
