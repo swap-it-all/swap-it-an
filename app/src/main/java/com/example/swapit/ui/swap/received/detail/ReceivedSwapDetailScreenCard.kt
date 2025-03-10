@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.swapit.R
@@ -102,8 +103,7 @@ fun ReceivedSwapDetailScreenCard(
                             Paddings.none,
                             Paddings.none,
                             Paddings.small,
-                        )
-                        .weight(1f),
+                        ),
                     text = cardData.title,
                     style = Typography.bodyMedium,
                     maxLines = 1,
@@ -141,4 +141,18 @@ fun ReceivedSwapDetailScreenCard(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ReceivedSwapDetailScreenCardPreview() {
+    ReceivedSwapDetailScreenCard(ReceivedSwapProduct(
+        goodsId = 1,
+        title = "상품명",
+        price = 10000,
+        placeName = "sd",
+        category = "sd",
+        photoUrl = "sd",
+        createdAt = "sd",
+    ))
 }

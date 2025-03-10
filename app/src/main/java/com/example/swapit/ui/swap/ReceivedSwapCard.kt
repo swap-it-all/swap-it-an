@@ -55,7 +55,7 @@ fun ReceivedSwapCard(receivedSwap: ReceivedSwap, navController: NavHostControlle
                 containerColor = White,
             ),
         shape = RoundedCornerShape(20.dp),
-        onClick = {navController.navigate(NavItem.ShoppingDetail.screenRoute+"/${receivedSwap.goodsId}")},
+        onClick = {navController.navigate(NavItem.ReceivedDetailSwap.screenRoute+"/${receivedSwap.goodsId}")},
     ) {
         Column {
             AsyncImage(

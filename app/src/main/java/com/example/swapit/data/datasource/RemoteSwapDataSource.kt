@@ -11,9 +11,19 @@ import com.example.swapit.data.datasource.remote.service.SwapService
 
 class RemoteSwapDataSource(private val swapService: SwapService) {
     suspend fun swapRequest(swapRequest: SwapRequest): BaseResponse<Long> =
-        swapService.swapRequest(
-            swapRequest,
-        )
+        swapService.swapRequest(swapRequest)
+
+    suspend fun swapCancel(tradesId: Long): BaseResponse<Unit> =
+        swapService.swapCancel(tradesId)
+
+    suspend fun swapAccept(tradesId: Long): BaseResponse<Unit> =
+        swapService.swapAccept(tradesId)
+
+    suspend fun swapReject(tradesId: Long): BaseResponse<Unit> =
+        swapService.swapReject(tradesId)
+
+    suspend fun swapComplete(tradesId: Long): BaseResponse<Unit> =
+        swapService.swapComplete(tradesId)
 
     suspend fun receivedSwap(): BaseResponse<ReceivedSwapResultResponse> =
         swapService.receivedSwap()

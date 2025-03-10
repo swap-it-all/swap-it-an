@@ -33,7 +33,7 @@ fun ReceivedSwapDetailScreen(
                 key = { index -> receivedSwapProducts[index].goodsId }) { index ->
                 val receivedSwapProduct = receivedSwapProducts[index]
                 ReceivedSwapDetailScreenCard(cardData = receivedSwapProduct, onClick = {
-                     navController.navigate(NavItem.ReceivedDetailSwap.screenRoute + "/${receivedSwapProduct.goodsId}")
+                     navController.navigate(NavItem.ShoppingDetail.screenRoute + "/${receivedSwapProduct.goodsId}")
                 })
             }
         }

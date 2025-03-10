@@ -53,7 +53,7 @@ fun BottomButtonSection(
 
 @Preview(showBackground = true)
 @Composable
-fun BottomButtonSection() {
+fun BottomButtonSectionPreview() {
     BottomButtonSection(
         rememberNavController(),
         viewModel =
