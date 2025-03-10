@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,11 +23,14 @@ import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.swapit.R
-import com.example.swapit.data.model.SwapCardData
+import com.example.swapit.data.datasource.local.model.post.CategoryOption
+import com.example.swapit.domain.model.swap.SentSwap
+import com.example.swapit.ui.navigation.NavItem
+import com.example.swapit.ui.shopping.model.calculateTime
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray4
 import com.example.swapit.ui.theme.Paddings
@@ -37,61 +39,63 @@ import com.example.swapit.ui.theme.Typography
 import com.example.swapit.ui.theme.White
 import java.text.DecimalFormat
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SwapCard(swapCardData: SwapCardData) {
+fun SentSwapCard(sentSwap: SentSwap, navController: NavHostController) {
     val decimal = DecimalFormat(stringResource(R.string.decimal_format))
+    val convertTime = calculateTime(sentSwap.createdAt)
     Card(
         modifier =
-            Modifier
-                .width(162.dp)
-                .padding(Paddings.smallMedium),
+        Modifier
+            .width(162.dp)
+            .padding(Paddings.smallMedium),
         colors =
-            CardDefaults.cardColors(
-                containerColor = White,
-            ),
+        CardDefaults.cardColors(
+            containerColor = White,
+        ),
         shape = RoundedCornerShape(20.dp),
-        onClick = swapCardData.onClick,
+        onClick = { navController.navigate(NavItem.ShoppingDetail.screenRoute + "/${sentSwap.goodsId}") },
     ) {
         Column {
             AsyncImage(
-                model = swapCardData.imageUri,
+                model = sentSwap.targetGoodsPhotoUrl,
                 contentDescription = stringResource(R.string.president_image_description),
                 modifier =
-                    Modifier
-                        .size(150.dp),
+                Modifier
+                    .size(150.dp),
                 placeholder = ColorPainter(Primary),
                 fallback = rememberVectorPainter(Icons.Default.Call),
                 error = rememberVectorPainter(Icons.Default.Settings),
             )
             Column(modifier = Modifier.padding(Paddings.large)) {
                 Text(
-                    text = "${swapCardData.category} | ${swapCardData.region}",
+                    text = "${
+                        CategoryOption.entries.find { it.name == sentSwap.category }?.option
+                    } | ${sentSwap.placeName}",
                     style = Typography.labelLarge,
                     color = Gray4,
                 )
                 Text(
-                    text = swapCardData.title,
+                    text = sentSwap.title,
                     style = Typography.bodyMedium,
                     maxLines = 1,
                     modifier =
-                        Modifier.padding(
-                            Paddings.none,
-                            Paddings.none,
-                            Paddings.none,
-                            Paddings.small,
-                        ),
+                    Modifier.padding(
+                        Paddings.none,
+                        Paddings.none,
+                        Paddings.none,
+                        Paddings.small,
+                    ),
                 )
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier =
-                        Modifier.padding(
-                            Paddings.none,
-                            Paddings.none,
-                            Paddings.none,
-                            Paddings.large,
-                        ),
+                    Modifier.padding(
+                        Paddings.none,
+                        Paddings.none,
+                        Paddings.none,
+                        Paddings.large,
+                    ),
                 ) {
                     Text(
                         text = stringResource(R.string.prediction),
@@ -99,7 +103,7 @@ fun SwapCard(swapCardData: SwapCardData) {
                         color = Gray3,
                     )
                     Text(
-                        text = decimal.format(swapCardData.price),
+                        text = decimal.format(sentSwap.price),
                         style = Typography.bodyMedium,
                     )
                     Text(
@@ -111,7 +115,7 @@ fun SwapCard(swapCardData: SwapCardData) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         modifier = Modifier.weight(1f),
-                        text = swapCardData.time,
+                        text = convertTime,
                         style = Typography.labelLarge,
                         color = Gray4,
                     )
@@ -123,7 +127,7 @@ fun SwapCard(swapCardData: SwapCardData) {
                     )
                     Spacer(modifier = Modifier.size(Paddings.small))
                     Text(
-                        text = swapCardData.viewCount,
+                        text = sentSwap.targetGoodsViewCount.toString(),
                         style = Typography.labelLarge,
                         color = Gray4,
                     )
@@ -133,21 +137,4 @@ fun SwapCard(swapCardData: SwapCardData) {
     }
 }
 
-val swapCardData =
-    SwapCardData(
-        imageUri = "https://static.nike.com/a/images/c_limit",
-        category = "가방",
-        viewCount = "100",
-        region = "강서구",
-        time = "1일전",
-        price = 230000,
-        title = "나이키 운동화",
-    )
 
-@Preview(showBackground = true)
-@Composable
-fun SwapCardPreview() {
-    SwapCard(
-        swapCardData,
-    )
-}

@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SentSwapResponse(
+    val tradesId: Long,
     val goodsId: Long,
     val title: String,
     val price: Long,
@@ -15,3 +16,7 @@ data class SentSwapResponse(
     val createdAt: String,
 )
 
+@Serializable
+data class SentSwapResultResponse(
+    val goodsList: List<SentSwapResponse>,
+)
