@@ -10,7 +10,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.swapit.R
-import com.example.swapit.ui.component.DefaultButton
 import com.example.swapit.ui.component.ModalButton
 import com.example.swapit.ui.swap.SwapViewModel
 import com.example.swapit.ui.theme.Gray5
@@ -19,7 +18,7 @@ import com.example.swapit.ui.theme.Paddings
 @Composable
 fun ReceivedSwapBottomButtonSection(
     viewModel: ShoppingDetailViewModel,
-    swapViewModel: SwapViewModel
+    swapViewModel: SwapViewModel,
 ) {
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp.dp
@@ -27,10 +26,10 @@ fun ReceivedSwapBottomButtonSection(
     ModalButton(
         text = "스왑 거절하기",
         contentPadding =
-        PaddingValues(
-            horizontal = horizontalPadding.dp,
-            vertical = Paddings.xlarge,
-        ),
+            PaddingValues(
+                horizontal = horizontalPadding.dp,
+                vertical = Paddings.xlarge,
+            ),
         containerColor = Gray5,
     ) {
         swapViewModel.swapReject(viewModel.detailContents.trade!!.tradesId)
@@ -38,10 +37,10 @@ fun ReceivedSwapBottomButtonSection(
     ModalButton(
         text = "스왑 수락하기",
         contentPadding =
-        PaddingValues(
-            horizontal = horizontalPadding.dp,
-            vertical = Paddings.xlarge,
-        ),
+            PaddingValues(
+                horizontal = horizontalPadding.dp,
+                vertical = Paddings.xlarge,
+            ),
         containerColor = Gray5,
     ) {
         swapViewModel.swapAccept(viewModel.detailContents.trade!!.tradesId)
@@ -53,7 +52,7 @@ fun ReceivedSwapBottomButtonSection(
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_chat),
-            contentDescription = "채팅 아이콘"
+            contentDescription = "채팅 아이콘",
         )
     }
 }

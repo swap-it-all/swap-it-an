@@ -53,8 +53,10 @@ fun SentSwapSection(
         }
     }
     LazyRow {
-        items(viewModel.sentSwap.value.size,
-            key = { index -> viewModel.sentSwap.value[index].tradesId }) { index ->
+        items(
+            viewModel.sentSwap.value.size,
+            key = { index -> viewModel.sentSwap.value[index].tradesId },
+        ) { index ->
             val sentSwap = viewModel.sentSwap.value[index]
             SentSwapCard(sentSwap = sentSwap, navController = navController)
         }

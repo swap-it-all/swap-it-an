@@ -2,11 +2,9 @@ package com.example.swapit.ui.shopping.detail
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.swapit.R
@@ -19,7 +17,7 @@ import com.example.swapit.ui.theme.Paddings
 @Composable
 fun AfterSwapBottomButtonSection(
     viewModel: ShoppingDetailViewModel,
-    swapViewModel: SwapViewModel
+    swapViewModel: SwapViewModel,
 ) {
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp.dp
@@ -27,10 +25,10 @@ fun AfterSwapBottomButtonSection(
     ModalButton(
         text = "스왑 요청 취소하기",
         contentPadding =
-        PaddingValues(
-            horizontal = horizontalPadding.dp,
-            vertical = Paddings.xlarge,
-        ),
+            PaddingValues(
+                horizontal = horizontalPadding.dp,
+                vertical = Paddings.xlarge,
+            ),
         containerColor = Gray5,
     ) {
         swapViewModel.swapCancel(viewModel.detailContents.trade!!.tradesId)
@@ -40,11 +38,10 @@ fun AfterSwapBottomButtonSection(
         enabled = true,
         modifier = Modifier.padding(start = Paddings.large),
         contentPadding =
-        PaddingValues(
-            horizontal = horizontalPadding.dp * 2,
-            vertical = Paddings.xlarge,
-        ),
+            PaddingValues(
+                horizontal = horizontalPadding.dp * 2,
+                vertical = Paddings.xlarge,
+            ),
     ) {
     }
 }
-

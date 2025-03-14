@@ -39,7 +39,7 @@ fun ChatRoomAppBar(navController: NavHostController) {
             }
         },
         actions = {
-            MenuButton(navController = navController, color = Black,modifier = Modifier.padding(Paddings.xlarge))
+            MenuButton(navController = navController, color = Black, modifier = Modifier.padding(Paddings.xlarge))
         },
         colors =
             TopAppBarColors(

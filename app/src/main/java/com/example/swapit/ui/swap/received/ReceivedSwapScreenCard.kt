@@ -1,6 +1,5 @@
 package com.example.swapit.ui.swap.received
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
@@ -30,13 +28,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter.State.Empty.painter
 import com.example.swapit.R
-import com.example.swapit.data.datasource.local.model.post.CategoryOption
-import com.example.swapit.data.model.ShoppingCardData
-import com.example.swapit.domain.model.product.Product
 import com.example.swapit.domain.model.swap.ReceivedSwap
-import com.example.swapit.domain.model.swap.SentSwap
-import com.example.swapit.ui.shopping.model.calculateTime
-import com.example.swapit.ui.swap.sent.SentSwapScreenCard
 import com.example.swapit.ui.theme.Black
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray4
@@ -54,13 +46,13 @@ fun ReceivedSwapScreenCard(
     val decimal = DecimalFormat(stringResource(R.string.decimal_format))
     Card(
         modifier =
-        Modifier
-            .fillMaxWidth()
-            .padding(Paddings.xlarge, Paddings.smallMedium),
+            Modifier
+                .fillMaxWidth()
+                .padding(Paddings.xlarge, Paddings.smallMedium),
         colors =
-        CardDefaults.cardColors(
-            containerColor = White,
-        ),
+            CardDefaults.cardColors(
+                containerColor = White,
+            ),
         shape = RoundedCornerShape(20.dp),
         onClick = onClick,
     ) {
@@ -70,9 +62,9 @@ fun ReceivedSwapScreenCard(
                 model = cardData.photoUrl,
                 contentDescription = stringResource(R.string.president_image_description),
                 modifier =
-                Modifier
-                    .size(86.dp)
-                    .clip(RoundedCornerShape(12.dp)),
+                    Modifier
+                        .size(86.dp)
+                        .clip(RoundedCornerShape(12.dp)),
                 placeholder = ColorPainter(Primary),
                 fallback = rememberVectorPainter(Icons.Default.Call),
                 error = rememberVectorPainter(Icons.Default.Settings),
@@ -80,21 +72,21 @@ fun ReceivedSwapScreenCard(
             )
             Column(
                 modifier =
-                Modifier.padding(
-                    Paddings.large,
-                    Paddings.none,
-                    Paddings.none,
-                    Paddings.none,
-                ),
+                    Modifier.padding(
+                        Paddings.large,
+                        Paddings.none,
+                        Paddings.none,
+                        Paddings.none,
+                    ),
             ) {
                 Text(
                     modifier =
-                    Modifier.padding(
-                        Paddings.none,
-                        Paddings.largeExtra,
-                        Paddings.none,
-                        Paddings.xsmall,
-                    ),
+                        Modifier.padding(
+                            Paddings.none,
+                            Paddings.largeExtra,
+                            Paddings.none,
+                            Paddings.xsmall,
+                        ),
                     text = "${cardData.requestCount} 개의 스왑 요청",
                     style = Typography.labelLarge,
                     color = Gray4,
@@ -103,12 +95,12 @@ fun ReceivedSwapScreenCard(
                     if (cardData.inProgressCount.toInt() != 0) {
                         Text(
                             modifier =
-                            Modifier.padding(
-                                Paddings.small,
-                                Paddings.none,
-                                Paddings.small,
-                                Paddings.small,
-                            ),
+                                Modifier.padding(
+                                    Paddings.small,
+                                    Paddings.none,
+                                    Paddings.small,
+                                    Paddings.small,
+                                ),
                             text = "거래중",
                             style = Typography.bodyMedium,
                             color = Primary,
@@ -116,12 +108,12 @@ fun ReceivedSwapScreenCard(
                     }
                     Text(
                         modifier =
-                        Modifier.padding(
-                            Paddings.none,
-                            Paddings.none,
-                            Paddings.none,
-                            Paddings.small,
-                        ).weight(1f),
+                            Modifier.padding(
+                                Paddings.none,
+                                Paddings.none,
+                                Paddings.none,
+                                Paddings.small,
+                            ).weight(1f),
                         text = cardData.title,
                         style = Typography.bodyMedium,
                         maxLines = 1,
@@ -130,17 +122,17 @@ fun ReceivedSwapScreenCard(
                         modifier = Modifier.align(Alignment.CenterVertically),
                         painter = painterResource(R.drawable.ic_chevron_right),
                         contentDescription = "상세 정보 아이콘",
-                        tint = Black
+                        tint = Black,
                     )
                 }
                 Row(
                     modifier =
-                    Modifier.padding(
-                        Paddings.none,
-                        Paddings.none,
-                        Paddings.extra,
-                        Paddings.largeExtra,
-                    ),
+                        Modifier.padding(
+                            Paddings.none,
+                            Paddings.none,
+                            Paddings.extra,
+                            Paddings.largeExtra,
+                        ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Row(
@@ -172,18 +164,19 @@ fun ReceivedSwapScreenCard(
 @Composable
 fun ReceivedSwapScreenCardPreview() {
     ReceivedSwapScreenCard(
-        cardData = ReceivedSwap(
-            goodsId = 1,
-            title = "dd",
-            price = 10000,
-            category = "FOOD",
-            placeName = "dd",
-            viewCount = 1,
-            photoUrl = "dd",
-            requestCount = 1,
-            inProgressCount = 1,
-            createdAt = "dd",
-        ),
-        onClick = {}
+        cardData =
+            ReceivedSwap(
+                goodsId = 1,
+                title = "dd",
+                price = 10000,
+                category = "FOOD",
+                placeName = "dd",
+                viewCount = 1,
+                photoUrl = "dd",
+                requestCount = 1,
+                inProgressCount = 1,
+                createdAt = "dd",
+            ),
+        onClick = {},
     )
 }

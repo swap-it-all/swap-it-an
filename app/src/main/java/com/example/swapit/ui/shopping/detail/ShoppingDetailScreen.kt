@@ -10,11 +10,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.swapit.domain.model.product.detail.ProductDetail
 import com.example.swapit.ui.shopping.detail.select.MyProductSelectViewModel
 import com.example.swapit.ui.swap.SwapViewModel
@@ -26,17 +24,16 @@ fun ShoppingDetailScreen(
     navController: NavHostController,
     shoppingDetailViewModel: ShoppingDetailViewModel,
     myProductSelectViewModel: MyProductSelectViewModel,
-    swapViewModel: SwapViewModel
+    swapViewModel: SwapViewModel,
 ) {
     Box(modifier.fillMaxSize()) {
         DetailContent(navController, shoppingDetailViewModel.detailContents)
         Row(
             modifier =
-            Modifier
-                .align(Alignment.BottomCenter)
-                .padding(Paddings.xlarge, 40.dp),
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(Paddings.xlarge, 40.dp),
         ) {
-
             if (shoppingDetailViewModel.detailContents.trade != null) {
                 if (shoppingDetailViewModel.detailContents.trade!!.isRequester) {
                     AfterSwapBottomButtonSection(shoppingDetailViewModel, swapViewModel)
@@ -45,18 +42,16 @@ fun ShoppingDetailScreen(
                 }
             } else {
                 if (myProductSelectViewModel.onSaleProducts.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null &&
-                    myProductSelectViewModel.soldOutProducts.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null) {
+                    myProductSelectViewModel.soldOutProducts.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null
+                ) {
                     BeforeSwapBottomButtonSection(
                         navController,
-                        viewModel = shoppingDetailViewModel
+                        viewModel = shoppingDetailViewModel,
                     )
                 }
             }
-
-
         }
     }
-
 }
 
 @Composable

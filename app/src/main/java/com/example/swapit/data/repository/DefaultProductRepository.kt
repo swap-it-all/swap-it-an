@@ -8,9 +8,7 @@ import com.example.swapit.data.datasource.RemoteProductDataSource
 import com.example.swapit.data.datasource.local.model.post.QualityOption
 import com.example.swapit.data.datasource.remote.dto.request.product.ProductRequest
 import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
-import com.example.swapit.data.datasource.remote.dto.response.product.ProductResponse
 import com.example.swapit.data.datasource.remote.dto.response.product.detail.ProductDetailResponse
-import com.example.swapit.data.datasource.remote.dto.response.product.detail.slelect.ProductSelectResponse
 import com.example.swapit.data.datasource.remote.dto.response.product.detail.slelect.ProductSelectResultResponse
 import com.example.swapit.data.mapper.toDomain
 import com.example.swapit.domain.model.product.Product

@@ -7,7 +7,6 @@ import com.example.swapit.data.datasource.remote.dto.response.product.detail.Pro
 import com.example.swapit.data.datasource.remote.dto.response.product.detail.ProductDetailTradeResponse
 import com.example.swapit.data.datasource.remote.dto.response.product.detail.ProductDetailUserResponse
 import com.example.swapit.data.datasource.remote.dto.response.product.detail.slelect.ProductSelectResponse
-import com.example.swapit.data.datasource.remote.dto.response.product.detail.slelect.ProductSelectResultResponse
 import com.example.swapit.domain.model.product.Product
 import com.example.swapit.domain.model.product.ProductResults
 import com.example.swapit.domain.model.product.detail.ProductDetail
