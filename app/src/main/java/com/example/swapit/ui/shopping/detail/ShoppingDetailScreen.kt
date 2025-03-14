@@ -30,26 +30,33 @@ fun ShoppingDetailScreen(
 ) {
     Box(modifier.fillMaxSize()) {
         DetailContent(navController, shoppingDetailViewModel.detailContents)
-        if (myProductSelectViewModel.onSaleProducts.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null && myProductSelectViewModel.soldOutProducts.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null) {
-            Row(
-                modifier =
-                Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(Paddings.xlarge, 40.dp),
-            ) {
-                if (shoppingDetailViewModel.detailContents.trade != null){
-                    if (shoppingDetailViewModel.detailContents.trade!!.isRequester){
-                        AfterSwapBottomButtonSection(shoppingDetailViewModel,swapViewModel)
-                    } else {
+        Row(
+            modifier =
+            Modifier
+                .align(Alignment.BottomCenter)
+                .padding(Paddings.xlarge, 40.dp),
+        ) {
 
-                    }
+            if (shoppingDetailViewModel.detailContents.trade != null) {
+                if (shoppingDetailViewModel.detailContents.trade!!.isRequester) {
+                    AfterSwapBottomButtonSection(shoppingDetailViewModel, swapViewModel)
                 } else {
-                    BeforeSwapBottomButtonSection(navController, viewModel = shoppingDetailViewModel)
+                    ReceivedSwapBottomButtonSection(shoppingDetailViewModel, swapViewModel)
                 }
-
+            } else {
+                if (myProductSelectViewModel.onSaleProducts.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null &&
+                    myProductSelectViewModel.soldOutProducts.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null) {
+                    BeforeSwapBottomButtonSection(
+                        navController,
+                        viewModel = shoppingDetailViewModel
+                    )
+                }
             }
+
+
         }
     }
+
 }
 
 @Composable

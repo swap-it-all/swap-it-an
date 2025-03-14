@@ -3,11 +3,11 @@ package com.example.swapit.ui.shopping.detail
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.swapit.R
 import com.example.swapit.ui.component.DefaultButton
@@ -17,7 +17,7 @@ import com.example.swapit.ui.theme.Gray5
 import com.example.swapit.ui.theme.Paddings
 
 @Composable
-fun AfterSwapBottomButtonSection(
+fun ReceivedSwapBottomButtonSection(
     viewModel: ShoppingDetailViewModel,
     swapViewModel: SwapViewModel
 ) {
@@ -25,7 +25,7 @@ fun AfterSwapBottomButtonSection(
     val screenWidthDp = configuration.screenWidthDp.dp
     val horizontalPadding = screenWidthDp.value / 20
     ModalButton(
-        text = "스왑 요청 취소하기",
+        text = "스왑 거절하기",
         contentPadding =
         PaddingValues(
             horizontal = horizontalPadding.dp,
@@ -33,18 +33,27 @@ fun AfterSwapBottomButtonSection(
         ),
         containerColor = Gray5,
     ) {
-        swapViewModel.swapCancel(viewModel.detailContents.trade!!.tradesId)
+        swapViewModel.swapReject(viewModel.detailContents.trade!!.tradesId)
     }
-    DefaultButton(
-        text = stringResource(R.string.shopping_detail_chat_bottom_button),
-        enabled = true,
-        modifier = Modifier.padding(start = Paddings.large),
+    ModalButton(
+        text = "스왑 수락하기",
         contentPadding =
         PaddingValues(
-            horizontal = horizontalPadding.dp * 2,
+            horizontal = horizontalPadding.dp,
             vertical = Paddings.xlarge,
         ),
+        containerColor = Gray5,
     ) {
+        swapViewModel.swapAccept(viewModel.detailContents.trade!!.tradesId)
+    }
+    TextButton(
+        onClick = {},
+        enabled = true,
+        modifier = Modifier.padding(start = Paddings.large),
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_chat),
+            contentDescription = "채팅 아이콘"
+        )
     }
 }
-
