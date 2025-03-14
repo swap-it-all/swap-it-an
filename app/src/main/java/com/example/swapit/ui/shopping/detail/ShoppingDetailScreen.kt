@@ -16,6 +16,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.swapit.domain.model.product.detail.ProductDetail
+import com.example.swapit.ui.chat.ChatViewModel
 import com.example.swapit.ui.shopping.detail.select.MyProductSelectViewModel
 import com.example.swapit.ui.theme.Paddings
 
@@ -25,6 +26,7 @@ fun ShoppingDetailScreen(
     navController: NavHostController,
     shoppingDetailViewModel: ShoppingDetailViewModel,
     myProductSelectViewModel: MyProductSelectViewModel,
+    chatViewModel: ChatViewModel,
 ) {
     Box(modifier.fillMaxSize()) {
         DetailContent(navController, shoppingDetailViewModel.detailContents)
@@ -35,7 +37,7 @@ fun ShoppingDetailScreen(
                     .align(Alignment.BottomCenter)
                     .padding(Paddings.xlarge, 40.dp),
             ) {
-                BottomButtonSection(navController, viewModel = shoppingDetailViewModel)
+                BottomButtonSection(navController, shoppingDetailViewModel = shoppingDetailViewModel,chatViewModel)
             }
         }
     }
@@ -59,5 +61,6 @@ fun ShoppingDetailScreenPreview() {
         navController = rememberNavController(),
         shoppingDetailViewModel = viewModel<ShoppingDetailViewModel>(),
         myProductSelectViewModel = viewModel<MyProductSelectViewModel>(),
+        chatViewModel = viewModel<ChatViewModel>(),
     )
 }

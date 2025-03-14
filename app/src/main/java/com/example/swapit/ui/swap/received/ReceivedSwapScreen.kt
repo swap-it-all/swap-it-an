@@ -18,7 +18,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import com.example.swapit.domain.model.swap.ReceivedSwap
-import com.example.swapit.ui.chat._chatCardData
 import com.example.swapit.ui.component.BackButton
 import com.example.swapit.ui.navigation.NavItem
 import com.example.swapit.ui.swap.ReceivedSwapCard

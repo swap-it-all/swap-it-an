@@ -31,7 +31,6 @@ import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter.State.Empty.painter
 import com.example.swapit.R
 import com.example.swapit.data.datasource.local.model.post.CategoryOption
-import com.example.swapit.data.model.ShoppingCardData
 import com.example.swapit.domain.model.product.Product
 import com.example.swapit.domain.model.swap.ReceivedSwap
 import com.example.swapit.domain.model.swap.SentSwap
