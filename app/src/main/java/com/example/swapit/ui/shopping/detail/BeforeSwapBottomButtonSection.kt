@@ -16,11 +16,12 @@ import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.ui.component.DefaultButton
 import com.example.swapit.ui.component.ModalButton
 import com.example.swapit.ui.navigation.NavItem
+import com.example.swapit.ui.swap.SwapViewModel
 import com.example.swapit.ui.theme.Gray5
 import com.example.swapit.ui.theme.Paddings
 
 @Composable
-fun BottomButtonSection(
+fun BeforeSwapBottomButtonSection(
     navController: NavHostController,
     viewModel: ShoppingDetailViewModel,
 ) {
@@ -54,7 +55,7 @@ fun BottomButtonSection(
 @Preview(showBackground = true)
 @Composable
 fun BottomButtonSectionPreview() {
-    BottomButtonSection(
+    BeforeSwapBottomButtonSection(
         rememberNavController(),
         viewModel =
             ShoppingDetailViewModel(

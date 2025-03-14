@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class ShoppingDetailViewModel(repository: ProductRepository, private val _goodsId: String) : ViewModel() {
     val goodsId: String get() = _goodsId
     private val shoppingDetailContents =
-        mutableStateOf<ProductDetail>(
+        mutableStateOf(
             ProductDetail(
                 goodsId = 0,
                 user = ProductDetailUser(userId = 1, nickname = "", profileImageUrl = "", userRating = 1.1),
@@ -27,6 +27,7 @@ class ShoppingDetailViewModel(repository: ProductRepository, private val _goodsI
                 placeName = "",
                 viewCount = 0,
                 imageUri = emptyList(),
+                trade = null,
                 createdAt = "",
             ),
         )

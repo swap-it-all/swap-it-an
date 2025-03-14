@@ -12,5 +12,6 @@ data class ProductDetail(
     val placeName: String,
     val viewCount: Long,
     val imageUri: List<ProductDetailImage>,
+    val trade: ProductDetailTrade?,
     val createdAt: String,
 )

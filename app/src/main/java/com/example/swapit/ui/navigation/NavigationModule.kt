@@ -172,6 +172,7 @@ class NavigationModule {
                             ProductRepository.instance(LocalContext.current),
                         ),
                     ),
+                    swapViewModel = swapViewModel
                 )
             }
             composable(

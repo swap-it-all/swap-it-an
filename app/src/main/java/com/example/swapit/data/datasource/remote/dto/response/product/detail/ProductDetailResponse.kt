@@ -15,5 +15,6 @@ data class ProductDetailResponse(
     val placeName: String,
     val viewCount: Long,
     val images: List<ProductDetailImageResponse>,
+    val trade: ProductDetailTradeResponse?,
     val createdAt: String,
 )
