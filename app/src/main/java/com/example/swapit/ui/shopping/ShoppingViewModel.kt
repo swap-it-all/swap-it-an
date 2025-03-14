@@ -56,7 +56,6 @@ class ShoppingViewModel(private val repository: ProductRepository) : ViewModel()
         }
     }
 
-
     var bottomSheet = mutableStateOf(false)
 
     fun dismissBottomSheet() {

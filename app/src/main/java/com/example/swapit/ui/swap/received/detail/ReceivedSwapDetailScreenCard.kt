@@ -12,7 +12,6 @@ import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,7 +20,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,7 +28,6 @@ import com.example.swapit.R
 import com.example.swapit.data.datasource.local.model.post.CategoryOption
 import com.example.swapit.domain.model.swap.ReceivedSwapProduct
 import com.example.swapit.ui.shopping.model.calculateTime
-import com.example.swapit.ui.theme.Black
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray4
 import com.example.swapit.ui.theme.Paddings
@@ -48,13 +45,13 @@ fun ReceivedSwapDetailScreenCard(
     val convertTime = calculateTime(cardData.createdAt)
     Card(
         modifier =
-        Modifier
-            .fillMaxWidth()
-            .padding(Paddings.xlarge, Paddings.smallMedium),
+            Modifier
+                .fillMaxWidth()
+                .padding(Paddings.xlarge, Paddings.smallMedium),
         colors =
-        CardDefaults.cardColors(
-            containerColor = White,
-        ),
+            CardDefaults.cardColors(
+                containerColor = White,
+            ),
         shape = RoundedCornerShape(20.dp),
         onClick = onClick,
     ) {
@@ -64,9 +61,9 @@ fun ReceivedSwapDetailScreenCard(
                 model = cardData.photoUrl,
                 contentDescription = stringResource(R.string.president_image_description),
                 modifier =
-                Modifier
-                    .size(86.dp)
-                    .clip(RoundedCornerShape(12.dp)),
+                    Modifier
+                        .size(86.dp)
+                        .clip(RoundedCornerShape(12.dp)),
                 placeholder = ColorPainter(Primary),
                 fallback = rememberVectorPainter(Icons.Default.Call),
                 error = rememberVectorPainter(Icons.Default.Settings),
@@ -74,22 +71,23 @@ fun ReceivedSwapDetailScreenCard(
             )
             Column(
                 modifier =
-                Modifier.padding(
-                    Paddings.large,
-                    Paddings.none,
-                    Paddings.none,
-                    Paddings.none,
-                ),
+                    Modifier.padding(
+                        Paddings.large,
+                        Paddings.none,
+                        Paddings.none,
+                        Paddings.none,
+                    ),
             ) {
                 Text(
                     modifier =
-                    Modifier.padding(
-                        Paddings.none,
-                        Paddings.largeExtra,
-                        Paddings.none,
-                        Paddings.xsmall,
-                    ),
-                    text = "${CategoryOption.entries.find { it.name == cardData.category }?.option} | " +
+                        Modifier.padding(
+                            Paddings.none,
+                            Paddings.largeExtra,
+                            Paddings.none,
+                            Paddings.xsmall,
+                        ),
+                    text =
+                        "${CategoryOption.entries.find { it.name == cardData.category }?.option} | " +
                             "${cardData.placeName} | " +
                             convertTime,
                     style = Typography.labelLarge,
@@ -97,25 +95,25 @@ fun ReceivedSwapDetailScreenCard(
                 )
                 Text(
                     modifier =
-                    Modifier
-                        .padding(
-                            Paddings.none,
-                            Paddings.none,
-                            Paddings.none,
-                            Paddings.small,
-                        ),
+                        Modifier
+                            .padding(
+                                Paddings.none,
+                                Paddings.none,
+                                Paddings.none,
+                                Paddings.small,
+                            ),
                     text = cardData.title,
                     style = Typography.bodyMedium,
                     maxLines = 1,
                 )
                 Row(
                     modifier =
-                    Modifier.padding(
-                        Paddings.none,
-                        Paddings.none,
-                        Paddings.extra,
-                        Paddings.largeExtra,
-                    ),
+                        Modifier.padding(
+                            Paddings.none,
+                            Paddings.none,
+                            Paddings.extra,
+                            Paddings.largeExtra,
+                        ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Row(
@@ -146,13 +144,15 @@ fun ReceivedSwapDetailScreenCard(
 @Preview(showBackground = true)
 @Composable
 fun ReceivedSwapDetailScreenCardPreview() {
-    ReceivedSwapDetailScreenCard(ReceivedSwapProduct(
-        goodsId = 1,
-        title = "상품명",
-        price = 10000,
-        placeName = "sd",
-        category = "sd",
-        photoUrl = "sd",
-        createdAt = "sd",
-    ))
+    ReceivedSwapDetailScreenCard(
+        ReceivedSwapProduct(
+            goodsId = 1,
+            title = "상품명",
+            price = 10000,
+            placeName = "sd",
+            category = "sd",
+            photoUrl = "sd",
+            createdAt = "sd",
+        ),
+    )
 }

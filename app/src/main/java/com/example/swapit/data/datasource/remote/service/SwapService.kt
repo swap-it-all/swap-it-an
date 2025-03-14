@@ -3,9 +3,7 @@ package com.example.swapit.data.datasource.remote.service
 import com.example.swapit.data.datasource.remote.dto.request.swap.SwapRequest
 import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
 import com.example.swapit.data.datasource.remote.dto.response.swap.ReceivedSwapProductsResultResponse
-import com.example.swapit.data.datasource.remote.dto.response.swap.ReceivedSwapResponse
 import com.example.swapit.data.datasource.remote.dto.response.swap.ReceivedSwapResultResponse
-import com.example.swapit.data.datasource.remote.dto.response.swap.SentSwapResponse
 import com.example.swapit.data.datasource.remote.dto.response.swap.SentSwapResultResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE

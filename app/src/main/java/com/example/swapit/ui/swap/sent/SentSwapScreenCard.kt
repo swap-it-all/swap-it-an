@@ -22,17 +22,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
 import com.example.swapit.R
 import com.example.swapit.data.datasource.local.model.post.CategoryOption
 import com.example.swapit.domain.model.swap.SentSwap
-import com.example.swapit.ui.navigation.NavItem
-import com.example.swapit.ui.swap.SentSwapCard
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray4
 import com.example.swapit.ui.theme.Paddings
@@ -48,13 +44,13 @@ fun SentSwapScreenCard(
     val decimal = DecimalFormat(stringResource(R.string.decimal_format))
     Card(
         modifier =
-        Modifier
-            .fillMaxWidth()
-            .padding(Paddings.xlarge, Paddings.smallMedium),
+            Modifier
+                .fillMaxWidth()
+                .padding(Paddings.xlarge, Paddings.smallMedium),
         colors =
-        CardDefaults.cardColors(
-            containerColor = White,
-        ),
+            CardDefaults.cardColors(
+                containerColor = White,
+            ),
         shape = RoundedCornerShape(20.dp),
         onClick = onClick,
     ) {
@@ -66,10 +62,10 @@ fun SentSwapScreenCard(
                     model = cardData.myGoodsPhotoUrl,
                     contentDescription = stringResource(R.string.president_image_description),
                     modifier =
-                    Modifier
-                        .size(60.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .align(Alignment.TopStart),
+                        Modifier
+                            .size(60.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .align(Alignment.TopStart),
                     placeholder = ColorPainter(Primary),
                     fallback = rememberVectorPainter(Icons.Default.Call),
                     error = rememberVectorPainter(Icons.Default.Settings),
@@ -79,10 +75,10 @@ fun SentSwapScreenCard(
                     model = cardData.targetGoodsPhotoUrl,
                     contentDescription = stringResource(R.string.president_image_description),
                     modifier =
-                    Modifier
-                        .size(60.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .align(Alignment.BottomEnd),
+                        Modifier
+                            .size(60.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .align(Alignment.BottomEnd),
                     placeholder = ColorPainter(Primary),
                     fallback = rememberVectorPainter(Icons.Default.Call),
                     error = rememberVectorPainter(Icons.Default.Settings),
@@ -92,45 +88,45 @@ fun SentSwapScreenCard(
 
             Column(
                 modifier =
-                Modifier.padding(
-                    Paddings.large,
-                    Paddings.none,
-                    Paddings.none,
-                    Paddings.none,
-                ),
+                    Modifier.padding(
+                        Paddings.large,
+                        Paddings.none,
+                        Paddings.none,
+                        Paddings.none,
+                    ),
             ) {
                 Text(
                     modifier =
-                    Modifier.padding(
-                        Paddings.none,
-                        Paddings.largeExtra,
-                        Paddings.none,
-                        Paddings.xsmall,
-                    ),
+                        Modifier.padding(
+                            Paddings.none,
+                            Paddings.largeExtra,
+                            Paddings.none,
+                            Paddings.xsmall,
+                        ),
                     text = "${CategoryOption.entries.find { it.name == cardData.category }?.option} | ${cardData.placeName}",
                     style = Typography.labelLarge,
                     color = Gray4,
                 )
                 Text(
                     modifier =
-                    Modifier.padding(
-                        Paddings.none,
-                        Paddings.none,
-                        Paddings.none,
-                        Paddings.small,
-                    ),
+                        Modifier.padding(
+                            Paddings.none,
+                            Paddings.none,
+                            Paddings.none,
+                            Paddings.small,
+                        ),
                     text = cardData.title,
                     style = Typography.bodyMedium,
                     maxLines = 1,
                 )
                 Row(
                     modifier =
-                    Modifier.padding(
-                        Paddings.none,
-                        Paddings.none,
-                        Paddings.extra,
-                        Paddings.largeExtra,
-                    ),
+                        Modifier.padding(
+                            Paddings.none,
+                            Paddings.none,
+                            Paddings.extra,
+                            Paddings.largeExtra,
+                        ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Row(
@@ -154,9 +150,7 @@ fun SentSwapScreenCard(
                     }
                 }
             }
-
         }
-
     }
 }
 
@@ -164,18 +158,19 @@ fun SentSwapScreenCard(
 @Composable
 fun SentSwapScreenCardPreview() {
     SentSwapScreenCard(
-        cardData = SentSwap(
-            tradesId = 1,
-            goodsId = 1,
-            title = "dd",
-            price = 10000,
-            category = "FOOD",
-            placeName = "dd",
-            myGoodsPhotoUrl = "dd",
-            targetGoodsPhotoUrl = "dd",
-            targetGoodsViewCount = 1,
-            createdAt = "dd",
-        ),
-        onClick = {}
+        cardData =
+            SentSwap(
+                tradesId = 1,
+                goodsId = 1,
+                title = "dd",
+                price = 10000,
+                category = "FOOD",
+                placeName = "dd",
+                myGoodsPhotoUrl = "dd",
+                targetGoodsPhotoUrl = "dd",
+                targetGoodsViewCount = 1,
+                createdAt = "dd",
+            ),
+        onClick = {},
     )
 }

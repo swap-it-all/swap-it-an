@@ -153,7 +153,6 @@ fun ShoppingCard(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun ShoppingCardPreview() {

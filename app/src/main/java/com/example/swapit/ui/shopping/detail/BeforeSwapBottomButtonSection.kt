@@ -25,7 +25,7 @@ import com.example.swapit.ui.theme.Gray5
 import com.example.swapit.ui.theme.Paddings
 
 @Composable
-fun BottomButtonSection(
+fun BeforeSwapBottomButtonSection(
     navController: NavHostController,
     shoppingDetailViewModel: ShoppingDetailViewModel,
     chatViewModel: ChatViewModel,
@@ -68,7 +68,7 @@ fun BottomButtonSection(
 @Preview(showBackground = true)
 @Composable
 fun BottomButtonSectionPreview() {
-    BottomButtonSection(
+    BeforeSwapBottomButtonSection(
         rememberNavController(),
         shoppingDetailViewModel =
             ShoppingDetailViewModel(

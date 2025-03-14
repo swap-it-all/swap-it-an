@@ -73,7 +73,7 @@ class SwapViewModel(private val repository: SwapRepository) : ViewModel() {
     fun fetchReceivedSwapProductsResult(goodsId: Long) {
         viewModelScope.launch {
             myGoodsTitle.value = repository.receivedSwapProductsResult(goodsId).myGoodsTitle
-            receivedSwapProductsResult.value = repository.receivedSwapProductsResult(goodsId).goodsList.map {it.toDomain()}
+            receivedSwapProductsResult.value = repository.receivedSwapProductsResult(goodsId).goodsList.map { it.toDomain() }
         }
     }
 

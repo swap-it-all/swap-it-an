@@ -27,6 +27,7 @@ class ShoppingDetailViewModel(repository: ProductRepository, private val _goodsI
                 placeName = "",
                 viewCount = 0,
                 imageUri = emptyList(),
+                trade = null,
                 createdAt = "",
             ),
         )

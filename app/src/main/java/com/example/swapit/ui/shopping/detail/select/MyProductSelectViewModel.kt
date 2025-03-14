@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.swapit.domain.model.product.Product
 import com.example.swapit.domain.model.product.detail.select.ProductSelect
 import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.ui.base.BaseViewModelFactory

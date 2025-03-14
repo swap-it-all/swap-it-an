@@ -1,6 +1,5 @@
 package com.example.swapit.ui.swap.received
 
-import android.provider.Telephony.Mms.Sent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,7 +11,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,20 +18,22 @@ import androidx.navigation.NavHostController
 import com.example.swapit.domain.model.swap.ReceivedSwap
 import com.example.swapit.ui.component.BackButton
 import com.example.swapit.ui.navigation.NavItem
-import com.example.swapit.ui.swap.ReceivedSwapCard
-import com.example.swapit.ui.swap.SwapViewModel
-import com.example.swapit.ui.theme.Black
 import com.example.swapit.ui.theme.Paddings
 import com.example.swapit.ui.theme.Typography
 
 @Composable
-fun ReceivedSwapScreen(navController: NavHostController, receivedSwaps: List<ReceivedSwap>) {
+fun ReceivedSwapScreen(
+    navController: NavHostController,
+    receivedSwaps: List<ReceivedSwap>,
+) {
     Scaffold(topBar = { ReceivedSwapTopBar(navController = navController) }) { contentPadding ->
         LazyColumn(
-            modifier = Modifier.padding(contentPadding)
+            modifier = Modifier.padding(contentPadding),
         ) {
-            items(receivedSwaps.size,
-                key = { index -> receivedSwaps[index].goodsId }) { index ->
+            items(
+                receivedSwaps.size,
+                key = { index -> receivedSwaps[index].goodsId },
+            ) { index ->
                 val receivedSwap = receivedSwaps[index]
                 ReceivedSwapScreenCard(cardData = receivedSwap, onClick = {
                     navController.navigate(NavItem.ReceivedDetailSwap.screenRoute + "/${receivedSwap.goodsId}")
@@ -61,12 +61,12 @@ fun ReceivedSwapTopBar(navController: NavHostController) {
         navigationIcon = {
             BackButton(
                 modifier = Modifier.padding(Paddings.xlarge),
-                navController = navController
+                navController = navController,
             )
         },
         actions = {
             Spacer(Modifier.padding(Paddings.extra))
-        }
+        },
     )
 }
 
@@ -75,4 +75,3 @@ fun ReceivedSwapTopBar(navController: NavHostController) {
 fun ReceivedSwapTopBarPreview() {
     ReceivedSwapTopBar(navController = NavHostController(LocalContext.current))
 }
-

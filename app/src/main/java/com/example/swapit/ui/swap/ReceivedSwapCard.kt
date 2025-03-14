@@ -42,7 +42,10 @@ import com.example.swapit.ui.theme.White
 import java.text.DecimalFormat
 
 @Composable
-fun ReceivedSwapCard(receivedSwap: ReceivedSwap, navController: NavHostController) {
+fun ReceivedSwapCard(
+    receivedSwap: ReceivedSwap,
+    navController: NavHostController,
+) {
     val decimal = DecimalFormat(stringResource(R.string.decimal_format))
     val convertTime = calculateTime(receivedSwap.createdAt)
     Card(
@@ -55,7 +58,7 @@ fun ReceivedSwapCard(receivedSwap: ReceivedSwap, navController: NavHostControlle
                 containerColor = White,
             ),
         shape = RoundedCornerShape(20.dp),
-        onClick = {navController.navigate(NavItem.ReceivedDetailSwap.screenRoute+"/${receivedSwap.goodsId}")},
+        onClick = { navController.navigate(NavItem.ReceivedDetailSwap.screenRoute + "/${receivedSwap.goodsId}") },
     ) {
         Column {
             AsyncImage(
@@ -137,23 +140,23 @@ fun ReceivedSwapCard(receivedSwap: ReceivedSwap, navController: NavHostControlle
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun SwapCardPreview() {
     ReceivedSwapCard(
-        receivedSwap = ReceivedSwap(
-            goodsId = 1,
-            title = "",
-            price = 10000,
-            category = "",
-            placeName = "",
-            photoUrl = "",
-            createdAt = "",
-            viewCount = 0,
-            requestCount = 0,
-            inProgressCount = 0,
-        ),
-        navController = rememberNavController()
+        receivedSwap =
+            ReceivedSwap(
+                goodsId = 1,
+                title = "",
+                price = 10000,
+                category = "",
+                placeName = "",
+                photoUrl = "",
+                createdAt = "",
+                viewCount = 0,
+                requestCount = 0,
+                inProgressCount = 0,
+            ),
+        navController = rememberNavController(),
     )
 }

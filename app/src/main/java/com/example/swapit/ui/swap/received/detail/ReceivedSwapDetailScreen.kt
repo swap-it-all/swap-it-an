@@ -23,17 +23,19 @@ import com.example.swapit.ui.theme.Typography
 fun ReceivedSwapDetailScreen(
     navController: NavHostController,
     myProductName: String,
-    receivedSwapProducts: List<ReceivedSwapProduct>
+    receivedSwapProducts: List<ReceivedSwapProduct>,
 ) {
     Scaffold(topBar = { ReceivedSwapDetailTopBar(myProductName, navController) }) { contentPadding ->
         LazyColumn(
-            modifier = Modifier.padding(contentPadding)
+            modifier = Modifier.padding(contentPadding),
         ) {
-            items(receivedSwapProducts.size,
-                key = { index -> receivedSwapProducts[index].goodsId }) { index ->
+            items(
+                receivedSwapProducts.size,
+                key = { index -> receivedSwapProducts[index].goodsId },
+            ) { index ->
                 val receivedSwapProduct = receivedSwapProducts[index]
                 ReceivedSwapDetailScreenCard(cardData = receivedSwapProduct, onClick = {
-                     navController.navigate(NavItem.ShoppingDetail.screenRoute + "/${receivedSwapProduct.goodsId}")
+                    navController.navigate(NavItem.ShoppingDetail.screenRoute + "/${receivedSwapProduct.goodsId}")
                 })
             }
         }
@@ -42,7 +44,10 @@ fun ReceivedSwapDetailScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReceivedSwapDetailTopBar(myProductName: String, navController: NavHostController) {
+fun ReceivedSwapDetailTopBar(
+    myProductName: String,
+    navController: NavHostController,
+) {
     TopAppBar(
         title = {
             Row(
@@ -58,11 +63,11 @@ fun ReceivedSwapDetailTopBar(myProductName: String, navController: NavHostContro
         navigationIcon = {
             BackButton(
                 modifier = Modifier.padding(Paddings.xlarge),
-                navController = navController
+                navController = navController,
             )
         },
         actions = {
             Spacer(Modifier.padding(Paddings.extra))
-        }
+        },
     )
 }

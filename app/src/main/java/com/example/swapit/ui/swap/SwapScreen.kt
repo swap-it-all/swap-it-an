@@ -16,7 +16,10 @@ import com.example.swapit.ui.component.BottomNavigationBar
 import com.example.swapit.ui.theme.BackgroundColor
 
 @Composable
-fun SwapScreen(navController: NavHostController, viewModel: SwapViewModel) {
+fun SwapScreen(
+    navController: NavHostController,
+    viewModel: SwapViewModel,
+) {
     viewModel.fetchReceivedSwap()
     viewModel.fetchSentSwap()
 
@@ -36,7 +39,7 @@ fun SwapScreen(navController: NavHostController, viewModel: SwapViewModel) {
                     .background(BackgroundColor),
         ) {
             ReceivedSwapSection(Modifier, navController, viewModel)
-            SentSwapSection(Modifier, navController,viewModel)
+            SentSwapSection(Modifier, navController, viewModel)
         }
     }
 }

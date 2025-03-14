@@ -40,18 +40,21 @@ import com.example.swapit.ui.theme.White
 import java.text.DecimalFormat
 
 @Composable
-fun SentSwapCard(sentSwap: SentSwap, navController: NavHostController) {
+fun SentSwapCard(
+    sentSwap: SentSwap,
+    navController: NavHostController,
+) {
     val decimal = DecimalFormat(stringResource(R.string.decimal_format))
     val convertTime = calculateTime(sentSwap.createdAt)
     Card(
         modifier =
-        Modifier
-            .width(162.dp)
-            .padding(Paddings.smallMedium),
+            Modifier
+                .width(162.dp)
+                .padding(Paddings.smallMedium),
         colors =
-        CardDefaults.cardColors(
-            containerColor = White,
-        ),
+            CardDefaults.cardColors(
+                containerColor = White,
+            ),
         shape = RoundedCornerShape(20.dp),
         onClick = { navController.navigate(NavItem.ShoppingDetail.screenRoute + "/${sentSwap.goodsId}") },
     ) {
@@ -60,8 +63,8 @@ fun SentSwapCard(sentSwap: SentSwap, navController: NavHostController) {
                 model = sentSwap.targetGoodsPhotoUrl,
                 contentDescription = stringResource(R.string.president_image_description),
                 modifier =
-                Modifier
-                    .size(150.dp),
+                    Modifier
+                        .size(150.dp),
                 placeholder = ColorPainter(Primary),
                 fallback = rememberVectorPainter(Icons.Default.Call),
                 error = rememberVectorPainter(Icons.Default.Settings),
@@ -79,23 +82,23 @@ fun SentSwapCard(sentSwap: SentSwap, navController: NavHostController) {
                     style = Typography.bodyMedium,
                     maxLines = 1,
                     modifier =
-                    Modifier.padding(
-                        Paddings.none,
-                        Paddings.none,
-                        Paddings.none,
-                        Paddings.small,
-                    ),
+                        Modifier.padding(
+                            Paddings.none,
+                            Paddings.none,
+                            Paddings.none,
+                            Paddings.small,
+                        ),
                 )
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier =
-                    Modifier.padding(
-                        Paddings.none,
-                        Paddings.none,
-                        Paddings.none,
-                        Paddings.large,
-                    ),
+                        Modifier.padding(
+                            Paddings.none,
+                            Paddings.none,
+                            Paddings.none,
+                            Paddings.large,
+                        ),
                 ) {
                     Text(
                         text = stringResource(R.string.prediction),
@@ -136,5 +139,3 @@ fun SentSwapCard(sentSwap: SentSwap, navController: NavHostController) {
         }
     }
 }
-
-
