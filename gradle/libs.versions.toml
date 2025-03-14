@@ -23,6 +23,8 @@ coilCompose = "3.0.4"
 ktlint = "12.1.0"
 kakao = "2.20.3"
 google = "21.3.0"
+krossbowStompCore = "7.0.0"
+krossbowWebsocketOkhttp = "7.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -62,7 +64,8 @@ google = { module = "com.google.android.gms:play-services-auth", version.ref = "
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
-
+krossbow-stomp-core = { module = "org.hildan.krossbow:krossbow-stomp-core", version.ref = "krossbowStompCore" }
+krossbow-websocket-okhttp = { module = "org.hildan.krossbow:krossbow-websocket-okhttp", version.ref = "krossbowWebsocketOkhttp" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
