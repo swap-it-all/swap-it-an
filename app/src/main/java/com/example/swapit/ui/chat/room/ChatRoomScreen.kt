@@ -11,45 +11,44 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
-import com.example.swapit.data.model.Chat
+import com.example.swapit.domain.repository.ChatRepository
+import com.example.swapit.ui.chat.ChatViewModel
 import com.example.swapit.ui.theme.BackgroundColor
 import java.time.LocalDateTime
 
 @Composable
-fun ChatRoomScreen(navController: NavHostController) {
+fun ChatRoomScreen(navController: NavHostController, chatRoomId: String, viewModel: ChatViewModel) {
+    viewModel.fetchChatList(chatRoomId.toLong())
+    viewModel.chatRoomId.longValue = chatRoomId.toLong()
     Scaffold(
         modifier =
-            Modifier
-                .background(BackgroundColor)
-                .imePadding(),
+        Modifier
+            .background(BackgroundColor)
+            .imePadding(),
         topBar = {
-            ChatRoomAppBar(navController = navController)
+            ChatRoomAppBar(navController = navController,viewModel)
         },
     ) { contentPadding ->
         Column(
             modifier =
-                Modifier
-                    .padding(contentPadding)
-                    .background(BackgroundColor),
+            Modifier
+                .padding(contentPadding)
+                .background(BackgroundColor),
             verticalArrangement = Arrangement.SpaceBetween,
         ) {
-            ChatRoomProduct()
-            ChatRoomContent(chats = chats, modifier = Modifier.weight(1f))
-            BottomChatBar()
+            ChatRoomProduct(viewModel)
+            ChatRoomContent(chats = viewModel.chatList.value, modifier = Modifier.weight(1f))
+            BottomChatBar(viewModel = viewModel)
         }
     }
 }
 
-val chats: List<Chat> =
-    listOf(
-        Chat(1, "text", "안녕하세요", 1, LocalDateTime.now().toString()),
-        Chat(2, "text", "안녕하세요", 2, LocalDateTime.now().toString()),
-        Chat(3, "text", "안녕하세요", 1, LocalDateTime.now().toString()),
-        Chat(4, "text", "안녕하세요", 2, LocalDateTime.now().toString()),
-    ) // todo: 채팅 데이터 만들기
-
 @Composable
 @Preview(showBackground = true)
 fun ChatRoomScreenPreview() {
-    ChatRoomScreen(navController = NavHostController(LocalContext.current))
+    ChatRoomScreen(
+        navController = NavHostController(LocalContext.current),
+        "",
+        viewModel = ChatViewModel(repository = ChatRepository.instance())
+    )
 }

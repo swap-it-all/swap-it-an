@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.swapit.domain.repository.ChatRepository
 import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.domain.repository.SwapRepository
 import com.example.swapit.domain.repository.UserRepository
@@ -17,6 +18,7 @@ import com.example.swapit.ui.alert.AlertScreen
 import com.example.swapit.ui.auth.LoginScreen
 import com.example.swapit.ui.auth.LoginViewModel
 import com.example.swapit.ui.chat.ChatScreen
+import com.example.swapit.ui.chat.ChatViewModel
 import com.example.swapit.ui.chat.room.ChatRoomScreen
 import com.example.swapit.ui.post.PostProductScreen
 import com.example.swapit.ui.post.PostProductViewModel
@@ -44,6 +46,7 @@ class NavigationModule {
     ) {
         val userInfoViewModel = UserInfoViewModel(UserRepository.instance(LocalContext.current))
         val swapViewModel = SwapViewModel(SwapRepository.instance())
+        val chatViewModel = ChatViewModel(ChatRepository.instance())
         NavHost(
             navController = navController,
             startDestination = NavItem.Splash.screenRoute,
@@ -121,7 +124,9 @@ class NavigationModule {
                 )
             }
             composable(NavItem.Chat.screenRoute) {
-                ChatScreen(navController)
+                ChatScreen(
+                    navController, viewModel = chatViewModel
+                )
             }
             composable(NavItem.User.screenRoute) {
                 UserInfoScreen(
@@ -172,6 +177,7 @@ class NavigationModule {
                             ProductRepository.instance(LocalContext.current),
                         ),
                     ),
+                    chatViewModel = chatViewModel
                 )
             }
             composable(
@@ -202,8 +208,19 @@ class NavigationModule {
                     viewModel = userInfoViewModel,
                 )
             }
-            composable(NavItem.ChatRoom.screenRoute) {
-                ChatRoomScreen(navController)
+            composable(NavItem.ChatRoom.screenRoute + "/{chatroomId}",
+                arguments =
+                listOf(
+                    navArgument("chatroomId") {
+                        type = NavType.StringType
+                    }
+                )
+            ) { backStackEntry ->
+                ChatRoomScreen(
+                    navController,
+                    backStackEntry.arguments?.getString("chatroomId") ?: "",
+                    chatViewModel
+                )
             }
         }
     }

@@ -16,7 +16,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.swapit.R
-import com.example.swapit.data.model.Chat
+import com.example.swapit.domain.model.chat.Chat
+import com.example.swapit.ui.shopping.model.calculateTime
 import com.example.swapit.ui.theme.Gray2
 import com.example.swapit.ui.theme.Gray5
 import com.example.swapit.ui.theme.Paddings
@@ -49,8 +50,9 @@ fun ChatBubble(chat: Chat) {
 
 @Composable
 fun BubbleTime(chat: Chat) {
+    val convertTime = calculateTime(chat.createdAt)
     Text(
-        chat.createdAt.format(DateTimeFormatter.ofPattern(stringResource(R.string.chat_bubble_time_format))),
+        convertTime,
         Modifier.padding(end = Paddings.small),
     )
 }

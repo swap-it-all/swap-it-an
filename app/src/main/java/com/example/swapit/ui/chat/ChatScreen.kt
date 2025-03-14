@@ -13,13 +13,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.swapit.domain.repository.ChatRepository
 import com.example.swapit.ui.component.AppBar
 import com.example.swapit.ui.component.BottomNavigationBar
 import com.example.swapit.ui.theme.BackgroundColor
 
 @Composable
-fun ChatScreen(navController: NavHostController) {
-    val chatList = 1
+fun ChatScreen(navController: NavHostController, viewModel: ChatViewModel) {
+    viewModel.fetchChatRoomList()
     Scaffold(
         topBar = {
             AppBar(navController = navController)
@@ -28,9 +29,7 @@ fun ChatScreen(navController: NavHostController) {
             BottomNavigationBar(navController)
         },
     ) { contentPadding ->
-        if (chatList == 0) {
-            NoChatIconSection(contentPadding)
-        }
+
         LazyColumn(
             modifier =
                 Modifier
@@ -40,9 +39,14 @@ fun ChatScreen(navController: NavHostController) {
         ) {
             item {
                 Spacer(modifier = Modifier.height(16.dp))
+                if (viewModel.chatRoomList.value.isEmpty()) {
+                    NoChatIconSection()
+                }
             }
-            items(6) {
-                ChatCard(chatCardData = _chatCardData, navController)
+            items(viewModel.chatRoomList.value.size,
+                key = { index -> viewModel.chatRoomList.value[index].recentChatTime }) { index ->
+                val chatCardData = viewModel.chatRoomList.value[index]
+                ChatCard(chatCardData = chatCardData, navController)
             }
         }
     }
@@ -52,5 +56,5 @@ fun ChatScreen(navController: NavHostController) {
 @Preview(showBackground = true)
 fun ChatListScreenPreview() {
     val navController = NavHostController(LocalContext.current)
-    ChatScreen(navController)
+    ChatScreen(navController, ChatViewModel(repository = ChatRepository.instance()))
 }

@@ -13,7 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
-import com.example.swapit.ui.chat._chatCardData
+import com.example.swapit.domain.repository.ChatRepository
+import com.example.swapit.ui.chat.ChatViewModel
 import com.example.swapit.ui.component.BackButton
 import com.example.swapit.ui.component.MenuButton
 import com.example.swapit.ui.theme.Black
@@ -23,7 +24,7 @@ import com.example.swapit.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatRoomAppBar(navController: NavHostController) {
+fun ChatRoomAppBar(navController: NavHostController,viewModel: ChatViewModel) {
     TopAppBar(
         navigationIcon = { BackButton(modifier = Modifier.padding(Paddings.xlarge), navController = navController) },
         title = {
@@ -32,7 +33,7 @@ fun ChatRoomAppBar(navController: NavHostController) {
                 horizontalArrangement = Arrangement.Center,
             ) {
                 Text(
-                    text = _chatCardData.userName,
+                    viewModel.chatRoomProduct.value.nickname,
                     style = Typography.bodyMedium,
                     color = Black,
                 )
@@ -55,5 +56,5 @@ fun ChatRoomAppBar(navController: NavHostController) {
 @Preview(showBackground = true)
 @Composable
 fun AppBarPreview() {
-    ChatRoomAppBar(NavHostController(LocalContext.current))
+    ChatRoomAppBar(NavHostController(LocalContext.current),viewModel = ChatViewModel(repository = ChatRepository.instance()))
 }

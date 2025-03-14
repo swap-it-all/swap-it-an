@@ -20,7 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
-import com.example.swapit.data.model.ChatCardData
+import com.example.swapit.domain.model.chat.ChatRoom
 import com.example.swapit.ui.navigation.NavItem
 import com.example.swapit.ui.theme.BackgroundColor
 import com.example.swapit.ui.theme.Gray3
@@ -30,19 +30,9 @@ import com.example.swapit.ui.theme.Red
 import com.example.swapit.ui.theme.Typography
 import com.example.swapit.ui.theme.White
 
-val _chatCardData =
-    ChatCardData(
-        userImageUri = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-        userName = "홍길동",
-        lastMessage = "안녕하세요",
-        lastMessageTime = "오전 10:30",
-        unreadMessageCount = 110,
-        onClick = {},
-    )
-
 @Composable
 fun ChatCard(
-    chatCardData: ChatCardData,
+    chatCardData: ChatRoom,
     navController: NavHostController,
 ) {
     Card(
@@ -59,7 +49,7 @@ fun ChatCard(
 }
 
 @Composable
-fun ChatCardContent(chatCardData: ChatCardData) {
+fun ChatCardContent(chatCardData: ChatRoom) {
     Row(
         modifier =
             Modifier
@@ -68,14 +58,14 @@ fun ChatCardContent(chatCardData: ChatCardData) {
                 .background(BackgroundColor),
     ) {
         CharCardUserImageSection(chatCardData)
-        ChatCardUserMessageComtentSection(chatCardData)
+        ChatCardUserMessageContentSection(chatCardData)
     }
 }
 
 @Composable
-fun CharCardUserImageSection(chatCardData: ChatCardData) {
+fun CharCardUserImageSection(chatCardData: ChatRoom) {
     AsyncImage(
-        model = chatCardData.userImageUri,
+        model = chatCardData.profileImageUrl,
         contentDescription = "유저 사진",
         modifier =
             Modifier
@@ -85,7 +75,7 @@ fun CharCardUserImageSection(chatCardData: ChatCardData) {
 }
 
 @Composable
-fun ChatCardUserMessageComtentSection(chatCardData: ChatCardData) {
+fun ChatCardUserMessageContentSection(chatCardData: ChatRoom) {
     val maxUnread = 99
     Column(modifier = Modifier) {
         Row(
@@ -94,7 +84,7 @@ fun ChatCardUserMessageComtentSection(chatCardData: ChatCardData) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = chatCardData.userName,
+                text = chatCardData.nickname,
                 modifier =
                     Modifier.padding(
                         Paddings.large,
@@ -105,7 +95,7 @@ fun ChatCardUserMessageComtentSection(chatCardData: ChatCardData) {
                 style = Typography.titleMedium,
             )
             Text(
-                text = chatCardData.lastMessageTime,
+                text = chatCardData.recentChatTime,
                 color = Gray4,
                 style = Typography.bodySmall,
             )
@@ -116,7 +106,7 @@ fun ChatCardUserMessageComtentSection(chatCardData: ChatCardData) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = chatCardData.lastMessage,
+                text = chatCardData.recentChat,
                 modifier =
                     Modifier.padding(
                         Paddings.large,
@@ -127,17 +117,23 @@ fun ChatCardUserMessageComtentSection(chatCardData: ChatCardData) {
                 style = Typography.bodySmall,
                 color = Gray3,
             )
-            if (chatCardData.unreadMessageCount != 0) {
+
+
+            // TODO:  안본 메시지 보내 달라고 해야하나?
+            if (chatCardData.usersId.toInt() != 0) {
                 Box(
                     modifier =
                         Modifier
-                            .size(chatCardData.unreadMessageCount.toString().length.dp * 4 + 20.dp, 20.dp)
+                            .size(
+                                chatCardData.usersId.toInt().toString().length.dp * 4 + 20.dp,
+                                20.dp
+                            )
                             .clip(RoundedCornerShape(20.dp))
                             .background(Red),
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
-                        text = if (chatCardData.unreadMessageCount <= maxUnread) chatCardData.unreadMessageCount.toString() else "99+",
+                        text = if (chatCardData.usersId.toInt() <= maxUnread) chatCardData.usersId.toInt().toString() else "99+",
                         color = White,
                         modifier = Modifier.align(Alignment.Center),
                         style = Typography.labelLarge,
