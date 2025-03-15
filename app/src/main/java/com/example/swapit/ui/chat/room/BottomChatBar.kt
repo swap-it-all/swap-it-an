@@ -58,7 +58,7 @@ fun BottomChatBar(viewModel: ChatViewModel) {
                     ChatRequest(
                         "TALK",
                         message,
-                        viewModel.goodsId.longValue
+                        null
                     )
                 )
                 message = ""
@@ -70,7 +70,7 @@ fun BottomChatBar(viewModel: ChatViewModel) {
                 ChatRequest(
                     "TALK",
                     message,
-                    viewModel.goodsId.longValue
+                    null
                 )
             )
             message = ""

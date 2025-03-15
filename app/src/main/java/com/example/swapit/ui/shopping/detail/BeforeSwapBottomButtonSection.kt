@@ -54,27 +54,14 @@ fun BeforeSwapBottomButtonSection(
                 vertical = Paddings.xlarge,
             ),
         onClick = {
-            chatViewModel.createChatRoom(GoodsIdRequest(shoppingDetailViewModel.goodsId.toLong()) )
-            chatViewModel.connect()
-            chatViewModel.subscribeToChatRoom()
-            if(chatViewModel.chatRoomId.longValue!=0L) {
-                navController.navigate(NavItem.ChatRoom.screenRoute+"/${chatViewModel.chatRoomId.longValue}")
+            if (shoppingDetailViewModel.detailContents.trade == null){
+                chatViewModel.initiateChatFlow(shoppingDetailViewModel.goodsId.toLong(),navController)
+            } else {
+                chatViewModel.initiateChatSwapFlow(shoppingDetailViewModel.detailContents.trade!!.tradesId,navController)
             }
         }
     )
 
 }
 
-@Preview(showBackground = true)
-@Composable
-fun BottomButtonSectionPreview() {
-    BeforeSwapBottomButtonSection(
-        rememberNavController(),
-        shoppingDetailViewModel =
-            ShoppingDetailViewModel(
-                repository = ProductRepository.instance(LocalContext.current),
-                _goodsId = "",
-            ),
-        chatViewModel = ChatViewModel(repository = ChatRepository.instance())
-    )
-}
+

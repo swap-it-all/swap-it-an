@@ -2,15 +2,14 @@ package com.example.swapit.data.mapper
 
 import com.example.swapit.data.datasource.remote.dto.response.chat.ChatListResponse
 import com.example.swapit.data.datasource.remote.dto.response.chat.ChatResponse
-import com.example.swapit.data.datasource.remote.dto.response.chat.ChatRoomProductResponse
+import com.example.swapit.data.datasource.remote.dto.response.chat.ChatRoomInfoResponse
 import com.example.swapit.data.datasource.remote.dto.response.chat.ChatRoomResponse
 import com.example.swapit.data.datasource.remote.dto.response.chat.ChatSwapProductResponse
 import com.example.swapit.domain.model.chat.Chat
 import com.example.swapit.domain.model.chat.ChatList
 import com.example.swapit.domain.model.chat.ChatRoom
-import com.example.swapit.domain.model.chat.ChatRoomProduct
+import com.example.swapit.domain.model.chat.ChatRoomInfo
 import com.example.swapit.domain.model.chat.ChatSwapProduct
-import kotlinx.serialization.Serializable
 
 fun ChatSwapProductResponse.toDomain(): ChatSwapProduct {
     return ChatSwapProduct(
@@ -20,14 +19,15 @@ fun ChatSwapProductResponse.toDomain(): ChatSwapProduct {
     )
 }
 
-fun ChatRoomProductResponse.toDomain(): ChatRoomProduct {
-    return ChatRoomProduct(
-        nickname = this.nickname,
+fun ChatRoomInfoResponse.toDomain(): ChatRoomInfo {
+    return ChatRoomInfo(
         goodsId = this.goodsId,
         title = this.title,
         category = this.category,
         price = this.price,
         imageUrl = this.imageUrl,
+        usersId = this.usersId,
+        nickname = this.nickname
     )
 }
 
@@ -55,8 +55,8 @@ fun ChatListResponse.toDomain(): ChatList {
 
 fun ChatRoomResponse.toDomain(): ChatRoom {
     return ChatRoom(
-        chatroomsId = this.chatroomsId,
-        usersId = this.usersId,
+        unReadChatCount = this.unReadChatCount,
+        chatroomId = this.chatroomId,
         profileImageUrl = this.profileImageUrl,
         nickname = this.nickname,
         recentChat = this.recentChat,
