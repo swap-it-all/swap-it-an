@@ -51,10 +51,3 @@ fun ChatScreen(navController: NavHostController, viewModel: ChatViewModel) {
         }
     }
 }
-
-@Composable
-@Preview(showBackground = true)
-fun ChatListScreenPreview() {
-    val navController = NavHostController(LocalContext.current)
-    ChatScreen(navController, ChatViewModel(repository = ChatRepository.instance()))
-}

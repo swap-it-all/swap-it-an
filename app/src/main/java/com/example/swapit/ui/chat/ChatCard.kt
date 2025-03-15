@@ -41,7 +41,7 @@ fun ChatCard(
                 .fillMaxWidth(),
         colors = CardDefaults.cardColors(BackgroundColor),
         onClick = {
-            navController.navigate(NavItem.ChatRoom.screenRoute)
+            navController.navigate(NavItem.ChatRoom.screenRoute+"/${chatCardData.chatroomId}")
         },
     ) {
         ChatCardContent(chatCardData = chatCardData)
@@ -118,14 +118,12 @@ fun ChatCardUserMessageContentSection(chatCardData: ChatRoom) {
                 color = Gray3,
             )
 
-
-            // TODO:  안본 메시지 보내 달라고 해야하나?
-            if (chatCardData.usersId.toInt() != 0) {
+            if (chatCardData.unReadChatCount.toInt() != 0) {
                 Box(
                     modifier =
                         Modifier
                             .size(
-                                chatCardData.usersId.toInt().toString().length.dp * 4 + 20.dp,
+                                chatCardData.unReadChatCount.toInt().toString().length.dp * 4 + 20.dp,
                                 20.dp
                             )
                             .clip(RoundedCornerShape(20.dp))
@@ -133,7 +131,7 @@ fun ChatCardUserMessageContentSection(chatCardData: ChatRoom) {
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
-                        text = if (chatCardData.usersId.toInt() <= maxUnread) chatCardData.usersId.toInt().toString() else "99+",
+                        text = if (chatCardData.unReadChatCount.toInt() <= maxUnread) chatCardData.unReadChatCount.toInt().toString() else "99+",
                         color = White,
                         modifier = Modifier.align(Alignment.Center),
                         style = Typography.labelLarge,

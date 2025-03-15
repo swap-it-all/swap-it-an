@@ -14,12 +14,14 @@ import androidx.compose.ui.unit.dp
 import com.example.swapit.R
 import com.example.swapit.domain.model.chat.Chat
 import com.example.swapit.ui.theme.BackgroundColor
+import com.example.swapit.ui.user.UserInfoViewModel
 import java.time.format.DateTimeFormatter
 
 @Composable
 fun ChatRoomContent(
     chats: List<Chat>,
     modifier: Modifier = Modifier,
+    userInfoViewModel: UserInfoViewModel,
 ) {
     LazyColumn(
         modifier =
@@ -34,7 +36,7 @@ fun ChatRoomContent(
             count = chats.size,
             key = { chats[it].chatsId },
         ) { item ->
-            ChatBubble(chats[item])
+            ChatBubble(chats[item], userInfoViewModel = userInfoViewModel)
         }
     }
 }

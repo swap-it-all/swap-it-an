@@ -5,11 +5,9 @@ import com.example.swapit.data.datasource.remote.dto.request.chat.TradesIdReques
 import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
 import com.example.swapit.data.datasource.remote.dto.response.chat.ChatListResponse
 import com.example.swapit.data.datasource.remote.dto.response.chat.ChatRoomListResponse
-import com.example.swapit.data.datasource.remote.dto.response.chat.ChatRoomProductResponse
-import com.example.swapit.data.datasource.remote.dto.response.login.LoginResponse
+import com.example.swapit.data.datasource.remote.dto.response.chat.ChatRoomInfoResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -33,8 +31,8 @@ interface ChatService {
         @Path("chatroomId") chatroomId: Long,
     ): BaseResponse<ChatListResponse>
 
-    @GET("api/user/chatroom/{chatroomId}/goods")
-    suspend fun chatRoomProduct(
+    @GET("api/user/chatroom/{chatroomId}/info")
+    suspend fun chatRoomInfo(
         @Path("chatroomId") chatroomId: Long,
-    ): BaseResponse<ChatRoomProductResponse>
+    ): BaseResponse<ChatRoomInfoResponse>
 }

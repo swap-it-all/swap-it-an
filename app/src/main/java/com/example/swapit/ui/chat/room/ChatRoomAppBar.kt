@@ -53,8 +53,3 @@ fun ChatRoomAppBar(navController: NavHostController,viewModel: ChatViewModel) {
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun AppBarPreview() {
-    ChatRoomAppBar(NavHostController(LocalContext.current),viewModel = ChatViewModel(repository = ChatRepository.instance()))
-}

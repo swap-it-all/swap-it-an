@@ -7,26 +7,30 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
-import com.example.swapit.domain.repository.ChatRepository
 import com.example.swapit.ui.chat.ChatViewModel
 import com.example.swapit.ui.theme.BackgroundColor
-import java.time.LocalDateTime
+import com.example.swapit.ui.user.UserInfoViewModel
 
 @Composable
-fun ChatRoomScreen(navController: NavHostController, chatRoomId: String, viewModel: ChatViewModel) {
-    viewModel.fetchChatList(chatRoomId.toLong())
-    viewModel.chatRoomId.longValue = chatRoomId.toLong()
+fun ChatRoomScreen(navController: NavHostController, chatRoomId: String, chatViewModel: ChatViewModel, userInfoViewModel: UserInfoViewModel) {
+    chatViewModel.fetchChatList(chatRoomId.toLong())
+    chatViewModel.chatRoomId.longValue = chatRoomId.toLong()
+    DisposableEffect(Unit) {
+        onDispose {
+            chatViewModel.sendReadReceipt() // 읽은 메시지 ID 전송
+            chatViewModel.disconnect() // 연결 해제
+        }
+    }
     Scaffold(
         modifier =
         Modifier
             .background(BackgroundColor)
             .imePadding(),
         topBar = {
-            ChatRoomAppBar(navController = navController,viewModel)
+            ChatRoomAppBar(navController = navController,chatViewModel)
         },
     ) { contentPadding ->
         Column(
@@ -36,19 +40,10 @@ fun ChatRoomScreen(navController: NavHostController, chatRoomId: String, viewMod
                 .background(BackgroundColor),
             verticalArrangement = Arrangement.SpaceBetween,
         ) {
-            ChatRoomProduct(viewModel)
-            ChatRoomContent(chats = viewModel.chatList.value, modifier = Modifier.weight(1f))
-            BottomChatBar(viewModel = viewModel)
+            ChatRoomProduct(chatViewModel)
+            ChatRoomContent(chats = chatViewModel.chatList.value, modifier = Modifier.weight(1f), userInfoViewModel = userInfoViewModel)
+            BottomChatBar(viewModel = chatViewModel)
         }
     }
 }
 
-@Composable
-@Preview(showBackground = true)
-fun ChatRoomScreenPreview() {
-    ChatRoomScreen(
-        navController = NavHostController(LocalContext.current),
-        "",
-        viewModel = ChatViewModel(repository = ChatRepository.instance())
-    )
-}

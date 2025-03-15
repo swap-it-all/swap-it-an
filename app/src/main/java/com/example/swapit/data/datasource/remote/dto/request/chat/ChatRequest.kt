@@ -8,3 +8,4 @@ data class ChatRequest(
     val content: String,
     val goodsId: Long?
 )
+

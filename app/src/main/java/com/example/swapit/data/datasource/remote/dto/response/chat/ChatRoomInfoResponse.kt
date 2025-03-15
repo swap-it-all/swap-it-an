@@ -4,11 +4,12 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class ChatRoomProductResponse(
-    val nickname: String,
+data class ChatRoomInfoResponse(
     val goodsId: Long,
     val title: String,
     val category: String,
     val price: Long,
     val imageUrl: String,
+    val usersId: Long,
+    val nickname: String,
 )

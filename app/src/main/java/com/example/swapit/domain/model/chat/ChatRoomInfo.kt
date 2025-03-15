@@ -1,10 +1,11 @@
 package com.example.swapit.domain.model.chat
 
-data class ChatRoomProduct(
-    val nickname: String,
+data class ChatRoomInfo(
     val goodsId: Long,
     val title: String,
     val category: String,
     val price: Long,
     val imageUrl: String,
+    val usersId: Long,
+    val nickname: String,
 )
