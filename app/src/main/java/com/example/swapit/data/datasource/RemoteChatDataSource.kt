@@ -5,7 +5,7 @@ import com.example.swapit.data.datasource.remote.dto.request.chat.TradesIdReques
 import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
 import com.example.swapit.data.datasource.remote.dto.response.chat.ChatListResponse
 import com.example.swapit.data.datasource.remote.dto.response.chat.ChatRoomListResponse
-import com.example.swapit.data.datasource.remote.dto.response.chat.ChatRoomProductResponse
+import com.example.swapit.data.datasource.remote.dto.response.chat.ChatRoomInfoResponse
 import com.example.swapit.data.datasource.remote.service.ChatService
 
 class RemoteChatDataSource(private val service: ChatService) {
@@ -21,6 +21,6 @@ class RemoteChatDataSource(private val service: ChatService) {
     suspend fun chatList(chatroomId: Long): BaseResponse<ChatListResponse> =
         service.chatList(chatroomId)
 
-    suspend fun chatRoomProduct(chatroomId: Long): BaseResponse<ChatRoomProductResponse> =
-        service.chatRoomProduct(chatroomId)
+    suspend fun chatRoomInfo(chatroomId: Long): BaseResponse<ChatRoomInfoResponse> =
+        service.chatRoomInfo(chatroomId)
 }

@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.swapit.domain.repository.ChatRepository
+import com.example.swapit.domain.repository.LoginRepository
 import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.domain.repository.SwapRepository
 import com.example.swapit.domain.repository.UserRepository
@@ -46,7 +47,7 @@ class NavigationModule {
     ) {
         val userInfoViewModel = UserInfoViewModel(UserRepository.instance(LocalContext.current))
         val swapViewModel = SwapViewModel(SwapRepository.instance())
-        val chatViewModel = ChatViewModel(ChatRepository.instance())
+        val chatViewModel = ChatViewModel(ChatRepository.instance(), LoginRepository.instance(LocalContext.current))
         NavHost(
             navController = navController,
             startDestination = NavItem.Splash.screenRoute,
@@ -177,6 +178,7 @@ class NavigationModule {
                             ProductRepository.instance(LocalContext.current),
                         ),
                     ),
+                    swapViewModel = swapViewModel,
                     chatViewModel = chatViewModel
                 )
             }
@@ -219,7 +221,8 @@ class NavigationModule {
                 ChatRoomScreen(
                     navController,
                     backStackEntry.arguments?.getString("chatroomId") ?: "",
-                    chatViewModel
+                    chatViewModel,
+                    userInfoViewModel
                 )
             }
         }

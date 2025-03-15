@@ -10,14 +10,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.swapit.domain.model.product.detail.ProductDetail
 import com.example.swapit.ui.chat.ChatViewModel
 import com.example.swapit.ui.shopping.detail.select.MyProductSelectViewModel
+import com.example.swapit.ui.swap.SwapViewModel
 import com.example.swapit.ui.theme.Paddings
 
 @Composable
@@ -26,18 +25,45 @@ fun ShoppingDetailScreen(
     navController: NavHostController,
     shoppingDetailViewModel: ShoppingDetailViewModel,
     myProductSelectViewModel: MyProductSelectViewModel,
+    swapViewModel: SwapViewModel,
     chatViewModel: ChatViewModel,
 ) {
     Box(modifier.fillMaxSize()) {
         DetailContent(navController, shoppingDetailViewModel.detailContents)
-        if (myProductSelectViewModel.onSaleProducts.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null && myProductSelectViewModel.soldOutProducts.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null) {
-            Row(
-                modifier =
-                Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(Paddings.xlarge, 40.dp),
-            ) {
-                BottomButtonSection(navController, shoppingDetailViewModel = shoppingDetailViewModel,chatViewModel)
+        Row(
+            modifier =
+            Modifier
+                .align(Alignment.BottomCenter)
+                .padding(Paddings.xlarge, 40.dp),
+        ) {
+            if (shoppingDetailViewModel.detailContents.trade != null) {
+                if (shoppingDetailViewModel.detailContents.trade!!.isRequester) {
+                    AfterSwapBottomButtonSection(
+                        shoppingDetailViewModel,
+                        swapViewModel,
+                        chatViewModel,
+                        navController,
+                        shoppingDetailViewModel
+                    )
+                } else {
+                    ReceivedSwapBottomButtonSection(
+                        shoppingDetailViewModel,
+                        swapViewModel,
+                        chatViewModel,
+                        navController,
+                        shoppingDetailViewModel
+                    )
+                }
+            } else {
+                if (myProductSelectViewModel.onSaleProducts.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null &&
+                    myProductSelectViewModel.soldOutProducts.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null
+                ) {
+                    BeforeSwapBottomButtonSection(
+                        navController,
+                        shoppingDetailViewModel,
+                        chatViewModel = chatViewModel,
+                    )
+                }
             }
         }
     }
@@ -52,15 +78,4 @@ fun DetailContent(
         ProductImageSection(shoppingDetailData, navController)
         ProductContentSection(shoppingDetailData)
     }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun ShoppingDetailScreenPreview() {
-    ShoppingDetailScreen(
-        navController = rememberNavController(),
-        shoppingDetailViewModel = viewModel<ShoppingDetailViewModel>(),
-        myProductSelectViewModel = viewModel<MyProductSelectViewModel>(),
-        chatViewModel = viewModel<ChatViewModel>(),
-    )
 }

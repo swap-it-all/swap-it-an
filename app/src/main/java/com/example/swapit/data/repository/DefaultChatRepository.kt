@@ -4,13 +4,10 @@ import com.example.swapit.data.datasource.RemoteChatDataSource
 import com.example.swapit.data.datasource.remote.dto.request.chat.GoodsIdRequest
 import com.example.swapit.data.datasource.remote.dto.request.chat.TradesIdRequest
 import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
-import com.example.swapit.data.datasource.remote.dto.response.chat.ChatListResponse
-import com.example.swapit.data.datasource.remote.dto.response.chat.ChatRoomListResponse
-import com.example.swapit.data.datasource.remote.dto.response.chat.ChatRoomProductResponse
 import com.example.swapit.data.mapper.toDomain
 import com.example.swapit.domain.model.chat.ChatList
 import com.example.swapit.domain.model.chat.ChatRoom
-import com.example.swapit.domain.model.chat.ChatRoomProduct
+import com.example.swapit.domain.model.chat.ChatRoomInfo
 import com.example.swapit.domain.repository.ChatRepository
 
 class DefaultChatRepository(private val remoteSource: RemoteChatDataSource) : ChatRepository {
@@ -30,7 +27,7 @@ class DefaultChatRepository(private val remoteSource: RemoteChatDataSource) : Ch
         return remoteSource.chatList(chatroomId).results.toDomain()
     }
 
-    override suspend fun chatRoomProduct(chatroomId: Long): ChatRoomProduct {
-        return remoteSource.chatRoomProduct(chatroomId).results.toDomain()
+    override suspend fun chatRoomInfo(chatroomId: Long): ChatRoomInfo {
+        return remoteSource.chatRoomInfo(chatroomId).results.toDomain()
     }
 }
