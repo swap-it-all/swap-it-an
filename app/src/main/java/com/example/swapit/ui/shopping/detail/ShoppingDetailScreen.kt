@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.swapit.data.datasource.local.model.shopping.TradeStatus
 import com.example.swapit.domain.model.product.detail.ProductDetail
 import com.example.swapit.ui.shopping.detail.select.MyProductSelectViewModel
 import com.example.swapit.ui.swap.SwapViewModel
@@ -36,13 +37,13 @@ fun ShoppingDetailScreen(
         ) {
             if (shoppingDetailViewModel.detailContents.trade != null) { // 거래를 누군가와 하고 있음
                 if (shoppingDetailViewModel.detailContents.trade!!.isRequester) { // 그게 내가 건거야?
-                    if (shoppingDetailViewModel.detailContents.trade!!.status == "INPROGRESS") { // 완료 상태면
+                    if (shoppingDetailViewModel.detailContents.trade!!.status == TradeStatus.INPROGRESS.name) { // 완료 상태면
                         CompleteSwapBottomButtonSection(navController, shoppingDetailViewModel, swapViewModel)
                     } else { // 완료 상태 아니면
                         AfterSwapBottomButtonSection(shoppingDetailViewModel, swapViewModel)
                     }
                 } else { // 아님 내가 받은 거야
-                    if (shoppingDetailViewModel.detailContents.trade!!.status == "INPROGRESS") { // 완료 상태면
+                    if (shoppingDetailViewModel.detailContents.trade!!.status == TradeStatus.INPROGRESS.name) { // 완료 상태면
                         CompleteSwapBottomButtonSection(navController, shoppingDetailViewModel, swapViewModel)
                     } else { // 완료 상태 아니면
                         ReceivedSwapBottomButtonSection(shoppingDetailViewModel, swapViewModel)
