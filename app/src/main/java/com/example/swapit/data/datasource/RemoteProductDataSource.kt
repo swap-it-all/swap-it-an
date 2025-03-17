@@ -2,9 +2,9 @@ package com.example.swapit.data.datasource
 
 import com.example.swapit.data.datasource.remote.dto.request.product.ProductRequest
 import com.example.swapit.data.datasource.remote.dto.response.BaseResponse
-import com.example.swapit.data.datasource.remote.dto.response.product.ProductResponse
 import com.example.swapit.data.datasource.remote.dto.response.product.ProductResultResponse
 import com.example.swapit.data.datasource.remote.dto.response.product.detail.ProductDetailResponse
+import com.example.swapit.data.datasource.remote.dto.response.product.detail.slelect.ProductSelectResultResponse
 import com.example.swapit.data.datasource.remote.service.ProductService
 import okhttp3.MultipartBody
 
@@ -38,7 +38,11 @@ class RemoteProductDataSource(private val productService: ProductService) {
         )
     }
 
-    suspend fun myProductList(): BaseResponse<List<ProductResponse>> {
-        return productService.myProductList()
+    suspend fun myOnSaleProductList(): BaseResponse<ProductSelectResultResponse> {
+        return productService.myOnSaleProductList()
+    }
+
+    suspend fun mySoldOutProductList(): BaseResponse<ProductSelectResultResponse> {
+        return productService.mySoldOutProductList()
     }
 }

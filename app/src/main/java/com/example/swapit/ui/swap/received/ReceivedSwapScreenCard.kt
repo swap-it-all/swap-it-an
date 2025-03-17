@@ -1,6 +1,5 @@
-package com.example.swapit.ui.shopping
+package com.example.swapit.ui.swap.received
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,12 +12,12 @@ import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
@@ -27,10 +26,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import coil3.compose.AsyncImagePainter.State.Empty.painter
 import com.example.swapit.R
-import com.example.swapit.data.datasource.local.model.post.CategoryOption
-import com.example.swapit.domain.model.product.Product
-import com.example.swapit.ui.shopping.model.calculateTime
+import com.example.swapit.domain.model.swap.ReceivedSwap
+import com.example.swapit.ui.theme.Black
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray4
 import com.example.swapit.ui.theme.Paddings
@@ -40,12 +39,11 @@ import com.example.swapit.ui.theme.White
 import java.text.DecimalFormat
 
 @Composable
-fun ShoppingCard(
-    cardData: Product,
+fun ReceivedSwapScreenCard(
+    cardData: ReceivedSwap,
     onClick: () -> Unit = {},
 ) {
     val decimal = DecimalFormat(stringResource(R.string.decimal_format))
-    val convertTime = calculateTime(cardData.createdAt)
     Card(
         modifier =
             Modifier
@@ -61,7 +59,7 @@ fun ShoppingCard(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Spacer(modifier = Modifier.size(Paddings.large))
             AsyncImage(
-                model = cardData.imageUrl,
+                model = cardData.photoUrl,
                 contentDescription = stringResource(R.string.president_image_description),
                 modifier =
                     Modifier
@@ -89,25 +87,44 @@ fun ShoppingCard(
                             Paddings.none,
                             Paddings.xsmall,
                         ),
-                    text =
-                        "${CategoryOption.entries.find { it.name == cardData.category }?.option } | " +
-                            "${cardData.placeName} | " +
-                            convertTime,
+                    text = "${cardData.requestCount} 개의 스왑 요청",
                     style = Typography.labelLarge,
                     color = Gray4,
                 )
-                Text(
-                    modifier =
-                        Modifier.padding(
-                            Paddings.none,
-                            Paddings.none,
-                            Paddings.none,
-                            Paddings.small,
-                        ),
-                    text = cardData.title,
-                    style = Typography.bodyMedium,
-                    maxLines = 1,
-                )
+                Row {
+                    if (cardData.inProgressCount.toInt() != 0) {
+                        Text(
+                            modifier =
+                                Modifier.padding(
+                                    Paddings.small,
+                                    Paddings.none,
+                                    Paddings.small,
+                                    Paddings.small,
+                                ),
+                            text = "거래중",
+                            style = Typography.bodyMedium,
+                            color = Primary,
+                        )
+                    }
+                    Text(
+                        modifier =
+                            Modifier.padding(
+                                Paddings.none,
+                                Paddings.none,
+                                Paddings.none,
+                                Paddings.small,
+                            ).weight(1f),
+                        text = cardData.title,
+                        style = Typography.bodyMedium,
+                        maxLines = 1,
+                    )
+                    Icon(
+                        modifier = Modifier.align(Alignment.CenterVertically),
+                        painter = painterResource(R.drawable.ic_chevron_right),
+                        contentDescription = "상세 정보 아이콘",
+                        tint = Black,
+                    )
+                }
                 Row(
                     modifier =
                         Modifier.padding(
@@ -137,16 +154,6 @@ fun ShoppingCard(
                             color = Gray3,
                         )
                     }
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_show),
-                        contentDescription = stringResource(R.string.view_count_icon_description),
-                        colorFilter = ColorFilter.tint(Gray4),
-                    )
-                    Text(
-                        text = cardData.viewCount.toString(),
-                        style = Typography.labelLarge,
-                        color = Gray4,
-                    )
                 }
             }
         }
@@ -155,5 +162,21 @@ fun ShoppingCard(
 
 @Preview(showBackground = true)
 @Composable
-fun ShoppingCardPreview() {
+fun ReceivedSwapScreenCardPreview() {
+    ReceivedSwapScreenCard(
+        cardData =
+            ReceivedSwap(
+                goodsId = 1,
+                title = "dd",
+                price = 10000,
+                category = "FOOD",
+                placeName = "dd",
+                viewCount = 1,
+                photoUrl = "dd",
+                requestCount = 1,
+                inProgressCount = 1,
+                createdAt = "dd",
+            ),
+        onClick = {},
+    )
 }

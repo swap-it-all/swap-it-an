@@ -25,7 +25,7 @@ import com.example.swapit.ui.theme.White
 @Composable
 fun ChatRoomAppBar(navController: NavHostController) {
     TopAppBar(
-        navigationIcon = { BackButton(modifier = Modifier.padding(start = Paddings.xlarge), navController = navController) },
+        navigationIcon = { BackButton(modifier = Modifier.padding(Paddings.xlarge), navController = navController) },
         title = {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -39,7 +39,7 @@ fun ChatRoomAppBar(navController: NavHostController) {
             }
         },
         actions = {
-            MenuButton(navController = navController, color = Black)
+            MenuButton(navController = navController, color = Black, modifier = Modifier.padding(Paddings.xlarge))
         },
         colors =
             TopAppBarColors(

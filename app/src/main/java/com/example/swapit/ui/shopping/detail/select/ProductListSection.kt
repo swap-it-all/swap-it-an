@@ -4,20 +4,20 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import com.example.swapit.ui.shopping.ShoppingCard
+import com.example.swapit.ui.swap.SwapViewModel
 
 @Composable
 fun ProductListSection(
     myProductSelectionViewModel: MyProductSelectViewModel,
-    swapViewModel: SwapProductViewModel,
+    swapViewModel: SwapViewModel,
     targetProductId: Long,
 ) {
     LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
         itemsIndexed(
-            items = myProductSelectionViewModel.products,
+            items = myProductSelectionViewModel.onSaleProducts,
             key = { _, item -> item.goodsId },
         ) { _, item ->
-            ShoppingCard(item) {
+            MyProductCard(item) {
                 swapViewModel.openDialog(item.goodsId)
             }
             DialogSection(

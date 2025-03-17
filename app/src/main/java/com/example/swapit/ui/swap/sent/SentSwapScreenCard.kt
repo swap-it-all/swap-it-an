@@ -1,6 +1,7 @@
-package com.example.swapit.ui.shopping
+package com.example.swapit.ui.swap.sent
 
-import androidx.compose.foundation.Image
+import android.icu.text.DecimalFormat
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,34 +19,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.swapit.R
 import com.example.swapit.data.datasource.local.model.post.CategoryOption
-import com.example.swapit.domain.model.product.Product
-import com.example.swapit.ui.shopping.model.calculateTime
+import com.example.swapit.domain.model.swap.SentSwap
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray4
 import com.example.swapit.ui.theme.Paddings
 import com.example.swapit.ui.theme.Primary
 import com.example.swapit.ui.theme.Typography
 import com.example.swapit.ui.theme.White
-import java.text.DecimalFormat
 
 @Composable
-fun ShoppingCard(
-    cardData: Product,
+fun SentSwapScreenCard(
+    cardData: SentSwap,
     onClick: () -> Unit = {},
 ) {
     val decimal = DecimalFormat(stringResource(R.string.decimal_format))
-    val convertTime = calculateTime(cardData.createdAt)
     Card(
         modifier =
             Modifier
@@ -60,18 +56,36 @@ fun ShoppingCard(
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Spacer(modifier = Modifier.size(Paddings.large))
-            AsyncImage(
-                model = cardData.imageUrl,
-                contentDescription = stringResource(R.string.president_image_description),
-                modifier =
-                    Modifier
-                        .size(86.dp)
-                        .clip(RoundedCornerShape(12.dp)),
-                placeholder = ColorPainter(Primary),
-                fallback = rememberVectorPainter(Icons.Default.Call),
-                error = rememberVectorPainter(Icons.Default.Settings),
-                contentScale = ContentScale.Crop,
-            )
+
+            Box(modifier = Modifier.size(86.dp)) {
+                AsyncImage(
+                    model = cardData.myGoodsPhotoUrl,
+                    contentDescription = stringResource(R.string.president_image_description),
+                    modifier =
+                        Modifier
+                            .size(60.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .align(Alignment.TopStart),
+                    placeholder = ColorPainter(Primary),
+                    fallback = rememberVectorPainter(Icons.Default.Call),
+                    error = rememberVectorPainter(Icons.Default.Settings),
+                    contentScale = ContentScale.Crop,
+                )
+                AsyncImage(
+                    model = cardData.targetGoodsPhotoUrl,
+                    contentDescription = stringResource(R.string.president_image_description),
+                    modifier =
+                        Modifier
+                            .size(60.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .align(Alignment.BottomEnd),
+                    placeholder = ColorPainter(Primary),
+                    fallback = rememberVectorPainter(Icons.Default.Call),
+                    error = rememberVectorPainter(Icons.Default.Settings),
+                    contentScale = ContentScale.Crop,
+                )
+            }
+
             Column(
                 modifier =
                     Modifier.padding(
@@ -89,10 +103,7 @@ fun ShoppingCard(
                             Paddings.none,
                             Paddings.xsmall,
                         ),
-                    text =
-                        "${CategoryOption.entries.find { it.name == cardData.category }?.option } | " +
-                            "${cardData.placeName} | " +
-                            convertTime,
+                    text = "${CategoryOption.entries.find { it.name == cardData.category }?.option} | ${cardData.placeName}",
                     style = Typography.labelLarge,
                     color = Gray4,
                 )
@@ -137,16 +148,6 @@ fun ShoppingCard(
                             color = Gray3,
                         )
                     }
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_show),
-                        contentDescription = stringResource(R.string.view_count_icon_description),
-                        colorFilter = ColorFilter.tint(Gray4),
-                    )
-                    Text(
-                        text = cardData.viewCount.toString(),
-                        style = Typography.labelLarge,
-                        color = Gray4,
-                    )
                 }
             }
         }
@@ -155,5 +156,21 @@ fun ShoppingCard(
 
 @Preview(showBackground = true)
 @Composable
-fun ShoppingCardPreview() {
+fun SentSwapScreenCardPreview() {
+    SentSwapScreenCard(
+        cardData =
+            SentSwap(
+                tradesId = 1,
+                goodsId = 1,
+                title = "dd",
+                price = 10000,
+                category = "FOOD",
+                placeName = "dd",
+                myGoodsPhotoUrl = "dd",
+                targetGoodsPhotoUrl = "dd",
+                targetGoodsViewCount = 1,
+                createdAt = "dd",
+            ),
+        onClick = {},
+    )
 }

@@ -9,13 +9,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.swapit.ui.component.AppBar
 import com.example.swapit.ui.component.BottomNavigationBar
 import com.example.swapit.ui.theme.BackgroundColor
 
 @Composable
-fun SwapScreen(navController: NavHostController) {
+fun SwapScreen(
+    navController: NavHostController,
+    viewModel: SwapViewModel,
+) {
+    viewModel.fetchReceivedSwap()
+    viewModel.fetchSentSwap()
+
     Scaffold(
         topBar = {
             AppBar(navController = navController)
@@ -31,8 +38,8 @@ fun SwapScreen(navController: NavHostController) {
                     .padding(contentPadding)
                     .background(BackgroundColor),
         ) {
-            ReceivedSwapSection(Modifier, navController)
-            SentSwapSection(Modifier, navController)
+            ReceivedSwapSection(Modifier, navController, viewModel)
+            SentSwapSection(Modifier, navController, viewModel)
         }
     }
 }
@@ -40,5 +47,5 @@ fun SwapScreen(navController: NavHostController) {
 @Composable
 @Preview(showBackground = true)
 fun SwapScreenPreview() {
-    SwapScreen(navController = NavHostController(context = LocalContext.current))
+    SwapScreen(navController = NavHostController(context = LocalContext.current), viewModel = viewModel())
 }

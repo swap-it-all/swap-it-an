@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.domain.repository.SwapRepository
 import com.example.swapit.ui.component.BackButton
+import com.example.swapit.ui.swap.SwapViewModel
 import com.example.swapit.ui.theme.BackgroundColor
 import com.example.swapit.ui.theme.Paddings
 
@@ -39,7 +40,7 @@ fun MyProductSelectScreen(
             TextSection(navController)
             ProductListSection(
                 myProductSelectionViewModel = viewModel,
-                swapViewModel = SwapProductViewModel(repository = SwapRepository.instance()),
+                swapViewModel = SwapViewModel(repository = SwapRepository.instance()),
                 targetProductId = targetProductId,
             )
         }

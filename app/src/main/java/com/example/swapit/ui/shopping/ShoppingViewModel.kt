@@ -42,7 +42,7 @@ class ShoppingViewModel(private val repository: ProductRepository) : ViewModel()
         fetchProducts()
     }
 
-    private fun fetchProducts() {
+    fun fetchProducts() {
         viewModelScope.launch {
             _products.value =
                 repository.productCardProducts(
@@ -51,20 +51,6 @@ class ShoppingViewModel(private val repository: ProductRepository) : ViewModel()
                     cursorValue = null,
                     sortBy = selectedOption.value.key,
                     keyword = searchKeyword.value,
-                    categoryIds = selectedCategory.value.map { it.id },
-                )
-        }
-    }
-
-    init {
-        viewModelScope.launch {
-            _products.value =
-                repository.productCardProducts(
-                    cursorId = null,
-                    createdAt = null,
-                    cursorValue = null,
-                    sortBy = selectedOption.value.key,
-                    keyword = null,
                     categoryIds = selectedCategory.value.map { it.id },
                 )
         }

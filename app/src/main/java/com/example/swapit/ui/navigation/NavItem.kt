@@ -15,6 +15,12 @@ sealed class NavItem(
 
     data object Swap : NavItem("스왑", R.drawable.ic_shopping_bag, SWAP)
 
+    data object ReceivedSwap : NavItem("받은 스왑", R.drawable.ic_shopping_bag, RECEIVED_SWAP)
+
+    data object ReceivedDetailSwap : NavItem("받은 상세 스왑", R.drawable.ic_shopping_bag, RECEIVED_DETAIL_SWAP)
+
+    data object SentSwap : NavItem("보낸 스왑", R.drawable.ic_shopping_bag, SENT_SWAP)
+
     data object Add : NavItem("게시", R.drawable.ic_add_plus_circle, POST)
 
     data object Chat : NavItem("채팅", R.drawable.ic_chat, CHAT)
@@ -43,6 +49,9 @@ sealed class NavItem(
         const val LOGIN = "LOGIN"
         const val SHOPPING = "SHOPPING"
         const val SWAP = "SWAP"
+        const val RECEIVED_SWAP = "RECEIVED_SWAP"
+        const val RECEIVED_DETAIL_SWAP = "RECEIVED_DETAIL_SWAP"
+        const val SENT_SWAP = "SENT_SWAP"
         const val POST = "POST"
         const val CHAT = "CHAT"
         const val USER = "USER"
