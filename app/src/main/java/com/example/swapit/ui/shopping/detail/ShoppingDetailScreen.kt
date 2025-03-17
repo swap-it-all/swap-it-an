@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.swapit.data.datasource.local.model.shopping.TradeStatus
 import com.example.swapit.domain.model.product.detail.ProductDetail
 import com.example.swapit.ui.chat.ChatViewModel
 import com.example.swapit.ui.shopping.detail.select.MyProductSelectViewModel
@@ -32,10 +33,23 @@ fun ShoppingDetailScreen(
         DetailContent(navController, shoppingDetailViewModel.detailContents)
         Row(
             modifier =
-            Modifier
-                .align(Alignment.BottomCenter)
-                .padding(Paddings.xlarge, 40.dp),
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(Paddings.xlarge, 40.dp),
         ) {
+            if (shoppingDetailViewModel.detailContents.trade != null) { // 거래를 누군가와 하고 있음
+                if (shoppingDetailViewModel.detailContents.trade!!.isRequester) { // 그게 내가 건거야?
+                    if (shoppingDetailViewModel.detailContents.trade!!.status == TradeStatus.INPROGRESS.name) { // 완료 상태면
+                        CompleteSwapBottomButtonSection(navController, shoppingDetailViewModel, swapViewModel)
+                    } else { // 완료 상태 아니면
+                        AfterSwapBottomButtonSection(shoppingDetailViewModel, swapViewModel)
+                    }
+                } else { // 아님 내가 받은 거야
+                    if (shoppingDetailViewModel.detailContents.trade!!.status == TradeStatus.INPROGRESS.name) { // 완료 상태면
+                        CompleteSwapBottomButtonSection(navController, shoppingDetailViewModel, swapViewModel)
+                    } else { // 완료 상태 아니면
+                        ReceivedSwapBottomButtonSection(shoppingDetailViewModel, swapViewModel)
+                    }
             if (shoppingDetailViewModel.detailContents.trade != null) {
                 if (shoppingDetailViewModel.detailContents.trade!!.isRequester) {
                     AfterSwapBottomButtonSection(
@@ -54,14 +68,13 @@ fun ShoppingDetailScreen(
                         shoppingDetailViewModel
                     )
                 }
-            } else {
+            } else { // 거래 안하고 있음
                 if (myProductSelectViewModel.onSaleProducts.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null &&
                     myProductSelectViewModel.soldOutProducts.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null
-                ) {
+                ) { // 내 물건이 아니면 기본 버튼 보여줌
                     BeforeSwapBottomButtonSection(
                         navController,
-                        shoppingDetailViewModel,
-                        chatViewModel = chatViewModel,
+                        viewModel = shoppingDetailViewModel,
                     )
                 }
             }
