@@ -34,16 +34,24 @@ fun ShoppingDetailScreen(
                     .align(Alignment.BottomCenter)
                     .padding(Paddings.xlarge, 40.dp),
         ) {
-            if (shoppingDetailViewModel.detailContents.trade != null) {
-                if (shoppingDetailViewModel.detailContents.trade!!.isRequester) {
-                    AfterSwapBottomButtonSection(shoppingDetailViewModel, swapViewModel)
-                } else {
-                    ReceivedSwapBottomButtonSection(shoppingDetailViewModel, swapViewModel)
+            if (shoppingDetailViewModel.detailContents.trade != null) { // 거래를 누군가와 하고 있음
+                if (shoppingDetailViewModel.detailContents.trade!!.isRequester) { // 그게 내가 건거야?
+                    if (shoppingDetailViewModel.detailContents.trade!!.status == "INPROGRESS") { // 완료 상태면
+                        CompleteSwapBottomButtonSection(navController, shoppingDetailViewModel, swapViewModel)
+                    } else { // 완료 상태 아니면
+                        AfterSwapBottomButtonSection(shoppingDetailViewModel, swapViewModel)
+                    }
+                } else { // 아님 내가 받은 거야
+                    if (shoppingDetailViewModel.detailContents.trade!!.status == "INPROGRESS") { // 완료 상태면
+                        CompleteSwapBottomButtonSection(navController, shoppingDetailViewModel, swapViewModel)
+                    } else { // 완료 상태 아니면
+                        ReceivedSwapBottomButtonSection(shoppingDetailViewModel, swapViewModel)
+                    }
                 }
-            } else {
+            } else { // 거래 안하고 있음
                 if (myProductSelectViewModel.onSaleProducts.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null &&
                     myProductSelectViewModel.soldOutProducts.find { it.goodsId == shoppingDetailViewModel.detailContents.goodsId } == null
-                ) {
+                ) { // 내 물건이 아니면 기본 버튼 보여줌
                     BeforeSwapBottomButtonSection(
                         navController,
                         viewModel = shoppingDetailViewModel,
