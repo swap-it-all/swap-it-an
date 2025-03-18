@@ -42,6 +42,7 @@ fun ChatRoomScreen(navController: NavHostController, chatRoomId: String, chatVie
         ) {
             ChatRoomProduct(chatViewModel)
             ChatRoomContent(chats = chatViewModel.chatList.value, modifier = Modifier.weight(1f), userInfoViewModel = userInfoViewModel)
+//            ChatRoomTradeButtonBar(chatViewModel)
             BottomChatBar(viewModel = chatViewModel)
         }
     }

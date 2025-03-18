@@ -137,6 +137,7 @@ class ChatViewModel(private val repository: ChatRepository, loginRepository: Log
             this@ChatViewModel.chatRoomId.longValue = chatRoomId
 
             if (chatRoomId != 0L) {
+                chatRoomProduct.value = repository.chatRoomInfo(chatRoomId)
                 connect()
                 subscribeToChatRoom()
                 navController.navigate(NavItem.ChatRoom.screenRoute + "/$chatRoomId")
@@ -153,6 +154,7 @@ class ChatViewModel(private val repository: ChatRepository, loginRepository: Log
             this@ChatViewModel.chatRoomId.longValue = chatRoomId
 
             if (chatRoomId != 0L) {
+                chatRoomProduct.value = repository.chatRoomInfo(chatRoomId)
                 connect()
                 subscribeToChatRoom()
                 navController.navigate(NavItem.ChatRoom.screenRoute + "/$chatRoomId")
@@ -206,9 +208,16 @@ class ChatViewModel(private val repository: ChatRepository, loginRepository: Log
     }
 
 
-    fun fetchChatRoomProduct(chatroomId: Long) {
+    fun fetchChatRoomProduct(chatroomId: Long, onComplete: (ChatRoomInfo?) -> Unit) {
         viewModelScope.launch {
-            chatRoomProduct.value = repository.chatRoomInfo(chatroomId)
+            try {
+                val product = repository.chatRoomInfo(chatroomId)
+                chatRoomProduct.value = product
+                onComplete(product) // 성공 시 콜백 호출
+            } catch (e: Exception) {
+                Log.e("ChatViewModel", "ChatRoomProduct 가져오기 실패: ${e.message}")
+                onComplete(null) // 실패 시 null 반환
+            }
         }
     }
 

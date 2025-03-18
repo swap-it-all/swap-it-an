@@ -36,7 +36,7 @@ import java.text.DecimalFormat
 @Composable
 fun ChatRoomProduct(viewModel: ChatViewModel) {
     val decimal = DecimalFormat(stringResource(R.string.decimal_format))
-    viewModel.fetchChatRoomProduct(viewModel.chatRoomId.value)
+    viewModel.fetchChatRoomProduct(viewModel.chatRoomId.value,{})
     val chatRoomData = viewModel.chatRoomProduct.value
     Column {
         HorizontalDivider(thickness = 1.dp)

@@ -46,7 +46,7 @@ fun ChatScreen(navController: NavHostController, viewModel: ChatViewModel) {
             items(viewModel.chatRoomList.value.size,
                 key = { index -> viewModel.chatRoomList.value[index].recentChatTime }) { index ->
                 val chatCardData = viewModel.chatRoomList.value[index]
-                ChatCard(chatCardData = chatCardData, navController)
+                ChatCard(chatCardData = chatCardData, navController,viewModel)
             }
         }
     }
