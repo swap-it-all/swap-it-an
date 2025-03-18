@@ -1,5 +1,6 @@
 package com.example.swapit.ui.chat
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,6 +35,7 @@ import com.example.swapit.ui.theme.White
 fun ChatCard(
     chatCardData: ChatRoom,
     navController: NavHostController,
+    chatViewModel: ChatViewModel
 ) {
     Card(
         modifier =
@@ -41,7 +43,13 @@ fun ChatCard(
                 .fillMaxWidth(),
         colors = CardDefaults.cardColors(BackgroundColor),
         onClick = {
-            navController.navigate(NavItem.ChatRoom.screenRoute+"/${chatCardData.chatroomId}")
+            chatViewModel.fetchChatRoomProduct(chatCardData.chatroomId) { product ->
+                if (product != null && product.goodsId != 1L) {
+                    chatViewModel.initiateChatFlow(product.goodsId, navController)
+                } else {
+                    Log.e("ChatCard", "유효하지 않은 ChatRoomProduct: $product")
+                }
+            }
         },
     ) {
         ChatCardContent(chatCardData = chatCardData)
