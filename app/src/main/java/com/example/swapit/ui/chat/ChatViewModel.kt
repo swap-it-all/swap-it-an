@@ -3,27 +3,17 @@ package com.example.swapit.ui.chat
 import android.util.Log
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.swapit.BuildConfig
-import com.example.swapit.SwapItApplication.Companion.appContext
-import com.example.swapit.data.datasource.local.LocalLoginDataSource
-import com.example.swapit.data.datasource.remote.LoginServiceHolder
-import com.example.swapit.data.datasource.remote.RetrofitModule
 import com.example.swapit.data.datasource.remote.RetrofitModule.okHttpClient
 import com.example.swapit.data.datasource.remote.dto.request.chat.ChatReadRequest
 import com.example.swapit.data.datasource.remote.dto.request.chat.ChatRequest
 import com.example.swapit.data.datasource.remote.dto.request.chat.GoodsIdRequest
 import com.example.swapit.data.datasource.remote.dto.request.chat.TradesIdRequest
 import com.example.swapit.data.datasource.remote.dto.response.chat.ChatResponse
-import com.example.swapit.data.datasource.remote.interceptor.AuthAuthenticator
-import com.example.swapit.data.datasource.remote.interceptor.AuthInterceptor
-import com.example.swapit.data.datasource.remote.interceptor.LoggingInterceptor
-import com.example.swapit.data.datasource.remote.service.LoginService
 import com.example.swapit.data.mapper.toDomain
 import com.example.swapit.domain.model.chat.Chat
 import com.example.swapit.domain.model.chat.ChatRoom
@@ -33,9 +23,7 @@ import com.example.swapit.domain.repository.LoginRepository
 import com.example.swapit.ui.base.BaseViewModelFactory
 import com.example.swapit.ui.navigation.NavItem
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
-import okhttp3.OkHttpClient
 import org.hildan.krossbow.stomp.StompClient
 import org.hildan.krossbow.stomp.StompSession
 import org.hildan.krossbow.stomp.frame.FrameBody
@@ -43,8 +31,6 @@ import org.hildan.krossbow.stomp.headers.StompSendHeaders
 import org.hildan.krossbow.stomp.headers.StompSubscribeHeaders
 import org.hildan.krossbow.websocket.okhttp.OkHttpWebSocketClient
 import org.json.JSONObject
-import retrofit2.create
-import java.util.concurrent.TimeUnit
 
 class ChatViewModel(private val repository: ChatRepository, private val loginRepository: LoginRepository) :
     ViewModel() {
@@ -58,33 +44,35 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
     }
     private val stompClient = StompClient(wsClient)
     private var stompSession: StompSession? = null
-    val chatRoomProduct = mutableStateOf(
-        ChatRoomInfo(
-            goodsId = 1,
-            imageUrl = "",
-            title = "",
-            price = 0,
-            nickname = "",
-            category = "",
-            usersId = 1
+    val chatRoomProduct =
+        mutableStateOf(
+            ChatRoomInfo(
+                goodsId = 1,
+                imageUrl = "",
+                title = "",
+                price = 0,
+                nickname = "",
+                category = "",
+                usersId = 1,
+            ),
         )
-    )
-
 
     private fun connect() {
         viewModelScope.launch {
             try {
-                stompSession = stompClient.connect(
-                    BuildConfig.SWAP_IT_BASE_URL.replace(
-                        "http",
-                        "ws"
-                    ) + "ws",
-                    customStompConnectHeaders = mapOf(
-                        "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
-                        "accept-version" to "1.2"
-                    ),
-                    host = "localhost"
-                )
+                stompSession =
+                    stompClient.connect(
+                        BuildConfig.SWAP_IT_BASE_URL.replace(
+                            "http",
+                            "ws",
+                        ) + "ws",
+                        customStompConnectHeaders =
+                            mapOf(
+                                "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
+                                "accept-version" to "1.2",
+                            ),
+                        host = "localhost",
+                    )
             } catch (e: Exception) {
                 Log.e("STOMP", "connect() 연결 실패: ${e.message}")
             }
@@ -98,12 +86,13 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
                 return@launch
             }
             try {
-                val messageFlow = stompSession!!.subscribe(
-                    StompSubscribeHeaders(
-                        destination = "/topic/chat/${chatRoomId.longValue}",
-                        id = "sub-0"
+                val messageFlow =
+                    stompSession!!.subscribe(
+                        StompSubscribeHeaders(
+                            destination = "/topic/chat/${chatRoomId.longValue}",
+                            id = "sub-0",
+                        ),
                     )
-                )
                 messageFlow.collect { frame ->
                     Log.d("STOMP", "수신 메시지: ${frame.bodyAsText}")
                     frame.bodyAsText?.let { jsonMessage ->
@@ -129,7 +118,10 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
         return repository.createSwapChatRoom(tradesId).results
     }
 
-    fun initiateChatFlow(goodsId: Long, navController: NavController) {
+    fun initiateChatFlow(
+        goodsId: Long,
+        navController: NavController,
+    ) {
         viewModelScope.launch {
             val goodsIdRequest = GoodsIdRequest(goodsId)
             val chatRoomId = createChatRoomSync(goodsIdRequest)
@@ -146,7 +138,10 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
         }
     }
 
-    fun initiateChatSwapFlow(tradesId: Long, navController: NavController) {
+    fun initiateChatSwapFlow(
+        tradesId: Long,
+        navController: NavController,
+    ) {
         viewModelScope.launch {
             val tradesIdRequest = TradesIdRequest(tradesId)
             val chatRoomId = createChatRoomTradeSync(tradesIdRequest)
@@ -174,14 +169,16 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
 
                 // STOMP 메시지 전송
                 stompSession?.send(
-                    headers = StompSendHeaders(
-                        destination = "/app/chat/${chatRoomId.longValue}",
-                        customHeaders = mapOf(
-                            "content-type" to "application/json",
-                            "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
+                    headers =
+                        StompSendHeaders(
+                            destination = "/app/chat/${chatRoomId.longValue}",
+                            customHeaders =
+                                mapOf(
+                                    "content-type" to "application/json",
+                                    "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
+                                ),
                         ),
-                    ),
-                    body = FrameBody.Text(Json.encodeToString(ChatRequest.serializer(), message) + "\\0")
+                    body = FrameBody.Text(Json.encodeToString(ChatRequest.serializer(), message) + "\\0"),
                 )
                 Log.d(TAG, "메시지 전송 성공: $message")
             } catch (e: Exception) {
@@ -206,19 +203,22 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
         viewModelScope.launch {
             try {
                 stompSession?.send(
-                    headers = StompSendHeaders(
-                        destination = "/app/chat/${chatRoomId.longValue}",
-                        customHeaders = mapOf(
-                            "content-type" to "application/json",
-                            "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
+                    headers =
+                        StompSendHeaders(
+                            destination = "/app/chat/${chatRoomId.longValue}",
+                            customHeaders =
+                                mapOf(
+                                    "content-type" to "application/json",
+                                    "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
+                                ),
                         ),
-                    ),
-                    body = FrameBody.Text(
-                        Json.encodeToString(
-                            ChatReadRequest.serializer(),
-                            ChatReadRequest(chatList.value.last().chatsId)
-                        ) + "\\0"
-                    )
+                    body =
+                        FrameBody.Text(
+                            Json.encodeToString(
+                                ChatReadRequest.serializer(),
+                                ChatReadRequest(chatList.value.last().chatsId),
+                            ) + "\\0",
+                        ),
                 )
                 Log.d("STOMP", chatList.value.last().chatsId.toString())
             } catch (e: Exception) {
@@ -234,8 +234,10 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
         }
     }
 
-
-    fun fetchChatRoomProduct(chatroomId: Long, onComplete: (ChatRoomInfo?) -> Unit) {
+    fun fetchChatRoomProduct(
+        chatroomId: Long,
+        onComplete: (ChatRoomInfo?) -> Unit,
+    ) {
         viewModelScope.launch {
             try {
                 val product = repository.chatRoomInfo(chatroomId)
@@ -270,7 +272,7 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
             BaseViewModelFactory {
                 ChatViewModel(
                     repository = repository,
-                    loginRepository = loginRepository
+                    loginRepository = loginRepository,
                 )
             }
     }

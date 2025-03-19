@@ -1,22 +1,14 @@
 package com.example.swapit.ui.shopping.detail
 
-import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.swapit.R
-import com.example.swapit.data.datasource.remote.dto.request.chat.GoodsIdRequest
-import com.example.swapit.domain.repository.ChatRepository
-import com.example.swapit.domain.repository.ProductRepository
 import com.example.swapit.ui.chat.ChatViewModel
 import com.example.swapit.ui.component.DefaultButton
 import com.example.swapit.ui.component.ModalButton
@@ -54,14 +46,11 @@ fun BeforeSwapBottomButtonSection(
                 vertical = Paddings.xlarge,
             ),
         onClick = {
-            if (shoppingDetailViewModel.detailContents.trade == null){
-                chatViewModel.initiateChatFlow(shoppingDetailViewModel.goodsId.toLong(),navController)
+            if (shoppingDetailViewModel.detailContents.trade == null) {
+                chatViewModel.initiateChatFlow(shoppingDetailViewModel.goodsId.toLong(), navController)
             } else {
-                chatViewModel.initiateChatSwapFlow(shoppingDetailViewModel.detailContents.trade!!.tradesId,navController)
+                chatViewModel.initiateChatSwapFlow(shoppingDetailViewModel.detailContents.trade!!.tradesId, navController)
             }
-        }
+        },
     )
-
 }
-
-

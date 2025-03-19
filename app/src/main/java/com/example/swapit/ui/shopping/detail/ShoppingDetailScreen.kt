@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.swapit.data.datasource.local.model.shopping.TradeStatus
 import com.example.swapit.domain.model.product.detail.ProductDetail
@@ -33,9 +32,9 @@ fun ShoppingDetailScreen(
         DetailContent(navController, shoppingDetailViewModel.detailContents)
         Row(
             modifier =
-            Modifier
-                .align(Alignment.BottomCenter)
-                .padding(Paddings.xlarge, 40.dp),
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(Paddings.xlarge, 40.dp),
         ) {
             if (shoppingDetailViewModel.detailContents.trade != null) { // 거래를 누군가와 하고 있음
                 if (shoppingDetailViewModel.detailContents.trade!!.isRequester) { // 그게 내가 건거야?
@@ -44,7 +43,7 @@ fun ShoppingDetailScreen(
                             navController,
                             shoppingDetailViewModel,
                             swapViewModel,
-                            chatViewModel = chatViewModel
+                            chatViewModel = chatViewModel,
                         )
                     } else { // 완료 상태 아니면
                         AfterSwapBottomButtonSection(
@@ -52,7 +51,7 @@ fun ShoppingDetailScreen(
                             swapViewModel,
                             chatViewModel,
                             navController,
-                            shoppingDetailViewModel
+                            shoppingDetailViewModel,
                         )
                     }
                 } else { // 아님 내가 받은 거야
@@ -61,7 +60,7 @@ fun ShoppingDetailScreen(
                             navController,
                             shoppingDetailViewModel,
                             swapViewModel,
-                            chatViewModel = chatViewModel
+                            chatViewModel = chatViewModel,
                         )
                     } else { // 완료 상태 아니면
                         ReceivedSwapBottomButtonSection(
@@ -69,7 +68,7 @@ fun ShoppingDetailScreen(
                             swapViewModel,
                             chatViewModel,
                             navController,
-                            shoppingDetailViewModel
+                            shoppingDetailViewModel,
                         )
                     }
                 }
@@ -80,7 +79,7 @@ fun ShoppingDetailScreen(
                     BeforeSwapBottomButtonSection(
                         navController,
                         shoppingDetailViewModel = shoppingDetailViewModel,
-                        chatViewModel = chatViewModel
+                        chatViewModel = chatViewModel,
                     )
                 }
             }

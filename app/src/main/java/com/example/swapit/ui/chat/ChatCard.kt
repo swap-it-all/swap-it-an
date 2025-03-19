@@ -35,7 +35,7 @@ import com.example.swapit.ui.theme.White
 fun ChatCard(
     chatCardData: ChatRoom,
     navController: NavHostController,
-    chatViewModel: ChatViewModel
+    chatViewModel: ChatViewModel,
 ) {
     Card(
         modifier =
@@ -133,14 +133,19 @@ fun ChatCardUserMessageContentSection(chatCardData: ChatRoom) {
                         Modifier
                             .size(
                                 chatCardData.unReadChatCount.toInt().toString().length.dp * 4 + 20.dp,
-                                20.dp
+                                20.dp,
                             )
                             .clip(RoundedCornerShape(20.dp))
                             .background(Red),
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
-                        text = if (chatCardData.unReadChatCount.toInt() <= maxUnread) chatCardData.unReadChatCount.toInt().toString() else "99+",
+                        text =
+                            if (chatCardData.unReadChatCount.toInt() <= maxUnread) {
+                                chatCardData.unReadChatCount.toInt().toString()
+                            } else {
+                                "99+"
+                            },
                         color = White,
                         modifier = Modifier.align(Alignment.Center),
                         style = Typography.labelLarge,

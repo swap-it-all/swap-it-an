@@ -6,6 +6,5 @@ import kotlinx.serialization.Serializable
 data class ChatRequest(
     val chatType: String,
     val content: String,
-    val goodsId: Long?
+    val goodsId: Long?,
 )
-

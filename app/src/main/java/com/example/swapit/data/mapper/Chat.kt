@@ -27,11 +27,9 @@ fun ChatRoomInfoResponse.toDomain(): ChatRoomInfo {
         price = this.price,
         imageUrl = this.imageUrl,
         usersId = this.usersId,
-        nickname = this.nickname
+        nickname = this.nickname,
     )
 }
-
-
 
 fun ChatResponse.toDomain(): Chat {
     return Chat(
@@ -63,4 +61,3 @@ fun ChatRoomResponse.toDomain(): ChatRoom {
         recentChatTime = this.recentChatTime,
     )
 }
-

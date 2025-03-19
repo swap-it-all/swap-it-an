@@ -2,7 +2,6 @@ package com.example.swapit.domain.model.chat
 
 import com.example.swapit.data.datasource.remote.dto.response.chat.ChatResponse
 import com.example.swapit.data.datasource.remote.dto.response.chat.ChatSwapProductResponse
-import kotlinx.serialization.Serializable
 
 data class Chat(
     val chatsId: Long,

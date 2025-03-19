@@ -4,6 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GoodsIdRequest(
-    val goodsId: Long
+    val goodsId: Long,
 )
-

@@ -32,75 +32,75 @@ import com.example.swapit.ui.theme.Typography
 import com.example.swapit.ui.theme.White
 import java.text.DecimalFormat
 
-
 @Composable
 fun ChatRoomProduct(viewModel: ChatViewModel) {
     val decimal = DecimalFormat(stringResource(R.string.decimal_format))
-    viewModel.fetchChatRoomProduct(viewModel.chatRoomId.value,{})
+    viewModel.fetchChatRoomProduct(viewModel.chatRoomId.value, {})
     val chatRoomData = viewModel.chatRoomProduct.value
     Column {
         HorizontalDivider(thickness = 1.dp)
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier =
-            Modifier.background(
-                White,
-            ),
+                Modifier.background(
+                    White,
+                ),
         ) {
             Spacer(modifier = Modifier.size(Paddings.large))
             AsyncImage(
                 model = chatRoomData.imageUrl,
                 contentDescription = stringResource(R.string.president_image_description),
                 modifier =
-                Modifier
-                    .size(86.dp)
-                    .clip(RoundedCornerShape(12.dp)),
+                    Modifier
+                        .size(86.dp)
+                        .clip(RoundedCornerShape(12.dp)),
                 placeholder = ColorPainter(Primary),
                 fallback = rememberVectorPainter(Icons.Default.Call),
                 error = rememberVectorPainter(Icons.Default.Settings),
             )
             Column(
                 modifier =
-                Modifier.padding(
-                    Paddings.large,
-                    Paddings.none,
-                    Paddings.none,
-                    Paddings.none,
-                ),
+                    Modifier.padding(
+                        Paddings.large,
+                        Paddings.none,
+                        Paddings.none,
+                        Paddings.none,
+                    ),
             ) {
                 Text(
                     modifier =
-                    Modifier.padding(
-                        Paddings.none,
-                        Paddings.largeExtra,
-                        Paddings.none,
-                        Paddings.xsmall,
-                    ),
-                    text = CategoryOption.entries.find { it.name == chatRoomData.category }?.option
-                        ?: "",
+                        Modifier.padding(
+                            Paddings.none,
+                            Paddings.largeExtra,
+                            Paddings.none,
+                            Paddings.xsmall,
+                        ),
+                    text =
+                        CategoryOption.entries.find { it.name == chatRoomData.category }?.option
+                            ?: "",
                     style = Typography.labelLarge,
                     color = Gray4,
                 )
                 Text(
                     modifier =
-                    Modifier.padding(
-                        Paddings.none,
-                        Paddings.none,
-                        Paddings.none,
-                        Paddings.small,
-                    ),
+                        Modifier.padding(
+                            Paddings.none,
+                            Paddings.none,
+                            Paddings.none,
+                            Paddings.small,
+                        ),
                     text = chatRoomData.title,
                     style = Typography.titleMedium,
                     maxLines = 1,
                 )
                 Row(
                     modifier =
-                    Modifier.padding(
-                        Paddings.none,
-                        Paddings.none,
-                        Paddings.extra,
-                        Paddings.largeExtra,
-                    ),
+                        Modifier.padding(
+                            Paddings.none,
+                            Paddings.none,
+                            Paddings.extra,
+                            Paddings.largeExtra,
+                        ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Row(

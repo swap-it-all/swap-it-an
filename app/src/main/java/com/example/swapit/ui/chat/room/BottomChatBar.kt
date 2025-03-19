@@ -26,7 +26,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.swapit.R
 import com.example.swapit.data.datasource.remote.dto.request.chat.ChatRequest
@@ -44,10 +43,10 @@ fun BottomChatBar(viewModel: ChatViewModel) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier =
-        Modifier
-            .fillMaxWidth()
-            .padding(horizontal = Paddings.small, vertical = Paddings.small)
-            .background(White),
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = Paddings.small, vertical = Paddings.small)
+                .background(White),
     ) {
         ChatField(
             modifier = Modifier.weight(1f),
@@ -58,8 +57,8 @@ fun BottomChatBar(viewModel: ChatViewModel) {
                     ChatRequest(
                         "TALK",
                         message,
-                        null
-                    )
+                        null,
+                    ),
                 )
                 message = ""
                 viewModel.fetchChatList(viewModel.chatRoomId.longValue)
@@ -70,18 +69,18 @@ fun BottomChatBar(viewModel: ChatViewModel) {
                 ChatRequest(
                     "TALK",
                     message,
-                    null
-                )
+                    null,
+                ),
             )
             message = ""
             viewModel.fetchChatList(viewModel.chatRoomId.longValue)
         }) {
             Box(
                 modifier =
-                Modifier
-                    .clip(CircleShape)
-                    .size(32.dp)
-                    .background(Gray6),
+                    Modifier
+                        .clip(CircleShape)
+                        .size(32.dp)
+                        .background(Gray6),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
@@ -107,26 +106,26 @@ fun ChatField(
         textStyle = Typography.bodyMedium.copy(color = Black),
         maxLines = 3,
         keyboardOptions =
-        KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Send,
-        ),
+            KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Send,
+            ),
         keyboardActions =
-        KeyboardActions(
-            onSend = {
-                onValueChanged
-            },
-        ),
+            KeyboardActions(
+                onSend = {
+                    onValueChanged
+                },
+            ),
         modifier =
-        modifier
-            .heightIn(min = 32.dp)
-            .background(Gray6, shape = RoundedCornerShape(32.dp))
-            .padding(horizontal = 16.dp),
+            modifier
+                .heightIn(min = 32.dp)
+                .background(Gray6, shape = RoundedCornerShape(32.dp))
+                .padding(horizontal = 16.dp),
         decorationBox = { innerTextField ->
             Row(
                 modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 10.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 10.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(modifier = Modifier.weight(1f)) {
@@ -143,4 +142,3 @@ fun ChatField(
         },
     )
 }
-

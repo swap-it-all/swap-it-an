@@ -48,11 +48,10 @@ fun CompleteSwapBottomButtonSection(
                 vertical = Paddings.xlarge,
             ),
     ) {
-        if (shoppingDetailViewModel.detailContents.trade == null){
-            chatViewModel.initiateChatFlow(shoppingDetailViewModel.goodsId.toLong(),navController)
-        }
-        else {
-            chatViewModel.initiateChatSwapFlow(shoppingDetailViewModel.detailContents.trade!!.tradesId,navController)
+        if (shoppingDetailViewModel.detailContents.trade == null) {
+            chatViewModel.initiateChatFlow(shoppingDetailViewModel.goodsId.toLong(), navController)
+        } else {
+            chatViewModel.initiateChatSwapFlow(shoppingDetailViewModel.detailContents.trade!!.tradesId, navController)
         }
     }
 }

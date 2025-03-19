@@ -2,7 +2,6 @@ package com.example.swapit.data.datasource.remote.dto.response.chat
 
 import kotlinx.serialization.Serializable
 
-
 @Serializable
 data class ChatRoomInfoResponse(
     val goodsId: Long,

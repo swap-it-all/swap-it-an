@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.swapit.R
 import com.example.swapit.data.datasource.local.model.post.CategoryOption
-import com.example.swapit.domain.model.product.Product
 import com.example.swapit.domain.model.product.detail.select.ProductSelect
 import com.example.swapit.ui.shopping.model.calculateTime
 import com.example.swapit.ui.theme.Gray3
@@ -153,7 +152,6 @@ fun MyProductCard(
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

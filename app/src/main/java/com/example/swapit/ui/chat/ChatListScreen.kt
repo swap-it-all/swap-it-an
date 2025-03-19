@@ -16,7 +16,10 @@ import com.example.swapit.ui.component.BottomNavigationBar
 import com.example.swapit.ui.theme.BackgroundColor
 
 @Composable
-fun ChatListScreen(navController: NavHostController, viewModel: ChatViewModel) {
+fun ChatListScreen(
+    navController: NavHostController,
+    viewModel: ChatViewModel,
+) {
     viewModel.fetchChatRoomList()
     Scaffold(
         topBar = {
@@ -40,10 +43,12 @@ fun ChatListScreen(navController: NavHostController, viewModel: ChatViewModel) {
                     NoChatIconSection()
                 }
             }
-            items(viewModel.chatRoomList.value.size,
-                key = { index -> viewModel.chatRoomList.value[index].recentChatTime }) { index ->
+            items(
+                viewModel.chatRoomList.value.size,
+                key = { index -> viewModel.chatRoomList.value[index].recentChatTime },
+            ) { index ->
                 val chatCardData = viewModel.chatRoomList.value[index]
-                ChatCard(chatCardData = chatCardData, navController,viewModel)
+                ChatCard(chatCardData = chatCardData, navController, viewModel)
             }
         }
     }

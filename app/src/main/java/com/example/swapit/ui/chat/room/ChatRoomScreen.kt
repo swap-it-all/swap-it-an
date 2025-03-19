@@ -17,7 +17,12 @@ import com.example.swapit.ui.user.UserInfoViewModel
 import kotlinx.coroutines.runBlocking
 
 @Composable
-fun ChatRoomScreen(navController: NavHostController, chatRoomId: String, chatViewModel: ChatViewModel, userInfoViewModel: UserInfoViewModel) {
+fun ChatRoomScreen(
+    navController: NavHostController,
+    chatRoomId: String,
+    chatViewModel: ChatViewModel,
+    userInfoViewModel: UserInfoViewModel,
+) {
     chatViewModel.fetchChatList(chatRoomId.toLong())
     chatViewModel.chatRoomId.longValue = chatRoomId.toLong()
     DisposableEffect(Unit) {
@@ -31,18 +36,18 @@ fun ChatRoomScreen(navController: NavHostController, chatRoomId: String, chatVie
 
     Scaffold(
         modifier =
-        Modifier
-            .background(BackgroundColor)
-            .imePadding(),
+            Modifier
+                .background(BackgroundColor)
+                .imePadding(),
         topBar = {
-            ChatRoomAppBar(navController = navController,chatViewModel)
+            ChatRoomAppBar(navController = navController, chatViewModel)
         },
     ) { contentPadding ->
         Column(
             modifier =
-            Modifier
-                .padding(contentPadding)
-                .background(BackgroundColor),
+                Modifier
+                    .padding(contentPadding)
+                    .background(BackgroundColor),
             verticalArrangement = Arrangement.SpaceBetween,
         ) {
             ChatRoomProduct(chatViewModel)
@@ -52,4 +57,3 @@ fun ChatRoomScreen(navController: NavHostController, chatRoomId: String, chatVie
         }
     }
 }
-

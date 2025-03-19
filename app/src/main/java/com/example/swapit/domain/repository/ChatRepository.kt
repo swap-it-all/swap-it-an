@@ -11,7 +11,6 @@ import com.example.swapit.domain.model.chat.ChatRoom
 import com.example.swapit.domain.model.chat.ChatRoomInfo
 
 interface ChatRepository {
-
     suspend fun createChatRoom(goodsId: GoodsIdRequest): BaseResponse<Long>
 
     suspend fun createSwapChatRoom(tradesId: TradesIdRequest): BaseResponse<Long>

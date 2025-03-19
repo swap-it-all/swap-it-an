@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ChatRoomResponse(
-    val unReadChatCount:Long,
+    val unReadChatCount: Long,
     val chatroomId: Long,
     val profileImageUrl: String,
     val nickname: String,
@@ -16,4 +16,3 @@ data class ChatRoomResponse(
 data class ChatRoomListResponse(
     val chatRoomList: List<ChatRoomResponse>,
 )
-

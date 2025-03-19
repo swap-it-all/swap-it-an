@@ -26,4 +26,3 @@ data class ChatListResponse(
     val lastCursorId: Long?,
     val size: Int,
 )
-
