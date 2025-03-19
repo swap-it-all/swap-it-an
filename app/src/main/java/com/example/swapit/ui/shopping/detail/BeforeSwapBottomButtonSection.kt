@@ -5,14 +5,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.swapit.R
-import com.example.swapit.domain.repository.ProductRepository
+import com.example.swapit.ui.chat.ChatViewModel
 import com.example.swapit.ui.component.DefaultButton
 import com.example.swapit.ui.component.ModalButton
 import com.example.swapit.ui.navigation.NavItem
@@ -22,7 +19,8 @@ import com.example.swapit.ui.theme.Paddings
 @Composable
 fun BeforeSwapBottomButtonSection(
     navController: NavHostController,
-    viewModel: ShoppingDetailViewModel,
+    shoppingDetailViewModel: ShoppingDetailViewModel,
+    chatViewModel: ChatViewModel,
 ) {
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp.dp
@@ -36,7 +34,7 @@ fun BeforeSwapBottomButtonSection(
             ),
         containerColor = Gray5,
     ) {
-        navController.navigate(NavItem.MyProductSelection.screenRoute + "/${viewModel.goodsId}")
+        navController.navigate(NavItem.MyProductSelection.screenRoute + "/${shoppingDetailViewModel.goodsId}")
     }
     DefaultButton(
         text = stringResource(R.string.shopping_detail_chat_bottom_button),
@@ -47,19 +45,12 @@ fun BeforeSwapBottomButtonSection(
                 horizontal = horizontalPadding.dp * 2,
                 vertical = Paddings.xlarge,
             ),
-    ) {
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun BottomButtonSectionPreview() {
-    BeforeSwapBottomButtonSection(
-        rememberNavController(),
-        viewModel =
-            ShoppingDetailViewModel(
-                repository = ProductRepository.instance(LocalContext.current),
-                _goodsId = "",
-            ),
+        onClick = {
+            if (shoppingDetailViewModel.detailContents.trade == null) {
+                chatViewModel.initiateChatFlow(shoppingDetailViewModel.goodsId.toLong(), navController)
+            } else {
+                chatViewModel.initiateChatSwapFlow(shoppingDetailViewModel.detailContents.trade!!.tradesId, navController)
+            }
+        },
     )
 }

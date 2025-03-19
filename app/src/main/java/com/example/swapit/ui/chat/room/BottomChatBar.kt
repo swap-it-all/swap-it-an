@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -23,9 +25,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.example.swapit.R
+import com.example.swapit.data.datasource.remote.dto.request.chat.ChatRequest
+import com.example.swapit.ui.chat.ChatViewModel
 import com.example.swapit.ui.theme.Black
 import com.example.swapit.ui.theme.Gray4
 import com.example.swapit.ui.theme.Gray6
@@ -34,21 +38,43 @@ import com.example.swapit.ui.theme.Typography
 import com.example.swapit.ui.theme.White
 
 @Composable
-fun BottomChatBar() {
+fun BottomChatBar(viewModel: ChatViewModel) {
     var message by remember { mutableStateOf("") }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier =
             Modifier
                 .fillMaxWidth()
-                .padding(horizontal = Paddings.small, vertical = Paddings.small).background(White),
+                .padding(horizontal = Paddings.small, vertical = Paddings.small)
+                .background(White),
     ) {
         ChatField(
             modifier = Modifier.weight(1f),
             message = message,
             onValueChange = { message = it },
+            onValueChanged = {
+                viewModel.sendMessage(
+                    ChatRequest(
+                        "TALK",
+                        message,
+                        null,
+                    ),
+                )
+                message = ""
+                viewModel.fetchChatList(viewModel.chatRoomId.longValue)
+            },
         )
-        IconButton(onClick = {}) {
+        IconButton(onClick = {
+            viewModel.sendMessage(
+                ChatRequest(
+                    "TALK",
+                    message,
+                    null,
+                ),
+            )
+            message = ""
+            viewModel.fetchChatList(viewModel.chatRoomId.longValue)
+        }) {
             Box(
                 modifier =
                     Modifier
@@ -72,12 +98,23 @@ fun ChatField(
     modifier: Modifier = Modifier,
     message: String,
     onValueChange: (String) -> Unit = {},
+    onValueChanged: (String) -> Unit = {},
 ) {
     BasicTextField(
         value = message,
         onValueChange = onValueChange,
         textStyle = Typography.bodyMedium.copy(color = Black),
         maxLines = 3,
+        keyboardOptions =
+            KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Send,
+            ),
+        keyboardActions =
+            KeyboardActions(
+                onSend = {
+                    onValueChanged
+                },
+            ),
         modifier =
             modifier
                 .heightIn(min = 32.dp)
@@ -104,10 +141,4 @@ fun ChatField(
             }
         },
     )
-}
-
-@Composable
-@Preview(showBackground = true)
-fun BottomChatBarPreview() {
-    BottomChatBar()
 }

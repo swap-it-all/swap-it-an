@@ -22,7 +22,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.swapit.R
-import com.example.swapit.data.model.ChatRoomData
+import com.example.swapit.data.datasource.local.model.post.CategoryOption
+import com.example.swapit.ui.chat.ChatViewModel
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray4
 import com.example.swapit.ui.theme.Paddings
@@ -31,18 +32,11 @@ import com.example.swapit.ui.theme.Typography
 import com.example.swapit.ui.theme.White
 import java.text.DecimalFormat
 
-val _chatRoomData =
-    ChatRoomData(
-        imageUri = "https://static.nike.com/a/images",
-        category = "가방",
-        price = 1000000,
-        title = "나이키 운동화",
-        goodsId = 1,
-    )
-
 @Composable
-fun ChatRoomProduct(chatRoomData: ChatRoomData = _chatRoomData) {
+fun ChatRoomProduct(viewModel: ChatViewModel) {
     val decimal = DecimalFormat(stringResource(R.string.decimal_format))
+    viewModel.fetchChatRoomProduct(viewModel.chatRoomId.value, {})
+    val chatRoomData = viewModel.chatRoomProduct.value
     Column {
         HorizontalDivider(thickness = 1.dp)
         Row(
@@ -54,7 +48,7 @@ fun ChatRoomProduct(chatRoomData: ChatRoomData = _chatRoomData) {
         ) {
             Spacer(modifier = Modifier.size(Paddings.large))
             AsyncImage(
-                model = chatRoomData.imageUri,
+                model = chatRoomData.imageUrl,
                 contentDescription = stringResource(R.string.president_image_description),
                 modifier =
                     Modifier
@@ -81,7 +75,9 @@ fun ChatRoomProduct(chatRoomData: ChatRoomData = _chatRoomData) {
                             Paddings.none,
                             Paddings.xsmall,
                         ),
-                    text = chatRoomData.category,
+                    text =
+                        CategoryOption.entries.find { it.name == chatRoomData.category }?.option
+                            ?: "",
                     style = Typography.labelLarge,
                     color = Gray4,
                 )

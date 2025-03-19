@@ -9,6 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.swapit.R
+import com.example.swapit.ui.chat.ChatViewModel
 import com.example.swapit.ui.component.DefaultButton
 import com.example.swapit.ui.component.ModalButton
 import com.example.swapit.ui.swap.SwapViewModel
@@ -18,8 +19,9 @@ import com.example.swapit.ui.theme.Paddings
 @Composable
 fun CompleteSwapBottomButtonSection(
     navController: NavHostController,
-    viewModel: ShoppingDetailViewModel,
+    shoppingDetailViewModel: ShoppingDetailViewModel,
     swapViewModel: SwapViewModel,
+    chatViewModel: ChatViewModel,
 ) {
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp.dp
@@ -33,7 +35,8 @@ fun CompleteSwapBottomButtonSection(
             ),
         containerColor = Gray5,
     ) {
-        swapViewModel.swapComplete(viewModel.detailContents.trade!!.tradesId)
+        swapViewModel.swapComplete(shoppingDetailViewModel.detailContents.trade!!.tradesId)
+        navController.popBackStack()
     }
     DefaultButton(
         text = stringResource(R.string.shopping_detail_chat_bottom_button),
@@ -45,5 +48,10 @@ fun CompleteSwapBottomButtonSection(
                 vertical = Paddings.xlarge,
             ),
     ) {
+        if (shoppingDetailViewModel.detailContents.trade == null) {
+            chatViewModel.initiateChatFlow(shoppingDetailViewModel.goodsId.toLong(), navController)
+        } else {
+            chatViewModel.initiateChatSwapFlow(shoppingDetailViewModel.detailContents.trade!!.tradesId, navController)
+        }
     }
 }

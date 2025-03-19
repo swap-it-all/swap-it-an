@@ -132,4 +132,8 @@ dependencies {
     implementation(libs.kakao)
     implementation(libs.google)
     implementation(libs.googleid)
+
+    // krossbow
+    implementation(libs.krossbow.stomp.core)
+    implementation(libs.krossbow.websocket.okhttp)
 }
