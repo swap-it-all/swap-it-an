@@ -39,6 +39,7 @@ import com.example.swapit.ui.user.UserInfoScreen
 import com.example.swapit.ui.user.UserInfoViewModel
 import com.example.swapit.ui.user.profile.ProfileEditScreen
 import com.example.swapit.ui.user.setting.SettingScreen
+import com.example.swapit.ui.user.setting.withdraw.WithdrawScreen
 
 class NavigationModule {
     @Composable
@@ -53,6 +54,9 @@ class NavigationModule {
             navController = navController,
             startDestination = NavItem.Splash.screenRoute,
         ) {
+            composable(NavItem.Withdraw.screenRoute) {
+                WithdrawScreen(navController, userInfoViewModel)
+            }
             composable(NavItem.Setting.screenRoute) {
                 SettingScreen(navController, loginViewModel = loginViewModel)
             }

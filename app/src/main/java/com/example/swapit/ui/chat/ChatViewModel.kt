@@ -22,6 +22,7 @@ import com.example.swapit.domain.repository.ChatRepository
 import com.example.swapit.domain.repository.LoginRepository
 import com.example.swapit.ui.base.BaseViewModelFactory
 import com.example.swapit.ui.navigation.NavItem
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import org.hildan.krossbow.stomp.StompClient
@@ -158,7 +159,7 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
         }
     }
 
-    fun sendMessage(message: ChatRequest) {
+    fun sendMessage(message: ChatRequest, onSuccess: () -> Unit) {
         viewModelScope.launch {
             try {
                 // 토큰 갱신 로직
@@ -180,6 +181,8 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
                         ),
                     body = FrameBody.Text(Json.encodeToString(ChatRequest.serializer(), message) + "\\0"),
                 )
+                delay(100)
+                onSuccess()
                 Log.d(TAG, "메시지 전송 성공: $message")
             } catch (e: Exception) {
                 Log.e(TAG, "메시지 전송 실패: ${e.message}")
