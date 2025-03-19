@@ -15,6 +15,8 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,6 +43,15 @@ fun SettingScreen(
     loginViewModel: LoginViewModel,
 ) {
     var isNotificationEnabled by remember { mutableStateOf(initialState) }
+
+    LaunchedEffect(loginViewModel.isLoggedIn.collectAsState().value) {
+        if (!loginViewModel.isLoggedIn.value) {
+            navController.navigate(NavItem.Login.screenRoute) {
+                popUpTo(NavItem.Setting.screenRoute) { inclusive = true }
+            }
+        }
+    }
+
     Scaffold(
         topBar = { AlertAppBar(navController) },
     ) { contentPadding ->
@@ -99,7 +110,6 @@ fun SettingScreen(
                 colors = CardDefaults.cardColors(BackgroundColor),
                 onClick = {
                     loginViewModel.logout()
-                    navController.navigate(NavItem.Login.screenRoute)
                 },
             ) {
                 Row(
