@@ -14,7 +14,7 @@ import com.example.swapit.ui.theme.Paddings
 import com.example.swapit.ui.theme.White
 
 @Composable
-fun ChatRoomTradeButtonBar(swapViewModel: SwapViewModel)  {
+fun ChatRoomTradeButtonBar(swapViewModel: SwapViewModel) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.End,
