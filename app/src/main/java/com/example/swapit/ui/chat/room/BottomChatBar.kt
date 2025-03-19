@@ -59,10 +59,9 @@ fun BottomChatBar(viewModel: ChatViewModel) {
                         message,
                         null,
                     ),
-                    onSuccess = {viewModel.fetchChatList(viewModel.chatRoomId.longValue)}
+                    onSuccess = { viewModel.fetchChatList(viewModel.chatRoomId.longValue) },
                 )
                 message = ""
-
             },
         )
         IconButton(onClick = {
@@ -72,7 +71,7 @@ fun BottomChatBar(viewModel: ChatViewModel) {
                     message,
                     null,
                 ),
-                onSuccess = {viewModel.fetchChatList(viewModel.chatRoomId.longValue)}
+                onSuccess = { viewModel.fetchChatList(viewModel.chatRoomId.longValue) },
             )
             message = ""
             viewModel.fetchChatList(viewModel.chatRoomId.longValue)
@@ -118,7 +117,7 @@ fun ChatField(
                 },
                 onDone = {
                     onValueChanged
-                }
+                },
             ),
         modifier =
             modifier

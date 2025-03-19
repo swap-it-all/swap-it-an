@@ -159,7 +159,10 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
         }
     }
 
-    fun sendMessage(message: ChatRequest, onSuccess: () -> Unit) {
+    fun sendMessage(
+        message: ChatRequest,
+        onSuccess: () -> Unit,
+    ) {
         viewModelScope.launch {
             try {
                 // 토큰 갱신 로직

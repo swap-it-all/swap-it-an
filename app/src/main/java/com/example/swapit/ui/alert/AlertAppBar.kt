@@ -17,7 +17,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.swapit.R
-import com.example.swapit.ui.component.BackButton
 import com.example.swapit.ui.theme.BackgroundColor
 import com.example.swapit.ui.theme.Black
 import com.example.swapit.ui.theme.Paddings
@@ -29,19 +28,19 @@ fun AlertAppBar(navController: NavHostController) {
         navigationIcon = {
             CancelButton(
                 modifier = Modifier.padding(start = Paddings.xlarge),
-                navController = navController
+                navController = navController,
             )
         },
         title = { Row { Text("탈퇴하기") } },
         actions = { Spacer(modifier = Modifier.size(24.dp).padding(end = Paddings.xlarge)) },
         colors =
-        TopAppBarColors(
-            containerColor = BackgroundColor,
-            navigationIconContentColor = BackgroundColor,
-            actionIconContentColor = BackgroundColor,
-            scrolledContainerColor = BackgroundColor,
-            titleContentColor = BackgroundColor,
-        ),
+            TopAppBarColors(
+                containerColor = BackgroundColor,
+                navigationIconContentColor = BackgroundColor,
+                actionIconContentColor = BackgroundColor,
+                scrolledContainerColor = BackgroundColor,
+                titleContentColor = BackgroundColor,
+            ),
     )
 }
 

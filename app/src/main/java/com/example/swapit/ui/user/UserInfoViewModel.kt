@@ -3,7 +3,6 @@ package com.example.swapit.ui.user
 import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -21,7 +20,7 @@ class UserInfoViewModel(
     private val repository: UserRepository,
 ) : ViewModel() {
     val expanded = mutableStateOf(false)
-    val selectedText =mutableStateOf("선택해주세요.")
+    val selectedText = mutableStateOf("선택해주세요.")
     val etcText = mutableStateOf("")
     private var _userInfo: MutableStateFlow<UserInfo> =
         MutableStateFlow(
