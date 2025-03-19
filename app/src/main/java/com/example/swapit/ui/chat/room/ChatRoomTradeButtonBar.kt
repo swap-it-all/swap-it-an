@@ -29,25 +29,5 @@ fun ChatRoomTradeButtonBar(swapViewModel: SwapViewModel)  {
             isSelected = true,
             onClick = { swapViewModel.swapRequest() },
         )
-//        CategoryButton(
-//            text = "스왑 취소하기",
-//            isSelected = true,
-//            onClick = { swapViewModel.swapCancel() },
-//        )
-//        CategoryButton(
-//            text = "스왑 수락하기",
-//            isSelected = true,
-//            onClick = { swapViewModel.swapAccept() },
-//        )
-//        CategoryButton(
-//            text = "스왑 거절하기",
-//            isSelected = true,
-//            onClick = { swapViewModel.swapReject() },
-//        )
-//        CategoryButton(
-//            text = "스왑 완료하기",
-//            isSelected = true,
-//            onClick = { swapViewModel.swapComplete() },
-//        )
     }
 }
