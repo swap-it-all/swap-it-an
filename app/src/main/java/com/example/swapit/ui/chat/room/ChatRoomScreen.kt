@@ -1,5 +1,6 @@
 package com.example.swapit.ui.chat.room
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.navigation.NavHostController
 import com.example.swapit.ui.chat.ChatViewModel
 import com.example.swapit.ui.theme.BackgroundColor
 import com.example.swapit.ui.user.UserInfoViewModel
+import kotlinx.coroutines.runBlocking
 
 @Composable
 fun ChatRoomScreen(navController: NavHostController, chatRoomId: String, chatViewModel: ChatViewModel, userInfoViewModel: UserInfoViewModel) {
@@ -20,10 +22,13 @@ fun ChatRoomScreen(navController: NavHostController, chatRoomId: String, chatVie
     chatViewModel.chatRoomId.longValue = chatRoomId.toLong()
     DisposableEffect(Unit) {
         onDispose {
-            chatViewModel.sendReadReceipt() // 읽은 메시지 ID 전송
-            chatViewModel.disconnect() // 연결 해제
+            runBlocking {
+                Log.d("STOMP", "현재 chatList: ${chatViewModel.chatList.value}")
+                chatViewModel.sendReadReceipt() // 읽은 메시지 ID 전송
+            }
         }
     }
+
     Scaffold(
         modifier =
         Modifier

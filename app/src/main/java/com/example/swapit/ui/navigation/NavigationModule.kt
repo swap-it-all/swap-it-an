@@ -18,7 +18,7 @@ import com.example.swapit.domain.repository.UserRepository
 import com.example.swapit.ui.alert.AlertScreen
 import com.example.swapit.ui.auth.LoginScreen
 import com.example.swapit.ui.auth.LoginViewModel
-import com.example.swapit.ui.chat.ChatScreen
+import com.example.swapit.ui.chat.ChatListScreen
 import com.example.swapit.ui.chat.ChatViewModel
 import com.example.swapit.ui.chat.room.ChatRoomScreen
 import com.example.swapit.ui.post.PostProductScreen
@@ -125,7 +125,7 @@ class NavigationModule {
                 )
             }
             composable(NavItem.Chat.screenRoute) {
-                ChatScreen(
+                ChatListScreen(
                     navController, viewModel = chatViewModel
                 )
             }

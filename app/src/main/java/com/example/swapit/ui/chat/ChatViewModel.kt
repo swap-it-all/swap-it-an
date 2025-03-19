@@ -13,6 +13,8 @@ import com.example.swapit.BuildConfig
 import com.example.swapit.SwapItApplication.Companion.appContext
 import com.example.swapit.data.datasource.local.LocalLoginDataSource
 import com.example.swapit.data.datasource.remote.LoginServiceHolder
+import com.example.swapit.data.datasource.remote.RetrofitModule
+import com.example.swapit.data.datasource.remote.RetrofitModule.okHttpClient
 import com.example.swapit.data.datasource.remote.dto.request.chat.ChatReadRequest
 import com.example.swapit.data.datasource.remote.dto.request.chat.ChatRequest
 import com.example.swapit.data.datasource.remote.dto.request.chat.GoodsIdRequest
@@ -21,6 +23,7 @@ import com.example.swapit.data.datasource.remote.dto.response.chat.ChatResponse
 import com.example.swapit.data.datasource.remote.interceptor.AuthAuthenticator
 import com.example.swapit.data.datasource.remote.interceptor.AuthInterceptor
 import com.example.swapit.data.datasource.remote.interceptor.LoggingInterceptor
+import com.example.swapit.data.datasource.remote.service.LoginService
 import com.example.swapit.data.mapper.toDomain
 import com.example.swapit.domain.model.chat.Chat
 import com.example.swapit.domain.model.chat.ChatRoom
@@ -39,45 +42,36 @@ import org.hildan.krossbow.stomp.frame.FrameBody
 import org.hildan.krossbow.stomp.headers.StompSendHeaders
 import org.hildan.krossbow.stomp.headers.StompSubscribeHeaders
 import org.hildan.krossbow.websocket.okhttp.OkHttpWebSocketClient
+import org.json.JSONObject
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 
-class ChatViewModel(private val repository: ChatRepository, loginRepository: LoginRepository,) : ViewModel()  {
-    val chatRoomList  = mutableStateOf(emptyList<ChatRoom>())
+class ChatViewModel(private val repository: ChatRepository, private val loginRepository: LoginRepository) :
+    ViewModel() {
+    val chatRoomList = mutableStateOf(emptyList<ChatRoom>())
     val chatList = mutableStateOf(emptyList<Chat>())
     val chatRoomId = mutableLongStateOf(0L)
     val goodsId = mutableLongStateOf(0L)
     val tradesId = mutableLongStateOf(0L)
-    private val loginServiceHolder = LoginServiceHolder()
-    private val wsClient = OkHttpWebSocketClient(okHttpClient())
+    private val wsClient by lazy {
+        OkHttpWebSocketClient(okHttpClient())
+    }
     private val stompClient = StompClient(wsClient)
     private var stompSession: StompSession? = null
-    private var accessToken = loginRepository.accessToken() ?: ""
-    val chatRoomProduct = mutableStateOf(ChatRoomInfo(
-        goodsId = 1,
-        imageUrl = "",
-        title = "",
-        price = 0,
-        nickname = "",
-        category = "",
-        usersId = 1
-    ))
+    val chatRoomProduct = mutableStateOf(
+        ChatRoomInfo(
+            goodsId = 1,
+            imageUrl = "",
+            title = "",
+            price = 0,
+            nickname = "",
+            category = "",
+            usersId = 1
+        )
+    )
 
-    private fun okHttpClient(): OkHttpClient {
-        val localLoginDataSource = LocalLoginDataSource(appContext)
-        val authenticator = AuthAuthenticator(loginServiceHolder, LocalLoginDataSource(appContext))
-        return OkHttpClient
-            .Builder()
-            .addInterceptor(AuthInterceptor(localLoginDataSource))
-            .authenticator(authenticator)
-            .addInterceptor(LoggingInterceptor.create())
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(15, TimeUnit.SECONDS)
-            .build()
-    }
 
     private fun connect() {
-        Log.d("STOMP", "connect() 연결 중")
         viewModelScope.launch {
             try {
                 stompSession = stompClient.connect(
@@ -85,10 +79,12 @@ class ChatViewModel(private val repository: ChatRepository, loginRepository: Log
                         "http",
                         "ws"
                     ) + "ws",
-                    customStompConnectHeaders = mapOf("Authorization" to accessToken),
+                    customStompConnectHeaders = mapOf(
+                        "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
+                        "accept-version" to "1.2"
+                    ),
                     host = "localhost"
                 )
-                Log.d("STOMP", "connect() 연결 성공")
             } catch (e: Exception) {
                 Log.e("STOMP", "connect() 연결 실패: ${e.message}")
             }
@@ -103,7 +99,10 @@ class ChatViewModel(private val repository: ChatRepository, loginRepository: Log
             }
             try {
                 val messageFlow = stompSession!!.subscribe(
-                    StompSubscribeHeaders(destination = "/topic/chat/${chatRoomId.longValue}")
+                    StompSubscribeHeaders(
+                        destination = "/topic/chat/${chatRoomId.longValue}",
+                        id = "sub-0"
+                    )
                 )
                 messageFlow.collect { frame ->
                     Log.d("STOMP", "수신 메시지: ${frame.bodyAsText}")
@@ -167,41 +166,69 @@ class ChatViewModel(private val repository: ChatRepository, loginRepository: Log
     fun sendMessage(message: ChatRequest) {
         viewModelScope.launch {
             try {
+                // 토큰 갱신 로직
+                if (isAccessTokenExpired()) {
+                    val newTokens = loginRepository.refresh(loginRepository.refreshToken()!!)
+                    Log.d(TAG, "새로운 액세스 토큰 발급: ${newTokens.accessToken}")
+                }
+
+                // STOMP 메시지 전송
                 stompSession?.send(
                     headers = StompSendHeaders(
-                        destination = "/app/chat/${chatRoomId.longValue}"
+                        destination = "/app/chat/${chatRoomId.longValue}",
+                        customHeaders = mapOf(
+                            "content-type" to "application/json",
+                            "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
+                        ),
                     ),
                     body = FrameBody.Text(Json.encodeToString(ChatRequest.serializer(), message) + "\\0")
                 )
-                Log.d("STOMP", "메시지 전송 성공 채팅방 아이디: ${chatRoomId.longValue}")
-                Log.d("STOMP", "메시지 전송 성공: $message")
+                Log.d(TAG, "메시지 전송 성공: $message")
             } catch (e: Exception) {
-                Log.e("STOMP", "메시지 전송 실패: ${e.message}")
+                Log.e(TAG, "메시지 전송 실패: ${e.message}")
             }
         }
     }
 
-    fun sendReadReceipt() {
+    // 토큰 만료 여부 확인 함수
+    private fun isAccessTokenExpired(): Boolean {
+        val token = loginRepository.accessToken() ?: return true
+        val parts = token.split(".")
+        if (parts.size < 3) return true
+
+        val payload = String(android.util.Base64.decode(parts[1], android.util.Base64.URL_SAFE))
+        val expiration = JSONObject(payload).optLong("exp", 0)
+        return System.currentTimeMillis() / 1000 >= expiration
+    }
+
+    fun sendReadReceipt() { // todo: 안됨
+        Log.d("STOMP", chatList.value.last().chatsId.toString())
         viewModelScope.launch {
             try {
                 stompSession?.send(
                     headers = StompSendHeaders(
-                        destination = "/app/chat/read/${chatRoomId.longValue}"
+                        destination = "/app/chat/${chatRoomId.longValue}",
+                        customHeaders = mapOf(
+                            "content-type" to "application/json",
+                            "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
+                        ),
                     ),
                     body = FrameBody.Text(
                         Json.encodeToString(
-                            ChatReadRequest.serializer(),ChatReadRequest(chatList.value.last().chatsId)
+                            ChatReadRequest.serializer(),
+                            ChatReadRequest(chatList.value.last().chatsId)
                         ) + "\\0"
                     )
                 )
-                Log.d("STOMP", "읽은 메시지 ID 전송 성공")
+                Log.d("STOMP", chatList.value.last().chatsId.toString())
             } catch (e: Exception) {
                 Log.e("STOMP", "읽은 메시지 ID 전송 실패: ${e.message}")
             }
         }
     }
+
     fun disconnect() {
-        runBlocking {
+        viewModelScope.launch {
             stompSession?.disconnect()
             Log.d("STOMP", "STOMP 연결 해제")
         }

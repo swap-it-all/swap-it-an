@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.swapit.domain.model.chat.ChatRoom
-import com.example.swapit.ui.navigation.NavItem
+import com.example.swapit.ui.shopping.model.calculateTime
 import com.example.swapit.ui.theme.BackgroundColor
 import com.example.swapit.ui.theme.Gray3
 import com.example.swapit.ui.theme.Gray4
@@ -65,13 +65,13 @@ fun ChatCardContent(chatCardData: ChatRoom) {
                 .padding(Paddings.xlarge, Paddings.large)
                 .background(BackgroundColor),
     ) {
-        CharCardUserImageSection(chatCardData)
+        ChatCardUserImageSection(chatCardData)
         ChatCardUserMessageContentSection(chatCardData)
     }
 }
 
 @Composable
-fun CharCardUserImageSection(chatCardData: ChatRoom) {
+fun ChatCardUserImageSection(chatCardData: ChatRoom) {
     AsyncImage(
         model = chatCardData.profileImageUrl,
         contentDescription = "유저 사진",
@@ -85,6 +85,7 @@ fun CharCardUserImageSection(chatCardData: ChatRoom) {
 @Composable
 fun ChatCardUserMessageContentSection(chatCardData: ChatRoom) {
     val maxUnread = 99
+    val convertTime = calculateTime(chatCardData.recentChatTime)
     Column(modifier = Modifier) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -103,7 +104,7 @@ fun ChatCardUserMessageContentSection(chatCardData: ChatRoom) {
                 style = Typography.titleMedium,
             )
             Text(
-                text = chatCardData.recentChatTime,
+                text = convertTime,
                 color = Gray4,
                 style = Typography.bodySmall,
             )

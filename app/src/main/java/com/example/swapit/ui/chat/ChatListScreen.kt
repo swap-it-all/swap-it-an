@@ -9,17 +9,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.swapit.domain.repository.ChatRepository
 import com.example.swapit.ui.component.AppBar
 import com.example.swapit.ui.component.BottomNavigationBar
 import com.example.swapit.ui.theme.BackgroundColor
 
 @Composable
-fun ChatScreen(navController: NavHostController, viewModel: ChatViewModel) {
+fun ChatListScreen(navController: NavHostController, viewModel: ChatViewModel) {
     viewModel.fetchChatRoomList()
     Scaffold(
         topBar = {
