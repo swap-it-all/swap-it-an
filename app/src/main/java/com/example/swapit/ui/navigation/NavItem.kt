@@ -7,6 +7,8 @@ sealed class NavItem(
     val icon: Int,
     val screenRoute: String,
 ) {
+    data object Withdraw : NavItem("회원탈퇴", R.drawable.ic_user, WITHDRAW)
+
     data object Setting : NavItem("설정", R.drawable.ic_settings, SETTING)
 
     data object Splash : NavItem("splash", R.drawable.ic_logo, SPLASH)
@@ -42,6 +44,7 @@ sealed class NavItem(
     data object ProfileEdit : NavItem("프로필 수정", R.drawable.ic_user, PROFILE_EDIT)
 
     companion object {
+        const val WITHDRAW = "WITHDRAW"
         const val SETTING = "SETTING"
         const val SPLASH = "SPLASH"
         const val CHAT_ROOM = "CHAT_ROOM"

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.swapit.ui.chat.ChatViewModel
@@ -25,6 +26,7 @@ fun ChatRoomScreen(
 ) {
     chatViewModel.fetchChatList(chatRoomId.toLong())
     chatViewModel.chatRoomId.longValue = chatRoomId.toLong()
+    val chats by chatViewModel.chatList
     DisposableEffect(Unit) {
         onDispose {
             runBlocking {
@@ -51,7 +53,7 @@ fun ChatRoomScreen(
             verticalArrangement = Arrangement.SpaceBetween,
         ) {
             ChatRoomProduct(chatViewModel)
-            ChatRoomContent(chats = chatViewModel.chatList.value, modifier = Modifier.weight(1f), userInfoViewModel = userInfoViewModel)
+            ChatRoomContent(chats = chats, modifier = Modifier.weight(1f), userInfoViewModel = userInfoViewModel)
 //            ChatRoomTradeButtonBar(chatViewModel)
             BottomChatBar(viewModel = chatViewModel)
         }

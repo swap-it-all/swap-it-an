@@ -126,7 +126,9 @@ fun SettingScreen(
             HorizontalDivider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp)
             Card(
                 colors = CardDefaults.cardColors(BackgroundColor),
-                onClick = {},
+                onClick = {
+                    navController.navigate(NavItem.Withdraw.screenRoute)
+                },
             ) {
                 Row(
                     Modifier.fillMaxWidth(),
