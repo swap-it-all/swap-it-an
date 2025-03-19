@@ -18,7 +18,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import com.example.swapit.R
 import com.example.swapit.domain.repository.UserRepository
-import com.example.swapit.ui.component.AppBar
 import com.example.swapit.ui.component.BottomNavigationBar
 import com.example.swapit.ui.theme.BackgroundColor
 
@@ -33,7 +32,7 @@ fun UserInfoScreen(
 
     Scaffold(
         topBar = {
-            AppBar(navController = navController)
+            UserInfoAppBar(navController = navController)
         },
         bottomBar = {
             BottomNavigationBar(navController)

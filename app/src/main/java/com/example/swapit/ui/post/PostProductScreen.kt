@@ -1,3 +1,5 @@
+
+
 package com.example.swapit.ui.post
 
 import android.util.Log
@@ -63,7 +65,9 @@ fun PostProductScreen(
             },
         )
 
-    Scaffold { paddingValues ->
+    Scaffold(topBar = {
+        PostAppBar(navController)
+    }) { paddingValues ->
         Surface(
             modifier =
                 Modifier
@@ -153,6 +157,7 @@ fun PostProductScreen(
                         )
                     },
                 )
+                Spacer(Modifier.padding(vertical = Paddings.xlarge))
                 if (viewModel.alertDialogState.value.title.isNotEmpty()) {
                     AlertDialog(
                         title = viewModel.alertDialogState.value.title,

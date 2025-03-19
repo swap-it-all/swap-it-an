@@ -38,6 +38,7 @@ import com.example.swapit.ui.swap.sent.SentSwapScreen
 import com.example.swapit.ui.user.UserInfoScreen
 import com.example.swapit.ui.user.UserInfoViewModel
 import com.example.swapit.ui.user.profile.ProfileEditScreen
+import com.example.swapit.ui.user.setting.SettingScreen
 
 class NavigationModule {
     @Composable
@@ -52,6 +53,10 @@ class NavigationModule {
             navController = navController,
             startDestination = NavItem.Splash.screenRoute,
         ) {
+            composable(NavItem.Setting.screenRoute) {
+                SettingScreen(navController, loginViewModel = loginViewModel)
+            }
+
             composable(NavItem.Splash.screenRoute) {
                 SplashScreen(navController, loginViewModel)
             }
