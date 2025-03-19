@@ -93,8 +93,8 @@ fun Bubble(
             Text(
                 "스왑을 요청했어요!\n" +
                     "\n" +
-                    "물건 : ${chat.requesterGoods!!.title}\n" +
-                    "스와퍼 : ${chat.requesterGoods!!.requesterNickname}",
+                    "물건 : ${chat.requesterGoods?.title}\n" +
+                    "스와퍼 : ${chat.requesterGoods?.requesterNickname}",
                 Modifier.padding(Paddings.xlarge, Paddings.small),
             )
         }
@@ -109,8 +109,8 @@ fun Bubble(
             Text(
                 "스왑을 취소했어요!\n" +
                     "\n" +
-                    "물건 : ${chat.requesterGoods!!.title}\n" +
-                    "스와퍼 : ${chat.requesterGoods!!.requesterNickname}",
+                    "물건 : ${chat.requesterGoods?.title}\n" +
+                    "스와퍼 : ${chat.requesterGoods?.requesterNickname}",
                 Modifier.padding(Paddings.xlarge, Paddings.small),
             )
         }
@@ -125,8 +125,8 @@ fun Bubble(
             Text(
                 "스왑을 수락했어요!\n" +
                     "\n" +
-                    "물건 : ${chat.requesterGoods!!.title}\n" +
-                    "스와퍼 : ${chat.requesterGoods!!.requesterNickname}",
+                    "물건 : ${chat.requesterGoods?.title}\n" +
+                    "스와퍼 : ${chat.requesterGoods?.requesterNickname}",
                 Modifier.padding(Paddings.xlarge, Paddings.small),
             )
         }
@@ -141,8 +141,8 @@ fun Bubble(
             Text(
                 "스왑을 거절했어요!\n" +
                     "\n" +
-                    "물건 : ${chat.requesterGoods!!.title}\n" +
-                    "스와퍼 : ${chat.requesterGoods!!.requesterNickname}",
+                    "물건 : ${chat.requesterGoods?.title}\n" +
+                    "스와퍼 : ${chat.requesterGoods?.requesterNickname}",
                 Modifier.padding(Paddings.xlarge, Paddings.small),
             )
         }
@@ -157,8 +157,8 @@ fun Bubble(
             Text(
                 "스왑을 완료했어요!\n" +
                     "\n" +
-                    "물건 : ${chat.requesterGoods!!.title}\n" +
-                    "스와퍼 : ${chat.requesterGoods!!.requesterNickname}",
+                    "물건 : ${chat.requesterGoods?.title}\n" +
+                    "스와퍼 : ${chat.requesterGoods?.requesterNickname}",
                 Modifier.padding(Paddings.xlarge, Paddings.small),
             )
         }
