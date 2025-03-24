@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.swapit.company.R
@@ -21,8 +22,8 @@ import com.swapit.company.ui.theme.SwapitTheme
 import com.swapit.company.ui.theme.Typography
 
 @Composable
-fun AlertScreen(navController: NavHostController) {
-    val alertCardDataList = 1
+fun AlertScreen(navController: NavHostController, viewModel: AlertViewModel) {
+    viewModel.fetchAlertList()
     Scaffold(
         topBar = { AlertAppBar(navController) },
     ) { contentPadding ->
@@ -37,23 +38,19 @@ fun AlertScreen(navController: NavHostController) {
                 style = Typography.titleLarge,
                 modifier = Modifier.padding(Paddings.xlarge),
             )
-            if (alertCardDataList == 0) {
+            if (viewModel.alertList.value.isEmpty()) {
                 NoAlertIconSection()
             }
             LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
-                items(4) {
-                    AlertCard(alertCardData = alertCardData)
+                items(
+                    viewModel.alertList.value.size,
+                    key = { index ->
+                        viewModel.alertList.value[index].notificationsId
+                    }) { index ->
+                    AlertCard(alertCardData = viewModel.alertList.value[index])
                 }
             }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun SearchScreenPreview() {
-    var navController = rememberNavController()
-    SwapitTheme {
-        AlertScreen(navController)
-    }
-}

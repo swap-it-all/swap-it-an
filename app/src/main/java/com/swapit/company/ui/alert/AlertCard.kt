@@ -24,7 +24,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.swapit.company.R
-import com.swapit.company.data.model.AlertCardData
+import com.swapit.company.data.datasource.local.model.alert.AlertType
+import com.swapit.company.domain.model.alert.Alert
+import com.swapit.company.ui.shopping.model.calculateTime
 import com.swapit.company.ui.theme.BackgroundColor
 import com.swapit.company.ui.theme.Gray4
 import com.swapit.company.ui.theme.Paddings
@@ -33,15 +35,24 @@ import com.swapit.company.ui.theme.Typography
 import com.swapit.company.ui.theme.White
 
 @Composable
-fun AlertCard(alertCardData: AlertCardData) {
-    @OptIn(ExperimentalMaterial3Api::class)
+fun AlertCard(alertCardData: Alert) {
+    val convertTime = calculateTime(alertCardData.createdAt)
+    val icon = when (alertCardData.type) {
+        AlertType.CHAT.name -> R.drawable.ic_chat
+        AlertType.COMPLETED.name -> R.drawable.ic_shopping_bag
+        AlertType.REJECTED.name -> R.drawable.ic_shopping_bag
+        AlertType.ACCEPTED.name -> R.drawable.ic_shopping_bag
+        AlertType.REQUESTED.name -> R.drawable.ic_shopping_bag
+        AlertType.REVIEW.name -> R.drawable.ic_pencil
+        else -> R.drawable.ic_bell
+    }
     Card(
         modifier = Modifier.padding(Paddings.xlarge, Paddings.medium),
         colors =
             CardDefaults.cardColors(
                 containerColor = BackgroundColor,
             ),
-        onClick = alertCardData.onClick,
+        onClick = {},
     ) {
         Column {
             Row {
@@ -54,7 +65,7 @@ fun AlertCard(alertCardData: AlertCardData) {
                             .background(White),
                 ) {
                     Icon(
-                        painter = painterResource(id = alertCardData.icon),
+                        painter = painterResource(id = icon),
                         contentDescription = stringResource(R.string.alert_icon),
                         tint = Primary,
                         modifier = Modifier.size(36.dp),
@@ -62,13 +73,13 @@ fun AlertCard(alertCardData: AlertCardData) {
                 }
                 Column(modifier = Modifier.padding(Paddings.medium)) {
                     Text(
-                        text = alertCardData.message,
+                        text = alertCardData.body,
                         style = Typography.titleMedium,
                     )
                     Spacer(modifier = Modifier.height(Paddings.medium))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = alertCardData.date,
+                            text = convertTime,
                             style = Typography.labelLarge,
                             color = Gray4,
                         )
@@ -84,19 +95,4 @@ fun AlertCard(alertCardData: AlertCardData) {
             )
         }
     }
-}
-
-val alertCardData =
-    AlertCardData(
-        message = "스왑 요청이 들어왔어요",
-        date = "2월 19일 13:22",
-        icon = R.drawable.ic_show,
-    )
-
-@Preview(showBackground = true)
-@Composable
-fun AlertCardPreview() {
-    AlertCard(
-        alertCardData,
-    )
 }
