@@ -1,6 +1,7 @@
 package com.swapit.company.ui.chat
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.swapit.company.ui.alert.AlertViewModel
 import com.swapit.company.ui.component.AppBar
 import com.swapit.company.ui.component.BottomNavigationBar
 import com.swapit.company.ui.theme.BackgroundColor
@@ -19,36 +21,34 @@ import com.swapit.company.ui.theme.BackgroundColor
 fun ChatListScreen(
     navController: NavHostController,
     viewModel: ChatViewModel,
+    alertViewModel: AlertViewModel,
 ) {
     viewModel.fetchChatRoomList()
     Scaffold(
         topBar = {
-            AppBar(navController = navController)
+            AppBar(navController = navController, alertCount = alertViewModel.alertList.value.size)
         },
         bottomBar = {
             BottomNavigationBar(navController)
         },
     ) { contentPadding ->
-
-        LazyColumn(
-            modifier =
-                Modifier
-                    .padding(contentPadding)
-                    .fillMaxSize()
-                    .background(BackgroundColor),
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(contentPadding)
+                .background(BackgroundColor),
         ) {
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-                if (viewModel.chatRoomList.value.isEmpty()) {
-                    NoChatIconSection()
-                }
+            if (viewModel.chatRoomList.value.isEmpty()) {
+                NoChatIconSection()
             }
-            items(
-                viewModel.chatRoomList.value.size,
-                key = { index -> viewModel.chatRoomList.value[index].recentChatTime },
-            ) { index ->
-                val chatCardData = viewModel.chatRoomList.value[index]
-                ChatCard(chatCardData = chatCardData, navController, viewModel)
+            LazyColumn {
+                items(
+                    viewModel.chatRoomList.value.size,
+                    key = { index -> viewModel.chatRoomList.value[index].recentChatTime },
+                ) { index ->
+                    val chatCardData = viewModel.chatRoomList.value[index]
+                    ChatCard(chatCardData = chatCardData, navController, viewModel)
+                }
             }
         }
     }

@@ -20,7 +20,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.swapit.company.domain.repository.AlertRepository
 import com.swapit.company.domain.repository.ProductRepository
+import com.swapit.company.ui.alert.AlertViewModel
 import com.swapit.company.ui.component.AppBar
 import com.swapit.company.ui.component.BottomNavigationBar
 import com.swapit.company.ui.navigation.NavItem
@@ -33,12 +35,14 @@ import com.swapit.company.ui.theme.SwapitTheme
 fun ShoppingScreen(
     navController: NavHostController,
     viewModel: ShoppingViewModel,
+    alertViewModel: AlertViewModel
 ) {
     val sheetState = rememberModalBottomSheetState()
     viewModel.fetchProducts()
+    alertViewModel.fetchAlertList()
     Scaffold(
         topBar = {
-            AppBar(navController = navController)
+            AppBar(navController = navController, alertCount = alertViewModel.alertList.value.size)
         },
         bottomBar = {
             BottomNavigationBar(navController)
@@ -92,6 +96,7 @@ fun ShoppingScreen(
 @Composable
 fun ProductScreenPreview() {
     SwapitTheme {
-        ShoppingScreen(rememberNavController(), ShoppingViewModel(ProductRepository.instance(LocalContext.current)))
+        ShoppingScreen(rememberNavController(), ShoppingViewModel(ProductRepository.instance(LocalContext.current)), AlertViewModel(
+            AlertRepository.instance()))
     }
 }
