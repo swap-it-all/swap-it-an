@@ -38,6 +38,4 @@ class RemoteUserDataSource(
             throw Exception(response.message)
         }
     }
-
-
 }

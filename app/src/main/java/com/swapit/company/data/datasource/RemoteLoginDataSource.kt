@@ -43,7 +43,11 @@ class RemoteLoginDataSource(
         return response.success
     }
 
-    suspend fun deleteAccount(authToken: String, kakaoToken: String, reason: String): Boolean {
+    suspend fun deleteAccount(
+        authToken: String,
+        kakaoToken: String,
+        reason: String,
+    ): Boolean {
         val response = loginService.deleteAccount("Bearer $authToken", kakaoToken, WithDrawRequest(reason))
         return response.success
     }

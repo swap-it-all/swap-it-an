@@ -29,9 +29,15 @@ interface ProductRepository {
         images: List<Uri>,
     ): BaseResponse<Unit>
 
-    suspend fun deleteProductImage(goodsId: Long, imagesId: Long): BaseResponse<Unit>
+    suspend fun deleteProductImage(
+        goodsId: Long,
+        imagesId: Long,
+    ): BaseResponse<Unit>
 
-    suspend fun editProduct(goodsId: Long, product: ProductRequest): BaseResponse<Unit>
+    suspend fun editProduct(
+        goodsId: Long,
+        product: ProductRequest,
+    ): BaseResponse<Unit>
 
     suspend fun deleteProduct(goodsId: Long): BaseResponse<Unit>
 

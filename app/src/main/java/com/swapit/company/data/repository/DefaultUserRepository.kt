@@ -30,8 +30,6 @@ class DefaultUserRepository(
         remoteSource.updateProfileImage(createMultipartBody(imageFile))
     }
 
-
-
     private fun createMultipartBody(file: File): MultipartBody.Part {
         val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
         return MultipartBody.Part.createFormData("image", file.name, requestBody)

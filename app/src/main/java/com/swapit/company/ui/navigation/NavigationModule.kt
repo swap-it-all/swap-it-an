@@ -61,20 +61,20 @@ class NavigationModule {
             composable(
                 NavItem.Report.screenRoute + "/{goodsId}",
                 arguments =
-                listOf(
-                    navArgument("goodsId") {
-                        type = NavType.StringType
-                    },
-                ),
+                    listOf(
+                        navArgument("goodsId") {
+                            type = NavType.StringType
+                        },
+                    ),
             ) {
                 ReportScreen(
                     navController,
                     goodsId = it.arguments?.getString("goodsId") ?: "",
-                    reportViewModel = viewModel(factory = ReportViewModel.factory(ReportRepository.instance()))
+                    reportViewModel = viewModel(factory = ReportViewModel.factory(ReportRepository.instance())),
                 )
             }
             composable(NavItem.Withdraw.screenRoute) {
-                WithdrawScreen(navController, userInfoViewModel,loginViewModel)
+                WithdrawScreen(navController, userInfoViewModel, loginViewModel)
             }
             composable(NavItem.Setting.screenRoute) {
                 SettingScreen(navController, loginViewModel = loginViewModel)
@@ -96,9 +96,9 @@ class NavigationModule {
                     navController,
                     viewModel(
                         factory =
-                        ShoppingViewModel.factory(
-                            ProductRepository.instance(context = LocalContext.current),
-                        ),
+                            ShoppingViewModel.factory(
+                                ProductRepository.instance(context = LocalContext.current),
+                            ),
                     ),
                 )
             }
@@ -111,11 +111,11 @@ class NavigationModule {
             composable(
                 route = NavItem.ReceivedDetailSwap.screenRoute + "/{goodsId}",
                 arguments =
-                listOf(
-                    navArgument("goodsId") {
-                        type = NavType.StringType
-                    },
-                ),
+                    listOf(
+                        navArgument("goodsId") {
+                            type = NavType.StringType
+                        },
+                    ),
             ) { backStackEntry ->
                 swapViewModel.fetchReceivedSwapProductsResult(
                     backStackEntry.arguments?.getString("goodsId")?.toLong() ?: 0,
@@ -142,14 +142,14 @@ class NavigationModule {
                 PostProductScreen(
                     navController = navController,
                     viewModel =
-                    viewModel(
-                        factory =
-                        PostProductViewModel.factory(
-                            ProductRepository.instance(
-                                LocalContext.current,
-                            ),
+                        viewModel(
+                            factory =
+                                PostProductViewModel.factory(
+                                    ProductRepository.instance(
+                                        LocalContext.current,
+                                    ),
+                                ),
                         ),
-                    ),
                 )
             }
             composable(NavItem.Chat.screenRoute) {
@@ -172,34 +172,34 @@ class NavigationModule {
                 SearchScreen(
                     navController,
                     viewModel =
-                    viewModel(
-                        factory =
-                        ShoppingViewModel.factory(
-                            ProductRepository.instance(context = LocalContext.current),
+                        viewModel(
+                            factory =
+                                ShoppingViewModel.factory(
+                                    ProductRepository.instance(context = LocalContext.current),
+                                ),
                         ),
-                    ),
                 )
             }
             composable(
                 route = NavItem.ShoppingDetail.screenRoute + "/{goodsId}",
                 arguments =
-                listOf(
-                    navArgument("goodsId") {
-                        type = NavType.StringType
-                    },
-                ),
+                    listOf(
+                        navArgument("goodsId") {
+                            type = NavType.StringType
+                        },
+                    ),
             ) { backStackEntry ->
                 ShoppingDetailScreen(
                     Modifier,
                     navController,
                     shoppingDetailViewModel =
-                    viewModel(
-                        factory =
-                        ShoppingDetailViewModel.factory(
-                            ProductRepository.instance(context = LocalContext.current),
-                            backStackEntry.arguments?.getString("goodsId") ?: "",
+                        viewModel(
+                            factory =
+                                ShoppingDetailViewModel.factory(
+                                    ProductRepository.instance(context = LocalContext.current),
+                                    backStackEntry.arguments?.getString("goodsId") ?: "",
+                                ),
                         ),
-                    ),
                     userInfoViewModel = userInfoViewModel,
                     swapViewModel = swapViewModel,
                     chatViewModel = chatViewModel,
@@ -208,24 +208,24 @@ class NavigationModule {
             composable(
                 route = NavItem.MyProductSelection.screenRoute + "/{targetProductId}",
                 arguments =
-                listOf(
-                    navArgument("targetProductId") {
-                        type = NavType.StringType
-                    },
-                ),
+                    listOf(
+                        navArgument("targetProductId") {
+                            type = NavType.StringType
+                        },
+                    ),
             ) { backStackEntry ->
                 MyProductSelectScreen(
                     navController,
                     viewModel =
-                    viewModel(
-                        factory =
-                        MyProductSelectViewModel.factory(
-                            ProductRepository.instance(LocalContext.current),
+                        viewModel(
+                            factory =
+                                MyProductSelectViewModel.factory(
+                                    ProductRepository.instance(LocalContext.current),
+                                ),
                         ),
-                    ),
                     targetProductId =
-                    backStackEntry.arguments?.getString("targetProductId")
-                        ?.toLong() ?: 0,
+                        backStackEntry.arguments?.getString("targetProductId")
+                            ?.toLong() ?: 0,
                 )
             }
             composable(NavItem.ProfileEdit.screenRoute) {
@@ -237,11 +237,11 @@ class NavigationModule {
             composable(
                 NavItem.ChatRoom.screenRoute + "/{chatroomId}",
                 arguments =
-                listOf(
-                    navArgument("chatroomId") {
-                        type = NavType.StringType
-                    },
-                ),
+                    listOf(
+                        navArgument("chatroomId") {
+                            type = NavType.StringType
+                        },
+                    ),
             ) { backStackEntry ->
                 ChatRoomScreen(
                     navController,

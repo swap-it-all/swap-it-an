@@ -5,12 +5,12 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.swapit.company.domain.repository.LoginRepository
-import com.swapit.company.ui.base.BaseViewModelFactory
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.swapit.company.domain.repository.LoginRepository
+import com.swapit.company.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -52,7 +52,6 @@ class LoginViewModel(
         }
     }
 
-
     fun logout() {
         viewModelScope.launch {
             if (isKakaoLoggedOut()) {
@@ -77,7 +76,6 @@ class LoginViewModel(
             }
         }
     }
-
 
     private suspend fun isKakaoLoggedOut(): Boolean =
         suspendCoroutine<Boolean> { continuation ->

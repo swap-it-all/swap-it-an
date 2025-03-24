@@ -16,7 +16,10 @@ class RemoteProductDataSource(private val productService: ProductService) {
         images: List<MultipartBody.Part>,
     ): BaseResponse<Unit> = productService.postProductImages(goodsId = goodsId, images = images)
 
-    suspend fun deleteProductImage(goodsId: Long, imagesId: Long): BaseResponse<Unit> {
+    suspend fun deleteProductImage(
+        goodsId: Long,
+        imagesId: Long,
+    ): BaseResponse<Unit> {
         return productService.deleteProductImage(goodsId = goodsId, imagesId = imagesId)
     }
 
@@ -50,7 +53,10 @@ class RemoteProductDataSource(private val productService: ProductService) {
         return productService.mySoldOutProductList()
     }
 
-    suspend fun editProduct(goodsId: Long, product: ProductRequest): BaseResponse<Unit> {
+    suspend fun editProduct(
+        goodsId: Long,
+        product: ProductRequest,
+    ): BaseResponse<Unit> {
         return productService.editProduct(goodsId = goodsId, product = product)
     }
 

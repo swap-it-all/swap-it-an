@@ -61,16 +61,16 @@ fun ProductImageSection(
         HorizontalPager(
             state = pagerState,
             modifier =
-            Modifier
-                .fillMaxWidth(),
+                Modifier
+                    .fillMaxWidth(),
             userScrollEnabled = true,
         ) { page ->
 
             AsyncImage(
                 modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .height(412.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .height(412.dp),
                 model = shoppingDetailData.imageUri[page].imageUrl,
                 contentScale = ContentScale.Crop,
                 contentDescription = "상품 이미지",
@@ -91,19 +91,19 @@ fun ProductImageSection(
                     if (pagerState.currentPage == iteration) White else White.copy(alpha = 0.5f)
                 Box(
                     modifier =
-                    Modifier
-                        .padding(4.dp)
-                        .clip(CircleShape)
-                        .background(color)
-                        .size(6.dp),
+                        Modifier
+                            .padding(4.dp)
+                            .clip(CircleShape)
+                            .background(color)
+                            .size(6.dp),
                 )
             }
         }
         BackButton(
             modifier =
-            Modifier
-                .align(Alignment.TopStart)
-                .padding(Paddings.largeExtra, Paddings.xextra * 2, Paddings.none, Paddings.none),
+                Modifier
+                    .align(Alignment.TopStart)
+                    .padding(Paddings.largeExtra, Paddings.xextra * 2, Paddings.none, Paddings.none),
             navController,
             color = White,
         )
@@ -111,9 +111,8 @@ fun ProductImageSection(
             modifier = Modifier.align(Alignment.TopEnd),
             shoppingDetailViewModel,
             uerInfoViewModel,
-            navController
+            navController,
         )
-
     }
 }
 
@@ -123,16 +122,16 @@ fun EditDeleteAccuseDropdownMenu(
     modifier: Modifier = Modifier,
     shoppingDetailViewModel: ShoppingDetailViewModel,
     viewModel: UserInfoViewModel,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp.dp
     val horizontalPadding = screenWidthDp.value
     val shoppingDetailData = shoppingDetailViewModel.detailContents
-    Box (modifier = Modifier.fillMaxWidth()){
+    Box(modifier = Modifier.fillMaxWidth()) {
         IconButton(
             modifier =
-            modifier.padding(Paddings.none, Paddings.xextra * 2 - 12.dp, Paddings.largeExtra, Paddings.none).align(Alignment.TopEnd),
+                modifier.padding(Paddings.none, Paddings.xextra * 2 - 12.dp, Paddings.largeExtra, Paddings.none).align(Alignment.TopEnd),
             onClick = { shoppingDetailViewModel.dropMenuExpanded.value = !shoppingDetailViewModel.dropMenuExpanded.value },
         ) {
             Icon(
@@ -143,9 +142,11 @@ fun EditDeleteAccuseDropdownMenu(
         }
         if (shoppingDetailData.user.userId == viewModel.userInfo.value?.id) {
             DropdownMenu(
-                offset = DpOffset(
-                    x = horizontalPadding.dp, y = 0.dp
-                ),
+                offset =
+                    DpOffset(
+                        x = horizontalPadding.dp,
+                        y = 0.dp,
+                    ),
                 containerColor = BackgroundColor,
                 expanded = shoppingDetailViewModel.dropMenuExpanded.value,
                 onDismissRequest = { shoppingDetailViewModel.dropMenuExpanded.value = false },
@@ -153,7 +154,6 @@ fun EditDeleteAccuseDropdownMenu(
                 DropdownMenuItem(
                     text = { Text("수정하기") },
                     onClick = {
-
                         shoppingDetailViewModel.dropMenuExpanded.value = false
                     },
                 )
@@ -167,9 +167,11 @@ fun EditDeleteAccuseDropdownMenu(
             }
         } else {
             DropdownMenu(
-                offset = DpOffset(
-                    x = horizontalPadding.dp, y = 0.dp
-                ),
+                offset =
+                    DpOffset(
+                        x = horizontalPadding.dp,
+                        y = 0.dp,
+                    ),
                 containerColor = BackgroundColor,
                 expanded = shoppingDetailViewModel.dropMenuExpanded.value,
                 onDismissRequest = { shoppingDetailViewModel.dropMenuExpanded.value = false },
@@ -177,9 +179,9 @@ fun EditDeleteAccuseDropdownMenu(
                 DropdownMenuItem(
                     text = { Text("신고하기") },
                     onClick = {
-                        navController.navigate(NavItem.Report.screenRoute+"/${shoppingDetailData.goodsId}")
+                        navController.navigate(NavItem.Report.screenRoute + "/${shoppingDetailData.goodsId}")
                         shoppingDetailViewModel.dropMenuExpanded.value = false
-                    }
+                    },
                 )
             }
         }

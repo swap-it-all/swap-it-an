@@ -16,11 +16,16 @@ interface LoginRepository {
 
     suspend fun logout(refreshToken: String): Boolean
 
-    suspend fun deleteAccount(authToken: String, kakaoToken: String, reason: String): Boolean
+    suspend fun deleteAccount(
+        authToken: String,
+        kakaoToken: String,
+        reason: String,
+    ): Boolean
 
     suspend fun saveKakaoToken(kakaoToken: String) // 추가
 
     fun getKakaoToken(): String? // 추가
+
     suspend fun saveTokens(
         accessToken: String,
         refreshToken: String,

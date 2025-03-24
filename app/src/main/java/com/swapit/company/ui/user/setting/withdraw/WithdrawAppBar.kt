@@ -23,7 +23,7 @@ import com.swapit.company.ui.theme.Paddings
 fun WithdrawAppBar(navController: NavHostController) {
     TopAppBar(
         navigationIcon = { BackButton(modifier = Modifier.padding(start = Paddings.xlarge), navController = navController) },
-        title = { Row (Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.Center){ Text("탈퇴하기") } },
+        title = { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) { Text("탈퇴하기") } },
         colors =
             TopAppBarColors(
                 containerColor = BackgroundColor,

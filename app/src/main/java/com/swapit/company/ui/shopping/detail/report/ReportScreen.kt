@@ -40,7 +40,7 @@ import com.swapit.company.ui.theme.Typography
 fun ReportScreen(
     navController: NavHostController,
     goodsId: String,
-    reportViewModel: ReportViewModel
+    reportViewModel: ReportViewModel,
 ) {
     val context = LocalContext.current
     Scaffold(
@@ -65,9 +65,10 @@ fun ReportScreen(
             DefaultButton(
                 text = "신고하기",
                 enabled = reportViewModel.reportMessage.value.isNotEmpty(),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(Paddings.xlarge),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(Paddings.xlarge),
                 onClick = {
                     reportViewModel.reportProduct(goodsId) { success ->
                         if (success) {
@@ -77,7 +78,7 @@ fun ReportScreen(
                         }
                     }
                     navController.navigateUp()
-                }
+                },
             )
         }
     }
@@ -96,21 +97,21 @@ fun ReportField(
         minLines = 5,
         maxLines = 10,
         keyboardOptions =
-        KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Send,
-        ),
+            KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Send,
+            ),
         modifier =
-        modifier
-            .heightIn(min = 32.dp)
-            .background(Gray6, shape = RoundedCornerShape(32.dp))
-            .padding(horizontal = 16.dp),
+            modifier
+                .heightIn(min = 32.dp)
+                .background(Gray6, shape = RoundedCornerShape(32.dp))
+                .padding(horizontal = 16.dp),
         decorationBox = { innerTextField ->
 
             Row(
                 modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 10.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 10.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(modifier = Modifier.weight(1f)) {
@@ -141,19 +142,24 @@ fun ReportAppBar(navController: NavHostController) {
         title = {
             Row(
                 Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
             ) { Text("신고하기") }
         },
-        actions = { Spacer(modifier = Modifier
-            .size(24.dp)
-            .padding(end = Paddings.xlarge)) },
+        actions = {
+            Spacer(
+                modifier =
+                    Modifier
+                        .size(24.dp)
+                        .padding(end = Paddings.xlarge),
+            )
+        },
         colors =
-        TopAppBarColors(
-            containerColor = BackgroundColor,
-            navigationIconContentColor = BackgroundColor,
-            actionIconContentColor = BackgroundColor,
-            scrolledContainerColor = BackgroundColor,
-            titleContentColor = BackgroundColor,
-        ),
+            TopAppBarColors(
+                containerColor = BackgroundColor,
+                navigationIconContentColor = BackgroundColor,
+                actionIconContentColor = BackgroundColor,
+                scrolledContainerColor = BackgroundColor,
+                titleContentColor = BackgroundColor,
+            ),
     )
 }

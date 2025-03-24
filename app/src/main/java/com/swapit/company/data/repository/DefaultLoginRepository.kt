@@ -2,7 +2,6 @@ package com.swapit.company.data.repository
 
 import com.swapit.company.data.datasource.RemoteLoginDataSource
 import com.swapit.company.data.datasource.local.LocalLoginDataSource
-import com.swapit.company.data.datasource.remote.ServiceModule.loginService
 import com.swapit.company.data.datasource.remote.dto.response.login.LoginResponse
 import com.swapit.company.domain.model.LoginToken
 import com.swapit.company.domain.repository.LoginRepository
@@ -47,9 +46,14 @@ class DefaultLoginRepository(
     override fun accessToken(): String? = localSource.accessToken()
 
     override fun refreshToken(): String? = localSource.refreshToken()
-    override suspend fun deleteAccount(authToken: String, kakaoToken: String,reason: String): Boolean {
+
+    override suspend fun deleteAccount(
+        authToken: String,
+        kakaoToken: String,
+        reason: String,
+    ): Boolean {
         return try {
-            val response = remoteSource.deleteAccount(authToken,kakaoToken,reason)
+            val response = remoteSource.deleteAccount(authToken, kakaoToken, reason)
             response // 서버 응답에 따른 성공 여부 반환
         } catch (e: Exception) {
             println("회원 탈퇴 실패: ${e.message}")
@@ -62,7 +66,6 @@ class DefaultLoginRepository(
     }
 
     override fun getKakaoToken(): String? = localSource.getKakaoToken()
-
 }
 
 // mapper

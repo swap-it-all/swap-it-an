@@ -35,8 +35,6 @@ class ShoppingDetailViewModel(private val repository: ProductRepository, private
     val dropMenuExpanded = mutableStateOf(false)
     val showDeleteDialog = mutableStateOf(false)
 
-
-
     fun deleteProduct() {
         viewModelScope.launch {
             repository.deleteProduct(goodsId.toLong())

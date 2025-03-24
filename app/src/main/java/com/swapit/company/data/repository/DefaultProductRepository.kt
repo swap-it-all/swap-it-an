@@ -59,11 +59,17 @@ class DefaultProductRepository(
         return remoteSource.postProductImages(goodsId, imageFile)
     }
 
-    override suspend fun deleteProductImage(goodsId: Long, imagesId: Long): BaseResponse<Unit> {
+    override suspend fun deleteProductImage(
+        goodsId: Long,
+        imagesId: Long,
+    ): BaseResponse<Unit> {
         return remoteSource.deleteProductImage(goodsId, imagesId)
     }
 
-    override suspend fun editProduct(goodsId: Long, product: ProductRequest): BaseResponse<Unit> {
+    override suspend fun editProduct(
+        goodsId: Long,
+        product: ProductRequest,
+    ): BaseResponse<Unit> {
         return remoteSource.editProduct(goodsId, product)
     }
 

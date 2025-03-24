@@ -76,7 +76,7 @@ fun ShoppingDetailScreen(
                 }
             } else { // 거래 안하고 있음
                 if (userInfoViewModel.userInfo.value?.id != shoppingDetailViewModel.detailContents.user.userId) { // 내 물건이 아니면
-                  // 내 물건이 아니면 기본 버튼 보여줌
+                    // 내 물건이 아니면 기본 버튼 보여줌
                     BeforeSwapBottomButtonSection(
                         navController,
                         shoppingDetailViewModel = shoppingDetailViewModel,

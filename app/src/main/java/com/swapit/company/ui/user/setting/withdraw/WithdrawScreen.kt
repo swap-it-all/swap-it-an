@@ -38,7 +38,11 @@ fun WithdrawScreen(
     Scaffold(
         topBar = { WithdrawAppBar(navController) },
     ) { contentPadding ->
-        Column(Modifier.padding(contentPadding).background(BackgroundColor)) {
+        Column(
+            Modifier
+                .padding(contentPadding)
+                .background(BackgroundColor),
+        ) {
             Text(
                 "${userInfoViewModel.userInfo.value?.nickname}님과 이별인가요? 너무 아쉽네요..",
                 style = Typography.titleLarge,
@@ -64,7 +68,10 @@ fun WithdrawScreen(
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround,
+            ) {
                 val configuration = LocalConfiguration.current
                 val screenWidthDp = configuration.screenWidthDp.dp
                 val horizontalPadding = screenWidthDp.value / 20
@@ -89,7 +96,7 @@ fun WithdrawScreen(
                             vertical = Paddings.xlarge,
                         ),
                     onClick = {
-                        if (userInfoViewModel.selectedText.value == "기타"){
+                        if (userInfoViewModel.selectedText.value == "기타") {
                             loginViewModel.deleteAccount(userInfoViewModel.etcText.value)
                         } else {
                             loginViewModel.deleteAccount(userInfoViewModel.selectedText.value)

@@ -8,4 +8,3 @@ data class ReportRequest(
     val reportType: String,
     val content: String,
 )
-

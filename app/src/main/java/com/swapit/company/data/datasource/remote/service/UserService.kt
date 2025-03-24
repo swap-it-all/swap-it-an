@@ -24,5 +24,4 @@ interface UserService {
     suspend fun updateProfileImage(
         @Part image: MultipartBody.Part,
     ): BaseResponse<Unit>
-
 }

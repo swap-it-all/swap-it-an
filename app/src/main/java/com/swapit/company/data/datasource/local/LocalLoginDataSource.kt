@@ -24,6 +24,7 @@ class LocalLoginDataSource(context: Context) {
             .clear()
             .apply()
     }
+
     fun saveKakaoToken(kakaoToken: String) {
         prefs.edit()
             .putString("kakao_token", kakaoToken)
@@ -31,6 +32,7 @@ class LocalLoginDataSource(context: Context) {
     }
 
     fun getKakaoToken(): String? = prefs.getString("kakao_token", null)
+
     companion object {
         const val PREFS_NAME = "swapit_auth"
         const val ACCESS_TOKEN = "access_token"
