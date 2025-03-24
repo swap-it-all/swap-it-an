@@ -1,0 +1,8 @@
+package com.swapit.company.data.datasource.local.model.shopping
+
+enum class TradeStatus {
+    PENDING,
+    INPROGRESS,
+    COMPLETED,
+    REJECTED,
+}
