@@ -7,14 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.swapit.company.data.mapper.toDomain
 import com.swapit.company.domain.model.alert.Alert
 import com.swapit.company.domain.repository.AlertRepository
-import com.swapit.company.domain.repository.ChatRepository
-import com.swapit.company.domain.repository.LoginRepository
 import com.swapit.company.ui.base.BaseViewModelFactory
-import com.swapit.company.ui.chat.ChatViewModel
 import kotlinx.coroutines.launch
 
 class AlertViewModel(private val repository: AlertRepository) : ViewModel() {
     val alertList = mutableStateOf(emptyList<Alert>())
+    val alertSettingValue = mutableStateOf(false)
     fun fetchAlertList() {
         viewModelScope.launch {
             alertList.value = repository.alertList().results.notifications.map { it.toDomain() }
@@ -28,6 +26,11 @@ class AlertViewModel(private val repository: AlertRepository) : ViewModel() {
     fun fcmRestore(fcmToken: String) {
         viewModelScope.launch {
             repository.fcmRestore(fcmToken)
+        }
+    }
+    fun alertSetting() {
+        viewModelScope.launch {
+            repository.alertSetting(alertSettingValue.value)
         }
     }
     companion object {

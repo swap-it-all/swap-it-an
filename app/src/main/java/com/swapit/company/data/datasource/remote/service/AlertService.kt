@@ -1,5 +1,6 @@
 package com.swapit.company.data.datasource.remote.service
 
+import com.swapit.company.data.datasource.remote.dto.request.alert.AlertSettingRequest
 import com.swapit.company.data.datasource.remote.dto.request.alert.FcmTokenRequest
 import com.swapit.company.data.datasource.remote.dto.response.BaseResponse
 import com.swapit.company.data.datasource.remote.dto.response.alert.AlertListResponse
@@ -23,4 +24,8 @@ interface AlertService {
         @Body fcmToken: FcmTokenRequest
     ): BaseResponse<Unit>
 
+    @PATCH("api/user/notifications/setting")
+    suspend fun alertSetting(
+        @Body notificationEnabled: AlertSettingRequest
+    ): BaseResponse<Unit>
 }

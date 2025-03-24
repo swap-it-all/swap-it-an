@@ -18,4 +18,8 @@ class DefaultAlertRepository(private val remoteSource: RemoteAlertDataSource) : 
         return remoteSource.fcmRestore(fcmToken)
     }
 
+    override suspend fun alertSetting(notificationEnabled: Boolean): BaseResponse<Unit> {
+        return remoteSource.alertSetting(notificationEnabled)
+    }
+
 }

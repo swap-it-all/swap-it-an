@@ -11,34 +11,34 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.swapit.company.ui.alert.AlertAppBar
+import com.swapit.company.ui.alert.AlertViewModel
 import com.swapit.company.ui.auth.LoginViewModel
 import com.swapit.company.ui.navigation.NavItem
 import com.swapit.company.ui.theme.BackgroundColor
+import com.swapit.company.ui.theme.Gray4
+import com.swapit.company.ui.theme.Gray6
 import com.swapit.company.ui.theme.Paddings
+import com.swapit.company.ui.theme.Primary
 import com.swapit.company.ui.theme.Red
 import com.swapit.company.ui.theme.Typography
 
 @Composable
 fun SettingScreen(
     navController: NavHostController,
-    initialState: Boolean = false,
+    alertViewModel: AlertViewModel,
     loginViewModel: LoginViewModel,
 ) {
-    var isNotificationEnabled by remember { mutableStateOf(initialState) }
-
     LaunchedEffect(loginViewModel.isLoggedIn.collectAsState().value) {
         if (!loginViewModel.isLoggedIn.value) {
             navController.navigate(NavItem.Login.screenRoute) {
@@ -56,33 +56,33 @@ fun SettingScreen(
                 .padding(contentPadding)
                 .background(BackgroundColor),
         ) {
-//            Row(
-//                Modifier.fillMaxWidth(),
-//                verticalAlignment = Alignment.CenterVertically,
-//                horizontalArrangement = Arrangement.SpaceBetween,
-//            ) {
-//                Text(
-//                    "알림 수신",
-//                    style = Typography.titleLarge,
-//                    modifier = Modifier.padding(Paddings.xlarge),
-//                )
-//                Switch(
-//                    modifier = Modifier.padding(Paddings.xlarge),
-//                    colors =
-//                        SwitchDefaults.colors(
-//                            checkedThumbColor = Primary,
-//                            checkedTrackColor = Gray6,
-//                            uncheckedThumbColor = Gray4,
-//                            uncheckedTrackColor = Gray6,
-//                            disabledUncheckedBorderColor = Gray6,
-//                        ),
-//                    checked = isNotificationEnabled,
-//                    onCheckedChange = {
-//                        isNotificationEnabled = it
-//                        // todo : 알림 설정 변경 로직 구현
-//                    },
-//                )
-//            }
+            Row(
+                Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(
+                    "알림 수신",
+                    style = Typography.titleLarge,
+                    modifier = Modifier.padding(Paddings.xlarge),
+                )
+                Switch(
+                    modifier = Modifier.padding(Paddings.xlarge),
+                    colors =
+                        SwitchDefaults.colors(
+                            checkedThumbColor = Primary,
+                            checkedTrackColor = Gray6,
+                            uncheckedThumbColor = Gray4,
+                            uncheckedTrackColor = Gray6,
+                            disabledUncheckedBorderColor = Gray6,
+                        ),
+                    checked = alertViewModel.alertSettingValue.value,
+                    onCheckedChange = {
+                        alertViewModel.alertSettingValue.value = it
+                        alertViewModel.alertSetting()
+                    },
+                )
+            }
             HorizontalDivider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp)
             Row(
                 Modifier.fillMaxWidth(),

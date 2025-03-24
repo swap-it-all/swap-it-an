@@ -12,6 +12,8 @@ interface AlertRepository {
     suspend fun alertList(): BaseResponse<AlertListResponse>
     suspend fun readAlert(notificationsId: Long): BaseResponse<Unit>
     suspend fun fcmRestore(fcmToken: String): BaseResponse<Unit>
+    suspend fun alertSetting(notificationEnabled: Boolean): BaseResponse<Unit>
+
     companion object {
         private var instance: AlertRepository? = null
 

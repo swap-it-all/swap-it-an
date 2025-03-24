@@ -80,7 +80,7 @@ class NavigationModule {
                 WithdrawScreen(navController, userInfoViewModel, loginViewModel)
             }
             composable(NavItem.Setting.screenRoute) {
-                SettingScreen(navController, loginViewModel = loginViewModel)
+                SettingScreen(navController, loginViewModel = loginViewModel,alertViewModel = alertViewModel)
             }
 
             composable(NavItem.Splash.screenRoute) {
