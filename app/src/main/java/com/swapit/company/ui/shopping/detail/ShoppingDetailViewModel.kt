@@ -41,7 +41,7 @@ class ShoppingDetailViewModel(private val repository: ProductRepository, private
         }
     }
 
-    init {
+    fun fetchProductDetail() {
         viewModelScope.launch {
             shoppingDetailContents.value = repository.productDetailResults(_goodsId).toDomain()
         }

@@ -9,12 +9,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.swapit.company.data.datasource.local.model.shopping.TradeStatus
 import com.swapit.company.ui.chat.ChatViewModel
+import com.swapit.company.ui.shopping.detail.bottom.AfterSwapBottomButtonSection
+import com.swapit.company.ui.shopping.detail.bottom.BeforeSwapBottomButtonSection
+import com.swapit.company.ui.shopping.detail.bottom.CompleteSwapBottomButtonSection
+import com.swapit.company.ui.shopping.detail.bottom.ReceivedSwapBottomButtonSection
 import com.swapit.company.ui.swap.SwapViewModel
 import com.swapit.company.ui.theme.Paddings
 import com.swapit.company.ui.user.UserInfoViewModel
@@ -29,7 +34,11 @@ fun ShoppingDetailScreen(
     swapViewModel: SwapViewModel,
     chatViewModel: ChatViewModel,
 ) {
-    userInfoViewModel.myUserInfo()
+    LaunchedEffect(Unit) {
+        shoppingDetailViewModel.fetchProductDetail()
+        userInfoViewModel.myUserInfo()
+    }
+
     Box(modifier.fillMaxSize()) {
         DetailContent(navController, shoppingDetailViewModel, userInfoViewModel)
         Row(
