@@ -1,4 +1,4 @@
-package com.swapit.company.ui.shopping.detail
+package com.swapit.company.ui.shopping.detail.bottom
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -12,22 +12,22 @@ import com.swapit.company.R
 import com.swapit.company.ui.chat.ChatViewModel
 import com.swapit.company.ui.component.DefaultButton
 import com.swapit.company.ui.component.ModalButton
-import com.swapit.company.ui.swap.SwapViewModel
+import com.swapit.company.ui.navigation.NavItem
+import com.swapit.company.ui.shopping.detail.ShoppingDetailViewModel
 import com.swapit.company.ui.theme.Gray5
 import com.swapit.company.ui.theme.Paddings
 
 @Composable
-fun CompleteSwapBottomButtonSection(
+fun BeforeSwapBottomButtonSection(
     navController: NavHostController,
     shoppingDetailViewModel: ShoppingDetailViewModel,
-    swapViewModel: SwapViewModel,
     chatViewModel: ChatViewModel,
 ) {
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp.dp
     val horizontalPadding = screenWidthDp.value / 20
     ModalButton(
-        text = "스왑 완료하기",
+        text = stringResource(R.string.shopping_detail_swap_request_bottom_button),
         contentPadding =
             PaddingValues(
                 horizontal = horizontalPadding.dp,
@@ -35,8 +35,7 @@ fun CompleteSwapBottomButtonSection(
             ),
         containerColor = Gray5,
     ) {
-        swapViewModel.swapComplete(shoppingDetailViewModel.detailContents.trade!!.tradesId)
-        navController.popBackStack()
+        navController.navigate(NavItem.MyProductSelection.screenRoute + "/${shoppingDetailViewModel.goodsId}")
     }
     DefaultButton(
         text = stringResource(R.string.shopping_detail_chat_bottom_button),
@@ -47,11 +46,12 @@ fun CompleteSwapBottomButtonSection(
                 horizontal = horizontalPadding.dp * 2,
                 vertical = Paddings.xlarge,
             ),
-    ) {
-        if (shoppingDetailViewModel.detailContents.trade == null) {
-            chatViewModel.initiateChatFlow(shoppingDetailViewModel.goodsId.toLong(), navController)
-        } else {
-            chatViewModel.initiateChatSwapFlow(shoppingDetailViewModel.detailContents.trade!!.tradesId, navController)
-        }
-    }
+        onClick = {
+            if (shoppingDetailViewModel.detailContents.trade == null) {
+                chatViewModel.initiateChatFlow(shoppingDetailViewModel.goodsId.toLong(), navController)
+            } else {
+                chatViewModel.initiateChatSwapFlow(shoppingDetailViewModel.detailContents.trade?.tradesId ?: 1, navController)
+            }
+        },
+    )
 }
