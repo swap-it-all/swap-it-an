@@ -1,6 +1,7 @@
 package com.swapit.company.ui.navigation
 
 import ShoppingViewModel
+import android.app.Application
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -51,12 +52,13 @@ class NavigationModule {
     fun NavigationGraph(
         navController: NavHostController,
         loginViewModel: LoginViewModel,
+        application: Application
     ) {
         val userInfoViewModel = UserInfoViewModel(UserRepository.instance(LocalContext.current))
         val swapViewModel = SwapViewModel(SwapRepository.instance())
         val chatViewModel =
             ChatViewModel(ChatRepository.instance(), LoginRepository.instance(LocalContext.current))
-        val alertViewModel = AlertViewModel(AlertRepository.instance())
+        val alertViewModel = AlertViewModel(application = application,AlertRepository.instance(),LoginRepository.instance(LocalContext.current))
         NavHost(
             navController = navController,
             startDestination = NavItem.Splash.screenRoute,
@@ -104,6 +106,8 @@ class NavigationModule {
                         ),
                     ),
                     alertViewModel,
+                    chatViewModel,
+                    application
                 )
             }
             composable(NavItem.Swap.screenRoute) {
@@ -174,7 +178,7 @@ class NavigationModule {
             composable(NavItem.Alert.screenRoute) {
                 AlertScreen(
                     navController,
-                    viewModel = viewModel(factory = AlertViewModel.factory(AlertRepository.instance()))
+                    viewModel = alertViewModel
                 )
             }
             composable(NavItem.Search.screenRoute) {

@@ -61,21 +61,29 @@ class LoginViewModel(
         }
     }
 
-    fun deleteAccount(reason: String) {
+    fun deleteAccount(reason: String, onSuccess: () -> Unit) {
         viewModelScope.launch {
+            Log.d(TAG, "deleteAccount() called with: reason = $reason") // ✅ 실행 확인용
+
             val authToken = repository.accessToken()
             val kakaoToken = repository.getKakaoToken()
+            Log.d(TAG, "Auth Tokens -> authToken: $authToken, kakaoToken: $kakaoToken") // ✅ 토큰 확인
 
             if (authToken != null && kakaoToken != null) {
                 val result = repository.deleteAccount(authToken, kakaoToken, reason)
+                Log.d(TAG, "deleteAccount() result: $result") // ✅ API 호출 결과 확인
+
                 if (result) {
                     _isLoggedIn.emit(false)
+                    onSuccess()
                 }
+
             } else {
                 Log.e(TAG, "토큰이 없습니다: authToken=$authToken, kakaoToken=$kakaoToken")
             }
         }
     }
+
 
     private suspend fun isKakaoLoggedOut(): Boolean =
         suspendCoroutine<Boolean> { continuation ->

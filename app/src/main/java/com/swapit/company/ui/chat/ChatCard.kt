@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
@@ -26,6 +27,7 @@ import com.swapit.company.ui.shopping.model.calculateTime
 import com.swapit.company.ui.theme.BackgroundColor
 import com.swapit.company.ui.theme.Gray3
 import com.swapit.company.ui.theme.Gray4
+import com.swapit.company.ui.theme.Gray5
 import com.swapit.company.ui.theme.Paddings
 import com.swapit.company.ui.theme.Red
 import com.swapit.company.ui.theme.Typography
@@ -72,14 +74,22 @@ fun ChatCardContent(chatCardData: ChatRoom) {
 
 @Composable
 fun ChatCardUserImageSection(chatCardData: ChatRoom) {
-    AsyncImage(
-        model = chatCardData.profileImageUrl,
-        contentDescription = "유저 사진",
-        modifier =
+
+    Box(modifier =
+    Modifier
+        .size(57.dp)
+        .clip(CircleShape).background(Gray5),) {
+        AsyncImage(
+            model = chatCardData.profileImageUrl,
+            contentDescription = "유저 사진",
+            modifier =
             Modifier
                 .size(52.dp)
-                .clip(CircleShape),
-    )
+                .clip(CircleShape).align(Alignment.Center),
+            contentScale = ContentScale.Crop,
+
+            )
+    }
 }
 
 @Composable
@@ -132,7 +142,8 @@ fun ChatCardUserMessageContentSection(chatCardData: ChatRoom) {
                     modifier =
                         Modifier
                             .size(
-                                chatCardData.unReadChatCount.toInt().toString().length.dp * 4 + 20.dp,
+                                chatCardData.unReadChatCount.toInt()
+                                    .toString().length.dp * 4 + 20.dp,
                                 20.dp,
                             )
                             .clip(RoundedCornerShape(20.dp))

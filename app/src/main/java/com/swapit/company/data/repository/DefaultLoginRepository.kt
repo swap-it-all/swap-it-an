@@ -1,5 +1,6 @@
 package com.swapit.company.data.repository
 
+import android.util.Log
 import com.swapit.company.data.datasource.RemoteLoginDataSource
 import com.swapit.company.data.datasource.local.LocalLoginDataSource
 import com.swapit.company.data.datasource.remote.dto.response.login.LoginResponse
@@ -30,10 +31,10 @@ class DefaultLoginRepository(
 
     override suspend fun logout(refreshToken: String): Boolean {
         val isSuccess = remoteSource.logout(refreshToken)
-        if (isSuccess) {
+        if (isSuccess.success) {
             localSource.clearTokens()
         }
-        return isSuccess
+        return isSuccess.success
     }
 
     override suspend fun saveTokens(
@@ -47,17 +48,17 @@ class DefaultLoginRepository(
 
     override fun refreshToken(): String? = localSource.refreshToken()
 
-    override suspend fun deleteAccount(
-        authToken: String,
-        kakaoToken: String,
-        reason: String,
-    ): Boolean {
+    override suspend fun deleteAccount(authToken: String, kakaoToken: String, reason: String): Boolean {
+        Log.d("LoginRepository", "deleteAccount() 요청 - authToken: $authToken, kakaoToken: $kakaoToken, reason: $reason")
+
         return try {
-            val response = remoteSource.deleteAccount(authToken, kakaoToken, reason)
-            response // 서버 응답에 따른 성공 여부 반환
+            val response = remoteSource.deleteAccount("Bearer $authToken", kakaoToken, reason)
+            Log.d("LoginRepository", "deleteAccount() 응답 - 성공: ${response.results}, 메시지: ${response.message}")
+
+            response.success
         } catch (e: Exception) {
-            println("회원 탈퇴 실패: ${e.message}")
-            false // 실패 시 false 반환
+            Log.e("LoginRepository", "deleteAccount() 요청 실패", e)
+            false
         }
     }
 

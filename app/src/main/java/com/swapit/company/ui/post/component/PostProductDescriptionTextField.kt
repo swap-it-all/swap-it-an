@@ -38,6 +38,7 @@ fun PostProductDescriptionTextField(
         placeholder = { Text(text = stringResource(R.string.post_product_placeholder_description)) },
         supportingText = { if (supportingText.isNotEmpty()) Text(text = supportingText) },
         isError = supportingText.isNotEmpty(),
+        minLines = 5,
     )
 }
 

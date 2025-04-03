@@ -11,6 +11,14 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keep class com.swapit.** { *; }
+-keepclassmembers class ** {
+    public static final java.lang.String KAKAO_NATIVE_APP_KEY;
+    public static final java.lang.String SWAP_IT_BASE_URL;
+    public static final java.lang.String kakao_oauth_host;
+    public static final java.lang.String google_client_id;
+}
+-dontwarn okhttp3.**
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.

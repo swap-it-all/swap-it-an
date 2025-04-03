@@ -28,6 +28,7 @@ class MainActivity : ComponentActivity() {
             navigationModule.NavigationGraph(
                 navController,
                 loginViewModel,
+                application,
             )
         }
     }

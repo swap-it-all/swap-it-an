@@ -1,6 +1,7 @@
 package com.swapit.company.ui.shopping.detail
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,7 @@ import com.swapit.company.ui.shopping.detail.bottom.BeforeSwapBottomButtonSectio
 import com.swapit.company.ui.shopping.detail.bottom.CompleteSwapBottomButtonSection
 import com.swapit.company.ui.shopping.detail.bottom.ReceivedSwapBottomButtonSection
 import com.swapit.company.ui.swap.SwapViewModel
+import com.swapit.company.ui.theme.BackgroundColor
 import com.swapit.company.ui.theme.Paddings
 import com.swapit.company.ui.user.UserInfoViewModel
 
@@ -45,7 +47,7 @@ fun ShoppingDetailScreen(
             modifier =
                 Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(Paddings.xlarge, 40.dp),
+                    .padding(Paddings.xlarge, 40.dp).background(BackgroundColor), // todo: 수정
         ) {
             if (shoppingDetailViewModel.detailContents.trade != null) { // 거래를 누군가와 하고 있음
                 if (shoppingDetailViewModel.detailContents.trade!!.isRequester) { // 그게 내가 건거야?

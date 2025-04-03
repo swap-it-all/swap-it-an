@@ -1,7 +1,9 @@
 package com.swapit.company.ui.user
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,6 +34,7 @@ import com.swapit.company.domain.model.user.UserSwapStats
 import com.swapit.company.ui.navigation.NavItem
 import com.swapit.company.ui.theme.Black
 import com.swapit.company.ui.theme.Gray4
+import com.swapit.company.ui.theme.Gray5
 import com.swapit.company.ui.theme.Paddings
 import com.swapit.company.ui.theme.Typography
 import com.swapit.company.ui.theme.White
@@ -58,16 +61,21 @@ fun ProfileCard(
                     .fillMaxWidth()
                     .padding(16.dp),
         ) {
-            AsyncImage(
-                model = userInfo.profileImageUrl,
-                contentDescription = "Profile Picture",
-                placeholder = painterResource(R.drawable.ic_user),
-                error = painterResource(R.drawable.ic_close),
-                modifier =
+            Box(modifier =
+            Modifier
+                .size(91.dp)
+                .clip(CircleShape).background(Gray5),) {
+                AsyncImage(
+                    model = userInfo.profileImageUrl,
+                    contentDescription = "Profile Picture",
+                    placeholder = painterResource(R.drawable.ic_user),
+                    error = painterResource(R.drawable.ic_close),
+                    modifier =
                     Modifier
                         .size(86.dp)
-                        .clip(CircleShape),
-            )
+                        .clip(CircleShape).align(Alignment.Center),
+                )
+            }
             Spacer(modifier = Modifier.width(16.dp))
             Column(
                 modifier = Modifier.height(86.dp),

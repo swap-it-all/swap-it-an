@@ -38,15 +38,15 @@ fun ChatListScreen(
                 .padding(contentPadding)
                 .background(BackgroundColor),
         ) {
-            if (viewModel.chatRoomList.value.isEmpty()) {
+            if (viewModel.chatRoomList.isEmpty()) {
                 NoChatIconSection()
             }
             LazyColumn {
                 items(
-                    viewModel.chatRoomList.value.size,
-                    key = { index -> viewModel.chatRoomList.value[index].recentChatTime },
+                    viewModel.chatRoomList.size,
+                    key = { index -> viewModel.chatRoomList[index].recentChatTime },
                 ) { index ->
-                    val chatCardData = viewModel.chatRoomList.value[index]
+                    val chatCardData = viewModel.chatRoomList[index]
                     ChatCard(chatCardData = chatCardData, navController, viewModel)
                 }
             }
