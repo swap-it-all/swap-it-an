@@ -4,6 +4,7 @@ import com.swapit.company.data.datasource.remote.dto.request.alert.AlertSettingR
 import com.swapit.company.data.datasource.remote.dto.request.alert.FcmTokenRequest
 import com.swapit.company.data.datasource.remote.dto.response.BaseResponse
 import com.swapit.company.data.datasource.remote.dto.response.alert.AlertListResponse
+import com.swapit.company.data.datasource.remote.dto.response.alert.AlertSettingResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
@@ -29,4 +30,8 @@ interface AlertService {
     suspend fun alertSetting(
         @Body notificationEnabled: AlertSettingRequest
     ): BaseResponse<Unit>
+
+    @GET("api/user/notifications/settings")
+    suspend fun alertSettingInfo(
+    ): BaseResponse<AlertSettingResponse>
 }

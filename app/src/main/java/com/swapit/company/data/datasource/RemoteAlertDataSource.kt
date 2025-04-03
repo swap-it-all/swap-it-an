@@ -4,6 +4,7 @@ import com.swapit.company.data.datasource.remote.dto.request.alert.AlertSettingR
 import com.swapit.company.data.datasource.remote.dto.request.alert.FcmTokenRequest
 import com.swapit.company.data.datasource.remote.dto.response.BaseResponse
 import com.swapit.company.data.datasource.remote.dto.response.alert.AlertListResponse
+import com.swapit.company.data.datasource.remote.dto.response.alert.AlertSettingResponse
 import com.swapit.company.data.datasource.remote.service.AlertService
 
 class RemoteAlertDataSource(private val service: AlertService) {
@@ -13,4 +14,5 @@ class RemoteAlertDataSource(private val service: AlertService) {
     suspend fun alertSetting(notificationEnabled: Boolean): BaseResponse<Unit> = service.alertSetting(
         AlertSettingRequest(notificationEnabled)
     )
+    suspend fun alertSettingInfo(): BaseResponse<AlertSettingResponse> = service.alertSettingInfo()
 }

@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.swapit.company.R
 import com.swapit.company.data.datasource.local.model.post.CategoryOption
+import com.swapit.company.data.datasource.local.model.shopping.ProductTradeStatus
 import com.swapit.company.domain.model.product.Product
 import com.swapit.company.ui.shopping.model.calculateTime
 import com.swapit.company.ui.theme.Gray3
@@ -96,18 +97,50 @@ fun ShoppingCard(
                     style = Typography.labelLarge,
                     color = Gray4,
                 )
-                Text(
-                    modifier =
+
+                Row {
+                    if (cardData.goodsTradeStatus == ProductTradeStatus.RESERVED.name) {
+                        Text(
+                            modifier =
+                            Modifier.padding(
+                                Paddings.none,
+                                Paddings.none,
+                                Paddings.small,
+                                Paddings.small,
+                            ),
+                            text = "거래중",
+                            style = Typography.bodyMedium,
+                            color = Primary,
+                            maxLines = 1,
+                        )
+                    } else if (cardData.goodsTradeStatus == ProductTradeStatus.SOLDOUT.name) {
+                        Text(
+                            modifier =
+                            Modifier.padding(
+                                Paddings.none,
+                                Paddings.none,
+                                Paddings.small,
+                                Paddings.small,
+                            ),
+                            text = "판매 완료",
+                            style = Typography.bodyMedium,
+                            color = Gray3,
+                            maxLines = 1,
+                        )
+                    }
+                    Text(
+                        modifier =
                         Modifier.padding(
                             Paddings.none,
                             Paddings.none,
                             Paddings.none,
                             Paddings.small,
                         ),
-                    text = cardData.title,
-                    style = Typography.bodyMedium,
-                    maxLines = 1,
-                )
+                        text = cardData.title,
+                        style = Typography.bodyMedium,
+                        maxLines = 1,
+                    )
+                }
                 Row(
                     modifier =
                         Modifier.padding(

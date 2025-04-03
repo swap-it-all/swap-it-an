@@ -8,6 +8,7 @@ data class ProductResponse(
     val title: String,
     val price: Long,
     val category: String,
+    val goodsTradeStatus: String,
     val imageUrl: String?,
     val placeName: String,
     val viewCount: Long,

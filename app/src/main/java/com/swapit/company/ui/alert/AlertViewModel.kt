@@ -165,6 +165,12 @@ class AlertViewModel(
         }
     }
 
+    fun alertSettingInfo() {
+        viewModelScope.launch {
+            alertSettingValue.value = repository.alertSettingInfo().results.notificationEnabled
+        }
+    }
+
     companion object {
         private const val TAG = "AlertViewModel"
 

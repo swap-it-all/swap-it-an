@@ -3,6 +3,7 @@ package com.swapit.company.data.repository
 import com.swapit.company.data.datasource.RemoteAlertDataSource
 import com.swapit.company.data.datasource.remote.dto.response.BaseResponse
 import com.swapit.company.data.datasource.remote.dto.response.alert.AlertListResponse
+import com.swapit.company.data.datasource.remote.dto.response.alert.AlertSettingResponse
 import com.swapit.company.domain.repository.AlertRepository
 
 class DefaultAlertRepository(private val remoteSource: RemoteAlertDataSource) : AlertRepository {
@@ -21,5 +22,10 @@ class DefaultAlertRepository(private val remoteSource: RemoteAlertDataSource) : 
     override suspend fun alertSetting(notificationEnabled: Boolean): BaseResponse<Unit> {
         return remoteSource.alertSetting(notificationEnabled)
     }
+
+    override suspend fun alertSettingInfo(): BaseResponse<AlertSettingResponse> {
+        return remoteSource.alertSettingInfo()
+    }
+
 
 }

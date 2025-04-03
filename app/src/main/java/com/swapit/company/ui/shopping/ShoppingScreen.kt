@@ -49,6 +49,7 @@ fun ShoppingScreen(
     alertViewModel.initiateAlert()
     chatViewModel.connect()
     alertViewModel.fcmRestore(application = application)
+    alertViewModel.alertSettingInfo()
 
     Scaffold(
         topBar = {
