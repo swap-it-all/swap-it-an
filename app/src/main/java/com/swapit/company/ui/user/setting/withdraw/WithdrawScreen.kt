@@ -1,6 +1,7 @@
 package com.swapit.company.ui.user.setting.withdraw
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -96,12 +97,16 @@ fun WithdrawScreen(
                             vertical = Paddings.xlarge,
                         ),
                     onClick = {
+                        Log.d("asdfasdfasdf", "asdfdasfsadfsdafasdfasfsdafsadfasdf")
                         if (userInfoViewModel.selectedText.value == "기타") {
-                            loginViewModel.deleteAccount(userInfoViewModel.etcText.value)
+                            loginViewModel.deleteAccount(userInfoViewModel.etcText.value) {
+                                navController.navigate(NavItem.Login.screenRoute)
+                            }
                         } else {
-                            loginViewModel.deleteAccount(userInfoViewModel.selectedText.value)
+                            loginViewModel.deleteAccount(userInfoViewModel.selectedText.value) {
+                                navController.navigate(NavItem.Login.screenRoute)
+                            }
                         }
-                        navController.navigate(NavItem.Login.screenRoute)
                     },
                 )
             }

@@ -21,6 +21,7 @@ fun ProductResponse.toDomain(): Product {
         title = this.title,
         price = this.price,
         category = this.category,
+        goodsTradeStatus = this.goodsTradeStatus,
         imageUrl = this.imageUrl,
         placeName = this.placeName,
         viewCount = this.viewCount,

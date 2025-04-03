@@ -55,14 +55,13 @@ fun SearchBarButton(
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Absolute.SpaceBetween,
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(
-                    if (viewModel.searchKeyword.value.isEmpty()) {
+                    viewModel.searchKeyword.value.ifEmpty {
                         "스왑에서 찾아보세요!"
-                    } else {
-                        viewModel.searchKeyword.value
                     },
-                    modifier = modifier.weight(1f),
                     color = Gray3,
                 )
                 Image(

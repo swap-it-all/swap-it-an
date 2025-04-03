@@ -1,5 +1,6 @@
 package com.swapit.company.ui.shopping
 
+import ShoppingViewModel
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,6 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.swapit.company.R
+import com.swapit.company.ui.theme.Black
+import com.swapit.company.ui.theme.Gray3
 import com.swapit.company.ui.theme.Gray4
 import com.swapit.company.ui.theme.Paddings
 
@@ -18,6 +21,7 @@ import com.swapit.company.ui.theme.Paddings
 fun CategorySection(
     modifier: Modifier,
     showBottomSheetOnClick: () -> Unit,
+    viewModel: ShoppingViewModel,
 ) {
     Row(
         modifier =
@@ -28,7 +32,12 @@ fun CategorySection(
     ) {
         TextButton(onClick = showBottomSheetOnClick) {
             Row {
-                Text("정렬 옵션") // TODO: 넣은거 나오게
+                if (viewModel.selectedOption.value == null) {
+                    Text("정렬", color = Gray3)
+                } else {
+                    Text(viewModel.selectedOption.value!!.option, color = Black)
+                }
+
                 Icon(
                     painter = painterResource(R.drawable.ic_caret_down),
                     tint = Gray4,
@@ -38,7 +47,11 @@ fun CategorySection(
         }
         TextButton(onClick = showBottomSheetOnClick) {
             Row {
-                Text("카테고리 ") // TODO: 숫자 나오게
+                if (viewModel.selectedCategory.value.isEmpty()) {
+                    Text("카테고리", color = Gray3)
+                } else {
+                    Text("카테고리 ${viewModel.selectedCategory.value.size}", color = Black)
+                }
                 Icon(
                     painter = painterResource(R.drawable.ic_caret_down),
                     tint = Gray4,

@@ -58,11 +58,11 @@ fun UserInfoScreen(
                                 count = info.swapStats.totalGoodsCount,
                             )
                             HorizontalDivider()
-//                            ProfileItem(
-//                                text = stringResource(R.string.user_swap_review),
-//                                count = info.reviews.size.toLong(),
-//                            )
-//                            HorizontalDivider()
+                            ProfileItem(
+                                text = stringResource(R.string.user_swap_review),
+                                count = info.reviews.size.toLong(),
+                            )
+                            HorizontalDivider()
                         }
                     }
                 }

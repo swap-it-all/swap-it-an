@@ -8,6 +8,7 @@ import com.swapit.company.data.datasource.remote.dto.response.swap.SentSwapResul
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -22,17 +23,17 @@ interface SwapService {
         @Path("tradesId") tradesId: Long,
     ): BaseResponse<Unit>
 
-    @POST("api/user/swap/accept/{tradesId}")
+    @PATCH("api/user/swap/accept/{tradesId}")
     suspend fun swapAccept(
         @Path("tradesId") tradesId: Long,
     ): BaseResponse<Unit>
 
-    @POST("api/user/swap/reject/{tradesId}")
+    @PATCH("api/user/swap/reject/{tradesId}")
     suspend fun swapReject(
         @Path("tradesId") tradesId: Long,
     ): BaseResponse<Unit>
 
-    @POST("api/user/swap/complete/{tradesId}")
+    @PATCH("api/user/swap/complete/{tradesId}")
     suspend fun swapComplete(
         @Path("tradesId") tradesId: Long,
     ): BaseResponse<Unit>

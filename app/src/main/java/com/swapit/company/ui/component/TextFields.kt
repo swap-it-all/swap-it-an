@@ -24,6 +24,7 @@ fun DefaultTextField(
     placeholder: @Composable (() -> Unit)? = null,
     supportingText: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
+    minLines: Int = 1,
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -55,6 +56,7 @@ fun DefaultTextField(
         placeholder = placeholder,
         supportingText = supportingText,
         isError = isError,
+        minLines = minLines,
     )
 }
 

@@ -1,6 +1,7 @@
 package com.swapit.company.data.datasource
 
 import com.swapit.company.data.datasource.remote.dto.request.login.WithDrawRequest
+import com.swapit.company.data.datasource.remote.dto.response.BaseResponse
 import com.swapit.company.data.datasource.remote.dto.response.login.LoginResponse
 import com.swapit.company.data.datasource.remote.service.LoginService
 
@@ -37,18 +38,18 @@ class RemoteLoginDataSource(
         }
     }
 
-    suspend fun logout(refreshToken: String): Boolean {
+    suspend fun logout(refreshToken: String): BaseResponse<Unit> {
         val response = loginService.logout("Bearer $refreshToken")
 
-        return response.success
+        return response
     }
 
     suspend fun deleteAccount(
         authToken: String,
         kakaoToken: String,
         reason: String,
-    ): Boolean {
+    ): BaseResponse<Unit> {
         val response = loginService.deleteAccount("Bearer $authToken", kakaoToken, WithDrawRequest(reason))
-        return response.success
+        return response
     }
 }

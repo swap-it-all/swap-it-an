@@ -108,39 +108,45 @@ fun PostProductScreen(
                         Spacer(modifier = Modifier.padding(Paddings.medium))
                     }
                 }
-
+                Spacer(modifier = Modifier.padding(Paddings.xlarge))
                 NameTextField(
                     label = stringResource(R.string.post_product_name),
                     text = viewModel.productName.value,
                     onNameChange = viewModel::updateName,
                 )
+                Spacer(modifier = Modifier.padding(Paddings.xlarge))
                 PriceTextField(
                     label = stringResource(R.string.post_product_price),
                     text = viewModel.productPrice.value,
                     onPriceChange = viewModel::updatePrice,
                 )
+                Spacer(modifier = Modifier.padding(Paddings.xlarge))
                 QualityButtons(
                     text = stringResource(R.string.post_product_quality),
                     items = viewModel.allQualitys,
                     quality = viewModel.selectedQuality.value,
                     onQualityChange = viewModel::updateQuality,
                 )
+                Spacer(modifier = Modifier.padding(Paddings.xlarge))
                 CategoryButtons(
                     text = stringResource(R.string.post_product_category),
                     items = viewModel.allCategories,
                     category = viewModel.selectedCategory.value,
                     onCategoryChange = viewModel::updateCategory,
                 )
+                Spacer(modifier = Modifier.padding(Paddings.xlarge))
                 LocationTextField(
                     label = stringResource(R.string.post_product_location),
                     text = viewModel.productLocation.value,
                     onLocationChange = viewModel::updateLocation,
                 )
+                Spacer(modifier = Modifier.padding(Paddings.xlarge))
                 DescriptionTextField(
                     label = stringResource(R.string.post_product_description),
                     text = viewModel.productDescription.value,
                     onDescriptionChange = viewModel::updateDescription,
                 )
+                Spacer(modifier = Modifier.padding(Paddings.xlarge))
                 DefaultButton(
                     text = stringResource(R.string.post_product_post_button),
                     modifier = Modifier.fillMaxWidth(),
@@ -157,7 +163,7 @@ fun PostProductScreen(
                         )
                     },
                 )
-                Spacer(Modifier.padding(vertical = Paddings.xlarge))
+                Spacer(modifier = Modifier.padding(Paddings.xlarge))
                 if (viewModel.alertDialogState.value.title.isNotEmpty()) {
                     AlertDialog(
                         title = viewModel.alertDialogState.value.title,

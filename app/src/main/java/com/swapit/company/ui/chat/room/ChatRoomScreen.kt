@@ -11,11 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.swapit.company.ui.chat.ChatViewModel
 import com.swapit.company.ui.theme.BackgroundColor
 import com.swapit.company.ui.user.UserInfoViewModel
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 
 @Composable
 fun ChatRoomScreen(
@@ -26,12 +27,13 @@ fun ChatRoomScreen(
 ) {
     chatViewModel.fetchChatList(chatRoomId.toLong())
     chatViewModel.chatRoomId.longValue = chatRoomId.toLong()
-    val chats by chatViewModel.chatList
     DisposableEffect(Unit) {
         onDispose {
-            runBlocking {
-                Log.d("STOMP", "현재 chatList: ${chatViewModel.chatList.value}")
+            chatViewModel.viewModelScope.launch {
+                Log.d("STOMP", "현재 chatList: ${chatViewModel.chatList}")
                 chatViewModel.sendReadReceipt() // 읽은 메시지 ID 전송
+
+                chatViewModel.disconnect()
             }
         }
     }
@@ -53,7 +55,7 @@ fun ChatRoomScreen(
             verticalArrangement = Arrangement.SpaceBetween,
         ) {
             ChatRoomProduct(chatViewModel)
-            ChatRoomContent(chats = chats, modifier = Modifier.weight(1f), userInfoViewModel = userInfoViewModel)
+            ChatRoomContent(chats = chatViewModel.chatList, modifier = Modifier.weight(1f), userInfoViewModel = userInfoViewModel)
 //            ChatRoomTradeButtonBar(chatViewModel)
             BottomChatBar(viewModel = chatViewModel)
         }

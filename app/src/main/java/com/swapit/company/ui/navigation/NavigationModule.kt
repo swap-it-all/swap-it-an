@@ -1,6 +1,7 @@
 package com.swapit.company.ui.navigation
 
 import ShoppingViewModel
+import android.app.Application
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -10,6 +11,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.swapit.company.domain.repository.AlertRepository
 import com.swapit.company.domain.repository.ChatRepository
 import com.swapit.company.domain.repository.LoginRepository
 import com.swapit.company.domain.repository.ProductRepository
@@ -17,6 +19,7 @@ import com.swapit.company.domain.repository.ReportRepository
 import com.swapit.company.domain.repository.SwapRepository
 import com.swapit.company.domain.repository.UserRepository
 import com.swapit.company.ui.alert.AlertScreen
+import com.swapit.company.ui.alert.AlertViewModel
 import com.swapit.company.ui.auth.LoginScreen
 import com.swapit.company.ui.auth.LoginViewModel
 import com.swapit.company.ui.chat.ChatListScreen
@@ -49,11 +52,14 @@ class NavigationModule {
     fun NavigationGraph(
         navController: NavHostController,
         loginViewModel: LoginViewModel,
+        application: Application,
     ) {
         val userInfoViewModel = UserInfoViewModel(UserRepository.instance(LocalContext.current))
         val swapViewModel = SwapViewModel(SwapRepository.instance())
         val chatViewModel =
             ChatViewModel(ChatRepository.instance(), LoginRepository.instance(LocalContext.current))
+        val alertViewModel =
+            AlertViewModel(application = application, AlertRepository.instance(), LoginRepository.instance(LocalContext.current))
         NavHost(
             navController = navController,
             startDestination = NavItem.Splash.screenRoute,
@@ -77,7 +83,7 @@ class NavigationModule {
                 WithdrawScreen(navController, userInfoViewModel, loginViewModel)
             }
             composable(NavItem.Setting.screenRoute) {
-                SettingScreen(navController, loginViewModel = loginViewModel)
+                SettingScreen(navController, loginViewModel = loginViewModel, alertViewModel = alertViewModel)
             }
 
             composable(NavItem.Splash.screenRoute) {
@@ -100,12 +106,16 @@ class NavigationModule {
                                 ProductRepository.instance(context = LocalContext.current),
                             ),
                     ),
+                    alertViewModel,
+                    chatViewModel,
+                    application,
                 )
             }
             composable(NavItem.Swap.screenRoute) {
                 SwapScreen(
                     navController,
                     swapViewModel,
+                    alertViewModel,
                 )
             }
             composable(
@@ -156,6 +166,7 @@ class NavigationModule {
                 ChatListScreen(
                     navController,
                     viewModel = chatViewModel,
+                    alertViewModel,
                 )
             }
             composable(NavItem.User.screenRoute) {
@@ -166,7 +177,10 @@ class NavigationModule {
                 )
             }
             composable(NavItem.Alert.screenRoute) {
-                AlertScreen(navController)
+                AlertScreen(
+                    navController,
+                    viewModel = alertViewModel,
+                )
             }
             composable(NavItem.Search.screenRoute) {
                 SearchScreen(

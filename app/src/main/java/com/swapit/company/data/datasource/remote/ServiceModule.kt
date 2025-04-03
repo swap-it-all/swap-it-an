@@ -1,5 +1,6 @@
 package com.swapit.company.data.datasource.remote
 
+import com.swapit.company.data.datasource.remote.service.AlertService
 import com.swapit.company.data.datasource.remote.service.ChatService
 import com.swapit.company.data.datasource.remote.service.LoginService
 import com.swapit.company.data.datasource.remote.service.ProductService
@@ -30,6 +31,10 @@ object ServiceModule {
     }
 
     val reportService: ReportService by lazy {
+        RetrofitModule.retrofit().create()
+    }
+
+    val alertService: AlertService by lazy {
         RetrofitModule.retrofit().create()
     }
 }

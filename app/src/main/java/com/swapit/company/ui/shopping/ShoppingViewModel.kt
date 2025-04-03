@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 class ShoppingViewModel(private val repository: ProductRepository) : ViewModel() {
     private val _products = mutableStateOf<List<Product>>(emptyList())
     val products: List<Product> get() = _products.value
-    val selectedOption = mutableStateOf(SortOption.POPULAR)
+    val selectedOption = mutableStateOf<SortOption?>(null)
     val selectedCategory = mutableStateOf(emptyList<CategoryOption>())
     val searchKeyword = mutableStateOf("")
     val recentKeyword = mutableStateOf(emptyList<String>())
@@ -49,7 +49,14 @@ class ShoppingViewModel(private val repository: ProductRepository) : ViewModel()
                     cursorId = null,
                     createdAt = null,
                     cursorValue = null,
-                    sortBy = selectedOption.value.key,
+                    sortBy =
+                        (
+                            if (selectedOption.value == null) {
+                                SortOption.RECENT.key
+                            } else {
+                                selectedOption.value!!.key
+                            }
+                        ).toString(),
                     keyword = searchKeyword.value,
                     categoryIds = selectedCategory.value.map { it.id },
                 )

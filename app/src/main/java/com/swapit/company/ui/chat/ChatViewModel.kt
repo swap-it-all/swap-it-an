@@ -2,6 +2,7 @@ package com.swapit.company.ui.chat
 
 import android.util.Log
 import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -35,8 +36,8 @@ import org.json.JSONObject
 
 class ChatViewModel(private val repository: ChatRepository, private val loginRepository: LoginRepository) :
     ViewModel() {
-    val chatRoomList = mutableStateOf(emptyList<ChatRoom>())
-    val chatList = mutableStateOf(emptyList<Chat>())
+    var chatRoomList = mutableStateListOf<ChatRoom>()
+    var chatList = mutableStateListOf<Chat>()
     val chatRoomId = mutableLongStateOf(0L)
     val goodsId = mutableLongStateOf(0L)
     val tradesId = mutableLongStateOf(0L)
@@ -58,7 +59,7 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
             ),
         )
 
-    private fun connect() {
+    fun connect() {
         viewModelScope.launch {
             try {
                 stompSession =
@@ -99,7 +100,7 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
                     frame.bodyAsText?.let { jsonMessage ->
                         try {
                             val receivedChat = Json.decodeFromString<ChatResponse>(jsonMessage)
-                            chatList.value += receivedChat.toDomain()
+                            chatList += receivedChat.toDomain()
                         } catch (e: Exception) {
                             Log.e("STOMP", "메시지 처리 실패: ${e.message}")
                         }
@@ -130,7 +131,6 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
 
             if (chatRoomId != 0L) {
                 chatRoomProduct.value = repository.chatRoomInfo(chatRoomId)
-                connect()
                 subscribeToChatRoom()
                 navController.navigate(NavItem.ChatRoom.screenRoute + "/$chatRoomId")
             } else {
@@ -147,10 +147,8 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
             val tradesIdRequest = TradesIdRequest(tradesId)
             val chatRoomId = createChatRoomTradeSync(tradesIdRequest)
             this@ChatViewModel.chatRoomId.longValue = chatRoomId
-
             if (chatRoomId != 0L) {
                 chatRoomProduct.value = repository.chatRoomInfo(chatRoomId)
-                connect()
                 subscribeToChatRoom()
                 navController.navigate(NavItem.ChatRoom.screenRoute + "/$chatRoomId")
             } else {
@@ -205,13 +203,13 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
     }
 
     fun sendReadReceipt() { // todo: 안됨
-        Log.d("STOMP", chatList.value.last().chatsId.toString())
+        Log.d("STOMP", chatList.last().chatsId.toString())
         viewModelScope.launch {
             try {
                 stompSession?.send(
                     headers =
                         StompSendHeaders(
-                            destination = "/app/chat/${chatRoomId.longValue}",
+                            destination = "/app/chat/read/${chatRoomId.longValue}",
                             customHeaders =
                                 mapOf(
                                     "content-type" to "application/json",
@@ -222,11 +220,11 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
                         FrameBody.Text(
                             Json.encodeToString(
                                 ChatReadRequest.serializer(),
-                                ChatReadRequest(chatList.value.last().chatsId),
+                                ChatReadRequest(chatList.last().chatsId),
                             ) + "\\0",
                         ),
                 )
-                Log.d("STOMP", chatList.value.last().chatsId.toString())
+                Log.d("STOMP", chatList.last().chatsId.toString())
             } catch (e: Exception) {
                 Log.e("STOMP", "읽은 메시지 ID 전송 실패: ${e.message}")
             }
@@ -258,13 +256,17 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
 
     fun fetchChatList(chatroomId: Long) {
         viewModelScope.launch {
-            chatList.value = repository.chatList(chatroomId).chatList.map { it.toDomain() }
+            val newChatList = repository.chatList(chatroomId).chatList.map { it.toDomain() }
+            chatList.clear()
+            chatList.addAll(newChatList)
         }
     }
 
     fun fetchChatRoomList() {
         viewModelScope.launch {
-            chatRoomList.value = repository.chatRoomList()
+            val newChatRoomList = repository.chatRoomList() // 여기서 ArrayList 반환
+            chatRoomList.clear() // ✅ 기존 리스트 비우기
+            chatRoomList.addAll(newChatRoomList) // ✅ 새로운 데이터 추가
         }
     }
 

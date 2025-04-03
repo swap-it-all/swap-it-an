@@ -95,7 +95,7 @@ fun ReceivedSwapScreenCard(
                         Text(
                             modifier =
                                 Modifier.padding(
-                                    Paddings.small,
+                                    Paddings.none,
                                     Paddings.none,
                                     Paddings.small,
                                     Paddings.small,
