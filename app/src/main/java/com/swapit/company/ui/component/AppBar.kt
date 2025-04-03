@@ -67,15 +67,6 @@ fun AppBar(
                                     Red
                                 )
                         ) {
-                            if (alertCount in 1..9){
-                                Text(
-                                    alertCount.toString(),
-                                    style = Typography.labelSmall,
-                                    color = BackgroundColor,
-                                    modifier = Modifier.align(androidx.compose.ui.Alignment.Center)
-                                )
-                            }
-
                         }
                     }
 

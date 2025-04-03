@@ -10,6 +10,6 @@ data class AlertResponse(
     val type: String,
     val title: String,
     val body: String,
-    val deeplink: String,
+    val relatedData : Long?,
     val createdAt: String
 )

@@ -9,7 +9,7 @@ fun AlertResponse.toDomain(): Alert{
         type = this.type,
         title = this.title,
         body = this.body,
-        deeplink = this.deeplink,
+        relatedData = this.relatedData,
         createdAt = this.createdAt
     )
 }

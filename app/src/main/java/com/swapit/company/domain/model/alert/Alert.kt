@@ -5,6 +5,6 @@ data class Alert(
     val type: String,
     val title: String,
     val body: String,
-    val deeplink: String,
+    val relatedData: Long?,
     val createdAt: String
 )

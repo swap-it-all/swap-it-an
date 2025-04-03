@@ -5,11 +5,12 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.kotlinx.serilization)
+    id("com.google.gms.google-services")
 }
 
 val properties =
     Properties().apply {
-        load(rootProject.file("local.properties").inputStream())
+        load(rootProject.file("gradle.properties").inputStream())
     }
 
 android {
@@ -20,8 +21,8 @@ android {
         applicationId = "com.swapit.company"
         minSdk = 29
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 8
+        versionName = "1.0.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -36,7 +37,7 @@ android {
         buildConfigField(
             "String",
             "SWAP_IT_BASE_URL",
-            properties.getProperty("SWAP_IT_BASE_URL") ?: "\"https://swapit.com\"",
+            properties.getProperty("SWAP_IT_BASE_URL") ?: "",
         )
         resValue(
             "string",
@@ -55,6 +56,7 @@ android {
     }
 
     buildTypes {
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -136,4 +138,6 @@ dependencies {
     // krossbow
     implementation(libs.krossbow.stomp.core)
     implementation(libs.krossbow.websocket.okhttp)
+    //firebase
+    implementation("com.google.firebase:firebase-messaging-ktx:23.3.1")
 }

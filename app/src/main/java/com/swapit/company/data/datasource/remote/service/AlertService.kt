@@ -8,6 +8,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface AlertService {
@@ -19,7 +20,7 @@ interface AlertService {
         @Path("notificationsId") notificationsId: Long
     ): BaseResponse<Unit>
 
-    @POST("api/user/fcm")
+    @PUT("api/user/fcm")
     suspend fun fcmRestore(
         @Body fcmToken: FcmTokenRequest
     ): BaseResponse<Unit>

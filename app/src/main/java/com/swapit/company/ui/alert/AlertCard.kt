@@ -23,9 +23,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.swapit.company.R
 import com.swapit.company.data.datasource.local.model.alert.AlertType
 import com.swapit.company.domain.model.alert.Alert
+import com.swapit.company.ui.navigation.NavItem
 import com.swapit.company.ui.shopping.model.calculateTime
 import com.swapit.company.ui.theme.BackgroundColor
 import com.swapit.company.ui.theme.Gray4
@@ -35,7 +37,11 @@ import com.swapit.company.ui.theme.Typography
 import com.swapit.company.ui.theme.White
 
 @Composable
-fun AlertCard(alertCardData: Alert) {
+fun AlertCard(
+    alertCardData: Alert,
+    alertViewModel: AlertViewModel,
+    navController: NavHostController
+) {
     val convertTime = calculateTime(alertCardData.createdAt)
     val icon = when (alertCardData.type) {
         AlertType.CHAT.name -> R.drawable.ic_chat
@@ -49,20 +55,32 @@ fun AlertCard(alertCardData: Alert) {
     Card(
         modifier = Modifier.padding(Paddings.xlarge, Paddings.medium),
         colors =
-            CardDefaults.cardColors(
-                containerColor = BackgroundColor,
-            ),
-        onClick = {},
+        CardDefaults.cardColors(
+            containerColor = BackgroundColor,
+        ),
+        onClick = {
+            alertViewModel.readAlert(alertCardData.notificationsId)
+            if (alertCardData.type == AlertType.REQUESTED.name || alertCardData.type == AlertType.ACCEPTED.name || alertCardData.type == AlertType.REJECTED.name) {
+                navController.navigate(NavItem.ShoppingDetail.screenRoute + "/${alertCardData.relatedData}")
+            } else if (alertCardData.type == AlertType.CHAT.name) {
+                navController.navigate(NavItem.ChatRoom.screenRoute + "/${alertCardData.relatedData}")
+            }else if (alertCardData.type == AlertType.REVIEW.name) {
+                navController.navigate(NavItem.User.screenRoute)
+            }else if (alertCardData.type == AlertType.COMPLETED.name) {
+                navController.navigate(NavItem.User.screenRoute)
+            }
+
+        },
     ) {
         Column {
             Row {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier =
-                        Modifier
-                            .size(52.dp)
-                            .clip(RoundedCornerShape(50.dp))
-                            .background(White),
+                    Modifier
+                        .size(52.dp)
+                        .clip(RoundedCornerShape(50.dp))
+                        .background(White),
                 ) {
                     Icon(
                         painter = painterResource(id = icon),
