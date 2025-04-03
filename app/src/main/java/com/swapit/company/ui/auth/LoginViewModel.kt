@@ -61,7 +61,10 @@ class LoginViewModel(
         }
     }
 
-    fun deleteAccount(reason: String, onSuccess: () -> Unit) {
+    fun deleteAccount(
+        reason: String,
+        onSuccess: () -> Unit,
+    ) {
         viewModelScope.launch {
             Log.d(TAG, "deleteAccount() called with: reason = $reason") // ✅ 실행 확인용
 
@@ -77,13 +80,11 @@ class LoginViewModel(
                     _isLoggedIn.emit(false)
                     onSuccess()
                 }
-
             } else {
                 Log.e(TAG, "토큰이 없습니다: authToken=$authToken, kakaoToken=$kakaoToken")
             }
         }
     }
-
 
     private suspend fun isKakaoLoggedOut(): Boolean =
         suspendCoroutine<Boolean> { continuation ->

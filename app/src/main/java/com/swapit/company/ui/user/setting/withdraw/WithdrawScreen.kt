@@ -97,13 +97,13 @@ fun WithdrawScreen(
                             vertical = Paddings.xlarge,
                         ),
                     onClick = {
-                        Log.d("asdfasdfasdf","asdfdasfsadfsdafasdfasfsdafsadfasdf")
+                        Log.d("asdfasdfasdf", "asdfdasfsadfsdafasdfasfsdafsadfasdf")
                         if (userInfoViewModel.selectedText.value == "기타") {
-                            loginViewModel.deleteAccount(userInfoViewModel.etcText.value){
+                            loginViewModel.deleteAccount(userInfoViewModel.etcText.value) {
                                 navController.navigate(NavItem.Login.screenRoute)
                             }
                         } else {
-                            loginViewModel.deleteAccount(userInfoViewModel.selectedText.value){
+                            loginViewModel.deleteAccount(userInfoViewModel.selectedText.value) {
                                 navController.navigate(NavItem.Login.screenRoute)
                             }
                         }

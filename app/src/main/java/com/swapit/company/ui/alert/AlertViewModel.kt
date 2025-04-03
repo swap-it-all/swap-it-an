@@ -9,19 +9,15 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import com.swapit.company.BuildConfig
 import com.swapit.company.R
 import com.swapit.company.data.datasource.remote.RetrofitModule.okHttpClient
-import com.swapit.company.data.datasource.remote.dto.request.chat.GoodsIdRequest
 import com.swapit.company.data.datasource.remote.dto.response.alert.NotificationResponse
-import com.swapit.company.data.datasource.remote.dto.response.chat.ChatResponse
 import com.swapit.company.data.mapper.toDomain
 import com.swapit.company.domain.model.alert.Alert
 import com.swapit.company.domain.repository.AlertRepository
 import com.swapit.company.domain.repository.LoginRepository
 import com.swapit.company.ui.base.BaseViewModelFactory
-import com.swapit.company.ui.navigation.NavItem
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import org.hildan.krossbow.stomp.StompClient
@@ -32,7 +28,7 @@ import org.hildan.krossbow.websocket.okhttp.OkHttpWebSocketClient
 class AlertViewModel(
     private val application: Application,
     private val repository: AlertRepository,
-    private val loginRepository: LoginRepository
+    private val loginRepository: LoginRepository,
 ) : ViewModel() {
     val alertList = mutableStateOf(emptyList<Alert>())
     val alertSettingValue = mutableStateOf(false)
@@ -41,7 +37,6 @@ class AlertViewModel(
     }
     private val stompClient = StompClient(wsClient)
     private var stompSession: StompSession? = null
-
 
     private fun connect() {
         viewModelScope.launch {
@@ -53,11 +48,11 @@ class AlertViewModel(
                             "ws",
                         ) + "ws",
                         customStompConnectHeaders =
-                        mapOf(
-                            "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
-                            "accept-version" to "1.1",
-                            "content-length" to "0"
-                        ),
+                            mapOf(
+                                "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
+                                "accept-version" to "1.1",
+                                "content-length" to "0",
+                            ),
                     )
             } catch (e: Exception) {
                 Log.e("STOMP", "connect() 연결 실패: ${e.message}")
@@ -72,13 +67,14 @@ class AlertViewModel(
                 return@launch
             }
             try {
-                val messageFlow = stompSession!!.subscribe(
-                    StompSubscribeHeaders(
-                        destination = "/user/queue/notifications",
-                        id = "sub-0",
-                        customHeaders = mapOf("content-length" to "0")
-                    ),
-                )
+                val messageFlow =
+                    stompSession!!.subscribe(
+                        StompSubscribeHeaders(
+                            destination = "/user/queue/notifications",
+                            id = "sub-0",
+                            customHeaders = mapOf("content-length" to "0"),
+                        ),
+                    )
                 messageFlow.collect { frame ->
                     Log.d("STOMP", "알림 메시지 수신: ${frame.bodyAsText}")
                     frame.bodyAsText?.let { jsonMessage ->
@@ -110,15 +106,16 @@ class AlertViewModel(
         val notificationManager =
             application.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        val notificationBuilder = NotificationCompat.Builder(application, "default_channel")
-            .setContentTitle("새로운 알림")
-            .setContentText(notification.message)
-            .setSmallIcon(R.drawable.ic_bell)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+        val notificationBuilder =
+            NotificationCompat.Builder(application, "default_channel")
+                .setContentTitle("새로운 알림")
+                .setContentText(notification.message)
+                .setSmallIcon(R.drawable.ic_bell)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
 
         notificationManager.notify(
             notification.notificationsId.toInt(),
-            notificationBuilder.build()
+            notificationBuilder.build(),
         )
     }
 
@@ -158,7 +155,6 @@ class AlertViewModel(
         }
     }
 
-
     fun alertSetting() {
         viewModelScope.launch {
             repository.alertSetting(alertSettingValue.value)
@@ -177,13 +173,13 @@ class AlertViewModel(
         fun factory(
             application: Application,
             repository: AlertRepository,
-            loginRepository: LoginRepository
+            loginRepository: LoginRepository,
         ): ViewModelProvider.Factory =
             BaseViewModelFactory {
                 AlertViewModel(
                     application = application,
                     repository = repository,
-                    loginRepository = loginRepository
+                    loginRepository = loginRepository,
                 )
             }
     }

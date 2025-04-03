@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -257,7 +256,7 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
 
     fun fetchChatList(chatroomId: Long) {
         viewModelScope.launch {
-            val newChatList =repository.chatList(chatroomId).chatList.map { it.toDomain() }
+            val newChatList = repository.chatList(chatroomId).chatList.map { it.toDomain() }
             chatList.clear()
             chatList.addAll(newChatList)
         }

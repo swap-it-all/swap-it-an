@@ -61,19 +61,21 @@ fun ProfileCard(
                     .fillMaxWidth()
                     .padding(16.dp),
         ) {
-            Box(modifier =
-            Modifier
-                .size(91.dp)
-                .clip(CircleShape).background(Gray5),) {
+            Box(
+                modifier =
+                    Modifier
+                        .size(91.dp)
+                        .clip(CircleShape).background(Gray5),
+            ) {
                 AsyncImage(
                     model = userInfo.profileImageUrl,
                     contentDescription = "Profile Picture",
                     placeholder = painterResource(R.drawable.ic_user),
                     error = painterResource(R.drawable.ic_close),
                     modifier =
-                    Modifier
-                        .size(86.dp)
-                        .clip(CircleShape).align(Alignment.Center),
+                        Modifier
+                            .size(86.dp)
+                            .clip(CircleShape).align(Alignment.Center),
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))

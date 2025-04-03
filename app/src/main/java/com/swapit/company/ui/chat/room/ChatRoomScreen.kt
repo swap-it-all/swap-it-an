@@ -17,8 +17,6 @@ import com.swapit.company.ui.chat.ChatViewModel
 import com.swapit.company.ui.theme.BackgroundColor
 import com.swapit.company.ui.user.UserInfoViewModel
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.time.delay
 
 @Composable
 fun ChatRoomScreen(
@@ -39,7 +37,6 @@ fun ChatRoomScreen(
             }
         }
     }
-
 
     Scaffold(
         modifier =

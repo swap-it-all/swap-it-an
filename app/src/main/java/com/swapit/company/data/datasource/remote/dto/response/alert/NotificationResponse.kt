@@ -8,5 +8,5 @@ data class NotificationResponse(
     val type: String,
     val url: String,
     val message: String,
-    val createdAt: String
+    val createdAt: String,
 )

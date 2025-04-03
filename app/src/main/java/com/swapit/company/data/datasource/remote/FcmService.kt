@@ -3,14 +3,12 @@ package com.swapit.company.data.datasource.remote
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.swapit.company.R
-
 
 class FcmService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
@@ -30,19 +28,23 @@ class FcmService : FirebaseMessagingService() {
         }
     }
 
-    private fun showNotification(title: String, message: String) {
+    private fun showNotification(
+        title: String,
+        message: String,
+    ) {
         val channelId = "my_channel"
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val channel = NotificationChannel(channelId, "알림 채널", NotificationManager.IMPORTANCE_HIGH)
         notificationManager.createNotificationChannel(channel)
 
-        val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle(title)
-            .setContentText(message)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(true)
+        val notificationBuilder =
+            NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
 
         notificationManager.notify(0, notificationBuilder.build())
     }

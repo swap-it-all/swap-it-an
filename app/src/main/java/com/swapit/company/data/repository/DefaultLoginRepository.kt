@@ -48,7 +48,11 @@ class DefaultLoginRepository(
 
     override fun refreshToken(): String? = localSource.refreshToken()
 
-    override suspend fun deleteAccount(authToken: String, kakaoToken: String, reason: String): Boolean {
+    override suspend fun deleteAccount(
+        authToken: String,
+        kakaoToken: String,
+        reason: String,
+    ): Boolean {
         Log.d("LoginRepository", "deleteAccount() 요청 - authToken: $authToken, kakaoToken: $kakaoToken, reason: $reason")
 
         return try {

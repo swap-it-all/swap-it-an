@@ -6,5 +6,5 @@ data class Alert(
     val title: String,
     val body: String,
     val relatedData: Long?,
-    val createdAt: String
+    val createdAt: String,
 )

@@ -74,21 +74,21 @@ fun ChatCardContent(chatCardData: ChatRoom) {
 
 @Composable
 fun ChatCardUserImageSection(chatCardData: ChatRoom) {
-
-    Box(modifier =
-    Modifier
-        .size(57.dp)
-        .clip(CircleShape).background(Gray5),) {
+    Box(
+        modifier =
+            Modifier
+                .size(57.dp)
+                .clip(CircleShape).background(Gray5),
+    ) {
         AsyncImage(
             model = chatCardData.profileImageUrl,
             contentDescription = "유저 사진",
             modifier =
-            Modifier
-                .size(52.dp)
-                .clip(CircleShape).align(Alignment.Center),
+                Modifier
+                    .size(52.dp)
+                    .clip(CircleShape).align(Alignment.Center),
             contentScale = ContentScale.Crop,
-
-            )
+        )
     }
 }
 

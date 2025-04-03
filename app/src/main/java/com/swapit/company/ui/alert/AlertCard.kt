@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.swapit.company.R
@@ -40,36 +38,39 @@ import com.swapit.company.ui.theme.White
 fun AlertCard(
     alertCardData: Alert,
     alertViewModel: AlertViewModel,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     val convertTime = calculateTime(alertCardData.createdAt)
-    val icon = when (alertCardData.type) {
-        AlertType.CHAT.name -> R.drawable.ic_chat
-        AlertType.COMPLETED.name -> R.drawable.ic_shopping_bag
-        AlertType.REJECTED.name -> R.drawable.ic_shopping_bag
-        AlertType.ACCEPTED.name -> R.drawable.ic_shopping_bag
-        AlertType.REQUESTED.name -> R.drawable.ic_shopping_bag
-        AlertType.REVIEW.name -> R.drawable.ic_pencil
-        else -> R.drawable.ic_bell
-    }
+    val icon =
+        when (alertCardData.type) {
+            AlertType.CHAT.name -> R.drawable.ic_chat
+            AlertType.COMPLETED.name -> R.drawable.ic_shopping_bag
+            AlertType.REJECTED.name -> R.drawable.ic_shopping_bag
+            AlertType.ACCEPTED.name -> R.drawable.ic_shopping_bag
+            AlertType.REQUESTED.name -> R.drawable.ic_shopping_bag
+            AlertType.REVIEW.name -> R.drawable.ic_pencil
+            else -> R.drawable.ic_bell
+        }
     Card(
         modifier = Modifier.padding(Paddings.xlarge, Paddings.medium),
         colors =
-        CardDefaults.cardColors(
-            containerColor = BackgroundColor,
-        ),
+            CardDefaults.cardColors(
+                containerColor = BackgroundColor,
+            ),
         onClick = {
             alertViewModel.readAlert(alertCardData.notificationsId)
-            if (alertCardData.type == AlertType.REQUESTED.name || alertCardData.type == AlertType.ACCEPTED.name || alertCardData.type == AlertType.REJECTED.name) {
+            if (alertCardData.type == AlertType.REQUESTED.name ||
+                alertCardData.type == AlertType.ACCEPTED.name ||
+                alertCardData.type == AlertType.REJECTED.name
+            ) {
                 navController.navigate(NavItem.ShoppingDetail.screenRoute + "/${alertCardData.relatedData}")
             } else if (alertCardData.type == AlertType.CHAT.name) {
                 navController.navigate(NavItem.ChatRoom.screenRoute + "/${alertCardData.relatedData}")
-            }else if (alertCardData.type == AlertType.REVIEW.name) {
+            } else if (alertCardData.type == AlertType.REVIEW.name) {
                 navController.navigate(NavItem.User.screenRoute)
-            }else if (alertCardData.type == AlertType.COMPLETED.name) {
+            } else if (alertCardData.type == AlertType.COMPLETED.name) {
                 navController.navigate(NavItem.User.screenRoute)
             }
-
         },
     ) {
         Column {
@@ -77,10 +78,10 @@ fun AlertCard(
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier =
-                    Modifier
-                        .size(52.dp)
-                        .clip(RoundedCornerShape(50.dp))
-                        .background(White),
+                        Modifier
+                            .size(52.dp)
+                            .clip(RoundedCornerShape(50.dp))
+                            .background(White),
                 ) {
                     Icon(
                         painter = painterResource(id = icon),

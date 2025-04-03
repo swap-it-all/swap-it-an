@@ -27,7 +27,7 @@ fun SwapScreen(
 
     Scaffold(
         topBar = {
-            AppBar(navController = navController,alertCount = alertViewModel.alertList.value.size)
+            AppBar(navController = navController, alertCount = alertViewModel.alertList.value.size)
         },
         bottomBar = {
             BottomNavigationBar(navController)
@@ -49,5 +49,5 @@ fun SwapScreen(
 @Composable
 @Preview(showBackground = true)
 fun SwapScreenPreview() {
-    SwapScreen(navController = NavHostController(context = LocalContext.current), viewModel = viewModel(),alertViewModel = viewModel())
+    SwapScreen(navController = NavHostController(context = LocalContext.current), viewModel = viewModel(), alertViewModel = viewModel())
 }

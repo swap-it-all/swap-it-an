@@ -26,6 +26,4 @@ class DefaultAlertRepository(private val remoteSource: RemoteAlertDataSource) : 
     override suspend fun alertSettingInfo(): BaseResponse<AlertSettingResponse> {
         return remoteSource.alertSettingInfo()
     }
-
-
 }

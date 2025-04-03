@@ -16,14 +16,8 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.swapit.company.data.datasource.remote.FcmService
-import com.swapit.company.domain.repository.AlertRepository
-import com.swapit.company.domain.repository.ProductRepository
 import com.swapit.company.ui.alert.AlertViewModel
 import com.swapit.company.ui.chat.ChatViewModel
 import com.swapit.company.ui.component.AppBar
@@ -31,7 +25,6 @@ import com.swapit.company.ui.component.BottomNavigationBar
 import com.swapit.company.ui.navigation.NavItem
 import com.swapit.company.ui.theme.BackgroundColor
 import com.swapit.company.ui.theme.Paddings
-import com.swapit.company.ui.theme.SwapitTheme
 import com.swapit.company.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,7 +34,7 @@ fun ShoppingScreen(
     viewModel: ShoppingViewModel,
     alertViewModel: AlertViewModel,
     chatViewModel: ChatViewModel,
-    application: Application
+    application: Application,
 ) {
     val sheetState = rememberModalBottomSheetState()
     viewModel.fetchProducts()
@@ -75,7 +68,7 @@ fun ShoppingScreen(
                     )
                 }
                 item {
-                    CategorySection(Modifier, { viewModel.showBottomSheet() },viewModel)
+                    CategorySection(Modifier, { viewModel.showBottomSheet() }, viewModel)
                 }
                 itemsIndexed(
                     items = viewModel.products,
@@ -103,4 +96,3 @@ fun ShoppingScreen(
         }
     }
 }
-

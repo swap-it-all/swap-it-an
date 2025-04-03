@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AlertListResponse(
-    val notifications: List<AlertResponse>
+    val notifications: List<AlertResponse>,
 )

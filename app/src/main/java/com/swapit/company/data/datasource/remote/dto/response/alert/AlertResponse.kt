@@ -1,8 +1,6 @@
 package com.swapit.company.data.datasource.remote.dto.response.alert
 
-import android.app.Notification
 import kotlinx.serialization.Serializable
-
 
 @Serializable
 data class AlertResponse(
@@ -10,6 +8,6 @@ data class AlertResponse(
     val type: String,
     val title: String,
     val body: String,
-    val relatedData : Long?,
-    val createdAt: String
+    val relatedData: Long?,
+    val createdAt: String,
 )

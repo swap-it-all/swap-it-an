@@ -138,6 +138,6 @@ dependencies {
     // krossbow
     implementation(libs.krossbow.stomp.core)
     implementation(libs.krossbow.websocket.okhttp)
-    //firebase
+    // firebase
     implementation("com.google.firebase:firebase-messaging-ktx:23.3.1")
 }

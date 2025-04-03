@@ -49,11 +49,14 @@ class ShoppingViewModel(private val repository: ProductRepository) : ViewModel()
                     cursorId = null,
                     createdAt = null,
                     cursorValue = null,
-                    sortBy = (if(selectedOption.value == null) {
-                        SortOption.RECENT.key
-                    } else {
-                        selectedOption.value!!.key
-                    }).toString(),
+                    sortBy =
+                        (
+                            if (selectedOption.value == null) {
+                                SortOption.RECENT.key
+                            } else {
+                                selectedOption.value!!.key
+                            }
+                        ).toString(),
                     keyword = searchKeyword.value,
                     categoryIds = selectedCategory.value.map { it.id },
                 )

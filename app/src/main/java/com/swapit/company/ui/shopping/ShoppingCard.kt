@@ -102,12 +102,12 @@ fun ShoppingCard(
                     if (cardData.goodsTradeStatus == ProductTradeStatus.RESERVED.name) {
                         Text(
                             modifier =
-                            Modifier.padding(
-                                Paddings.none,
-                                Paddings.none,
-                                Paddings.small,
-                                Paddings.small,
-                            ),
+                                Modifier.padding(
+                                    Paddings.none,
+                                    Paddings.none,
+                                    Paddings.small,
+                                    Paddings.small,
+                                ),
                             text = "거래중",
                             style = Typography.bodyMedium,
                             color = Primary,
@@ -116,12 +116,12 @@ fun ShoppingCard(
                     } else if (cardData.goodsTradeStatus == ProductTradeStatus.SOLDOUT.name) {
                         Text(
                             modifier =
-                            Modifier.padding(
-                                Paddings.none,
-                                Paddings.none,
-                                Paddings.small,
-                                Paddings.small,
-                            ),
+                                Modifier.padding(
+                                    Paddings.none,
+                                    Paddings.none,
+                                    Paddings.small,
+                                    Paddings.small,
+                                ),
                             text = "판매 완료",
                             style = Typography.bodyMedium,
                             color = Gray3,
@@ -130,12 +130,12 @@ fun ShoppingCard(
                     }
                     Text(
                         modifier =
-                        Modifier.padding(
-                            Paddings.none,
-                            Paddings.none,
-                            Paddings.none,
-                            Paddings.small,
-                        ),
+                            Modifier.padding(
+                                Paddings.none,
+                                Paddings.none,
+                                Paddings.none,
+                                Paddings.small,
+                            ),
                         text = cardData.title,
                         style = Typography.bodyMedium,
                         maxLines = 1,

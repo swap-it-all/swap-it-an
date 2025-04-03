@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
@@ -19,11 +18,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.swapit.company.R
-import com.swapit.company.ui.alert.AlertViewModel
 import com.swapit.company.ui.navigation.NavItem
 import com.swapit.company.ui.theme.BackgroundColor
 import com.swapit.company.ui.theme.Red
-import com.swapit.company.ui.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,36 +54,35 @@ fun AppBar(
                         painter = painterResource(R.drawable.ic_bell),
                         contentDescription = "알림",
                     )
-                    if (alertCount != 0){
+                    if (alertCount != 0) {
                         Box(
-                            modifier = Modifier
-                                .size(10.dp)
-                                .clip(CircleShape)
-                                .align(androidx.compose.ui.Alignment.TopEnd)
-                                .background(
-                                    Red
-                                )
+                            modifier =
+                                Modifier
+                                    .size(10.dp)
+                                    .clip(CircleShape)
+                                    .align(androidx.compose.ui.Alignment.TopEnd)
+                                    .background(
+                                        Red,
+                                    ),
                         ) {
                         }
                     }
-
                 }
-
             }
         },
         colors =
-        TopAppBarColors(
-            containerColor = BackgroundColor,
-            navigationIconContentColor = BackgroundColor,
-            actionIconContentColor = BackgroundColor,
-            scrolledContainerColor = BackgroundColor,
-            titleContentColor = BackgroundColor,
-        ),
+            TopAppBarColors(
+                containerColor = BackgroundColor,
+                navigationIconContentColor = BackgroundColor,
+                actionIconContentColor = BackgroundColor,
+                scrolledContainerColor = BackgroundColor,
+                titleContentColor = BackgroundColor,
+            ),
     )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun AppBarPreview() {
-    AppBar(Modifier, NavHostController(LocalContext.current),0)
+    AppBar(Modifier, NavHostController(LocalContext.current), 0)
 }

@@ -47,7 +47,8 @@ fun ShoppingDetailScreen(
             modifier =
                 Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(Paddings.xlarge, 40.dp).background(BackgroundColor), // todo: 수정
+                    .padding(Paddings.xlarge, 40.dp).background(BackgroundColor),
+            // todo: 수정
         ) {
             if (shoppingDetailViewModel.detailContents.trade != null) { // 거래를 누군가와 하고 있음
                 if (shoppingDetailViewModel.detailContents.trade!!.isRequester) { // 그게 내가 건거야?

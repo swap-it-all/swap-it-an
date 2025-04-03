@@ -6,4 +6,3 @@ import kotlinx.serialization.Serializable
 data class FcmTokenRequest(
     val fcmToken: String,
 )
-

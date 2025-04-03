@@ -32,7 +32,7 @@ fun CategorySection(
     ) {
         TextButton(onClick = showBottomSheetOnClick) {
             Row {
-                if (viewModel.selectedOption.value == null){
+                if (viewModel.selectedOption.value == null) {
                     Text("정렬", color = Gray3)
                 } else {
                     Text(viewModel.selectedOption.value!!.option, color = Black)
@@ -47,10 +47,10 @@ fun CategorySection(
         }
         TextButton(onClick = showBottomSheetOnClick) {
             Row {
-                if (viewModel.selectedCategory.value.isEmpty()){
-                    Text("카테고리",color = Gray3)
+                if (viewModel.selectedCategory.value.isEmpty()) {
+                    Text("카테고리", color = Gray3)
                 } else {
-                    Text("카테고리 ${viewModel.selectedCategory.value.size}",color = Black)
+                    Text("카테고리 ${viewModel.selectedCategory.value.size}", color = Black)
                 }
                 Icon(
                     painter = painterResource(R.drawable.ic_caret_down),

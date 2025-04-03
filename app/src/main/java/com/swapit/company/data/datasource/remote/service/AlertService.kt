@@ -8,7 +8,6 @@ import com.swapit.company.data.datasource.remote.dto.response.alert.AlertSetting
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
-import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 
@@ -18,20 +17,19 @@ interface AlertService {
 
     @PATCH("api/user/notifications/{notificationsId}/read")
     suspend fun readAlert(
-        @Path("notificationsId") notificationsId: Long
+        @Path("notificationsId") notificationsId: Long,
     ): BaseResponse<Unit>
 
     @PUT("api/user/fcm")
     suspend fun fcmRestore(
-        @Body fcmToken: FcmTokenRequest
+        @Body fcmToken: FcmTokenRequest,
     ): BaseResponse<Unit>
 
     @PATCH("api/user/notifications/setting")
     suspend fun alertSetting(
-        @Body notificationEnabled: AlertSettingRequest
+        @Body notificationEnabled: AlertSettingRequest,
     ): BaseResponse<Unit>
 
     @GET("api/user/notifications/settings")
-    suspend fun alertSettingInfo(
-    ): BaseResponse<AlertSettingResponse>
+    suspend fun alertSettingInfo(): BaseResponse<AlertSettingResponse>
 }

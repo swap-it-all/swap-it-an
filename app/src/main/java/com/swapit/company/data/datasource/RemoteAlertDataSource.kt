@@ -9,10 +9,15 @@ import com.swapit.company.data.datasource.remote.service.AlertService
 
 class RemoteAlertDataSource(private val service: AlertService) {
     suspend fun alertList(): BaseResponse<AlertListResponse> = service.alertList()
+
     suspend fun readAlert(notificationsId: Long): BaseResponse<Unit> = service.readAlert(notificationsId)
+
     suspend fun fcmRestore(fcmToken: String): BaseResponse<Unit> = service.fcmRestore(FcmTokenRequest(fcmToken))
-    suspend fun alertSetting(notificationEnabled: Boolean): BaseResponse<Unit> = service.alertSetting(
-        AlertSettingRequest(notificationEnabled)
-    )
+
+    suspend fun alertSetting(notificationEnabled: Boolean): BaseResponse<Unit> =
+        service.alertSetting(
+            AlertSettingRequest(notificationEnabled),
+        )
+
     suspend fun alertSettingInfo(): BaseResponse<AlertSettingResponse> = service.alertSettingInfo()
 }
