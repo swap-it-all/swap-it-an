@@ -1,7 +1,6 @@
 package com.swapit.company.ui.shopping
 
 import ShoppingViewModel
-import android.app.Application
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -34,14 +33,12 @@ fun ShoppingScreen(
     viewModel: ShoppingViewModel,
     alertViewModel: AlertViewModel,
     chatViewModel: ChatViewModel,
-    application: Application,
 ) {
     val sheetState = rememberModalBottomSheetState()
     viewModel.fetchProducts()
     alertViewModel.fetchAlertList()
-    alertViewModel.initiateAlert()
-    chatViewModel.connect()
-    alertViewModel.fcmRestore(application = application)
+    alertViewModel.connectAndMonitor()
+    chatViewModel.connectAndMonitor()
     alertViewModel.alertSettingInfo()
 
     Scaffold(

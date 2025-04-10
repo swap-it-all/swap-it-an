@@ -8,4 +8,5 @@ data class ReceivedSwapProduct(
     val photoUrl: String?,
     val placeName: String,
     val createdAt: String,
+    val isInProgress: Boolean,
 )

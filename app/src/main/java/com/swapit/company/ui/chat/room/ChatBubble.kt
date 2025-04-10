@@ -114,7 +114,7 @@ fun Bubble(
                 Modifier.padding(Paddings.xlarge, Paddings.small),
             )
         }
-    } else if (chat.chatType == ChatType.CANCEL.name) {
+    } else if (chat.chatType == ChatType.ACCEPT.name) {
         Box(
             modifier =
                 Modifier
@@ -130,7 +130,7 @@ fun Bubble(
                 Modifier.padding(Paddings.xlarge, Paddings.small),
             )
         }
-    } else if (chat.chatType == ChatType.CANCEL.name) {
+    } else if (chat.chatType == ChatType.REJECT.name) {
         Box(
             modifier =
                 Modifier
@@ -146,7 +146,7 @@ fun Bubble(
                 Modifier.padding(Paddings.xlarge, Paddings.small),
             )
         }
-    } else if (chat.chatType == ChatType.CANCEL.name) {
+    } else if (chat.chatType == ChatType.COMPLETE.name) {
         Box(
             modifier =
                 Modifier

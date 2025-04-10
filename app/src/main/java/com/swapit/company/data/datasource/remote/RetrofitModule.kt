@@ -41,7 +41,7 @@ object RetrofitModule {
 
     fun okHttpClient(): OkHttpClient {
         val localLoginDataSource = LocalLoginDataSource(appContext)
-        val authenticator = AuthAuthenticator(loginServiceHolder, LocalLoginDataSource(appContext))
+        val authenticator = AuthAuthenticator(loginServiceHolder, LocalLoginDataSource(appContext), {})
 
         return OkHttpClient
             .Builder()

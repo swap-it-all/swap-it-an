@@ -1,6 +1,8 @@
 package com.swapit.company.ui.shopping
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,7 +26,6 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.swapit.company.R
@@ -34,6 +35,7 @@ import com.swapit.company.domain.model.product.Product
 import com.swapit.company.ui.shopping.model.calculateTime
 import com.swapit.company.ui.theme.Gray3
 import com.swapit.company.ui.theme.Gray4
+import com.swapit.company.ui.theme.Gray6
 import com.swapit.company.ui.theme.Paddings
 import com.swapit.company.ui.theme.Primary
 import com.swapit.company.ui.theme.Typography
@@ -91,42 +93,50 @@ fun ShoppingCard(
                             Paddings.xsmall,
                         ),
                     text =
-                        "${CategoryOption.entries.find { it.name == cardData.category }?.option } | " +
+                        "${CategoryOption.entries.find { it.name == cardData.category }?.option} | " +
                             "${cardData.placeName} | " +
                             convertTime,
                     style = Typography.labelLarge,
                     color = Gray4,
                 )
 
-                Row {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     if (cardData.goodsTradeStatus == ProductTradeStatus.RESERVED.name) {
-                        Text(
+                        Box(
                             modifier =
-                                Modifier.padding(
-                                    Paddings.none,
-                                    Paddings.none,
-                                    Paddings.small,
-                                    Paddings.small,
-                                ),
-                            text = "거래중",
-                            style = Typography.bodyMedium,
-                            color = Primary,
-                            maxLines = 1,
-                        )
+                                Modifier
+                                    .size(53.dp, 24.dp).clip(RoundedCornerShape(12.dp))
+                                    .background(
+                                        Gray6,
+                                    ),
+                        ) {
+                            Text(
+                                modifier =
+                                    Modifier.align(Alignment.Center),
+                                text = "거래중",
+                                style = Typography.titleSmall,
+                                color = Primary,
+                            )
+                        }
+                        Spacer(modifier = Modifier.size(Paddings.small))
                     } else if (cardData.goodsTradeStatus == ProductTradeStatus.SOLDOUT.name) {
-                        Text(
+                        Box(
                             modifier =
-                                Modifier.padding(
-                                    Paddings.none,
-                                    Paddings.none,
-                                    Paddings.small,
-                                    Paddings.small,
-                                ),
-                            text = "판매 완료",
-                            style = Typography.bodyMedium,
-                            color = Gray3,
-                            maxLines = 1,
-                        )
+                                Modifier
+                                    .size(65.dp, 24.dp).clip(RoundedCornerShape(24.dp))
+                                    .background(
+                                        Gray6,
+                                    ),
+                        ) {
+                            Text(
+                                modifier =
+                                    Modifier.align(Alignment.Center),
+                                text = "판매 완료",
+                                style = Typography.titleSmall,
+                                color = Gray3,
+                            )
+                        }
+                        Spacer(modifier = Modifier.size(Paddings.small))
                     }
                     Text(
                         modifier =
@@ -184,9 +194,4 @@ fun ShoppingCard(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ShoppingCardPreview() {
 }

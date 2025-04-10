@@ -9,6 +9,6 @@ data class ReceivedSwap(
     val placeName: String,
     val viewCount: Long,
     val requestCount: Long,
-    val inProgressCount: Long,
     val createdAt: String,
+    val isInProgress: Boolean,
 )

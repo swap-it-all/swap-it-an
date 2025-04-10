@@ -33,9 +33,12 @@ import org.hildan.krossbow.stomp.headers.StompSendHeaders
 import org.hildan.krossbow.stomp.headers.StompSubscribeHeaders
 import org.hildan.krossbow.websocket.okhttp.OkHttpWebSocketClient
 import org.json.JSONObject
+import java.util.concurrent.atomic.AtomicInteger
 
 class ChatViewModel(private val repository: ChatRepository, private val loginRepository: LoginRepository) :
     ViewModel() {
+    private val subscriptionCounter = AtomicInteger(0)
+    private val subscriptionIds = mutableMapOf<Long, String>() // chatRoomId 별 구독 ID 저장
     var chatRoomList = mutableStateListOf<ChatRoom>()
     var chatList = mutableStateListOf<Chat>()
     val chatRoomId = mutableLongStateOf(0L)
@@ -59,15 +62,44 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
             ),
         )
 
-    fun connect() {
+    fun enterChatRoom(newChatRoomId: Long) {
+        viewModelScope.launch {
+            // 기존 채팅방 구독 해제 (필요할 때만)
+            if (chatRoomId.longValue != 0L) {
+                unsubscribeFromChatRoom(chatRoomId.longValue)
+            }
+
+            // 새로운 채팅방 ID 설정
+            chatRoomId.longValue = newChatRoomId
+
+            // 새로운 채팅방 구독
+            subscribeToChatRoom(newChatRoomId)
+        }
+    }
+
+    fun connectAndMonitor() {
+        viewModelScope.launch {
+            while (true) {
+                try {
+                    if (stompSession == null) {
+                        Log.d(TAG, "STOMP 연결이 끊어져 다시 연결 시도...")
+                        connect() // 재연결 시도
+                    }
+                    delay(5000) // 5초다 체크마
+                } catch (e: Exception) {
+                    Log.e(TAG, "STOMP 재연결 실패: ${e.message}")
+                }
+            }
+        }
+    }
+
+    // 기존 connect() 함수 수정
+    private fun connect() {
         viewModelScope.launch {
             try {
                 stompSession =
                     stompClient.connect(
-                        BuildConfig.SWAP_IT_BASE_URL.replace(
-                            "http",
-                            "ws",
-                        ) + "ws",
+                        BuildConfig.SWAP_IT_BASE_URL.replace("http", "ws") + "ws",
                         customStompConnectHeaders =
                             mapOf(
                                 "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
@@ -75,24 +107,28 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
                             ),
                         host = "localhost",
                     )
+                Log.d(TAG, "STOMP 연결 성공")
             } catch (e: Exception) {
-                Log.e("STOMP", "connect() 연결 실패: ${e.message}")
+                Log.e(TAG, "STOMP 연결 실패: ${e.message}")
             }
         }
     }
 
-    private fun subscribeToChatRoom() {
+    private fun subscribeToChatRoom(chatRoomId: Long) {
         viewModelScope.launch {
             if (stompSession == null) {
                 Log.e("STOMP", "subscribeToChatRoom() 연결 실패")
                 return@launch
             }
             try {
+                val subId = "sub-${subscriptionCounter.incrementAndGet()}"
+                subscriptionIds[chatRoomId] = subId
+
                 val messageFlow =
                     stompSession!!.subscribe(
                         StompSubscribeHeaders(
-                            destination = "/topic/chat/${chatRoomId.longValue}",
-                            id = "sub-0",
+                            destination = "/topic/chat/$chatRoomId",
+                            id = subId,
                         ),
                     )
                 messageFlow.collect { frame ->
@@ -108,6 +144,28 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
                 }
             } catch (e: Exception) {
                 Log.e("STOMP", "subscribeToChatRoom 실패: ${e.message}")
+            }
+        }
+    }
+
+    private fun unsubscribeFromChatRoom(chatRoomId: Long) {
+        viewModelScope.launch {
+            val subId = subscriptionIds.remove(chatRoomId) ?: return@launch // 구독 ID 찾기
+            try {
+                stompSession?.send(
+                    headers =
+                        StompSendHeaders(
+                            destination = "/topic/chat/$chatRoomId",
+                            customHeaders =
+                                mapOf(
+                                    "id" to subId,
+                                ),
+                        ),
+                    body = FrameBody.Text(""),
+                )
+                Log.d("STOMP", "구독 해지 성공: chatRoomId=$chatRoomId, subId=$subId")
+            } catch (e: Exception) {
+                Log.e("STOMP", "구독 해지 실패: ${e.message}")
             }
         }
     }
@@ -131,7 +189,7 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
 
             if (chatRoomId != 0L) {
                 chatRoomProduct.value = repository.chatRoomInfo(chatRoomId)
-                subscribeToChatRoom()
+                subscribeToChatRoom(chatRoomId)
                 navController.navigate(NavItem.ChatRoom.screenRoute + "/$chatRoomId")
             } else {
                 Log.e("ChatViewModel", "Chat room ID is not set. Failed to navigate.")
@@ -149,7 +207,7 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
             this@ChatViewModel.chatRoomId.longValue = chatRoomId
             if (chatRoomId != 0L) {
                 chatRoomProduct.value = repository.chatRoomInfo(chatRoomId)
-                subscribeToChatRoom()
+                subscribeToChatRoom(chatRoomId)
                 navController.navigate(NavItem.ChatRoom.screenRoute + "/$chatRoomId")
             } else {
                 Log.e("ChatViewModel", "Chat room ID is not set. Failed to navigate.")
@@ -233,8 +291,12 @@ class ChatViewModel(private val repository: ChatRepository, private val loginRep
 
     fun disconnect() {
         viewModelScope.launch {
+            subscriptionIds.keys.forEach { chatRoomId ->
+                unsubscribeFromChatRoom(chatRoomId)
+            }
             stompSession?.disconnect()
-            Log.d("STOMP", "STOMP 연결 해제")
+            subscriptionIds.clear()
+            Log.d("STOMP", "STOMP 연결 해제 및 모든 구독 해지")
         }
     }
 

@@ -1,13 +1,14 @@
 package com.swapit.company.ui.swap
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,7 +32,11 @@ fun ReceivedSwapSection(
     Row(
         modifier
             .fillMaxWidth()
-            .padding(Paddings.xlarge),
+            .padding(horizontal = Paddings.xlarge)
+            .height(48.dp)
+            .clickable {
+                navController.navigate(NavItem.RECEIVED_SWAP)
+            },
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -40,17 +45,10 @@ fun ReceivedSwapSection(
             style = Typography.bodyLarge,
             textAlign = TextAlign.Center,
         )
-        IconButton(
-            onClick = {
-                navController.navigate(NavItem.RECEIVED_SWAP)
-            },
-            modifier = modifier.size(24.dp),
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_chevron_right),
-                contentDescription = stringResource(R.string.swap_go_to_received),
-            )
-        }
+        Icon(
+            painter = painterResource(R.drawable.ic_chevron_right),
+            contentDescription = stringResource(R.string.swap_go_to_received),
+        )
     }
     LazyRow {
         items(

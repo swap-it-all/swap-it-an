@@ -1,6 +1,7 @@
 package com.swapit.company.ui.swap.sent
 
 import android.icu.text.DecimalFormat
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,6 +32,7 @@ import com.swapit.company.data.datasource.local.model.post.CategoryOption
 import com.swapit.company.domain.model.swap.SentSwap
 import com.swapit.company.ui.theme.Gray3
 import com.swapit.company.ui.theme.Gray4
+import com.swapit.company.ui.theme.Gray6
 import com.swapit.company.ui.theme.Paddings
 import com.swapit.company.ui.theme.Primary
 import com.swapit.company.ui.theme.Typography
@@ -107,18 +109,39 @@ fun SentSwapScreenCard(
                     style = Typography.labelLarge,
                     color = Gray4,
                 )
-                Text(
-                    modifier =
-                        Modifier.padding(
-                            Paddings.none,
-                            Paddings.none,
-                            Paddings.none,
-                            Paddings.small,
-                        ),
-                    text = cardData.title,
-                    style = Typography.bodyMedium,
-                    maxLines = 1,
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (cardData.isInProgress) {
+                        Box(
+                            modifier =
+                                Modifier
+                                    .size(53.dp, 24.dp).clip(RoundedCornerShape(12.dp))
+                                    .background(
+                                        Gray6,
+                                    ),
+                        ) {
+                            Text(
+                                modifier =
+                                    Modifier.align(Alignment.Center),
+                                text = "거래중",
+                                style = Typography.titleSmall,
+                                color = Primary,
+                            )
+                        }
+                        Spacer(modifier = Modifier.size(Paddings.small))
+                    }
+                    Text(
+                        modifier =
+                            Modifier.padding(
+                                Paddings.none,
+                                Paddings.none,
+                                Paddings.none,
+                                Paddings.small,
+                            ),
+                        text = cardData.title,
+                        style = Typography.bodyMedium,
+                        maxLines = 1,
+                    )
+                }
                 Row(
                     modifier =
                         Modifier.padding(
@@ -170,6 +193,7 @@ fun SentSwapScreenCardPreview() {
                 targetGoodsPhotoUrl = "dd",
                 targetGoodsViewCount = 1,
                 createdAt = "dd",
+                isInProgress = false,
             ),
         onClick = {},
     )

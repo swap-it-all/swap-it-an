@@ -26,14 +26,12 @@ fun ChatRoomScreen(
     userInfoViewModel: UserInfoViewModel,
 ) {
     chatViewModel.fetchChatList(chatRoomId.toLong())
-    chatViewModel.chatRoomId.longValue = chatRoomId.toLong()
+    chatViewModel.enterChatRoom(chatRoomId.toLong())
     DisposableEffect(Unit) {
         onDispose {
             chatViewModel.viewModelScope.launch {
                 Log.d("STOMP", "현재 chatList: ${chatViewModel.chatList}")
                 chatViewModel.sendReadReceipt() // 읽은 메시지 ID 전송
-
-                chatViewModel.disconnect()
             }
         }
     }

@@ -18,6 +18,7 @@ fun ReceivedSwapProductsResponse.toDomain(): ReceivedSwapProduct {
         photoUrl = this.photoUrl,
         placeName = this.placeName,
         createdAt = this.createdAt,
+        isInProgress = this.isInProgress,
     )
 }
 
@@ -38,8 +39,8 @@ fun ReceivedSwapResponse.toDomain(): ReceivedSwap {
         placeName = this.placeName,
         viewCount = this.viewCount,
         requestCount = this.requestCount,
-        inProgressCount = this.inProgressCount,
         createdAt = this.createdAt,
+        isInProgress = this.isInProgress,
     )
 }
 
@@ -55,5 +56,6 @@ fun SentSwapResponse.toDomain(): SentSwap {
         targetGoodsPhotoUrl = this.targetGoodsPhotoUrl,
         targetGoodsViewCount = this.targetGoodsViewCount,
         createdAt = this.createdAt,
+        isInProgress = this.isInProgress,
     )
 }
