@@ -14,7 +14,6 @@ fun DialogSection(
 ) {
     if (openDialog) {
         AlertDialog(
-            description = stringResource(R.string.product_select_dialog_description),
             title = stringResource(R.string.product_select_dialog_message),
             imgUri = imgUri ?: "",
             onClickCancel = onClickCancel,

@@ -1,5 +1,7 @@
 package com.swapit.company.ui.shopping.detail
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -23,6 +26,7 @@ import coil3.compose.AsyncImage
 import com.swapit.company.R
 import com.swapit.company.data.datasource.local.model.post.CategoryOption
 import com.swapit.company.data.datasource.local.model.post.QualityOption
+import com.swapit.company.data.datasource.local.model.shopping.ProductTradeStatus
 import com.swapit.company.ui.shopping.model.calculateTime
 import com.swapit.company.ui.theme.Gray3
 import com.swapit.company.ui.theme.Gray4
@@ -46,8 +50,8 @@ fun TitleSection(shoppingDetailViewModel: ShoppingDetailViewModel) {
     val shoppingDetailData = shoppingDetailViewModel.detailContents
     val convertTime = calculateTime(shoppingDetailData.createdAt)
     Text(
-        "${CategoryOption.entries.find { it.name == shoppingDetailData.category}?.option} | " +
-            "${QualityOption.entries.find { it.name == shoppingDetailData.quality}?.option} | " +
+        "${CategoryOption.entries.find { it.name == shoppingDetailData.category }?.option} | " +
+            "${QualityOption.entries.find { it.name == shoppingDetailData.quality }?.option} | " +
             convertTime,
         style = Typography.labelLarge,
         color = Gray4,
@@ -59,7 +63,47 @@ fun TitleSection(shoppingDetailViewModel: ShoppingDetailViewModel) {
                 Paddings.small,
             ),
     )
-    Row(modifier = Modifier.padding(Paddings.xlarge, Paddings.none)) {
+    Row(
+        modifier = Modifier.padding(Paddings.xlarge, Paddings.none),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        if (shoppingDetailData.goodsTradeStatus == ProductTradeStatus.RESERVED.name) {
+            Box(
+                modifier =
+                    Modifier
+                        .size(53.dp, 24.dp).clip(RoundedCornerShape(12.dp))
+                        .background(
+                            Gray6,
+                        ),
+            ) {
+                Text(
+                    modifier =
+                        Modifier.align(Alignment.Center),
+                    text = "거래중",
+                    style = Typography.titleSmall,
+                    color = Primary,
+                )
+            }
+            Spacer(modifier = Modifier.size(Paddings.small))
+        } else if (shoppingDetailData.goodsTradeStatus == ProductTradeStatus.SOLDOUT.name) {
+            Box(
+                modifier =
+                    Modifier
+                        .size(65.dp, 24.dp).clip(RoundedCornerShape(24.dp))
+                        .background(
+                            Gray6,
+                        ),
+            ) {
+                Text(
+                    modifier =
+                        Modifier.align(Alignment.Center),
+                    text = "판매 완료",
+                    style = Typography.titleSmall,
+                    color = Gray3,
+                )
+            }
+            Spacer(modifier = Modifier.size(Paddings.small))
+        }
         Text(
             shoppingDetailData.title,
             style = Typography.bodyLarge,

@@ -14,6 +14,7 @@ data class SentSwapResponse(
     val targetGoodsPhotoUrl: String?,
     val targetGoodsViewCount: Long,
     val createdAt: String,
+    val isInProgress: Boolean,
 )
 
 @Serializable

@@ -9,6 +9,7 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.messaging.FirebaseMessaging
 import com.swapit.company.BuildConfig
 import com.swapit.company.R
 import com.swapit.company.data.datasource.remote.RetrofitModule.okHttpClient
@@ -19,11 +20,14 @@ import com.swapit.company.domain.repository.AlertRepository
 import com.swapit.company.domain.repository.LoginRepository
 import com.swapit.company.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.time.delay
 import kotlinx.serialization.json.Json
 import org.hildan.krossbow.stomp.StompClient
 import org.hildan.krossbow.stomp.StompSession
 import org.hildan.krossbow.stomp.headers.StompSubscribeHeaders
 import org.hildan.krossbow.websocket.okhttp.OkHttpWebSocketClient
+import java.time.Duration
 
 class AlertViewModel(
     private val application: Application,
@@ -38,15 +42,33 @@ class AlertViewModel(
     private val stompClient = StompClient(wsClient)
     private var stompSession: StompSession? = null
 
+    fun connectAndMonitor() {
+        viewModelScope.launch {
+            while (true) {
+                try {
+                    if (stompSession == null) {
+                        Log.d(TAG, "STOMP 연결이 끊어져 다시 연결 시도...")
+                        connect() // 재연결 시도
+                        delay(Duration.ofMillis(3000)) // 재연결 후 잠시 대기
+                        if (stompSession != null) {
+                            subscribeAlert() // 재연결 후 다시 구독
+                        }
+                    }
+                    delay(Duration.ofMillis(5000)) // 5초마다 체크
+                } catch (e: Exception) {
+                    Log.e(TAG, "STOMP 재연결 실패: ${e.message}")
+                }
+            }
+        }
+    }
+
+    // 기존 connect() 함수 수정
     private fun connect() {
         viewModelScope.launch {
             try {
                 stompSession =
                     stompClient.connect(
-                        BuildConfig.SWAP_IT_BASE_URL.replace(
-                            "http",
-                            "ws",
-                        ) + "ws",
+                        BuildConfig.SWAP_IT_BASE_URL.replace("http", "ws") + "ws",
                         customStompConnectHeaders =
                             mapOf(
                                 "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
@@ -54,8 +76,9 @@ class AlertViewModel(
                                 "content-length" to "0",
                             ),
                     )
+                Log.d(TAG, "STOMP 연결 성공")
             } catch (e: Exception) {
-                Log.e("STOMP", "connect() 연결 실패: ${e.message}")
+                Log.e(TAG, "STOMP 연결 실패: ${e.message}")
             }
         }
     }
@@ -119,17 +142,6 @@ class AlertViewModel(
         )
     }
 
-    fun initiateAlert() {
-        viewModelScope.launch {
-            try {
-                connect() // 연결 시도
-                subscribeAlert() // 구독 시도
-            } catch (e: Exception) {
-                Log.e(TAG, "Alert 연결 및 구독 실패: ${e.message}")
-            }
-        }
-    }
-
     fun fetchAlertList() {
         viewModelScope.launch {
             alertList.value = repository.alertList().results.notifications.map { it.toDomain() }
@@ -143,15 +155,34 @@ class AlertViewModel(
     }
 
     fun fcmRestore(application: Application) {
-        val sharedPref = application.getSharedPreferences("fcm_prefs", Context.MODE_PRIVATE)
-        val fcmToken = sharedPref.getString("fcm_token", null)
+        viewModelScope.launch {
+            try {
+                val sharedPref = application.getSharedPreferences("fcm_prefs", Context.MODE_PRIVATE)
+                val savedToken = sharedPref.getString("fcm_token", null)
 
-        if (fcmToken != null) {
-            viewModelScope.launch {
-                repository.fcmRestore(fcmToken)
+                // Firebase에서 최신 FCM 토큰 가져오기
+                val newToken = FirebaseMessaging.getInstance().token.await()
+                Log.d("AlertViewModel", "새로운 FCM 토큰: $newToken")
+
+                if (newToken.isNotEmpty() && newToken != savedToken) {
+                    // 최신 토큰이 기존 토큰과 다르면 서버에 전송
+                    repository.fcmRestore(newToken)
+
+                    // SharedPreferences에 최신 토큰 저장
+                    sharedPref.edit().putString("fcm_token", newToken).apply()
+                    Log.d("AlertViewModel", "FCM 토큰 업데이트 완료")
+                } else {
+                    Log.d("AlertViewModel", "FCM 토큰 변경 없음, 서버 전송 생략")
+                }
+            } catch (e: Exception) {
+                Log.e("AlertViewModel", "FCM 토큰 가져오기 실패: ${e.message}")
             }
-        } else {
-            Log.e("AlertViewModel", "FCM 토큰이 없습니다.")
+        }
+    }
+
+    fun disconnect() {
+        viewModelScope.launch {
+            stompSession?.disconnect()
         }
     }
 

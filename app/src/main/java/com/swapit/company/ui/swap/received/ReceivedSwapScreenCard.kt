@@ -1,5 +1,7 @@
 package com.swapit.company.ui.swap.received
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,6 +33,7 @@ import com.swapit.company.domain.model.swap.ReceivedSwap
 import com.swapit.company.ui.theme.Black
 import com.swapit.company.ui.theme.Gray3
 import com.swapit.company.ui.theme.Gray4
+import com.swapit.company.ui.theme.Gray6
 import com.swapit.company.ui.theme.Paddings
 import com.swapit.company.ui.theme.Primary
 import com.swapit.company.ui.theme.Typography
@@ -90,20 +93,25 @@ fun ReceivedSwapScreenCard(
                     style = Typography.labelLarge,
                     color = Gray4,
                 )
-                Row {
-                    if (cardData.inProgressCount.toInt() != 0) {
-                        Text(
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (cardData.isInProgress) {
+                        Box(
                             modifier =
-                                Modifier.padding(
-                                    Paddings.none,
-                                    Paddings.none,
-                                    Paddings.small,
-                                    Paddings.small,
-                                ),
-                            text = "거래중",
-                            style = Typography.bodyMedium,
-                            color = Primary,
-                        )
+                                Modifier
+                                    .size(53.dp, 24.dp).clip(RoundedCornerShape(12.dp))
+                                    .background(
+                                        Gray6,
+                                    ),
+                        ) {
+                            Text(
+                                modifier =
+                                    Modifier.align(Alignment.Center),
+                                text = "거래중",
+                                style = Typography.titleSmall,
+                                color = Primary,
+                            )
+                        }
+                        Spacer(modifier = Modifier.size(Paddings.small))
                     }
                     Text(
                         modifier =
@@ -173,8 +181,8 @@ fun ReceivedSwapScreenCardPreview() {
                 viewCount = 1,
                 photoUrl = "dd",
                 requestCount = 1,
-                inProgressCount = 1,
                 createdAt = "dd",
+                isInProgress = false,
             ),
         onClick = {},
     )

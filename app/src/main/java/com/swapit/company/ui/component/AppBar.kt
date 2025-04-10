@@ -31,11 +31,17 @@ fun AppBar(
 ) {
     TopAppBar(
         title = {
-            Image(
-                painter = painterResource(R.drawable.ic_logo),
-                contentDescription = "로고",
-                modifier = modifier.size(32.dp),
-            )
+            IconButton(
+                onClick = {
+                    navController.navigate(NavItem.Shopping.screenRoute)
+                },
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.ic_logo),
+                    contentDescription = "로고",
+                    modifier = modifier.size(32.dp),
+                )
+            }
         },
         actions = {
             IconButton(

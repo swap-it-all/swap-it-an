@@ -71,6 +71,7 @@ fun ReceivedSwapCard(
                 fallback = rememberVectorPainter(Icons.Default.Call),
                 error = rememberVectorPainter(Icons.Default.Settings),
             )
+
             Column(modifier = Modifier.padding(Paddings.large)) {
                 Text(
                     text = "${CategoryOption.entries.find { it.name == receivedSwap.category}?.option} | ${receivedSwap.placeName}",
@@ -155,7 +156,7 @@ fun SwapCardPreview() {
                 createdAt = "",
                 viewCount = 0,
                 requestCount = 0,
-                inProgressCount = 0,
+                isInProgress = false,
             ),
         navController = rememberNavController(),
     )
