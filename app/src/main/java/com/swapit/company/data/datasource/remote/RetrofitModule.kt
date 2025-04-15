@@ -13,6 +13,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
+import java.time.Duration
 import java.util.concurrent.TimeUnit
 
 object RetrofitModule {
@@ -39,13 +40,26 @@ object RetrofitModule {
         return retrofit
     }
 
-    fun okHttpClient(): OkHttpClient {
+    fun okHttpWebSocketClient(): OkHttpClient {
         val localLoginDataSource = LocalLoginDataSource(appContext)
-        val authenticator = AuthAuthenticator(loginServiceHolder, LocalLoginDataSource(appContext), {})
+        val authenticator = AuthAuthenticator(loginServiceHolder, LocalLoginDataSource(appContext))
 
         return OkHttpClient
             .Builder()
-            .addInterceptor(AuthInterceptor(localLoginDataSource))
+            .addInterceptor(AuthInterceptor(localLoginDataSource, loginServiceHolder, { })) // TODO: 로그아웃
+            .authenticator(authenticator)
+            .pingInterval(Duration.ofSeconds(10))
+            .addInterceptor(LoggingInterceptor.create())
+            .build()
+    }
+
+    fun okHttpClient(): OkHttpClient {
+        val localLoginDataSource = LocalLoginDataSource(appContext)
+        val authenticator = AuthAuthenticator(loginServiceHolder, LocalLoginDataSource(appContext))
+
+        return OkHttpClient
+            .Builder()
+            .addInterceptor(AuthInterceptor(localLoginDataSource, loginServiceHolder, { })) // TODO: 로그아웃
             .authenticator(authenticator)
             .addInterceptor(LoggingInterceptor.create())
             .connectTimeout(60, TimeUnit.SECONDS)

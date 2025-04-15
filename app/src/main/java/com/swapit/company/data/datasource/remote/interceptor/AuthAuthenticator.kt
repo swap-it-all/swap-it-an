@@ -12,7 +12,6 @@ import okhttp3.Route
 class AuthAuthenticator(
     private val loginServiceHolder: LoginServiceHolder,
     private val localLoginDataSource: LocalLoginDataSource,
-    private val onLogout: () -> Unit,
 ) : Authenticator {
     override fun authenticate(
         route: Route?,
@@ -20,19 +19,18 @@ class AuthAuthenticator(
     ): Request? {
         val loginService = loginServiceHolder.loginService ?: return null
         if (responseCount(response) >= 2) {
-            handleLogout() // 로그아웃 처리 호출
             return null
         }
 
         val refreshToken =
-            localLoginDataSource.refreshToken() ?: run {
-                handleLogout() // 리프레시 토큰이 없으면 로그아웃 처리
-                return null
+            runBlocking {
+                localLoginDataSource.refreshToken() ?: run {
+                    loginService.refreshToken("Bearer ${localLoginDataSource.refreshToken()}").results.refreshToken
+                }
             }
 
         val newTokens =
             newTokens(refreshToken, loginService) ?: run {
-                handleLogout() // 토큰 갱신 실패 시 로그아웃 처리
                 return null
             }
 
@@ -80,14 +78,5 @@ class AuthAuthenticator(
             prevResponse = prevResponse.priorResponse
         }
         return count
-    }
-
-    private fun handleLogout() {
-        runBlocking {
-            // 토큰 삭제
-            localLoginDataSource.clearTokens()
-            // 로그아웃 콜백 호출
-            onLogout()
-        }
     }
 }

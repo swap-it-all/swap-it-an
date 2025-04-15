@@ -4,6 +4,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.navigation.NavHostController
 import com.swapit.company.ui.swap.SwapViewModel
 
 @Composable
@@ -11,6 +12,7 @@ fun ProductListSection(
     myProductSelectionViewModel: MyProductSelectViewModel,
     swapViewModel: SwapViewModel,
     targetProductId: Long,
+    navController: NavHostController,
 ) {
     LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
         itemsIndexed(
@@ -30,6 +32,7 @@ fun ProductListSection(
                     swapViewModel.requestedProductId.longValue = item.goodsId
                     swapViewModel.targetProductId.longValue = targetProductId
                     swapViewModel.swapRequest()
+                    navController.navigateUp()
                 },
                 item.imageUrl,
             )

@@ -1,5 +1,6 @@
 package com.swapit.company.ui.chat.room
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,12 +18,15 @@ import com.swapit.company.ui.user.UserInfoViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ChatRoomContent(
     chats: List<Chat>,
     modifier: Modifier = Modifier,
     userInfoViewModel: UserInfoViewModel,
 ) {
+    userInfoViewModel.myUserInfo()
+    val userId = userInfoViewModel.userInfo.value?.id
     val dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME
     val sortedChats =
         chats.sortedBy {
@@ -49,7 +53,7 @@ fun ChatRoomContent(
             count = sortedChats.size,
             key = { sortedChats[it].chatsId },
         ) { item ->
-            ChatBubble(sortedChats[item], userInfoViewModel = userInfoViewModel)
+            ChatBubble(sortedChats[item], userId = userId)
         }
     }
 }

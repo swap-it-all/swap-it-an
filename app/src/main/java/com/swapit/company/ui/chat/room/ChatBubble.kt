@@ -5,13 +5,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,24 +26,22 @@ import com.swapit.company.ui.theme.Gray2
 import com.swapit.company.ui.theme.Gray5
 import com.swapit.company.ui.theme.Paddings
 import com.swapit.company.ui.theme.Primary
+import com.swapit.company.ui.theme.Typography
 import com.swapit.company.ui.theme.White
-import com.swapit.company.ui.user.UserInfoViewModel
 
 @Composable
 fun ChatBubble(
     chat: Chat,
-    userInfoViewModel: UserInfoViewModel,
+    userId: Long?,
 ) {
-    userInfoViewModel.myUserInfo()
-    val userInfo by userInfoViewModel.userInfo.collectAsState()
-    val arrangement = if (chat.senderId == userInfo?.id) Arrangement.End else Arrangement.Start
-    val containerColor = if (chat.senderId == userInfo?.id) Primary else Gray5
-    val textColor = if (chat.senderId == userInfo?.id) White else Gray2
+    val arrangement = if (chat.senderId == userId) Arrangement.End else Arrangement.Start
+    val containerColor = if (chat.senderId == userId) Primary else Gray5
+    val textColor = if (chat.senderId == userId) White else Gray2
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = arrangement,
     ) {
-        if (chat.senderId == userInfo?.id) {
+        if (chat.senderId == userId) {
             Row(verticalAlignment = Alignment.Bottom) {
                 BubbleTime(chat)
                 Bubble(chat, containerColor, textColor)
@@ -75,91 +73,80 @@ fun Bubble(
     if (chat.chatType == ChatType.TALK.name) {
         Box(
             modifier =
-                Modifier
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(containerColor)
-                    .padding(Paddings.xlarge, 7.dp),
+            Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .background(containerColor)
+                .padding(Paddings.xlarge, 7.dp),
         ) {
             Text(chat.content, color = textColor)
         }
     } else if (chat.chatType == ChatType.REQUEST.name) {
         Box(
             modifier =
-                Modifier
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(BackgroundColor)
-                    .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
+            Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .background(BackgroundColor)
+                .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
         ) {
-            Text(
-                "스왑을 요청했어요!\n" +
-                    "\n" +
+            Column(Modifier.padding(Paddings.xlarge, Paddings.xlarge),) {
+                Text("스왑을 요청했어요!\n", style = Typography.titleMedium)
+                Text(
                     "물건 : ${chat.requesterGoods?.title}\n" +
-                    "스와퍼 : ${chat.requesterGoods?.requesterNickname}",
-                Modifier.padding(Paddings.xlarge, Paddings.small),
-            )
+                            "스와퍼 : ${chat.requesterGoods?.requesterNickname}",
+                )
+            }
+
         }
     } else if (chat.chatType == ChatType.CANCEL.name) {
         Box(
             modifier =
-                Modifier
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(BackgroundColor)
-                    .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
+            Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .background(BackgroundColor)
+                .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
         ) {
             Text(
-                "스왑을 취소했어요!\n" +
-                    "\n" +
-                    "물건 : ${chat.requesterGoods?.title}\n" +
-                    "스와퍼 : ${chat.requesterGoods?.requesterNickname}",
-                Modifier.padding(Paddings.xlarge, Paddings.small),
+                "스왑을 취소했어요!",
+                Modifier.padding(Paddings.xlarge, Paddings.xlarge), style = Typography.titleMedium,
             )
         }
     } else if (chat.chatType == ChatType.ACCEPT.name) {
         Box(
             modifier =
-                Modifier
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(BackgroundColor)
-                    .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
+            Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .background(BackgroundColor)
+                .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
         ) {
             Text(
-                "스왑을 수락했어요!\n" +
-                    "\n" +
-                    "물건 : ${chat.requesterGoods?.title}\n" +
-                    "스와퍼 : ${chat.requesterGoods?.requesterNickname}",
-                Modifier.padding(Paddings.xlarge, Paddings.small),
+                "스왑을 수락했어요!",
+                Modifier.padding(Paddings.xlarge, Paddings.xlarge), style = Typography.titleMedium,
             )
         }
     } else if (chat.chatType == ChatType.REJECT.name) {
         Box(
             modifier =
-                Modifier
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(BackgroundColor)
-                    .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
+            Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .background(BackgroundColor)
+                .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
         ) {
             Text(
-                "스왑을 거절했어요!\n" +
-                    "\n" +
-                    "물건 : ${chat.requesterGoods?.title}\n" +
-                    "스와퍼 : ${chat.requesterGoods?.requesterNickname}",
-                Modifier.padding(Paddings.xlarge, Paddings.small),
+                "스왑을 거절했어요!\n",
+                Modifier.padding(Paddings.xlarge, Paddings.xlarge), style = Typography.titleMedium,
             )
         }
     } else if (chat.chatType == ChatType.COMPLETE.name) {
         Box(
             modifier =
-                Modifier
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(BackgroundColor)
-                    .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
+            Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .background(BackgroundColor)
+                .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
         ) {
             Text(
-                "스왑을 완료했어요!\n" +
-                    "\n" +
-                    "물건 : ${chat.requesterGoods?.title}\n" +
-                    "스와퍼 : ${chat.requesterGoods?.requesterNickname}",
-                Modifier.padding(Paddings.xlarge, Paddings.small),
+                "스왑을 완료했어요!",
+                Modifier.padding(Paddings.xlarge, Paddings.xlarge), style = Typography.titleMedium,
             )
         }
     }

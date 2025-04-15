@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
+import com.swapit.company.data.datasource.remote.StompModule
 import com.swapit.company.ui.chat.ChatViewModel
 import com.swapit.company.ui.theme.BackgroundColor
 import com.swapit.company.ui.user.UserInfoViewModel
@@ -24,14 +25,15 @@ fun ChatRoomScreen(
     chatRoomId: String,
     chatViewModel: ChatViewModel,
     userInfoViewModel: UserInfoViewModel,
+    stompModule: StompModule,
 ) {
     chatViewModel.fetchChatList(chatRoomId.toLong())
-    chatViewModel.enterChatRoom(chatRoomId.toLong())
     DisposableEffect(Unit) {
         onDispose {
             chatViewModel.viewModelScope.launch {
+                chatViewModel.sendReadReceipt(chatRoomId.toLong()) // 읽은 메시지 ID 전송
+                stompModule.unsubscribeFromChatRoom(chatRoomId.toLong())
                 Log.d("STOMP", "현재 chatList: ${chatViewModel.chatList}")
-                chatViewModel.sendReadReceipt() // 읽은 메시지 ID 전송
             }
         }
     }
@@ -55,7 +57,7 @@ fun ChatRoomScreen(
             ChatRoomProduct(chatViewModel)
             ChatRoomContent(chats = chatViewModel.chatList, modifier = Modifier.weight(1f), userInfoViewModel = userInfoViewModel)
 //            ChatRoomTradeButtonBar(chatViewModel)
-            BottomChatBar(viewModel = chatViewModel)
+            BottomChatBar(viewModel = chatViewModel, chatRoomId.toLong())
         }
     }
 }

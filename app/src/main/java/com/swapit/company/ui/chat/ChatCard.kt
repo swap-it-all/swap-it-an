@@ -46,6 +46,7 @@ fun ChatCard(
         colors = CardDefaults.cardColors(BackgroundColor),
         onClick = {
             chatViewModel.fetchChatRoomProduct(chatCardData.chatroomId) {
+                chatViewModel.enterChatRoom(chatCardData.chatroomId)
                 navController.navigate(NavItem.ChatRoom.screenRoute + "/${chatCardData.chatroomId}")
             }
         },

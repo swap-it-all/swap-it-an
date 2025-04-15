@@ -42,6 +42,7 @@ fun MyProductSelectScreen(
                 myProductSelectionViewModel = viewModel,
                 swapViewModel = SwapViewModel(repository = SwapRepository.instance()),
                 targetProductId = targetProductId,
+                navController = navController,
             )
         }
     }

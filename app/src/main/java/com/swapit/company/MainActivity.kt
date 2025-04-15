@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.swapit.company.data.datasource.remote.StompModule
 import com.swapit.company.domain.repository.AlertRepository
 import com.swapit.company.domain.repository.ChatRepository
 import com.swapit.company.domain.repository.LoginRepository
@@ -31,30 +32,30 @@ class MainActivity : ComponentActivity() {
                             LoginManager(this),
                         ),
                 )
+            val stompModule = StompModule(LoginRepository.instance(this), application)
             val chatViewModel: ChatViewModel =
                 viewModel(
                     factory =
                         ChatViewModel.factory(
                             repository = ChatRepository.instance(),
-                            loginRepository = LoginRepository.instance(this),
+                            stompModule,
                         ),
                 )
             val alertViewModel: AlertViewModel =
                 viewModel(
                     factory =
                         AlertViewModel.factory(
-                            application,
                             repository = AlertRepository.instance(),
-                            LoginRepository.instance(this),
+                            stompModule,
                         ),
                 )
+
             // ✅ LifecycleObserver 추가 (앱이 종료될 때 WebSocket 해제)
             lifecycle.addObserver(
                 LifecycleEventObserver { _, event ->
                     if (event == Lifecycle.Event.ON_STOP) {
                         alertViewModel.fcmRestore(application = application)
-                        alertViewModel.disconnect()
-                        chatViewModel.disconnect()
+                        stompModule.disconnect()
                     }
                 },
             )
@@ -63,6 +64,7 @@ class MainActivity : ComponentActivity() {
                 loginViewModel,
                 chatViewModel,
                 alertViewModel,
+                stompModule,
             )
         }
     }

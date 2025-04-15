@@ -1,5 +1,6 @@
 package com.swapit.company.data.datasource
 
+import android.util.Log
 import com.swapit.company.data.datasource.remote.dto.request.login.WithDrawRequest
 import com.swapit.company.data.datasource.remote.dto.response.BaseResponse
 import com.swapit.company.data.datasource.remote.dto.response.login.LoginResponse
@@ -32,8 +33,10 @@ class RemoteLoginDataSource(
         val response = loginService.refreshToken("Bearer $refreshToken")
 
         return if (response.success) {
+            Log.d("Auth", "refresh success${response.results}")
             response.results
         } else {
+            Log.e("Auth", "refresh fail${response.results}")
             throw Exception(response.message)
         }
     }

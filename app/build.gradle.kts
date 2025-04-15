@@ -21,8 +21,8 @@ android {
         applicationId = "com.swapit.company"
         minSdk = 29
         targetSdk = 35
-        versionCode = 10
-        versionName = "1.0.8"
+        versionCode = 15
+        versionName = "1.1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -105,6 +105,7 @@ dependencies {
     implementation(libs.kotlin.coroutines.android)
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kotlin.serialization.json)
+    implementation(libs.firebase.messaging)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
