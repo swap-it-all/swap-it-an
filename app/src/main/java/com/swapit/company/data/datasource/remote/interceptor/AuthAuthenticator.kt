@@ -16,6 +16,7 @@ import okhttp3.Route
 class AuthAuthenticator(
     private val loginServiceHolder: LoginServiceHolder,
     private val localLoginDataSource: LocalLoginDataSource,
+    private val onLogout: () -> Unit,
 ) : Authenticator {
 
     private val mutex = Mutex() // 갱신 동기화를 위한 Mutex

@@ -47,6 +47,43 @@ class AlertViewModel(
         }
     }
 
+    private fun handleNotification(notification: NotificationResponse) {
+        Log.d("Notification", "알림 수신: ${notification.message}")
+
+        // 알림 메시지를 UI에 표시하거나 알림(NotificationManager)을 통해 사용자에게 알립니다.
+        // 예:
+        showNotification(notification)
+    }
+
+    private fun showNotification(notification: NotificationResponse) {
+        val notificationManager =
+            application.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val notificationBuilder =
+            NotificationCompat.Builder(application, "default_channel")
+                .setContentTitle("새로운 알림")
+                .setContentText(notification.message)
+                .setSmallIcon(R.drawable.ic_bell)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+
+        notificationManager.notify(
+            notification.notificationsId.toInt(),
+            notificationBuilder.build(),
+        )
+    }
+
+    fun fetchAlertList() {
+        viewModelScope.launch {
+            alertList.value = repository.alertList().results.notifications.map { it.toDomain() }
+        }
+    }
+
+    fun readAlert(alertId: Long) {
+        viewModelScope.launch {
+            repository.readAlert(alertId)
+        }
+    }
+
     fun fcmRestore(application: Application) {
         viewModelScope.launch {
             try {

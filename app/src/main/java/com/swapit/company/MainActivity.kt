@@ -36,6 +36,7 @@ class MainActivity : ComponentActivity() {
                         ),
                 )
             val stompModule = StompModule(LoginRepository.instance(this), application)
+
             val chatViewModel: ChatViewModel =
                 viewModel(
                     factory =

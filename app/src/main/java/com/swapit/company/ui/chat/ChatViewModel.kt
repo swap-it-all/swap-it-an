@@ -27,6 +27,8 @@ class ChatViewModel(
     private val stompModule: StompModule,
 ) :
     ViewModel() {
+    private val subscriptionCounter = AtomicInteger(0)
+    private val subscriptionIds = mutableMapOf<Long, String>() // chatRoomId 별 구독 ID 저장
     var chatRoomList = mutableStateListOf<ChatRoom>()
     var chatList = mutableStateListOf<Chat>()
     val chatRoomId = mutableLongStateOf(0L)
@@ -70,8 +72,6 @@ class ChatViewModel(
             stompModule.subscribeToChatRoom(newChatRoomId, chatList)
         }
     }
-
-    // 기존 connect() 함수 수정
 
     private suspend fun createChatRoomSync(goodsId: GoodsIdRequest): Long {
         return repository.createChatRoom(goodsId).results

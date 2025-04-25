@@ -27,7 +27,7 @@ fun ChatRoomScreen(
     userInfoViewModel: UserInfoViewModel,
     stompModule: StompModule,
 ) {
-    chatViewModel.fetchChatList(chatRoomId.toLong())
+    chatViewModel.fetchChatList(chatRoomId.toLong()
     DisposableEffect(Unit) {
         onDispose {
             chatViewModel.viewModelScope.launch {
