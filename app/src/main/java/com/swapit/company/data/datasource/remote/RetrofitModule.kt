@@ -40,33 +40,19 @@ object RetrofitModule {
         return retrofit
     }
 
-    fun okHttpWebSocketClient(): OkHttpClient {
-        val localLoginDataSource = LocalLoginDataSource(appContext)
-        val authenticator = AuthAuthenticator(loginServiceHolder, LocalLoginDataSource(appContext))
-
-        return OkHttpClient
-            .Builder()
-            .addInterceptor(AuthInterceptor(localLoginDataSource, loginServiceHolder, { })) // TODO: 로그아웃
-            .authenticator(authenticator)
-            .pingInterval(Duration.ofSeconds(10))
-            .addInterceptor(LoggingInterceptor.create())
-            .build()
-    }
-
     fun okHttpClient(): OkHttpClient {
         val localLoginDataSource = LocalLoginDataSource(appContext)
-        val authenticator = AuthAuthenticator(loginServiceHolder, LocalLoginDataSource(appContext))
+        val authenticator = AuthAuthenticator(loginServiceHolder, localLoginDataSource)
 
         return OkHttpClient
             .Builder()
-            .addInterceptor(AuthInterceptor(localLoginDataSource, loginServiceHolder, { })) // TODO: 로그아웃
+            .addInterceptor(AuthInterceptor(localLoginDataSource))
             .authenticator(authenticator)
             .addInterceptor(LoggingInterceptor.create())
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(15, TimeUnit.SECONDS)
+            .pingInterval(Duration.ofSeconds(10))
             .build()
     }
+
 
     private fun jsonConverterFactory(json: Json): Converter.Factory {
         return json.asConverterFactory("application/json".toMediaType())

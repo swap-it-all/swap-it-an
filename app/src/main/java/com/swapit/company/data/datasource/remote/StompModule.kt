@@ -10,7 +10,6 @@ import androidx.core.app.NotificationCompat
 import com.swapit.company.BuildConfig
 import com.swapit.company.R
 import com.swapit.company.data.datasource.remote.RetrofitModule.okHttpClient
-import com.swapit.company.data.datasource.remote.RetrofitModule.okHttpWebSocketClient
 import com.swapit.company.data.datasource.remote.dto.request.chat.ChatReadRequest
 import com.swapit.company.data.datasource.remote.dto.request.chat.ChatRequest
 import com.swapit.company.data.datasource.remote.dto.response.alert.NotificationResponse
@@ -42,7 +41,7 @@ class StompModule(
     private val subscriptionCounter = AtomicInteger(0)
     private val subscriptionIds = ConcurrentHashMap<Long, String>() // 채팅방 구독 ID 저장
     private val wsClient by lazy {
-        OkHttpWebSocketClient(okHttpWebSocketClient())
+        OkHttpWebSocketClient(okHttpClient())
     }
     private val stompClient = StompClient(wsClient)
     private var stompSession: StompSession? = null
@@ -121,10 +120,10 @@ class StompModule(
     }
 
     private fun handleNotification(notification: NotificationResponse) {
-        Log.d("Notification", "알림 수신: ${notification.message}")
+        Log.d("Notification", "알림 수신: ${notification.body}")
 
         scope.launch(Dispatchers.Main) {
-            Toast.makeText(application, notification.message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(application, notification.body, Toast.LENGTH_SHORT).show()
         }
         showNotification(notification)
     }
@@ -134,9 +133,9 @@ class StompModule(
             application.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val notificationBuilder =
-            NotificationCompat.Builder(application, "default_channel")
-                .setContentTitle("새로운 알림")
-                .setContentText(notification.message)
+            NotificationCompat.Builder(application, "swapit_alert_channel")
+                .setContentTitle(notification.title)
+                .setContentText(notification.body)
                 .setSmallIcon(R.drawable.ic_bell)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
 

@@ -21,7 +21,7 @@ android {
         applicationId = "com.swapit.company"
         minSdk = 29
         targetSdk = 35
-        versionCode = 16
+        versionCode = 18
         versionName = "1.1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -141,4 +141,6 @@ dependencies {
     implementation(libs.krossbow.websocket.okhttp)
     // firebase
     implementation("com.google.firebase:firebase-messaging-ktx:23.3.1")
+    implementation ("com.google.firebase:firebase-analytics-ktx:21.3.0")
+
 }

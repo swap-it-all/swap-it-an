@@ -117,11 +117,9 @@ class LoginViewModel(
                 userApiClient.loginWithKakaoTalk(context) { token, error ->
                     if (error != null) {
                         Log.e(TAG, "카카오톡으로 로그인 실패", error)
-
                         if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
                             return@loginWithKakaoTalk
                         }
-
                         userApiClient.loginWithKakaoAccount(context, callback = callback)
                     } else if (token != null) {
                         Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")

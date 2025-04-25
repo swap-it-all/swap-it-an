@@ -1,6 +1,7 @@
 package com.swapit.company.ui.swap
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -59,16 +60,18 @@ fun SentSwapCard(
         onClick = { navController.navigate(NavItem.ShoppingDetail.screenRoute + "/${sentSwap.goodsId}") },
     ) {
         Column {
-            AsyncImage(
-                model = sentSwap.targetGoodsPhotoUrl,
-                contentDescription = stringResource(R.string.president_image_description),
-                modifier =
+            Box {
+                AsyncImage(
+                    model = sentSwap.targetGoodsPhotoUrl,
+                    contentDescription = stringResource(R.string.president_image_description),
+                    modifier =
                     Modifier
                         .size(150.dp),
-                placeholder = ColorPainter(Primary),
-                fallback = rememberVectorPainter(Icons.Default.Call),
-                error = rememberVectorPainter(Icons.Default.Settings),
-            )
+                    placeholder = ColorPainter(Primary),
+                    fallback = rememberVectorPainter(Icons.Default.Call),
+                    error = rememberVectorPainter(Icons.Default.Settings),
+                )
+            }
             Column(modifier = Modifier.padding(Paddings.large)) {
                 Text(
                     text = "${

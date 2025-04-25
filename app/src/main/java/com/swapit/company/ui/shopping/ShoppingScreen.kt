@@ -33,7 +33,7 @@ fun ShoppingScreen(
     navController: NavHostController,
     viewModel: ShoppingViewModel,
     alertViewModel: AlertViewModel,
-    chatViewModel: ChatViewModel,
+    application: android.app.Application,
 ) {
     val sheetState = rememberModalBottomSheetState()
     LaunchedEffect(Unit) {
@@ -41,6 +41,7 @@ fun ShoppingScreen(
         alertViewModel.fetchAlertList()
         alertViewModel.connectAndMonitor()
         alertViewModel.alertSettingInfo()
+        alertViewModel.fcmRestore(application = application)
     }
     Scaffold(
         topBar = {

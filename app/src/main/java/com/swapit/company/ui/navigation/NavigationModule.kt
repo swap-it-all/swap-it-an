@@ -52,6 +52,7 @@ class NavigationModule {
         chatViewModel: ChatViewModel,
         alertViewModel: AlertViewModel,
         stompModule: StompModule,
+        application: android.app.Application,
     ) {
         val userInfoViewModel = UserInfoViewModel(UserRepository.instance(LocalContext.current))
         val swapViewModel = SwapViewModel(SwapRepository.instance())
@@ -102,7 +103,7 @@ class NavigationModule {
                             ),
                     ),
                     alertViewModel,
-                    chatViewModel,
+                    application,
                 )
             }
             composable(NavItem.Swap.screenRoute) {

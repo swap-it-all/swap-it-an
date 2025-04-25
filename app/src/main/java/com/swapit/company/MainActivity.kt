@@ -8,6 +8,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.swapit.company.data.datasource.remote.StompModule
+import com.swapit.company.data.datasource.remote.createNotificationChannel
 import com.swapit.company.domain.repository.AlertRepository
 import com.swapit.company.domain.repository.ChatRepository
 import com.swapit.company.domain.repository.LoginRepository
@@ -20,7 +21,9 @@ import com.swapit.company.ui.navigation.NavigationModule
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
+            createNotificationChannel(this)
             val navController = rememberNavController()
             val navigationModule = NavigationModule()
             val loginViewModel: LoginViewModel =
@@ -54,7 +57,6 @@ class MainActivity : ComponentActivity() {
             lifecycle.addObserver(
                 LifecycleEventObserver { _, event ->
                     if (event == Lifecycle.Event.ON_STOP) {
-                        alertViewModel.fcmRestore(application = application)
                         stompModule.disconnect()
                     }
                 },
@@ -65,6 +67,7 @@ class MainActivity : ComponentActivity() {
                 chatViewModel,
                 alertViewModel,
                 stompModule,
+                application,
             )
         }
     }

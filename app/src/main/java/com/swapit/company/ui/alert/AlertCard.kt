@@ -58,7 +58,7 @@ fun AlertCard(
                 containerColor = BackgroundColor,
             ),
         onClick = {
-            alertViewModel.readAlert(alertCardData.notificationsId)
+            alertViewModel.readAllAlertsByRelatedId(alertCardData.relatedData)
             if (alertCardData.type == AlertType.REQUESTED.name ||
                 alertCardData.type == AlertType.ACCEPTED.name ||
                 alertCardData.type == AlertType.REJECTED.name
