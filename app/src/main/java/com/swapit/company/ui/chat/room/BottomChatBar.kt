@@ -38,7 +38,10 @@ import com.swapit.company.ui.theme.Typography
 import com.swapit.company.ui.theme.White
 
 @Composable
-fun BottomChatBar(viewModel: ChatViewModel) {
+fun BottomChatBar(
+    viewModel: ChatViewModel,
+    chatRoomId: Long,
+) {
     var message by remember { mutableStateOf("") }
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -59,7 +62,7 @@ fun BottomChatBar(viewModel: ChatViewModel) {
                         message,
                         null,
                     ),
-                    onSuccess = { viewModel.fetchChatList(viewModel.chatRoomId.longValue) },
+                    chatRoomId,
                 )
                 message = ""
             },
@@ -71,7 +74,7 @@ fun BottomChatBar(viewModel: ChatViewModel) {
                     message,
                     null,
                 ),
-                onSuccess = { viewModel.fetchChatList(viewModel.chatRoomId.longValue) },
+                chatRoomId,
             )
             message = ""
             viewModel.fetchChatList(viewModel.chatRoomId.longValue)

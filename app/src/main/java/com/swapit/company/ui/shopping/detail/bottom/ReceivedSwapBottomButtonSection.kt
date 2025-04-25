@@ -1,11 +1,16 @@
 package com.swapit.company.ui.shopping.detail.bottom
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -17,6 +22,8 @@ import com.swapit.company.ui.shopping.detail.ShoppingDetailViewModel
 import com.swapit.company.ui.swap.SwapViewModel
 import com.swapit.company.ui.theme.Gray5
 import com.swapit.company.ui.theme.Paddings
+import com.swapit.company.ui.theme.Primary
+import com.swapit.company.ui.theme.White
 
 @Composable
 fun ReceivedSwapBottomButtonSection(
@@ -41,6 +48,7 @@ fun ReceivedSwapBottomButtonSection(
         swapViewModel.swapReject(viewModel.detailContents.trade?.tradesId ?: 1)
         navController.navigateUp()
     }
+    Spacer(modifier = Modifier.padding(Paddings.small))
     ModalButton(
         text = "스왑 수락하기",
         contentPadding =
@@ -53,20 +61,32 @@ fun ReceivedSwapBottomButtonSection(
         swapViewModel.swapAccept(viewModel.detailContents.trade?.tradesId ?: 1)
         shoppingDetailViewModel.fetchProductDetail()
     }
+    Spacer(modifier = Modifier.padding(Paddings.small))
     TextButton(
+        modifier =
+            Modifier
+                .clip(RoundedCornerShape(12.dp))
+                .background(Primary)
+                .size((horizontalPadding * 2.4).dp),
         onClick = {
             if (shoppingDetailViewModel.detailContents.trade == null) {
-                chatViewModel.initiateChatFlow(shoppingDetailViewModel.goodsId.toLong(), navController)
+                chatViewModel.initiateChatFlow(
+                    shoppingDetailViewModel.goodsId.toLong(),
+                    navController,
+                )
             } else {
-                chatViewModel.initiateChatSwapFlow(shoppingDetailViewModel.detailContents.trade!!.tradesId, navController)
+                chatViewModel.initiateChatSwapFlow(
+                    shoppingDetailViewModel.detailContents.trade!!.tradesId,
+                    navController,
+                )
             }
         },
         enabled = true,
-        modifier = Modifier.padding(start = Paddings.large),
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_chat),
             contentDescription = "채팅 아이콘",
+            tint = White,
         )
     }
 }

@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.swapit.company.data.datasource.remote.StompModule
 import com.swapit.company.domain.repository.ProductRepository
 import com.swapit.company.domain.repository.ReportRepository
 import com.swapit.company.domain.repository.SwapRepository
@@ -50,6 +51,8 @@ class NavigationModule {
         loginViewModel: LoginViewModel,
         chatViewModel: ChatViewModel,
         alertViewModel: AlertViewModel,
+        stompModule: StompModule,
+        application: android.app.Application,
     ) {
         val userInfoViewModel = UserInfoViewModel(UserRepository.instance(LocalContext.current))
         val swapViewModel = SwapViewModel(SwapRepository.instance())
@@ -100,7 +103,7 @@ class NavigationModule {
                             ),
                     ),
                     alertViewModel,
-                    chatViewModel,
+                    application,
                 )
             }
             composable(NavItem.Swap.screenRoute) {
@@ -254,6 +257,7 @@ class NavigationModule {
                     backStackEntry.arguments?.getString("chatroomId") ?: "",
                     chatViewModel,
                     userInfoViewModel,
+                    stompModule,
                 )
             }
         }

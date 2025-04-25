@@ -25,7 +25,7 @@ interface AlertService {
         @Body fcmToken: FcmTokenRequest,
     ): BaseResponse<Unit>
 
-    @PATCH("api/user/notifications/setting")
+    @PATCH("api/user/notifications/settings")
     suspend fun alertSetting(
         @Body notificationEnabled: AlertSettingRequest,
     ): BaseResponse<Unit>

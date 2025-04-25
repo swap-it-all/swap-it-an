@@ -1,118 +1,48 @@
 package com.swapit.company.ui.alert
 
 import android.app.Application
-import android.app.NotificationManager
 import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
-import com.swapit.company.BuildConfig
-import com.swapit.company.R
-import com.swapit.company.data.datasource.remote.RetrofitModule.okHttpClient
-import com.swapit.company.data.datasource.remote.dto.response.alert.NotificationResponse
+import com.swapit.company.data.datasource.remote.StompModule
 import com.swapit.company.data.mapper.toDomain
 import com.swapit.company.domain.model.alert.Alert
 import com.swapit.company.domain.repository.AlertRepository
-import com.swapit.company.domain.repository.LoginRepository
 import com.swapit.company.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.time.delay
-import kotlinx.serialization.json.Json
-import org.hildan.krossbow.stomp.StompClient
-import org.hildan.krossbow.stomp.StompSession
-import org.hildan.krossbow.stomp.headers.StompSubscribeHeaders
-import org.hildan.krossbow.websocket.okhttp.OkHttpWebSocketClient
-import java.time.Duration
 
 class AlertViewModel(
-    private val application: Application,
     private val repository: AlertRepository,
-    private val loginRepository: LoginRepository,
+    private val stompModule: StompModule,
 ) : ViewModel() {
     val alertList = mutableStateOf(emptyList<Alert>())
     val alertSettingValue = mutableStateOf(false)
-    private val wsClient by lazy {
-        OkHttpWebSocketClient(okHttpClient())
-    }
-    private val stompClient = StompClient(wsClient)
-    private var stompSession: StompSession? = null
 
     fun connectAndMonitor() {
+        stompModule.connectAndMonitor()
+    }
+
+    fun fetchAlertList() {
         viewModelScope.launch {
-            while (true) {
-                try {
-                    if (stompSession == null) {
-                        Log.d(TAG, "STOMP 연결이 끊어져 다시 연결 시도...")
-                        connect() // 재연결 시도
-                        delay(Duration.ofMillis(3000)) // 재연결 후 잠시 대기
-                        if (stompSession != null) {
-                            subscribeAlert() // 재연결 후 다시 구독
-                        }
-                    }
-                    delay(Duration.ofMillis(5000)) // 5초마다 체크
-                } catch (e: Exception) {
-                    Log.e(TAG, "STOMP 재연결 실패: ${e.message}")
-                }
-            }
+            alertList.value = repository.alertList().results.notifications.map { it.toDomain() }
         }
     }
 
-    // 기존 connect() 함수 수정
-    private fun connect() {
+    // 특정 관련 ID의 모든 알림 읽음 처리
+    fun readAllAlertsByRelatedId(relatedId: Long?) {
         viewModelScope.launch {
             try {
-                stompSession =
-                    stompClient.connect(
-                        BuildConfig.SWAP_IT_BASE_URL.replace("http", "ws") + "ws",
-                        customStompConnectHeaders =
-                            mapOf(
-                                "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
-                                "accept-version" to "1.1",
-                                "content-length" to "0",
-                            ),
-                    )
-                Log.d(TAG, "STOMP 연결 성공")
-            } catch (e: Exception) {
-                Log.e(TAG, "STOMP 연결 실패: ${e.message}")
-            }
-        }
-    }
-
-    private fun subscribeAlert() {
-        viewModelScope.launch {
-            if (stompSession == null) {
-                Log.e("STOMP", "alert 구독 연결 실패")
-                return@launch
-            }
-            try {
-                val messageFlow =
-                    stompSession!!.subscribe(
-                        StompSubscribeHeaders(
-                            destination = "/user/queue/notifications",
-                            id = "sub-0",
-                            customHeaders = mapOf("content-length" to "0"),
-                        ),
-                    )
-                messageFlow.collect { frame ->
-                    Log.d("STOMP", "알림 메시지 수신: ${frame.bodyAsText}")
-                    frame.bodyAsText?.let { jsonMessage ->
-                        try {
-                            // JSON 메시지 파싱
-                            val notification =
-                                Json.decodeFromString<NotificationResponse>(jsonMessage)
-                            handleNotification(notification)
-                        } catch (e: Exception) {
-                            Log.e("STOMP", "알림 메시지 처리 실패: ${e.message}")
-                        }
-                    }
+                val alertsToRead = alertList.value.filter { it.relatedData == relatedId }
+                alertsToRead.forEach { alert ->
+                    repository.readAlert(alert.notificationsId)
                 }
             } catch (e: Exception) {
-                Log.e("STOMP", "subscribe 실패: ${e.message}")
+                Log.e(TAG, "Failed to mark alerts as read for relatedId=$relatedId: ${e.message}")
             }
         }
     }
@@ -162,27 +92,12 @@ class AlertViewModel(
 
                 // Firebase에서 최신 FCM 토큰 가져오기
                 val newToken = FirebaseMessaging.getInstance().token.await()
-                Log.d("AlertViewModel", "새로운 FCM 토큰: $newToken")
-
-                if (newToken.isNotEmpty() && newToken != savedToken) {
-                    // 최신 토큰이 기존 토큰과 다르면 서버에 전송
-                    repository.fcmRestore(newToken)
-
-                    // SharedPreferences에 최신 토큰 저장
-                    sharedPref.edit().putString("fcm_token", newToken).apply()
-                    Log.d("AlertViewModel", "FCM 토큰 업데이트 완료")
-                } else {
-                    Log.d("AlertViewModel", "FCM 토큰 변경 없음, 서버 전송 생략")
-                }
+                Log.d(TAG, "FCM 토큰: $newToken")
+                repository.fcmRestore(savedToken!!)
+                Log.d(TAG, "FCM 토큰 전송 완료")
             } catch (e: Exception) {
-                Log.e("AlertViewModel", "FCM 토큰 가져오기 실패: ${e.message}")
+                Log.e(TAG, "FCM 토큰 가져오기 실패: ${e.message}")
             }
-        }
-    }
-
-    fun disconnect() {
-        viewModelScope.launch {
-            stompSession?.disconnect()
         }
     }
 
@@ -202,15 +117,13 @@ class AlertViewModel(
         private const val TAG = "AlertViewModel"
 
         fun factory(
-            application: Application,
             repository: AlertRepository,
-            loginRepository: LoginRepository,
+            stompModule: StompModule,
         ): ViewModelProvider.Factory =
             BaseViewModelFactory {
                 AlertViewModel(
-                    application = application,
                     repository = repository,
-                    loginRepository = loginRepository,
+                    stompModule,
                 )
             }
     }

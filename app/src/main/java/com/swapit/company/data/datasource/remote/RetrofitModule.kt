@@ -13,6 +13,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
+import java.time.Duration
 import java.util.concurrent.TimeUnit
 
 object RetrofitModule {
@@ -41,18 +42,17 @@ object RetrofitModule {
 
     fun okHttpClient(): OkHttpClient {
         val localLoginDataSource = LocalLoginDataSource(appContext)
-        val authenticator = AuthAuthenticator(loginServiceHolder, LocalLoginDataSource(appContext), {})
+        val authenticator = AuthAuthenticator(loginServiceHolder, localLoginDataSource)
 
         return OkHttpClient
             .Builder()
             .addInterceptor(AuthInterceptor(localLoginDataSource))
             .authenticator(authenticator)
             .addInterceptor(LoggingInterceptor.create())
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(15, TimeUnit.SECONDS)
+            .pingInterval(Duration.ofSeconds(10))
             .build()
     }
+
 
     private fun jsonConverterFactory(json: Json): Converter.Factory {
         return json.asConverterFactory("application/json".toMediaType())

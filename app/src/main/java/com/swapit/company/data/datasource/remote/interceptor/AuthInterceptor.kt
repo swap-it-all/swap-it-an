@@ -1,6 +1,9 @@
 package com.swapit.company.data.datasource.remote.interceptor
 
+import android.util.Log
 import com.swapit.company.data.datasource.local.LocalLoginDataSource
+import com.swapit.company.data.datasource.remote.LoginServiceHolder
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -9,17 +12,25 @@ class AuthInterceptor(
     private val localLoginDataSource: LocalLoginDataSource,
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request()
-        val accessToken = localLoginDataSource.accessToken()
+        val originalRequest = chain.request()
 
-        val newRequest =
-            request.newBuilder().apply {
-                if (!isAuthExcluded(request)) {
-                    accessToken?.let { addHeader("Authorization", "Bearer $it") }
+        // 인증이 제외된 요청인지 확인
+        if (isAuthExcluded(originalRequest)) {
+            return chain.proceed(originalRequest)
+        }
+
+        // 액세스 토큰 추가
+        val accessToken = runBlocking { localLoginDataSource.accessToken() }
+        val requestWithToken =
+            originalRequest.newBuilder()
+                .apply {
+                    accessToken?.let {
+                        header("Authorization", "Bearer $it")
+                    }
                 }
-            }.build()
+                .build()
 
-        return chain.proceed(newRequest)
+        return chain.proceed(requestWithToken)
     }
 
     private fun isAuthExcluded(request: Request): Boolean {

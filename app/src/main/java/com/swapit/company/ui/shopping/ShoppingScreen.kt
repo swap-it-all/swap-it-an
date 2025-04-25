@@ -13,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -32,15 +33,16 @@ fun ShoppingScreen(
     navController: NavHostController,
     viewModel: ShoppingViewModel,
     alertViewModel: AlertViewModel,
-    chatViewModel: ChatViewModel,
+    application: android.app.Application,
 ) {
     val sheetState = rememberModalBottomSheetState()
-    viewModel.fetchProducts()
-    alertViewModel.fetchAlertList()
-    alertViewModel.connectAndMonitor()
-    chatViewModel.connectAndMonitor()
-    alertViewModel.alertSettingInfo()
-
+    LaunchedEffect(Unit) {
+        viewModel.fetchProducts()
+        alertViewModel.fetchAlertList()
+        alertViewModel.connectAndMonitor()
+        alertViewModel.alertSettingInfo()
+        alertViewModel.fcmRestore(application = application)
+    }
     Scaffold(
         topBar = {
             AppBar(navController = navController, alertCount = alertViewModel.alertList.value.size)

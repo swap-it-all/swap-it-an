@@ -3,14 +3,31 @@ package com.swapit.company.data.datasource.remote
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.swapit.company.R
+fun createNotificationChannel(context: Context) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val channelId = "swapit_alert_channel"
+        val channelName = "SwapIt Alerts"
+        val channelDescription = "Channel for SwapIt notifications"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(channelId, channelName, importance).apply {
+            description = channelDescription
+        }
 
+        // NotificationManager에 채널 추가
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+    }
+}
 class FcmService : FirebaseMessagingService() {
+
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d("FCM", "새 토큰: $token")
@@ -32,9 +49,9 @@ class FcmService : FirebaseMessagingService() {
         title: String,
         message: String,
     ) {
-        val channelId = "my_channel"
+        val channelId = "swapit_alert_channel"
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
+        notificationManager.deleteNotificationChannel(channelId)
         val channel = NotificationChannel(channelId, "알림 채널", NotificationManager.IMPORTANCE_HIGH)
         notificationManager.createNotificationChannel(channel)
 

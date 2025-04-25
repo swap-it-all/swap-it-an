@@ -6,7 +6,8 @@ import kotlinx.serialization.Serializable
 data class NotificationResponse(
     val notificationsId: Long,
     val type: String,
-    val url: String,
-    val message: String,
+    val title: String,
+    val body: String,
+    val relatedData: Long,
     val createdAt: String,
 )
