@@ -1,0 +1,96 @@
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.swapit.oopswap.R
+import com.swapit.oopswap.ui.theme.Black
+import com.swapit.oopswap.ui.theme.Gray3
+import com.swapit.oopswap.ui.theme.Gray6
+import com.swapit.oopswap.ui.theme.Paddings
+import com.swapit.oopswap.ui.theme.Typography
+
+@Composable
+fun SearchField(
+    searchTerm: String,
+    modifier: Modifier = Modifier,
+    onValueChange: (String) -> Unit = {},
+    onValueChanged: (String) -> Unit = {},
+    navController: NavHostController,
+) {
+    BasicTextField(
+        value = searchTerm,
+        onValueChange = onValueChange,
+        textStyle = Typography.bodyMedium.copy(color = Black),
+        singleLine = true,
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .height(44.dp)
+                .background(Gray6, shape = RoundedCornerShape(32.dp))
+                .padding(horizontal = 16.dp),
+        keyboardOptions =
+            KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Search,
+            ),
+        keyboardActions =
+            KeyboardActions(
+                onSearch = {
+                    navController.navigateUp()
+                    onValueChanged(searchTerm)
+                },
+            ),
+        decorationBox = { innerTextField ->
+            Row(
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Box(modifier = Modifier.weight(1f)) {
+                    if (searchTerm.isEmpty()) {
+                        Text(
+                            stringResource(R.string.shopping_search_button_content),
+                            style = Typography.bodyMedium,
+                            color = Gray3,
+                        )
+                    }
+                    innerTextField()
+                }
+                TextButton(
+                    onClick = {
+                        navController.navigateUp()
+                        onValueChanged(searchTerm)
+                    },
+                    content = {
+                        Image(
+                            painter = painterResource(R.drawable.ic_search_magnifying),
+                            contentDescription = stringResource(R.string.shopping_search_button),
+                            colorFilter = ColorFilter.tint(Gray3),
+                        )
+                    },
+                    contentPadding = PaddingValues(Paddings.none),
+                )
+            }
+        },
+    )
+}

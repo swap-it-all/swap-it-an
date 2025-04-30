@@ -14,15 +14,15 @@ val properties =
     }
 
 android {
-    namespace = "com.swapit.company"
+    namespace = "com.swapit.oopswap"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.swapit.company"
+        applicationId = "com.swapit.oopswap"
         minSdk = 29
         targetSdk = 35
         versionCode = 18
-        versionName = "1.1.2"
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

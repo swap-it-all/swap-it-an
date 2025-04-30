@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.swapit.company">
+    package="com.swapit.oopswap">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -12,7 +12,7 @@
         android:name="com.google.firebase.messaging.default_notification_channel_id"
         android:value="swapit_alert_channel" />
     <application
-        android:name=".SwapItApplication"
+        android:name="com.swapit.oopswap.SwapItApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:exported="true"
@@ -25,14 +25,14 @@
         android:theme="@style/Theme.Swapit"
         tools:targetApi="31">
         <service
-            android:name="com.swapit.company.data.datasource.remote.FcmService"
+            android:name="com.swapit.oopswap.data.datasource.remote.FcmService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <activity
-            android:name=".MainActivity"
+            android:name="com.swapit.oopswap.MainActivity"
             android:exported="true"
             android:label="스왑잇"
             android:theme="@style/Theme.Swapit"
