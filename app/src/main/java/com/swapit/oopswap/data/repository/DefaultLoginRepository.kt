@@ -74,10 +74,9 @@ class DefaultLoginRepository(
 }
 
 // mapper
-private fun LoginResponse.toDomain(): LoginToken {
-    return LoginToken(
+private fun LoginResponse.toDomain(): LoginToken =
+    LoginToken(
         accessToken = this.accessToken,
         refreshToken = this.refreshToken,
         key = this.key,
     )
-}

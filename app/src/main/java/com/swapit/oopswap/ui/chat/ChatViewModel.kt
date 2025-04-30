@@ -26,8 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger
 class ChatViewModel(
     private val repository: ChatRepository,
     private val stompModule: StompModule,
-) :
-    ViewModel() {
+) : ViewModel() {
     private val subscriptionCounter = AtomicInteger(0)
     private val subscriptionIds = mutableMapOf<Long, String>() // chatRoomId 별 구독 ID 저장
     var chatRoomList = mutableStateListOf<ChatRoom>()
@@ -74,13 +73,9 @@ class ChatViewModel(
         }
     }
 
-    private suspend fun createChatRoomSync(goodsId: GoodsIdRequest): Long {
-        return repository.createChatRoom(goodsId).results
-    }
+    private suspend fun createChatRoomSync(goodsId: GoodsIdRequest): Long = repository.createChatRoom(goodsId).results
 
-    private suspend fun createChatRoomTradeSync(tradesId: TradesIdRequest): Long {
-        return repository.createSwapChatRoom(tradesId).results
-    }
+    private suspend fun createChatRoomTradeSync(tradesId: TradesIdRequest): Long = repository.createSwapChatRoom(tradesId).results
 
     fun initiateChatFlow(
         goodsId: Long,
@@ -101,7 +96,6 @@ class ChatViewModel(
             }
         }
     }
-
 
     fun initiateChatSwapFlow(
         tradesId: Long,

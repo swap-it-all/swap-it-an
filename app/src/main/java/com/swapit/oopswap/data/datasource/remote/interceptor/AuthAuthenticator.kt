@@ -17,11 +17,13 @@ class AuthAuthenticator(
     private val localLoginDataSource: LocalLoginDataSource,
     private val onLogout: () -> Unit,
 ) : Authenticator {
-
     private val mutex = Mutex() // 갱신 동기화를 위한 Mutex
     private val tokenFlow = MutableStateFlow<TokenState>(TokenState.Idle) // 토큰 상태 관리
 
-    override fun authenticate(route: Route?, response: Response): Request? {
+    override fun authenticate(
+        route: Route?,
+        response: Response,
+    ): Request? {
         if (responseCount(response) >= 2) {
             return null // 무한 루프 방지
         }
@@ -29,14 +31,15 @@ class AuthAuthenticator(
         // 토큰 갱신 상태를 체크 및 갱신 후 새 요청 빌드
         return runBlocking {
             val accessToken = getOrRefreshTokens()?.first ?: return@runBlocking null
-            response.request.newBuilder()
+            response.request
+                .newBuilder()
                 .header("Authorization", "Bearer $accessToken")
                 .build()
         }
     }
 
-    private suspend fun getOrRefreshTokens(): Pair<String, String>? {
-        return when (val state = tokenFlow.value) {
+    private suspend fun getOrRefreshTokens(): Pair<String, String>? =
+        when (val state = tokenFlow.value) {
             is TokenState.Refreshing -> {
                 // 갱신 중이라면 완료될 때까지 대기
                 tokenFlow.first { it is TokenState.Valid }.let {
@@ -54,7 +57,6 @@ class AuthAuthenticator(
                 }
             }
         }
-    }
 
     private suspend fun refreshTokens(): Pair<String, String>? {
         val loginService = loginServiceHolder.loginService ?: return null
@@ -88,9 +90,11 @@ class AuthAuthenticator(
 
     private sealed class TokenState {
         object Idle : TokenState() // 초기 상태
+
         object Refreshing : TokenState() // 갱신 중
-        data class Valid(val tokens: Pair<String, String>) : TokenState() // 유효한 토큰 상태
+
+        data class Valid(
+            val tokens: Pair<String, String>,
+        ) : TokenState() // 유효한 토큰 상태
     }
 }
-
-

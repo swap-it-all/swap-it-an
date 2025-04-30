@@ -36,7 +36,7 @@ import java.util.concurrent.atomic.AtomicInteger
 
 class StompModule(
     private val loginRepository: LoginRepository,
-    private val application: Application
+    private val application: Application,
 ) {
     private val subscriptionCounter = AtomicInteger(0)
     private val subscriptionIds = ConcurrentHashMap<Long, String>() // 채팅방 구독 ID 저장
@@ -74,10 +74,10 @@ class StompModule(
                     stompClient.connect(
                         BuildConfig.SWAP_IT_BASE_URL.replace("http", "ws") + "ws",
                         customStompConnectHeaders =
-                        mapOf(
-                            "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
-                            "accept-version" to "1.2",
-                        ),
+                            mapOf(
+                                "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
+                                "accept-version" to "1.2",
+                            ),
                     )
                 Log.d(TAG, "STOMP 연결 성공")
             } catch (e: Exception) {
@@ -133,7 +133,8 @@ class StompModule(
             application.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val notificationBuilder =
-            NotificationCompat.Builder(application, "swapit_alert_channel")
+            NotificationCompat
+                .Builder(application, "swapit_alert_channel")
                 .setContentTitle(notification.title)
                 .setContentText(notification.body)
                 .setSmallIcon(R.drawable.ic_bell)
@@ -147,7 +148,7 @@ class StompModule(
 
     fun subscribeToChatRoom(
         chatRoomId: Long,
-        chatList: SnapshotStateList<Chat>, // SnapshotStateList로 받기
+        chatList: SnapshotStateList<Chat>,
     ): SnapshotStateList<Chat> {
         scope.launch(SupervisorJob()) {
             if (stompSession == null) {
@@ -180,12 +181,11 @@ class StompModule(
                     }
                 }
             } catch (e: Exception) {
-                Log.e("STOMP", "subscribeToChatRoom 실패: ${e}")
+                Log.e("STOMP", "subscribeToChatRoom 실패: $e")
             }
         }
         return chatList // 전달받은 chatList를 반환
     }
-
 
     fun unsubscribeFromChatRoom(chatRoomId: Long) {
         scope.launch {
@@ -193,13 +193,13 @@ class StompModule(
             try {
                 stompSession?.send(
                     headers =
-                    StompSendHeaders(
-                        destination = "/topic/chat/$chatRoomId",
-                        customHeaders =
-                        mapOf(
-                            "id" to subId,
+                        StompSendHeaders(
+                            destination = "/topic/chat/$chatRoomId",
+                            customHeaders =
+                                mapOf(
+                                    "id" to subId,
+                                ),
                         ),
-                    ),
                     body = FrameBody.Text(""),
                 )
                 Log.d("STOMP", "구독 해지 성공: chatRoomId=$chatRoomId, subId=$subId")
@@ -238,20 +238,21 @@ class StompModule(
                 // STOMP 메시지 전송
                 stompSession?.send(
                     headers =
-                    StompSendHeaders(
-                        destination = "/app/chat/$chatRoomId",
-                        customHeaders =
-                        mapOf(
-                            "content-type" to "application/json",
-                            "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
+                        StompSendHeaders(
+                            destination = "/app/chat/$chatRoomId",
+                            customHeaders =
+                                mapOf(
+                                    "content-type" to "application/json",
+                                    "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
+                                ),
                         ),
-                    ),
-                    body = FrameBody.Text(
-                        Json.encodeToString(
-                            ChatRequest.serializer(),
-                            message
-                        ) + "\\0"
-                    ),
+                    body =
+                        FrameBody.Text(
+                            Json.encodeToString(
+                                ChatRequest.serializer(),
+                                message,
+                            ) + "\\0",
+                        ),
                 )
                 kotlinx.coroutines.delay(100)
                 Log.d(TAG, "메시지 전송 성공: $message")
@@ -287,21 +288,21 @@ class StompModule(
             try {
                 stompSession?.send(
                     headers =
-                    StompSendHeaders(
-                        destination = "/app/chat/read/$chatRoomId",
-                        customHeaders =
-                        mapOf(
-                            "content-type" to "application/json",
-                            "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
+                        StompSendHeaders(
+                            destination = "/app/chat/read/$chatRoomId",
+                            customHeaders =
+                                mapOf(
+                                    "content-type" to "application/json",
+                                    "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
+                                ),
                         ),
-                    ),
                     body =
-                    FrameBody.Text(
-                        Json.encodeToString(
-                            ChatReadRequest.serializer(),
-                            ChatReadRequest(chatList.first().chatsId),
-                        ) + "\\0",
-                    ),
+                        FrameBody.Text(
+                            Json.encodeToString(
+                                ChatReadRequest.serializer(),
+                                ChatReadRequest(chatList.first().chatsId),
+                            ) + "\\0",
+                        ),
                 )
                 Log.d("STOMP", chatList.first().chatsId.toString())
             } catch (e: Exception) {

@@ -28,7 +28,8 @@ object RetrofitModule {
         val client = okHttpClient()
 
         val retrofit =
-            Retrofit.Builder()
+            Retrofit
+                .Builder()
                 .baseUrl(BuildConfig.SWAP_IT_BASE_URL)
                 .client(client)
                 .addConverterFactory(converterFactory)
@@ -52,10 +53,7 @@ object RetrofitModule {
             .build()
     }
 
-
-    private fun jsonConverterFactory(json: Json): Converter.Factory {
-        return json.asConverterFactory("application/json".toMediaType())
-    }
+    private fun jsonConverterFactory(json: Json): Converter.Factory = json.asConverterFactory("application/json".toMediaType())
 }
 
 class LoginServiceHolder {

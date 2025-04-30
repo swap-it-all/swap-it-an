@@ -23,7 +23,7 @@ import kotlinx.coroutines.tasks.await
 class AlertViewModel(
     private val repository: AlertRepository,
     private val stompModule: StompModule,
-    private val application: Application
+    private val application: Application,
 ) : ViewModel() {
     val alertList = mutableStateOf(emptyList<Alert>())
     val alertSettingValue = mutableStateOf(false)
@@ -59,7 +59,8 @@ class AlertViewModel(
             application.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val notificationBuilder =
-            NotificationCompat.Builder(application, "default_channel")
+            NotificationCompat
+                .Builder(application, "default_channel")
                 .setContentTitle(notification.title)
                 .setContentText(notification.body)
                 .setSmallIcon(R.drawable.ic_bell)
@@ -73,7 +74,11 @@ class AlertViewModel(
 
     fun fetchAlertList() {
         viewModelScope.launch {
-            alertList.value = repository.alertList().results.notifications.map { it.toDomain() }
+            alertList.value =
+                repository
+                    .alertList()
+                    .results.notifications
+                    .map { it.toDomain() }
         }
     }
 
@@ -118,13 +123,13 @@ class AlertViewModel(
         fun factory(
             repository: AlertRepository,
             stompModule: StompModule,
-            application: Application
+            application: Application,
         ): ViewModelProvider.Factory =
             BaseViewModelFactory {
                 AlertViewModel(
                     repository = repository,
                     stompModule,
-                    application = application
+                    application = application,
                 )
             }
     }

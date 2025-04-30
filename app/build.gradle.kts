@@ -141,6 +141,5 @@ dependencies {
     implementation(libs.krossbow.websocket.okhttp)
     // firebase
     implementation("com.google.firebase:firebase-messaging-ktx:23.3.1")
-    implementation ("com.google.firebase:firebase-analytics-ktx:21.3.0")
-
+    implementation("com.google.firebase:firebase-analytics-ktx:21.3.0")
 }

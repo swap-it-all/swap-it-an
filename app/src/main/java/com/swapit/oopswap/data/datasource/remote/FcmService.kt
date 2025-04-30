@@ -9,15 +9,17 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.swapit.oopswap.R
+
 fun createNotificationChannel(context: Context) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val channelId = "swapit_alert_channel"
         val channelName = "SwapIt Alerts"
         val channelDescription = "Channel for SwapIt notifications"
         val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(channelId, channelName, importance).apply {
-            description = channelDescription
-        }
+        val channel =
+            NotificationChannel(channelId, channelName, importance).apply {
+                description = channelDescription
+            }
 
         // NotificationManager에 채널 추가
         val notificationManager =
@@ -25,8 +27,8 @@ fun createNotificationChannel(context: Context) {
         notificationManager.createNotificationChannel(channel)
     }
 }
-class FcmService : FirebaseMessagingService() {
 
+class FcmService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d("FCM", "새 토큰: $token")

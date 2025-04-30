@@ -27,7 +27,8 @@ fun AlertScreen(
         viewModel.alertList.value
             .groupBy { it.type to it.relatedData } // 알림 타입 + 관련 아이디 기준으로 그룹화
             .mapValues { (_, alerts) -> alerts.first() } // 같은 그룹에서 첫 번째 항목만 사용
-            .values.toList()
+            .values
+            .toList()
     Scaffold(
         topBar = { AlertAppBar(navController) },
     ) { contentPadding ->

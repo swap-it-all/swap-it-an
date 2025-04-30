@@ -65,8 +65,8 @@ fun SentSwapCard(
                     model = sentSwap.targetGoodsPhotoUrl,
                     contentDescription = stringResource(R.string.president_image_description),
                     modifier =
-                    Modifier
-                        .size(150.dp),
+                        Modifier
+                            .size(150.dp),
                     placeholder = ColorPainter(Primary),
                     fallback = rememberVectorPainter(Icons.Default.Call),
                     error = rememberVectorPainter(Icons.Default.Settings),

@@ -72,80 +72,83 @@ fun Bubble(
     if (chat.chatType == ChatType.TALK.name) {
         Box(
             modifier =
-            Modifier
-                .clip(RoundedCornerShape(16.dp))
-                .background(containerColor)
-                .padding(Paddings.xlarge, 7.dp),
+                Modifier
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(containerColor)
+                    .padding(Paddings.xlarge, 7.dp),
         ) {
             Text(chat.content, color = textColor)
         }
     } else if (chat.chatType == ChatType.REQUEST.name) {
         Box(
             modifier =
-            Modifier
-                .clip(RoundedCornerShape(16.dp))
-                .background(BackgroundColor)
-                .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
+                Modifier
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(BackgroundColor)
+                    .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
         ) {
-            Column(Modifier.padding(Paddings.xlarge, Paddings.xlarge),) {
+            Column(Modifier.padding(Paddings.xlarge, Paddings.xlarge)) {
                 Text("스왑을 요청했어요!\n", style = Typography.titleMedium)
                 Text(
                     "물건 : ${chat.requesterGoods?.title}\n" +
-                            "스와퍼 : ${chat.requesterGoods?.requesterNickname}",
+                        "스와퍼 : ${chat.requesterGoods?.requesterNickname}",
                 )
             }
-
         }
     } else if (chat.chatType == ChatType.CANCEL.name) {
         Box(
             modifier =
-            Modifier
-                .clip(RoundedCornerShape(16.dp))
-                .background(BackgroundColor)
-                .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
+                Modifier
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(BackgroundColor)
+                    .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
         ) {
             Text(
                 "스왑을 취소했어요!",
-                Modifier.padding(Paddings.xlarge, Paddings.xlarge), style = Typography.titleMedium,
+                Modifier.padding(Paddings.xlarge, Paddings.xlarge),
+                style = Typography.titleMedium,
             )
         }
     } else if (chat.chatType == ChatType.ACCEPT.name) {
         Box(
             modifier =
-            Modifier
-                .clip(RoundedCornerShape(16.dp))
-                .background(BackgroundColor)
-                .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
+                Modifier
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(BackgroundColor)
+                    .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
         ) {
             Text(
                 "스왑을 수락했어요!",
-                Modifier.padding(Paddings.xlarge, Paddings.xlarge), style = Typography.titleMedium,
+                Modifier.padding(Paddings.xlarge, Paddings.xlarge),
+                style = Typography.titleMedium,
             )
         }
     } else if (chat.chatType == ChatType.REJECT.name) {
         Box(
             modifier =
-            Modifier
-                .clip(RoundedCornerShape(16.dp))
-                .background(BackgroundColor)
-                .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
+                Modifier
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(BackgroundColor)
+                    .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
         ) {
             Text(
                 "스왑을 거절했어요!\n",
-                Modifier.padding(Paddings.xlarge, Paddings.xlarge), style = Typography.titleMedium,
+                Modifier.padding(Paddings.xlarge, Paddings.xlarge),
+                style = Typography.titleMedium,
             )
         }
     } else if (chat.chatType == ChatType.COMPLETE.name) {
         Box(
             modifier =
-            Modifier
-                .clip(RoundedCornerShape(16.dp))
-                .background(BackgroundColor)
-                .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
+                Modifier
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(BackgroundColor)
+                    .border(BorderStroke(1.dp, containerColor), RoundedCornerShape(16.dp)),
         ) {
             Text(
                 "스왑을 완료했어요!",
-                Modifier.padding(Paddings.xlarge, Paddings.xlarge), style = Typography.titleMedium,
+                Modifier.padding(Paddings.xlarge, Paddings.xlarge),
+                style = Typography.titleMedium,
             )
         }
     }

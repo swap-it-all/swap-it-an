@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
                         AlertViewModel.factory(
                             repository = AlertRepository.instance(),
                             stompModule,
-                            application = application
+                            application = application,
                         ),
                 )
 
