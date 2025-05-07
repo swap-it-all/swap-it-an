@@ -112,7 +112,7 @@ fun SettingScreen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        "로그 아웃",
+                        "로그아웃",
                         style = Typography.titleLarge,
                         modifier = Modifier.padding(Paddings.xlarge),
                     )

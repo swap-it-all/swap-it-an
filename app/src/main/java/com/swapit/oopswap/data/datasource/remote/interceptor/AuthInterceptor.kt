@@ -1,38 +1,36 @@
 package com.swapit.oopswap.data.datasource.remote.interceptor
 
-import com.swapit.oopswap.data.datasource.local.LocalLoginDataSource
+import com.swapit.oopswap.data.auth.TokenStateManager
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeoutOrNull
 import okhttp3.Interceptor
-import okhttp3.Request
 import okhttp3.Response
 
-class AuthInterceptor(
-    private val localLoginDataSource: LocalLoginDataSource,
-) : Interceptor {
+class AuthInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val originalRequest = chain.request()
+        val request = chain.request()
 
-        // 인증이 제외된 요청인지 확인
-        if (isAuthExcluded(originalRequest)) {
-            return chain.proceed(originalRequest)
+        // /refresh, /logout 은 제외
+        if (request.url.encodedPath.contains("/refresh") || request.url.encodedPath.contains("/logout")) {
+            return chain.proceed(request)
         }
 
-        // 액세스 토큰 추가
-        val accessToken = runBlocking { localLoginDataSource.accessToken() }
-        val requestWithToken =
-            originalRequest.newBuilder()
-                .apply {
-                    accessToken?.let {
-                        header("Authorization", "Bearer $it")
-                    }
-                }
+        val token = runBlocking {
+            // 3초 동안 기다렸다가 없으면 null
+            withTimeoutOrNull(3000) {
+                TokenStateManager.tokenFlow.first { it is TokenStateManager.TokenState.Valid }
+            }?.let { (it as? TokenStateManager.TokenState.Valid)?.tokens?.first }
+            // fallback: 즉시 value에서 가져오기 (last-chance)
+                ?: (TokenStateManager.tokenFlow.value as? TokenStateManager.TokenState.Valid)?.tokens?.first
+        }
+
+        val requestWithAuth = token?.let {
+            request.newBuilder()
+                .header("Authorization", "Bearer $it")
                 .build()
+        } ?: request
 
-        return chain.proceed(requestWithToken)
-    }
-
-    private fun isAuthExcluded(request: Request): Boolean {
-        val path = request.url.encodedPath
-        return path.contains("/refresh") || path.contains("/logout")
+        return chain.proceed(requestWithAuth)
     }
 }

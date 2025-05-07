@@ -1,100 +1,111 @@
 package com.swapit.oopswap.data.datasource.remote.interceptor
 
+import android.util.Log
+import com.swapit.oopswap.data.auth.TokenStateManager
+import com.swapit.oopswap.data.auth.TokenStateManager.isExpired
 import com.swapit.oopswap.data.datasource.local.LocalLoginDataSource
 import com.swapit.oopswap.data.datasource.remote.LoginServiceHolder
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.time.delay
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
+import java.time.Duration
 
 class AuthAuthenticator(
     private val loginServiceHolder: LoginServiceHolder,
     private val localLoginDataSource: LocalLoginDataSource,
     private val onLogout: () -> Unit,
 ) : Authenticator {
-    private val mutex = Mutex() // 갱신 동기화를 위한 Mutex
-    private val tokenFlow = MutableStateFlow<TokenState>(TokenState.Idle) // 토큰 상태 관리
 
-    override fun authenticate(
-        route: Route?,
-        response: Response,
-    ): Request? {
-        if (responseCount(response) >= 2) {
-            return null // 무한 루프 방지
-        }
+    private val mutex = Mutex()
 
-        // 토큰 갱신 상태를 체크 및 갱신 후 새 요청 빌드
+    override fun authenticate(route: Route?, response: Response): Request? {
+        Log.d("AuthAuthenticator", "🚨 Authenticator 작동: ${response.request.url}")
+        if (responseCount(response) > 10) return null
+
         return runBlocking {
             val accessToken = getOrRefreshTokens()?.first ?: return@runBlocking null
-            response.request
-                .newBuilder()
+            response.request.newBuilder()
                 .header("Authorization", "Bearer $accessToken")
                 .build()
         }
     }
 
-    private suspend fun getOrRefreshTokens(): Pair<String, String>? =
-        when (val state = tokenFlow.value) {
-            is TokenState.Refreshing -> {
-                // 갱신 중이라면 완료될 때까지 대기
-                tokenFlow.first { it is TokenState.Valid }.let {
-                    (it as? TokenState.Valid)?.tokens
+    private suspend fun getOrRefreshTokens(): Pair<String, String>? {
+        return when (val state = TokenStateManager.tokenFlow.value) {
+            is TokenStateManager.TokenState.Valid -> {
+                val (access, refresh) = state.tokens
+                if (isExpired(access)) {
+                    // 만료된 토큰이면 강제로 refresh
+                    refreshTokens()
+                } else {
+                    state.tokens
                 }
             }
+
+            is TokenStateManager.TokenState.Refreshing -> {
+                TokenStateManager.tokenFlow
+                    .first { it is TokenStateManager.TokenState.Valid }
+                    .let { (it as TokenStateManager.TokenState.Valid).tokens }
+            }
+
             else -> {
                 mutex.withLock {
-                    // 갱신 상태 확인 후 다시 처리
-                    if (tokenFlow.value is TokenState.Valid) {
-                        (tokenFlow.value as TokenState.Valid).tokens
-                    } else {
-                        refreshTokens()
+                    when (val newState = TokenStateManager.tokenFlow.value) {
+                        is TokenStateManager.TokenState.Valid -> {
+                            val (access, _) = newState.tokens
+                            if (isExpired(access)) refreshTokens() else newState.tokens
+                        }
+
+                        else -> refreshTokens()
                     }
                 }
             }
         }
+    }
 
     private suspend fun refreshTokens(): Pair<String, String>? {
-        val loginService = loginServiceHolder.loginService ?: return null
         val refreshToken = localLoginDataSource.refreshToken() ?: return null
+        val loginService = loginServiceHolder.loginService ?: return null
+
+        Log.d("AuthAuthenticator", "⚠️ refreshTokens() 호출됨")
 
         return try {
-            tokenFlow.value = TokenState.Refreshing
-            val results = loginService.refreshToken("Bearer $refreshToken").results
-            val newAccessToken = results.accessToken
-            val newRefreshToken = results.refreshToken
+            TokenStateManager.tokenFlow.value = TokenStateManager.TokenState.Refreshing
+            val result = loginService.refreshToken("Bearer $refreshToken").results
 
-            localLoginDataSource.saveTokens(newAccessToken, newRefreshToken)
-            val tokens = newAccessToken to newRefreshToken
-            tokenFlow.value = TokenState.Valid(tokens)
+            localLoginDataSource.saveTokens(result.accessToken, result.refreshToken)
+            delay(Duration.ofMillis(1000)) // 💡 delay 삽입
+
+            val tokens = result.accessToken to result.refreshToken
+            TokenStateManager.tokenFlow.value = TokenStateManager.TokenState.Valid(tokens)
+            Log.d("AuthAuthenticator", "✅ 리프레시 성공, 새 토큰: $tokens")
             tokens
         } catch (e: Exception) {
-            tokenFlow.value = TokenState.Idle
-            null
+            Log.e("AuthAuthenticator", "❌ 리프레시 실패: ${e.message}", e)
+            return onExpired()
         }
+    }
+
+    // 만료 처리 헬퍼
+    private fun onExpired(): Nothing? {
+        onLogout()          // ← RetrofitModule 에서 전달한 콜백(로그아웃·네비게이트)
+        TokenStateManager.tokenFlow.value = TokenStateManager.TokenState.Idle
+        return null         // 인증 실패로 후속 요청 차단
     }
 
     private fun responseCount(response: Response): Int {
         var count = 1
-        var prevResponse = response.priorResponse
-        while (prevResponse != null) {
+        var prior = response.priorResponse
+        while (prior != null) {
             count++
-            prevResponse = prevResponse.priorResponse
+            prior = prior.priorResponse
         }
         return count
-    }
-
-    private sealed class TokenState {
-        object Idle : TokenState() // 초기 상태
-
-        object Refreshing : TokenState() // 갱신 중
-
-        data class Valid(
-            val tokens: Pair<String, String>,
-        ) : TokenState() // 유효한 토큰 상태
     }
 }

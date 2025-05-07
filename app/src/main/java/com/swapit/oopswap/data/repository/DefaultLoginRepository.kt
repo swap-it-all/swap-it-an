@@ -1,6 +1,7 @@
 package com.swapit.oopswap.data.repository
 
 import android.util.Log
+import com.swapit.oopswap.data.auth.TokenStateManager
 import com.swapit.oopswap.data.datasource.RemoteLoginDataSource
 import com.swapit.oopswap.data.datasource.local.LocalLoginDataSource
 import com.swapit.oopswap.data.datasource.remote.dto.response.login.LoginResponse
@@ -14,6 +15,8 @@ class DefaultLoginRepository(
     override suspend fun loginWithKakao(token: String): LoginToken {
         val tokens = remoteSource.loginWithKakao(token).toDomain()
         saveTokens(tokens.accessToken, tokens.refreshToken)
+        TokenStateManager.tokenFlow.value = TokenStateManager.TokenState.Valid(
+            tokens.accessToken to tokens.refreshToken)
         return tokens
     }
 
@@ -32,7 +35,10 @@ class DefaultLoginRepository(
     override suspend fun logout(refreshToken: String): Boolean {
         val isSuccess = remoteSource.logout(refreshToken)
         if (isSuccess.success) {
+            // 1) SharedPreferences 비우기
             localSource.clearTokens()
+            // 2) TokenStateManager 초기화
+            TokenStateManager.tokenFlow.value = TokenStateManager.TokenState.Idle
         }
         return isSuccess.success
     }
