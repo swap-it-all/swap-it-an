@@ -15,8 +15,10 @@ class DefaultLoginRepository(
     override suspend fun loginWithKakao(token: String): LoginToken {
         val tokens = remoteSource.loginWithKakao(token).toDomain()
         saveTokens(tokens.accessToken, tokens.refreshToken)
-        TokenStateManager.tokenFlow.value = TokenStateManager.TokenState.Valid(
-            tokens.accessToken to tokens.refreshToken)
+        TokenStateManager.tokenFlow.value =
+            TokenStateManager.TokenState.Valid(
+                tokens.accessToken to tokens.refreshToken,
+            )
         return tokens
     }
 

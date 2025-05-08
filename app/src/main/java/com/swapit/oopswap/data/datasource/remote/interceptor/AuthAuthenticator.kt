@@ -21,10 +21,12 @@ class AuthAuthenticator(
     private val localLoginDataSource: LocalLoginDataSource,
     private val onLogout: () -> Unit,
 ) : Authenticator {
-
     private val mutex = Mutex()
 
-    override fun authenticate(route: Route?, response: Response): Request? {
+    override fun authenticate(
+        route: Route?,
+        response: Response,
+    ): Request? {
         Log.d("AuthAuthenticator", "🚨 Authenticator 작동: ${response.request.url}")
         if (responseCount(response) > 10) return null
 
@@ -94,9 +96,9 @@ class AuthAuthenticator(
 
     // 만료 처리 헬퍼
     private fun onExpired(): Nothing? {
-        onLogout()          // ← RetrofitModule 에서 전달한 콜백(로그아웃·네비게이트)
+        onLogout() // ← RetrofitModule 에서 전달한 콜백(로그아웃·네비게이트)
         TokenStateManager.tokenFlow.value = TokenStateManager.TokenState.Idle
-        return null         // 인증 실패로 후속 요청 차단
+        return null // 인증 실패로 후속 요청 차단
     }
 
     private fun responseCount(response: Response): Int {

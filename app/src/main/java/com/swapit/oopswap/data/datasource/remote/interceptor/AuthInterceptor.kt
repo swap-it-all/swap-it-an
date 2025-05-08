@@ -16,20 +16,22 @@ class AuthInterceptor : Interceptor {
             return chain.proceed(request)
         }
 
-        val token = runBlocking {
-            // 3초 동안 기다렸다가 없으면 null
-            withTimeoutOrNull(3000) {
-                TokenStateManager.tokenFlow.first { it is TokenStateManager.TokenState.Valid }
-            }?.let { (it as? TokenStateManager.TokenState.Valid)?.tokens?.first }
-            // fallback: 즉시 value에서 가져오기 (last-chance)
-                ?: (TokenStateManager.tokenFlow.value as? TokenStateManager.TokenState.Valid)?.tokens?.first
-        }
+        val token =
+            runBlocking {
+                // 3초 동안 기다렸다가 없으면 null
+                withTimeoutOrNull(3000) {
+                    TokenStateManager.tokenFlow.first { it is TokenStateManager.TokenState.Valid }
+                }?.let { (it as? TokenStateManager.TokenState.Valid)?.tokens?.first }
+                    // fallback: 즉시 value에서 가져오기 (last-chance)
+                    ?: (TokenStateManager.tokenFlow.value as? TokenStateManager.TokenState.Valid)?.tokens?.first
+            }
 
-        val requestWithAuth = token?.let {
-            request.newBuilder()
-                .header("Authorization", "Bearer $it")
-                .build()
-        } ?: request
+        val requestWithAuth =
+            token?.let {
+                request.newBuilder()
+                    .header("Authorization", "Bearer $it")
+                    .build()
+            } ?: request
 
         return chain.proceed(requestWithAuth)
     }

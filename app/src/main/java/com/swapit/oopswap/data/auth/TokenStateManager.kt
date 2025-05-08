@@ -10,7 +10,9 @@ object TokenStateManager {
 
     sealed class TokenState {
         object Idle : TokenState()
+
         object Refreshing : TokenState()
+
         data class Valid(val tokens: Pair<String, String>) : TokenState()
     }
 
