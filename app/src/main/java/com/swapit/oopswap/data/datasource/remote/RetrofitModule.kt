@@ -46,7 +46,7 @@ object RetrofitModule {
 
         return OkHttpClient
             .Builder()
-            .addInterceptor(AuthInterceptor(localLoginDataSource))
+            .addInterceptor(AuthInterceptor())
             .authenticator(authenticator)
             .addInterceptor(LoggingInterceptor.create())
             .pingInterval(Duration.ofSeconds(10))

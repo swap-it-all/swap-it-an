@@ -30,6 +30,15 @@ class RemoteLoginDataSource(
     }
 
     suspend fun refresh(refreshToken: String): LoginResponse {
+        val stackTrace = Throwable().stackTrace
+        val callerInfo = stackTrace.getOrNull(1) // 0: 현재 함수, 1: 호출자
+        Log.d(
+            "Caller",
+            "refresh() was called from: ${callerInfo?.className}." +
+                "${callerInfo?.methodName}(" +
+                "${callerInfo?.fileName}:${callerInfo?.lineNumber})",
+        )
+
         val response = loginService.refreshToken("Bearer $refreshToken")
 
         return if (response.success) {

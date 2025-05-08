@@ -1,18 +1,22 @@
 package com.swapit.oopswap.data.datasource.local
 
 import android.content.Context
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class LocalLoginDataSource(context: Context) {
     private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
-    fun saveTokens(
+    suspend fun saveTokens(
         accessToken: String,
         refreshToken: String,
     ) {
-        prefs.edit()
-            .putString(ACCESS_TOKEN, accessToken)
-            .putString(REFRESH_TOKEN, refreshToken)
-            .apply()
+        withContext(Dispatchers.IO) {
+            prefs.edit()
+                .putString(ACCESS_TOKEN, accessToken)
+                .putString(REFRESH_TOKEN, refreshToken)
+                .commit()
+        }
     }
 
     fun accessToken(): String? = prefs.getString(ACCESS_TOKEN, null)
