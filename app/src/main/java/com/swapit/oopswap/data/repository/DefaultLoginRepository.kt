@@ -11,39 +11,45 @@ import com.swapit.oopswap.domain.repository.LoginRepository
 class DefaultLoginRepository(
     private val remoteSource: RemoteLoginDataSource,
     private val localSource: LocalLoginDataSource,
+    private val onLogout: () -> Unit
 ) : LoginRepository {
-    override suspend fun loginWithKakao(token: String): LoginToken {
-        val tokens = remoteSource.loginWithKakao(token).toDomain()
-        saveTokens(tokens.accessToken, tokens.refreshToken)
-        TokenStateManager.tokenFlow.value =
-            TokenStateManager.TokenState.Valid(
-                tokens.accessToken to tokens.refreshToken,
-            )
-        return tokens
-    }
 
-    override suspend fun loginWithGoogle(token: String): LoginToken {
-        val tokens = remoteSource.loginWithGoogle(token).toDomain()
-        saveTokens(tokens.accessToken, tokens.refreshToken)
-        return tokens
-    }
-
-    override suspend fun refresh(refreshToken: String): LoginToken {
-        val tokens = remoteSource.refresh(refreshToken).toDomain()
-        saveTokens(tokens.accessToken, tokens.refreshToken)
-        return tokens
-    }
-
-    override suspend fun logout(refreshToken: String): Boolean {
-        val isSuccess = remoteSource.logout(refreshToken)
-        if (isSuccess.success) {
-            // 1) SharedPreferences 비우기
-            localSource.clearTokens()
-            // 2) TokenStateManager 초기화
-            TokenStateManager.tokenFlow.value = TokenStateManager.TokenState.Idle
+    override suspend fun loginWithKakao(token: String): Result<LoginToken> =
+        safeApiCall(onLogout) {
+            val tokens = remoteSource.loginWithKakao(token).toDomain()
+            saveTokens(tokens.accessToken, tokens.refreshToken)
+            TokenStateManager.tokenFlow.value =
+                TokenStateManager.TokenState.Valid(
+                    tokens.accessToken to tokens.refreshToken,
+                )
+            tokens
         }
-        return isSuccess.success
-    }
+
+    override suspend fun loginWithGoogle(token: String): Result<LoginToken> =
+        safeApiCall(onLogout) {
+            val tokens = remoteSource.loginWithGoogle(token).toDomain()
+            saveTokens(tokens.accessToken, tokens.refreshToken)
+            tokens
+        }
+
+    override suspend fun refresh(refreshToken: String): Result<LoginToken> =
+        safeApiCall(onLogout) {
+            val tokens = remoteSource.refresh(refreshToken).toDomain()
+            saveTokens(tokens.accessToken, tokens.refreshToken)
+            tokens
+        }
+
+    override suspend fun logout(refreshToken: String): Result<Boolean> =
+        safeApiCall(onLogout) {
+            val response = remoteSource.logout(refreshToken)
+            if (response.success) {
+                // 1) SharedPreferences 비우기
+                localSource.clearTokens()
+                // 2) TokenState 초기화
+                TokenStateManager.tokenFlow.value = TokenStateManager.TokenState.Idle
+            }
+            response.success
+        }
 
     override suspend fun saveTokens(
         accessToken: String,
@@ -60,19 +66,13 @@ class DefaultLoginRepository(
         authToken: String,
         kakaoToken: String,
         reason: String,
-    ): Boolean {
-        Log.d("LoginRepository", "deleteAccount() 요청 - authToken: $authToken, kakaoToken: $kakaoToken, reason: $reason")
-
-        return try {
+    ): Result<Boolean> =
+        safeApiCall(onLogout) {
+            Log.d("LoginRepository", "deleteAccount() 요청 - authToken: $authToken, kakaoToken: $kakaoToken, reason: $reason")
             val response = remoteSource.deleteAccount("Bearer $authToken", kakaoToken, reason)
             Log.d("LoginRepository", "deleteAccount() 응답 - 성공: ${response.results}, 메시지: ${response.message}")
-
             response.success
-        } catch (e: Exception) {
-            Log.e("LoginRepository", "deleteAccount() 요청 실패", e)
-            false
         }
-    }
 
     override suspend fun saveKakaoToken(kakaoToken: String) {
         localSource.saveKakaoToken(kakaoToken)

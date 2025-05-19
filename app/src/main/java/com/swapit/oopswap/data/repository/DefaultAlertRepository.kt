@@ -6,24 +6,32 @@ import com.swapit.oopswap.data.datasource.remote.dto.response.alert.AlertListRes
 import com.swapit.oopswap.data.datasource.remote.dto.response.alert.AlertSettingResponse
 import com.swapit.oopswap.domain.repository.AlertRepository
 
-class DefaultAlertRepository(private val remoteSource: RemoteAlertDataSource) : AlertRepository {
-    override suspend fun alertList(): BaseResponse<AlertListResponse> {
-        return remoteSource.alertList()
-    }
+class DefaultAlertRepository(
+    private val remoteSource: RemoteAlertDataSource,
+    private val onLogout: () -> Unit
+) : AlertRepository {
+    override suspend fun alertList(): Result<BaseResponse<AlertListResponse>> =
+        safeApiCall(onLogout) {
+            remoteSource.alertList()
+        }
 
-    override suspend fun readAlert(notificationsId: Long): BaseResponse<Unit> {
-        return remoteSource.readAlert(notificationsId)
-    }
+    override suspend fun readAlert(notificationsId: Long): Result<BaseResponse<Unit>> =
+        safeApiCall(onLogout) {
+            remoteSource.readAlert(notificationsId)
+        }
 
-    override suspend fun fcmRestore(fcmToken: String): BaseResponse<Unit> {
-        return remoteSource.fcmRestore(fcmToken)
-    }
+    override suspend fun fcmRestore(fcmToken: String): Result<BaseResponse<Unit>> =
+        safeApiCall(onLogout) {
+            remoteSource.fcmRestore(fcmToken)
+        }
 
-    override suspend fun alertSetting(notificationEnabled: Boolean): BaseResponse<Unit> {
-        return remoteSource.alertSetting(notificationEnabled)
-    }
+    override suspend fun alertSetting(notificationEnabled: Boolean): Result<BaseResponse<Unit>> =
+        safeApiCall(onLogout) {
+            remoteSource.alertSetting(notificationEnabled)
+        }
 
-    override suspend fun alertSettingInfo(): BaseResponse<AlertSettingResponse> {
-        return remoteSource.alertSettingInfo()
-    }
+    override suspend fun alertSettingInfo(): Result<BaseResponse<AlertSettingResponse>> =
+        safeApiCall(onLogout) {
+            remoteSource.alertSettingInfo()
+        }
 }

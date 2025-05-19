@@ -76,10 +76,17 @@ class LoginViewModel(
                 val result = repository.deleteAccount(authToken, kakaoToken, reason)
                 Log.d(TAG, "deleteAccount() result: $result") // ✅ API 호출 결과 확인
 
-                if (result) {
+                result.onSuccess {
                     _isLoggedIn.emit(false)
                     onSuccess()
                 }
+                    .onFailure { throwable ->
+                        Log.e(TAG, "계정 삭제 실패: ${throwable.message}")
+                    }
+                /*                if (result.onSuccess {  }) {
+                                    _isLoggedIn.emit(false)
+                                    onSuccess()
+                                }*/
             } else {
                 Log.e(TAG, "토큰이 없습니다: authToken=$authToken, kakaoToken=$kakaoToken")
             }

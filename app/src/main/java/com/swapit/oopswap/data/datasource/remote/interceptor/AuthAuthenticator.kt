@@ -1,5 +1,7 @@
 package com.swapit.oopswap.data.datasource.remote.interceptor
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.swapit.oopswap.data.auth.TokenStateManager
 import com.swapit.oopswap.data.auth.TokenStateManager.isExpired
@@ -27,6 +29,15 @@ class AuthAuthenticator(
         route: Route?,
         response: Response,
     ): Request? {
+
+        val path = response.request.url.encodedPath
+        if (path.contains("/auth/refresh")) {
+            // → 토큰 재발급 중에 401 떴다 = 진짜 만료
+            Handler(Looper.getMainLooper()).post { onLogout() }
+            TokenStateManager.tokenFlow.value = TokenStateManager.TokenState.Idle
+            return null
+        }
+
         Log.d("AuthAuthenticator", "🚨 Authenticator 작동: ${response.request.url}")
         if (responseCount(response) > 10) return null
 
@@ -95,10 +106,12 @@ class AuthAuthenticator(
     }
 
     // 만료 처리 헬퍼
-    private fun onExpired(): Nothing? {
-        onLogout() // ← RetrofitModule 에서 전달한 콜백(로그아웃·네비게이트)
+    private fun onExpired(): Pair<String,String>? {
+        // ① 메인 스레드로 콜백
+        Handler(Looper.getMainLooper()).post { onLogout() }
         TokenStateManager.tokenFlow.value = TokenStateManager.TokenState.Idle
-        return null // 인증 실패로 후속 요청 차단
+        // ② 리프레시 실패를 null로 통일
+        return null
     }
 
     private fun responseCount(response: Response): Int {

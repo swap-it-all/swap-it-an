@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.swapit.oopswap.data.datasource.local.model.report.ReportOption
 import com.swapit.oopswap.data.datasource.remote.dto.request.user.ReportRequest
+import com.swapit.oopswap.data.datasource.remote.dto.response.BaseResponse
 import com.swapit.oopswap.domain.repository.ReportRepository
 import com.swapit.oopswap.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
@@ -19,7 +20,24 @@ class ReportViewModel(private val repository: ReportRepository) : ViewModel() {
         onResult: (Boolean) -> Unit,
     ) {
         viewModelScope.launch {
-            val response =
+            // ① 레포지토리 호출
+            val result: Result<BaseResponse<Unit>> = repository.report(
+                ReportRequest(
+                    goodsId.toLong(),
+                    ReportOption.GOODS.name,
+                    reportMessage.value,
+                )
+            )
+
+            // ② 성공/실패에 따라 콜백 호출
+            val isSuccess = result
+                .getOrNull()         // Result가 성공이면 BaseResponse를, 실패면 null
+                ?.success            // BaseResponse.success (Boolean)
+                ?: false             // 실패거나 BaseResponse가 null이면 false
+
+            onResult(isSuccess)
+
+            /*val response =
                 repository.report(
                     ReportRequest(
                         goodsId.toLong(),
@@ -27,7 +45,7 @@ class ReportViewModel(private val repository: ReportRepository) : ViewModel() {
                         reportMessage.value,
                     ),
                 )
-            onResult(response.success)
+            onResult(response.success)*/
         }
     }
 

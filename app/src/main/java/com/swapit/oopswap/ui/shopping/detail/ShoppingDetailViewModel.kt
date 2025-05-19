@@ -1,5 +1,6 @@
 package com.swapit.oopswap.ui.shopping.detail
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -9,6 +10,8 @@ import com.swapit.oopswap.domain.model.product.detail.ProductDetail
 import com.swapit.oopswap.domain.model.product.detail.ProductDetailUser
 import com.swapit.oopswap.domain.repository.ProductRepository
 import com.swapit.oopswap.ui.base.BaseViewModelFactory
+import com.swapit.oopswap.ui.chat.ChatViewModel
+import com.swapit.oopswap.ui.chat.ChatViewModel.Companion
 import kotlinx.coroutines.launch
 
 class ShoppingDetailViewModel(private val repository: ProductRepository, private val _goodsId: String) : ViewModel() {
@@ -43,7 +46,14 @@ class ShoppingDetailViewModel(private val repository: ProductRepository, private
 
     fun fetchProductDetail() {
         viewModelScope.launch {
-            shoppingDetailContents.value = repository.productDetailResults(_goodsId).toDomain()
+            repository.productDetailResults(_goodsId)
+                .onSuccess {
+                    shoppingDetailContents.value = it.toDomain()
+                }
+                .onFailure {
+                    Log.e(TAG, "ProductDetail 조회 실패")
+                }
+//            shoppingDetailContents.value = repository.productDetailResults(_goodsId).toDomain()
         }
     }
 

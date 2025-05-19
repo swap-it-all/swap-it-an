@@ -73,9 +73,11 @@ class ChatViewModel(
         }
     }
 
-    private suspend fun createChatRoomSync(goodsId: GoodsIdRequest): Long = repository.createChatRoom(goodsId).results
+    private suspend fun createChatRoomSync(goodsId: GoodsIdRequest): Long = repository.createChatRoom(goodsId).getOrNull()?.results
+        ?: 0L
 
-    private suspend fun createChatRoomTradeSync(tradesId: TradesIdRequest): Long = repository.createSwapChatRoom(tradesId).results
+    private suspend fun createChatRoomTradeSync(tradesId: TradesIdRequest): Long = repository.createSwapChatRoom(tradesId).getOrNull()?.results
+        ?: 0L
 
     fun initiateChatFlow(
         goodsId: Long,
@@ -87,9 +89,19 @@ class ChatViewModel(
             this@ChatViewModel.chatRoomId.longValue = chatRoomId
 
             if (chatRoomId != 0L) {
-                chatRoomProduct.value = repository.chatRoomInfo(chatRoomId)
-                val initialChatList = mutableStateListOf<Chat>()
-                chatList = stompModule.subscribeToChatRoom(chatRoomId, initialChatList)
+                // 채팅방 정보(Result<ChatRoomInfo>) 언랩핑
+                repository.chatRoomInfo(chatRoomId)
+                    .onSuccess { info ->
+                        chatRoomProduct.value = info
+                    }
+                    .onFailure { t ->
+                        Log.e(TAG, "ChatRoomInfo 조회 실패", t)
+                    }
+                chatList = stompModule.subscribeToChatRoom(chatRoomId, mutableStateListOf())
+
+                /* chatRoomProduct.value = repository.chatRoomInfo(chatRoomId)
+                 val initialChatList = mutableStateListOf<Chat>()
+                 chatList = stompModule.subscribeToChatRoom(chatRoomId, initialChatList)*/
                 navController.navigate(NavItem.ChatRoom.screenRoute + "/$chatRoomId")
             } else {
                 Log.e("ChatViewModel", "Chat room ID is not set. Failed to navigate.")
@@ -106,9 +118,18 @@ class ChatViewModel(
             val chatRoomId = createChatRoomTradeSync(tradesIdRequest)
             this@ChatViewModel.chatRoomId.longValue = chatRoomId
             if (chatRoomId != 0L) {
-                chatRoomProduct.value = repository.chatRoomInfo(chatRoomId)
+                repository.chatRoomInfo(chatRoomId)
+                    .onSuccess { info ->
+                        chatRoomProduct.value = info
+                    }
+                    .onFailure { t ->
+                        Log.e(TAG, "ChatRoomInfo 조회 실패", t)
+                    }
+                chatList = stompModule.subscribeToChatRoom(chatRoomId, mutableStateListOf())
+
+                /*chatRoomProduct.value = repository.chatRoomInfo(chatRoomId)
                 val initialChatList = mutableStateListOf<Chat>()
-                chatList = stompModule.subscribeToChatRoom(chatRoomId, initialChatList) as SnapshotStateList<Chat>
+                chatList = stompModule.subscribeToChatRoom(chatRoomId, initialChatList) as SnapshotStateList<Chat>*/
                 navController.navigate(NavItem.ChatRoom.screenRoute + "/$chatRoomId")
             } else {
                 Log.e("ChatViewModel", "Chat room ID is not set. Failed to navigate.")
@@ -121,20 +142,33 @@ class ChatViewModel(
         onComplete: (ChatRoomInfo?) -> Unit,
     ) {
         viewModelScope.launch {
-            try {
+            repository.chatRoomInfo(chatroomId)
+                .onSuccess { info ->
+                    chatRoomProduct.value = info
+                    onComplete(info)
+                }
+                .onFailure { t ->
+                    Log.e(TAG, "ChatRoomProduct 가져오기 실패", t)
+                    onComplete(null)
+                }
+            /*try {
                 val product = repository.chatRoomInfo(chatroomId)
                 chatRoomProduct.value = product
                 onComplete(product) // 성공 시 콜백 호출
             } catch (e: Exception) {
                 Log.e("ChatViewModel", "ChatRoomProduct 가져오기 실패: ${e.message}")
                 onComplete(null) // 실패 시 null 반환
-            }
+            }*/
         }
     }
 
     fun fetchChatList(chatroomId: Long) {
         viewModelScope.launch {
-            val newChatList = repository.chatList(chatroomId).chatList.map { it.toDomain() }
+            val newChatList = repository.chatList(chatroomId)
+                .getOrNull()?.chatList
+                ?.map { dto -> dto.toDomain() }
+                ?: emptyList()
+//            val newChatList = repository.chatList(chatroomId).chatList.map { it.toDomain() }
             chatList.clear()
             chatList.addAll(newChatList)
         }
@@ -142,7 +176,10 @@ class ChatViewModel(
 
     fun fetchChatRoomList() {
         viewModelScope.launch {
-            val newChatRoomList = repository.chatRoomList() // 여기서 ArrayList 반환
+            val newChatRoomList = repository.chatRoomList()
+                .getOrNull()
+                ?: emptyList()
+//            val newChatRoomList = repository.chatRoomList() // 여기서 ArrayList 반환
             chatRoomList.clear() // ✅ 기존 리스트 비우기
             chatRoomList.addAll(newChatRoomList) // ✅ 새로운 데이터 추가
         }

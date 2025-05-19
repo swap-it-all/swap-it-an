@@ -24,6 +24,7 @@ import java.io.FileOutputStream
 class DefaultProductRepository(
     private val remoteSource: RemoteProductDataSource,
     private val context: Context,
+    private val onLogout: () -> Unit
 ) :
     ProductRepository {
     override suspend fun postProduct(
@@ -33,7 +34,8 @@ class DefaultProductRepository(
         categoryId: Int,
         description: String,
         placeName: String,
-    ): BaseResponse<Long> {
+    ): Result<BaseResponse<Long>>  =
+        safeApiCall(onLogout) {
         val productRequest =
             ProductRequest(
                 title = title,
@@ -44,37 +46,41 @@ class DefaultProductRepository(
                 placeName = placeName,
             )
 
-        return remoteSource.postProduct(productRequest)
+        remoteSource.postProduct(productRequest)
     }
 
     override suspend fun postProductImages(
         goodsId: Long,
         images: List<Uri>,
-    ): BaseResponse<Unit> {
+    ): Result<BaseResponse<Unit>>  =
+        safeApiCall(onLogout) {
         val imageFile =
             images.map { uri ->
                 val file = toFile(context, uri)
                 createMultipartBody(file)
             }
-        return remoteSource.postProductImages(goodsId, imageFile)
+        remoteSource.postProductImages(goodsId, imageFile)
     }
 
     override suspend fun deleteProductImage(
         goodsId: Long,
         imagesId: Long,
-    ): BaseResponse<Unit> {
-        return remoteSource.deleteProductImage(goodsId, imagesId)
+    ): Result<BaseResponse<Unit>>  =
+        safeApiCall(onLogout) {
+        remoteSource.deleteProductImage(goodsId, imagesId)
     }
 
     override suspend fun editProduct(
         goodsId: Long,
         product: ProductRequest,
-    ): BaseResponse<Unit> {
-        return remoteSource.editProduct(goodsId, product)
+    ): Result<BaseResponse<Unit>>  =
+        safeApiCall(onLogout) {
+        remoteSource.editProduct(goodsId, product)
     }
 
-    override suspend fun deleteProduct(goodsId: Long): BaseResponse<Unit> {
-        return remoteSource.deleteProduct(goodsId)
+    override suspend fun deleteProduct(goodsId: Long): Result<BaseResponse<Unit>>  =
+        safeApiCall(onLogout) {
+        remoteSource.deleteProduct(goodsId)
     }
 
     private fun createMultipartBody(file: File): MultipartBody.Part {
@@ -136,8 +142,9 @@ class DefaultProductRepository(
         sortBy: String?,
         keyword: String?,
         categoryIds: List<Int>?,
-    ): ProductResults {
-        return remoteSource.productList(
+    ): Result<ProductResults>  =
+        safeApiCall(onLogout) {
+        remoteSource.productList(
             cursorId = cursorId,
             createdAt = createdAt,
             cursorValue = cursorValue,
@@ -154,35 +161,43 @@ class DefaultProductRepository(
         sortBy: String?,
         keyword: String?,
         categoryIds: List<Int>?,
-    ): List<Product> {
-        return productCardResults(
-            cursorId = cursorId,
-            createdAt = createdAt,
-            cursorValue = cursorValue,
-            sortBy = sortBy,
-            keyword = keyword,
-            categoryIds = categoryIds,
-        ).goodsList.map { it.toDomain() }
+    ): Result<List<Product>> =
+        safeApiCall(onLogout) {
+            val responseDto = remoteSource.productList(
+                cursorId = cursorId,
+                createdAt = createdAt,
+                cursorValue = cursorValue,
+                sortBy = sortBy,
+                keyword = keyword,
+                categoryIds = categoryIds,
+            )
+            // ② .results.goodsList 에 접근해서 domain 으로 변환
+            responseDto.results.goodsList.map { it.toDomain() }
     }
 
-    override suspend fun productDetailResults(goodsId: String): ProductDetailResponse {
-        return remoteSource.productDetail(goodsId).results
+    override suspend fun productDetailResults(goodsId: String): Result<ProductDetailResponse>  =
+        safeApiCall(onLogout) {
+        remoteSource.productDetail(goodsId).results
     }
 
-    override suspend fun myOnSaleProductSelectResults(): List<ProductSelect> {
-        return remoteSource.myOnSaleProductList().results.data.map { it.toDomain() }
+    override suspend fun myOnSaleProductSelectResults(): Result<List<ProductSelect>>  =
+        safeApiCall(onLogout) {
+        remoteSource.myOnSaleProductList().results.data.map { it.toDomain() }
     }
 
-    override suspend fun myOnSaleProductSelectResponse(): BaseResponse<ProductSelectResultResponse> {
-        return remoteSource.myOnSaleProductList()
+    override suspend fun myOnSaleProductSelectResponse(): Result<BaseResponse<ProductSelectResultResponse>>  =
+        safeApiCall(onLogout) {
+        remoteSource.myOnSaleProductList()
     }
 
-    override suspend fun mySoldOutProductSelectResults(): List<ProductSelect> {
-        return remoteSource.mySoldOutProductList().results.data.map { it.toDomain() }
+    override suspend fun mySoldOutProductSelectResults(): Result<List<ProductSelect>>  =
+        safeApiCall(onLogout) {
+        remoteSource.mySoldOutProductList().results.data.map { it.toDomain() }
     }
 
-    override suspend fun mySoldOutProductSelectResponse(): BaseResponse<ProductSelectResultResponse> {
-        return remoteSource.mySoldOutProductList()
+    override suspend fun mySoldOutProductSelectResponse(): Result<BaseResponse<ProductSelectResultResponse>>  =
+        safeApiCall(onLogout) {
+        remoteSource.mySoldOutProductList()
     }
 }
 

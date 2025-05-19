@@ -7,16 +7,17 @@ import com.swapit.oopswap.data.datasource.remote.dto.response.BaseResponse
 import com.swapit.oopswap.data.repository.DefaultReportRepository
 
 interface ReportRepository {
-    suspend fun report(report: ReportRequest): BaseResponse<Unit>
+    suspend fun report(report: ReportRequest): Result<BaseResponse<Unit>>
 
     companion object {
         private var instance: ReportRepository? = null
 
-        fun instance(): ReportRepository {
+        fun instance(onLogout: () -> Unit = {}): ReportRepository {
             if (instance == null) {
                 instance =
                     DefaultReportRepository(
                         remoteSource = RemoteReportDataSource(ServiceModule.reportService),
+                        onLogout = onLogout
                     )
             }
             return instance!!

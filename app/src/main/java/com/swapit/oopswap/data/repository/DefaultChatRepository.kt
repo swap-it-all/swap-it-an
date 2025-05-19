@@ -10,24 +10,33 @@ import com.swapit.oopswap.domain.model.chat.ChatRoom
 import com.swapit.oopswap.domain.model.chat.ChatRoomInfo
 import com.swapit.oopswap.domain.repository.ChatRepository
 
-class DefaultChatRepository(private val remoteSource: RemoteChatDataSource) : ChatRepository {
-    override suspend fun createChatRoom(goodsId: GoodsIdRequest): BaseResponse<Long> {
-        return remoteSource.createChatRoom(goodsId)
-    }
+class DefaultChatRepository(
+    private val remoteSource: RemoteChatDataSource,
+    private val onLogout: () -> Unit
+) : ChatRepository {
 
-    override suspend fun createSwapChatRoom(tradesId: TradesIdRequest): BaseResponse<Long> {
-        return remoteSource.createSwapChatRoom(tradesId)
-    }
+    override suspend fun createChatRoom(goodsId: GoodsIdRequest): Result<BaseResponse<Long>> =
+        safeApiCall(onLogout) {
+            remoteSource.createChatRoom(goodsId)
+        }
 
-    override suspend fun chatRoomList(): List<ChatRoom> {
-        return remoteSource.chatRoomList().results.chatRoomList.map { it.toDomain() }
-    }
+    override suspend fun createSwapChatRoom(tradesId: TradesIdRequest): Result<BaseResponse<Long>> =
+        safeApiCall(onLogout) {
+            remoteSource.createSwapChatRoom(tradesId)
+        }
 
-    override suspend fun chatList(chatroomId: Long): ChatList {
-        return remoteSource.chatList(chatroomId).results.toDomain()
-    }
+    override suspend fun chatRoomList(): Result<List<ChatRoom>> =
+        safeApiCall(onLogout) {
+            remoteSource.chatRoomList().results.chatRoomList.map { it.toDomain() }
+        }
 
-    override suspend fun chatRoomInfo(chatroomId: Long): ChatRoomInfo {
-        return remoteSource.chatRoomInfo(chatroomId).results.toDomain()
-    }
+    override suspend fun chatList(chatroomId: Long): Result<ChatList> =
+        safeApiCall(onLogout) {
+            remoteSource.chatList(chatroomId).results.toDomain()
+        }
+
+    override suspend fun chatRoomInfo(chatroomId: Long): Result<ChatRoomInfo> =
+        safeApiCall(onLogout) {
+            remoteSource.chatRoomInfo(chatroomId).results.toDomain()
+        }
 }

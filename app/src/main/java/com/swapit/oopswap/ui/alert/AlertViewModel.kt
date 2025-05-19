@@ -74,11 +74,21 @@ class AlertViewModel(
 
     fun fetchAlertList() {
         viewModelScope.launch {
-            alertList.value =
+            // ① API 호출 결과(Result)를 받아서
+            repository.alertList()
+                .onSuccess { response ->
+                    // ② 성공했으면 .results.notifications 에 접근해서 도메인으로 매핑
+                    alertList.value = response.results.notifications
+                        .map { it.toDomain() }
+                }
+                .onFailure { throwable ->
+                    Log.e(TAG, "알림 리스트 가져오기 실패: ${throwable.message}")
+                }
+            /*alertList.value =
                 repository
                     .alertList()
                     .results.notifications
-                    .map { it.toDomain() }
+                    .map { it.toDomain() }*/
         }
     }
 
@@ -113,7 +123,15 @@ class AlertViewModel(
 
     fun alertSettingInfo() {
         viewModelScope.launch {
-            alertSettingValue.value = repository.alertSettingInfo().results.notificationEnabled
+            repository.alertSettingInfo()
+                .onSuccess { response ->
+                    // 성공했으면 notificationEnabled 꺼내기
+                    alertSettingValue.value = response.results.notificationEnabled
+                }
+                .onFailure { throwable ->
+                    Log.e(TAG, "알림 설정 상태 가져오기 실패: ${throwable.message}")
+                }
+//            alertSettingValue.value = repository.alertSettingInfo().results.notificationEnabled
         }
     }
 

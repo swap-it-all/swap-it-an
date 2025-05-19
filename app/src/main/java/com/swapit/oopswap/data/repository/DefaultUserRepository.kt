@@ -16,9 +16,11 @@ import java.io.FileOutputStream
 class DefaultUserRepository(
     private val remoteSource: RemoteUserDataSource,
     private val context: Context,
+    private val onLogout: () -> Unit
 ) : UserRepository {
-    override suspend fun myUserInfo(): UserInfo {
-        return remoteSource.myUserInfo().toDomain()
+    override suspend fun myUserInfo(): Result<UserInfo> =
+        safeApiCall(onLogout) {
+        remoteSource.myUserInfo().toDomain()
     }
 
     override suspend fun updateNickname(nickname: String) {

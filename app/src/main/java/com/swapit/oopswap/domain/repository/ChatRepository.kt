@@ -11,24 +11,25 @@ import com.swapit.oopswap.domain.model.chat.ChatRoom
 import com.swapit.oopswap.domain.model.chat.ChatRoomInfo
 
 interface ChatRepository {
-    suspend fun createChatRoom(goodsId: GoodsIdRequest): BaseResponse<Long>
+    suspend fun createChatRoom(goodsId: GoodsIdRequest): Result<BaseResponse<Long>>
 
-    suspend fun createSwapChatRoom(tradesId: TradesIdRequest): BaseResponse<Long>
+    suspend fun createSwapChatRoom(tradesId: TradesIdRequest): Result<BaseResponse<Long>>
 
-    suspend fun chatRoomList(): List<ChatRoom>
+    suspend fun chatRoomList(): Result<List<ChatRoom>>
 
-    suspend fun chatList(chatroomId: Long): ChatList
+    suspend fun chatList(chatroomId: Long): Result<ChatList>
 
-    suspend fun chatRoomInfo(chatroomId: Long): ChatRoomInfo
+    suspend fun chatRoomInfo(chatroomId: Long): Result<ChatRoomInfo>
 
     companion object {
         private var instance: ChatRepository? = null
 
-        fun instance(): ChatRepository {
+        fun instance(onLogout: () -> Unit = {}): ChatRepository {
             if (instance == null) {
                 instance =
                     DefaultChatRepository(
                         remoteSource = RemoteChatDataSource(ServiceModule.chatService),
+                        onLogout = onLogout
                     )
             }
             return instance!!

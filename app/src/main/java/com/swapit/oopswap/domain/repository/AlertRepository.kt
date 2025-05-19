@@ -8,24 +8,25 @@ import com.swapit.oopswap.data.datasource.remote.dto.response.alert.AlertSetting
 import com.swapit.oopswap.data.repository.DefaultAlertRepository
 
 interface AlertRepository {
-    suspend fun alertList(): BaseResponse<AlertListResponse>
+    suspend fun alertList(): Result<BaseResponse<AlertListResponse>>
 
-    suspend fun readAlert(notificationsId: Long): BaseResponse<Unit>
+    suspend fun readAlert(notificationsId: Long): Result<BaseResponse<Unit>>
 
-    suspend fun fcmRestore(fcmToken: String): BaseResponse<Unit>
+    suspend fun fcmRestore(fcmToken: String): Result<BaseResponse<Unit>>
 
-    suspend fun alertSetting(notificationEnabled: Boolean): BaseResponse<Unit>
+    suspend fun alertSetting(notificationEnabled: Boolean): Result<BaseResponse<Unit>>
 
-    suspend fun alertSettingInfo(): BaseResponse<AlertSettingResponse>
+    suspend fun alertSettingInfo(): Result<BaseResponse<AlertSettingResponse>>
 
     companion object {
         private var instance: AlertRepository? = null
 
-        fun instance(): AlertRepository {
+        fun instance(onLogout: () -> Unit = {}): AlertRepository {
             if (instance == null) {
                 instance =
                     DefaultAlertRepository(
                         remoteSource = RemoteAlertDataSource(ServiceModule.alertService),
+                        onLogout = onLogout
                     )
             }
             return instance!!

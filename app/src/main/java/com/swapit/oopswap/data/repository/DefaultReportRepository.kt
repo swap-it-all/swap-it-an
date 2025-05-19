@@ -7,8 +7,10 @@ import com.swapit.oopswap.domain.repository.ReportRepository
 
 class DefaultReportRepository(
     private val remoteSource: RemoteReportDataSource,
+    private val onLogout: () -> Unit
 ) : ReportRepository {
-    override suspend fun report(report: ReportRequest): BaseResponse<Unit> {
-        return remoteSource.report(report)
+    override suspend fun report(report: ReportRequest): Result<BaseResponse<Unit>> =
+        safeApiCall(onLogout) {
+        remoteSource.report(report)
     }
 }

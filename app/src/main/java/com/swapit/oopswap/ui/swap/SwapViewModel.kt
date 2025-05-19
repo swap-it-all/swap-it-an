@@ -66,20 +66,48 @@ class SwapViewModel(private val repository: SwapRepository) : ViewModel() {
 
     fun fetchReceivedSwap() {
         viewModelScope.launch {
-            receivedSwap.value = repository.receivedSwap()
+            repository.receivedSwap()
+                .onSuccess { list ->
+                    receivedSwap.value = list
+                }
+                .onFailure { e ->
+                    Log.e(TAG, "받은 교환 조회 실패", e)
+                    receivedSwap.value = emptyList()
+                }
+//            receivedSwap.value = repository.receivedSwap()
         }
     }
 
     fun fetchReceivedSwapProductsResult(goodsId: Long) {
         viewModelScope.launch {
-            myGoodsTitle.value = repository.receivedSwapProductsResult(goodsId).myGoodsTitle
-            receivedSwapProductsResult.value = repository.receivedSwapProductsResult(goodsId).goodsList.map { it.toDomain() }
+            repository.receivedSwapProductsResult(goodsId)
+                .onSuccess { dto ->
+                    // dto.myGoodsTitle, dto.goodsList 은 DTO 안의 필드
+                    myGoodsTitle.value = dto.myGoodsTitle
+                    receivedSwapProductsResult.value =
+                        dto.goodsList.map { it.toDomain() }
+                }
+                .onFailure { e ->
+                    Log.e(TAG, "교환 상세 조회 실패 goodsId=$goodsId", e)
+                    myGoodsTitle.value = null.toString()
+                    receivedSwapProductsResult.value = emptyList()
+                }
+           /* myGoodsTitle.value = repository.receivedSwapProductsResult(goodsId).myGoodsTitle
+            receivedSwapProductsResult.value = repository.receivedSwapProductsResult(goodsId).goodsList.map { it.toDomain() }*/
         }
     }
 
     fun fetchSentSwap() {
         viewModelScope.launch {
-            sentSwap.value = repository.sentSwap()
+            repository.sentSwap()
+                .onSuccess { list ->
+                    sentSwap.value = list
+                }
+                .onFailure { e ->
+                    Log.e(TAG, "보낸 교환 조회 실패", e)
+                    sentSwap.value = emptyList()
+                }
+//            sentSwap.value = repository.sentSwap()
         }
     }
 
@@ -90,7 +118,23 @@ class SwapViewModel(private val repository: SwapRepository) : ViewModel() {
                 Log.e(TAG, "ID값 누락")
                 return@launch
             }
-            val request =
+            repository.swapRequest(
+                SwapRequest(
+                    requestedGoodsId = requestedProductId.longValue,
+                    targetGoodsId    = targetProductId.longValue
+                )
+            )
+                .onSuccess { response ->
+                    if (response.success) {
+                        Log.d(TAG, "거래 성공")
+                    } else {
+                        Log.e(TAG, "거래 실패: 서버 응답 success=false")
+                    }
+                }
+                .onFailure { e ->
+                    Log.e(TAG, "거래 요청 중 예외 발생", e)
+                }
+           /* val request =
                 repository.swapRequest(
                     swapRequest =
                         SwapRequest(
@@ -102,7 +146,7 @@ class SwapViewModel(private val repository: SwapRepository) : ViewModel() {
                 Log.d(TAG, "거래 성공")
             } else {
                 Log.e(TAG, "거래 실패")
-            }
+            }*/
         }
     }
 

@@ -119,13 +119,22 @@ class PostProductViewModel(private val repository: ProductRepository) : ViewMode
                     placeName = productLocation.value,
                 )
 
-            if (response.success) {
+            response.onSuccess {
+                Log.d(TAG, "상품 등록 성공")
+                val goodsId = response.getOrNull()?.results?: 0L
+                repository.postProductImages(goodsId, selectedImageUris.value)
+            }
+                .onFailure {
+                    Log.e(TAG, "상품 등록 실패")
+                }
+
+/*            if (response.success) {
                 Log.d(TAG, "상품 등록 성공")
                 val goodsId = response.results
                 repository.postProductImages(goodsId, selectedImageUris.value)
             } else {
                 Log.e(TAG, "상품 등록 실패")
-            }
+            }*/
         }
     }
 

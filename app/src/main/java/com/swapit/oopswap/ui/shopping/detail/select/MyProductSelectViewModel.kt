@@ -20,13 +20,38 @@ class MyProductSelectViewModel(repository: ProductRepository) : ViewModel() {
         viewModelScope.launch {
             val onSaleResponse = repository.myOnSaleProductSelectResponse()
             val soldOutResponse = repository.mySoldOutProductSelectResponse()
-            if (onSaleResponse.success && soldOutResponse.success) {
+            // ② Result 언랩하고 BaseResponse.success 체크
+            val onSaleSuccess = onSaleResponse
+                .getOrNull()              // 성공이면 BaseResponse, 실패면 null
+                ?.success ?: false        // BaseResponse.success 또는 false
+            val soldOutSuccess = soldOutResponse
+                .getOrNull()
+                ?.success ?: false
+
+            if (onSaleSuccess && soldOutSuccess) {
+                Log.d(TAG, "상품 조회 성공")
+
+                // ③ 두 번째 호출: Result<List<ProductSelect>>
+                _onSaleProducts.value = repository
+                    .myOnSaleProductSelectResults()
+                    .getOrNull()           // 성공하면 List<ProductSelect>, 실패면 null
+                    .orEmpty()             // null 이면 빈 리스트
+
+                _soldOutProducts.value = repository
+                    .mySoldOutProductSelectResults()
+                    .getOrNull()
+                    .orEmpty()
+            } else {
+                Log.e(TAG, "상품 조회 실패")
+            }
+
+/*            if (onSaleResponse.success && soldOutResponse.success) {
                 Log.d(TAG, "상품 조회 성공")
                 _onSaleProducts.value = repository.myOnSaleProductSelectResults()
                 _soldOutProducts.value = repository.mySoldOutProductSelectResults()
             } else {
                 Log.e(TAG, "상품 조회 실패")
-            }
+            }*/
         }
     }
 

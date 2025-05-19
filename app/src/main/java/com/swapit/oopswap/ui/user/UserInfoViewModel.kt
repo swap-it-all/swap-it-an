@@ -1,6 +1,7 @@
 package com.swapit.oopswap.ui.user
 
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -45,7 +46,14 @@ class UserInfoViewModel(
 
     fun myUserInfo() {
         viewModelScope.launch {
-            _userInfo.value = repository.myUserInfo()
+            repository.myUserInfo()
+                .onSuccess { info ->
+                    _userInfo.value = info
+                }
+                .onFailure { e ->
+                    Log.e("TAG", "내 정보 조회 실패")
+                }
+//            _userInfo.value = repository.myUserInfo()
         }
     }
 

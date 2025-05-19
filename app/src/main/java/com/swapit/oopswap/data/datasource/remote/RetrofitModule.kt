@@ -18,14 +18,14 @@ import java.time.Duration
 object RetrofitModule {
     private val loginServiceHolder = LoginServiceHolder()
 
-    fun retrofit(): Retrofit {
+    fun retrofit(onLogout: () -> Unit): Retrofit {
         val converterFactory =
             jsonConverterFactory(
                 Json {
                     coerceInputValues = true
                 },
             )
-        val client = okHttpClient()
+        val client = okHttpClient(onLogout)
 
         val retrofit =
             Retrofit
@@ -40,9 +40,9 @@ object RetrofitModule {
         return retrofit
     }
 
-    fun okHttpClient(): OkHttpClient {
+    fun okHttpClient(onLogout: () -> Unit): OkHttpClient {
         val localLoginDataSource = LocalLoginDataSource(appContext)
-        val authenticator = AuthAuthenticator(loginServiceHolder, localLoginDataSource, onLogout = {})
+        val authenticator = AuthAuthenticator(loginServiceHolder, localLoginDataSource, onLogout = onLogout)
 
         return OkHttpClient
             .Builder()

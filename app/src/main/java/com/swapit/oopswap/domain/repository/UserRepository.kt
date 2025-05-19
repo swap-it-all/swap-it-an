@@ -8,7 +8,7 @@ import com.swapit.oopswap.data.repository.DefaultUserRepository
 import com.swapit.oopswap.domain.model.user.UserInfo
 
 interface UserRepository {
-    suspend fun myUserInfo(): UserInfo
+    suspend fun myUserInfo(): Result<UserInfo>
 
     suspend fun updateNickname(nickname: String)
 
@@ -17,12 +17,13 @@ interface UserRepository {
     companion object {
         private var instance: UserRepository? = null
 
-        fun instance(context: Context): UserRepository {
+        fun instance(context: Context, onLogout: () -> Unit = {}): UserRepository {
             if (instance == null) {
                 instance =
                     DefaultUserRepository(
                         remoteSource = RemoteUserDataSource(ServiceModule.userService),
                         context = context,
+                        onLogout = onLogout
                     )
             }
             return instance!!

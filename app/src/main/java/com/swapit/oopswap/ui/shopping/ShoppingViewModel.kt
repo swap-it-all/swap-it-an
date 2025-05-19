@@ -44,7 +44,26 @@ class ShoppingViewModel(private val repository: ProductRepository) : ViewModel()
 
     fun fetchProducts() {
         viewModelScope.launch {
-            _products.value =
+            val result =
+                repository.productCardProducts(
+                    cursorId = null,
+                    createdAt = null,
+                    cursorValue = null,
+                    sortBy =
+                        (
+                                if (selectedOption.value == null) {
+                                    SortOption.RECENT.key
+                                } else {
+                                    selectedOption.value!!.key
+                                }
+                                ).toString(),
+                    keyword = searchKeyword.value,
+                    categoryIds = selectedCategory.value.map { it.id },
+                )
+            // 성공 시엔 실제 리스트, 실패 시엔 빈 리스트로 치환
+            _products.value = result.getOrNull() ?: emptyList()
+
+            /*_products.value =
                 repository.productCardProducts(
                     cursorId = null,
                     createdAt = null,
@@ -59,7 +78,7 @@ class ShoppingViewModel(private val repository: ProductRepository) : ViewModel()
                         ).toString(),
                     keyword = searchKeyword.value,
                     categoryIds = selectedCategory.value.map { it.id },
-                )
+                )*/
         }
     }
 

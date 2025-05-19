@@ -9,6 +9,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.core.app.NotificationCompat
 import com.swapit.oopswap.BuildConfig
 import com.swapit.oopswap.R
+import com.swapit.oopswap.data.auth.TokenStateManager
 import com.swapit.oopswap.data.datasource.remote.RetrofitModule.okHttpClient
 import com.swapit.oopswap.data.datasource.remote.dto.request.chat.ChatReadRequest
 import com.swapit.oopswap.data.datasource.remote.dto.request.chat.ChatRequest
@@ -23,6 +24,8 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.delay
 import kotlinx.serialization.json.Json
+import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.hildan.krossbow.stomp.StompClient
 import org.hildan.krossbow.stomp.StompSession
 import org.hildan.krossbow.stomp.frame.FrameBody
@@ -37,11 +40,19 @@ import java.util.concurrent.atomic.AtomicInteger
 class StompModule(
     private val loginRepository: LoginRepository,
     private val application: Application,
+    private val onLogout: () -> Unit
 ) {
     private val subscriptionCounter = AtomicInteger(0)
     private val subscriptionIds = ConcurrentHashMap<Long, String>() // 채팅방 구독 ID 저장
+    /*private val wsClient by lazy {
+        OkHttpWebSocketClient(okHttpClient(onLogout))
+    }*/
+    // 1) RetrofitModule 의 OkHttpClient 를 그대로 재사용
+    private val client = RetrofitModule.okHttpClient(onLogout)
+
+    // 2) WebSocket 업그레이드(Handshake) 요청을 가로채서 헤더 추가
     private val wsClient by lazy {
-        OkHttpWebSocketClient(okHttpClient())
+        OkHttpWebSocketClient(okHttpClient(onLogout))
     }
     private val stompClient = StompClient(wsClient)
     private var stompSession: StompSession? = null
@@ -229,12 +240,33 @@ class StompModule(
         }
         scope.launch {
             try {
-                // 토큰 갱신 로직
+/*                // 토큰 갱신 로직
                 if (isAccessTokenExpired()) {
-                    val newTokens = loginRepository.refresh(loginRepository.refreshToken()!!)
+                    val newTokens = loginRepository.refresh(loginRepository.refreshToken().value!!)
                     Log.d(TAG, "새로운 액세스 토큰 발급: ${newTokens.accessToken}")
+                }*/
+
+                // 1) 만료된 액세스 토큰이면 리프레시 시도
+                val refreshToken = loginRepository.refreshToken()
+                if (refreshToken.isNullOrBlank()) {
+                    onLogout()
+                    return@launch
+                }
+                if (isAccessTokenExpired()) {
+                    val refreshResult = loginRepository.refresh(refreshToken)
+                    val newTokens = refreshResult.getOrNull()
+                    if (newTokens == null) {
+                        onLogout()
+                        return@launch
+                    }
+                    TokenStateManager.tokenFlow.value =
+                        TokenStateManager.TokenState.Valid(
+                            newTokens.accessToken to newTokens.refreshToken
+                        )
                 }
 
+                // 2) 최신 액세스 토큰으로 STOMP 헤더 설정
+                val accessToken = loginRepository.accessToken().orEmpty()
                 // STOMP 메시지 전송
                 stompSession?.send(
                     headers =
@@ -243,7 +275,7 @@ class StompModule(
                             customHeaders =
                                 mapOf(
                                     "content-type" to "application/json",
-                                    "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
+                                    "Authorization" to "Bearer $accessToken",
                                 ),
                         ),
                     body =

@@ -22,34 +22,34 @@ interface ProductRepository {
         categoryId: Int,
         description: String,
         placeName: String,
-    ): BaseResponse<Long>
+    ): Result<BaseResponse<Long>>
 
     suspend fun postProductImages(
         goodsId: Long,
         images: List<Uri>,
-    ): BaseResponse<Unit>
+    ): Result<BaseResponse<Unit>>
 
     suspend fun deleteProductImage(
         goodsId: Long,
         imagesId: Long,
-    ): BaseResponse<Unit>
+    ): Result<BaseResponse<Unit>>
 
     suspend fun editProduct(
         goodsId: Long,
         product: ProductRequest,
-    ): BaseResponse<Unit>
+    ): Result<BaseResponse<Unit>>
 
-    suspend fun deleteProduct(goodsId: Long): BaseResponse<Unit>
+    suspend fun deleteProduct(goodsId: Long): Result<BaseResponse<Unit>>
 
-    suspend fun myOnSaleProductSelectResults(): List<ProductSelect>
+    suspend fun myOnSaleProductSelectResults(): Result<List<ProductSelect>>
 
-    suspend fun myOnSaleProductSelectResponse(): BaseResponse<ProductSelectResultResponse>
+    suspend fun myOnSaleProductSelectResponse(): Result<BaseResponse<ProductSelectResultResponse>>
 
-    suspend fun mySoldOutProductSelectResults(): List<ProductSelect>
+    suspend fun mySoldOutProductSelectResults(): Result<List<ProductSelect>>
 
-    suspend fun mySoldOutProductSelectResponse(): BaseResponse<ProductSelectResultResponse>
+    suspend fun mySoldOutProductSelectResponse(): Result<BaseResponse<ProductSelectResultResponse>>
 
-    suspend fun productDetailResults(goodsId: String): ProductDetailResponse
+    suspend fun productDetailResults(goodsId: String): Result<ProductDetailResponse>
 
     suspend fun productCardResults(
         cursorId: Long? = null,
@@ -58,7 +58,7 @@ interface ProductRepository {
         sortBy: String? = null,
         keyword: String? = null,
         categoryIds: List<Int>? = null,
-    ): ProductResults
+    ): Result<ProductResults>
 
     suspend fun productCardProducts(
         cursorId: Long?,
@@ -67,17 +67,18 @@ interface ProductRepository {
         sortBy: String?,
         keyword: String?,
         categoryIds: List<Int>?,
-    ): List<Product>
+    ): Result<List<Product>>
 
     companion object {
         private var instance: ProductRepository? = null
 
-        fun instance(context: Context): ProductRepository {
+        fun instance(context: Context, onLogout: () -> Unit = {}): ProductRepository {
             if (instance == null) {
                 instance =
                     DefaultProductRepository(
                         remoteSource = RemoteProductDataSource(ServiceModule.productService),
                         context = context,
+                        onLogout = onLogout
                     )
             }
             return instance!!

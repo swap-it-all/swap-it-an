@@ -2,6 +2,11 @@ package com.swapit.oopswap.ui.navigation
 
 import ShoppingViewModel
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -10,6 +15,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.swapit.oopswap.data.auth.TokenStateManager
 import com.swapit.oopswap.data.datasource.remote.StompModule
 import com.swapit.oopswap.domain.repository.ProductRepository
 import com.swapit.oopswap.domain.repository.ReportRepository
@@ -43,9 +49,11 @@ import com.swapit.oopswap.ui.user.UserInfoViewModel
 import com.swapit.oopswap.ui.user.profile.ProfileEditScreen
 import com.swapit.oopswap.ui.user.setting.SettingScreen
 import com.swapit.oopswap.ui.user.setting.withdraw.WithdrawScreen
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 
 class NavigationModule {
-    @Composable
+    /*@Composable
     fun NavigationGraph(
         navController: NavHostController,
         loginViewModel: LoginViewModel,
@@ -54,6 +62,228 @@ class NavigationModule {
         stompModule: StompModule,
         application: android.app.Application,
     ) {
+        // Token 상태 구독
+        val tokenState by TokenStateManager.tokenFlow.collectAsState()
+
+        // 2) 토큰 상태에 따른 시작 경로 결정
+        val startRoute = when (tokenState) {
+            is TokenStateManager.TokenState.Valid   -> NavItem.Shopping.screenRoute
+            is TokenStateManager.TokenState.Refreshing -> NavItem.Splash.screenRoute
+            is TokenStateManager.TokenState.Idle    -> NavItem.Login.screenRoute
+        }
+
+        // 3) tokenState 가 바뀔 때마다 NavHost 를 재생성해서 startDestination 이 바뀌게
+        key(tokenState) {
+
+            val userInfoViewModel = UserInfoViewModel(UserRepository.instance(LocalContext.current))
+            val swapViewModel = SwapViewModel(SwapRepository.instance())
+
+            NavHost(
+                navController = navController,
+                startDestination = startRoute,
+            ) {
+                composable(
+                    NavItem.Report.screenRoute + "/{goodsId}",
+                    arguments =
+                        listOf(
+                            navArgument("goodsId") {
+                                type = NavType.StringType
+                            },
+                        ),
+                ) {
+                    ReportScreen(
+                        navController,
+                        goodsId = it.arguments?.getString("goodsId") ?: "",
+                        reportViewModel = viewModel(factory = ReportViewModel.factory(ReportRepository.instance())),
+                    )
+                }
+                composable(NavItem.Withdraw.screenRoute) {
+                    WithdrawScreen(navController, userInfoViewModel, loginViewModel)
+                }
+                composable(NavItem.Setting.screenRoute) {
+                    SettingScreen(navController, loginViewModel = loginViewModel, alertViewModel = alertViewModel)
+                }
+
+                composable(NavItem.Splash.screenRoute) {
+                    SplashScreen(
+                        navController,
+                        loginViewModel
+                    )
+                }
+                composable(NavItem.Login.screenRoute) { LoginScreen(navController, loginViewModel) }
+                composable(NavItem.Shopping.screenRoute) {
+                    ShoppingScreen(
+                        navController,
+                        viewModel(
+                            factory = ShoppingViewModel.factory(
+                                ProductRepository.instance(
+                                    LocalContext.current
+                                )
+                            )
+                        ),
+                        alertViewModel,
+                        application,
+                    )
+                }
+                composable(NavItem.Swap.screenRoute) {
+                    SwapScreen(
+                        navController,
+                        swapViewModel,
+                        alertViewModel,
+                    )
+                }
+                composable(
+                    route = NavItem.ReceivedDetailSwap.screenRoute + "/{goodsId}",
+                    arguments =
+                        listOf(
+                            navArgument("goodsId") {
+                                type = NavType.StringType
+                            },
+                        ),
+                ) { backStackEntry ->
+                    swapViewModel.fetchReceivedSwapProductsResult(
+                        backStackEntry.arguments?.getString("goodsId")?.toLong() ?: 0,
+                    )
+                    ReceivedSwapDetailScreen(
+                        navController,
+                        myProductName = swapViewModel.myGoodsTitle.value,
+                        receivedSwapProducts = swapViewModel.receivedSwapProductsResult.value,
+                    )
+                }
+                composable(NavItem.ReceivedSwap.screenRoute) {
+                    ReceivedSwapScreen(
+                        navController = navController,
+                        receivedSwaps = swapViewModel.receivedSwap.value,
+                    )
+                }
+                composable(NavItem.SentSwap.screenRoute) {
+                    SentSwapScreen(
+                        navController = navController,
+                        sentSwaps = swapViewModel.sentSwap.value,
+                    )
+                }
+                composable(NavItem.Add.screenRoute) {
+                    PostProductScreen(
+                        navController = navController,
+                        viewModel =
+                            viewModel(
+                                factory =
+                                    PostProductViewModel.factory(
+                                        ProductRepository.instance(
+                                            LocalContext.current,
+                                        ),
+                                    ),
+                            ),
+                    )
+                }
+                composable(NavItem.Chat.screenRoute) {
+                    ChatListScreen(
+                        navController,
+                        viewModel = chatViewModel,
+                        alertViewModel,
+                    )
+                }
+                composable(NavItem.User.screenRoute) {
+                    UserInfoScreen(
+                        navController = navController,
+                        viewModel =
+                            userInfoViewModel,
+                    )
+                }
+                composable(NavItem.Alert.screenRoute) {
+                    AlertScreen(
+                        navController,
+                        viewModel = alertViewModel,
+                    )
+                }
+                composable(NavItem.Search.screenRoute) {
+                    SearchScreen(
+                        navController,
+                        viewModel =
+                            viewModel(
+                                factory =
+                                    ShoppingViewModel.factory(
+                                        ProductRepository.instance(context = LocalContext.current),
+                                    ),
+                            ),
+                    )
+                }
+                composable(
+                    route = NavItem.ShoppingDetail.screenRoute + "/{goodsId}",
+                    arguments =
+                        listOf(
+                            navArgument("goodsId") {
+                                type = NavType.StringType
+                            },
+                        ),
+                ) { backStackEntry ->
+                    ShoppingDetailScreen(
+                        Modifier,
+                        navController,
+                        shoppingDetailViewModel =
+                            viewModel(
+                                factory =
+                                    ShoppingDetailViewModel.factory(
+                                        ProductRepository.instance(context = LocalContext.current),
+                                        backStackEntry.arguments?.getString("goodsId") ?: "",
+                                    ),
+                            ),
+                        userInfoViewModel = userInfoViewModel,
+                        swapViewModel = swapViewModel,
+                        chatViewModel = chatViewModel,
+                    )
+                }
+                composable(
+                    route = NavItem.MyProductSelection.screenRoute + "/{targetProductId}",
+                    arguments =
+                        listOf(
+                            navArgument("targetProductId") {
+                                type = NavType.StringType
+                            },
+                        ),
+                ) { backStackEntry ->
+                    MyProductSelectScreen(
+                        navController,
+                        viewModel =
+                            viewModel(
+                                factory =
+                                    MyProductSelectViewModel.factory(
+                                        ProductRepository.instance(LocalContext.current),
+                                    ),
+                            ),
+                        targetProductId =
+                            backStackEntry.arguments?.getString("targetProductId")
+                                ?.toLong() ?: 0,
+                    )
+                }
+                composable(NavItem.ProfileEdit.screenRoute) {
+                    ProfileEditScreen(
+                        navController,
+                        viewModel = userInfoViewModel,
+                    )
+                }
+                composable(
+                    NavItem.ChatRoom.screenRoute + "/{chatroomId}",
+                    arguments =
+                        listOf(
+                            navArgument("chatroomId") {
+                                type = NavType.StringType
+                            },
+                        ),
+                ) { backStackEntry ->
+                    ChatRoomScreen(
+                        navController,
+                        backStackEntry.arguments?.getString("chatroomId") ?: "",
+                        chatViewModel,
+                        userInfoViewModel,
+                        stompModule,
+                    )
+                }
+            }
+        }
+    }*/
+}
+/*
         val userInfoViewModel = UserInfoViewModel(UserRepository.instance(LocalContext.current))
         val swapViewModel = SwapViewModel(SwapRepository.instance())
         NavHost(
@@ -168,7 +398,7 @@ class NavigationModule {
                 UserInfoScreen(
                     navController = navController,
                     viewModel =
-                    userInfoViewModel,
+                        userInfoViewModel,
                 )
             }
             composable(NavItem.Alert.screenRoute) {
@@ -262,4 +492,4 @@ class NavigationModule {
             }
         }
     }
-}
+}*/
