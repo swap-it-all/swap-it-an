@@ -7,17 +7,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.swapit.oopswap.domain.model.product.detail.select.ProductSelect
 import com.swapit.oopswap.domain.repository.ProductRepository
+import com.swapit.oopswap.ui.base.BaseViewModel
 import com.swapit.oopswap.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
 
-class MyProductSelectViewModel(repository: ProductRepository) : ViewModel() {
+class MyProductSelectViewModel(repository: ProductRepository) : BaseViewModel() {
     private val _onSaleProducts = mutableStateOf<List<ProductSelect>>(emptyList())
     val onSaleProducts: List<ProductSelect> get() = _onSaleProducts.value
     private val _soldOutProducts = mutableStateOf<List<ProductSelect>>(emptyList())
     val soldOutProducts: List<ProductSelect> get() = _soldOutProducts.value
 
     init {
-        viewModelScope.launch {
+        safeLaunch {
             val onSaleResponse = repository.myOnSaleProductSelectResponse()
             val soldOutResponse = repository.mySoldOutProductSelectResponse()
             if (onSaleResponse.success && soldOutResponse.success) {

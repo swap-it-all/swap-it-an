@@ -7,10 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.swapit.oopswap.data.datasource.local.model.report.ReportOption
 import com.swapit.oopswap.data.datasource.remote.dto.request.user.ReportRequest
 import com.swapit.oopswap.domain.repository.ReportRepository
+import com.swapit.oopswap.ui.base.BaseViewModel
 import com.swapit.oopswap.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
 
-class ReportViewModel(private val repository: ReportRepository) : ViewModel() {
+class ReportViewModel(private val repository: ReportRepository) : BaseViewModel() {
     private val _reportMessage = mutableStateOf("")
     val reportMessage = _reportMessage
 
@@ -18,7 +19,7 @@ class ReportViewModel(private val repository: ReportRepository) : ViewModel() {
         goodsId: String,
         onResult: (Boolean) -> Unit,
     ) {
-        viewModelScope.launch {
+        safeLaunch {
             val response =
                 repository.report(
                     ReportRequest(

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.swapit.oopswap.domain.model.user.UserInfo
 import com.swapit.oopswap.domain.model.user.UserSwapStats
 import com.swapit.oopswap.domain.repository.UserRepository
+import com.swapit.oopswap.ui.base.BaseViewModel
 import com.swapit.oopswap.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class UserInfoViewModel(
     private val repository: UserRepository,
-) : ViewModel() {
+) : BaseViewModel() {
     val expanded = mutableStateOf(false)
     val selectedText = mutableStateOf("선택해주세요.")
     val etcText = mutableStateOf("")
@@ -44,26 +45,26 @@ class UserInfoViewModel(
     private var isProfileImageUpdated = false
 
     fun myUserInfo() {
-        viewModelScope.launch {
+        safeLaunch {
             _userInfo.value = repository.myUserInfo()
         }
     }
 
     fun updateProfileImage(image: Uri) {
-        viewModelScope.launch {
+        safeLaunch {
             _userInfo.value = _userInfo.value.copy(profileImageUrl = image.toString())
             isProfileImageUpdated = true
         }
     }
 
     fun updateNickname(nickname: String) {
-        viewModelScope.launch {
+        safeLaunch {
             _userInfo.value = _userInfo.value.copy(nickname = nickname)
         }
     }
 
     fun saveUserInfo() {
-        viewModelScope.launch {
+        safeLaunch {
             if (isProfileImageUpdated) {
                 repository.updateProfileImage(Uri.parse(_userInfo.value.profileImageUrl))
                 isProfileImageUpdated = false

@@ -16,6 +16,7 @@ import com.swapit.oopswap.data.datasource.remote.dto.response.alert.Notification
 import com.swapit.oopswap.data.mapper.toDomain
 import com.swapit.oopswap.domain.model.alert.Alert
 import com.swapit.oopswap.domain.repository.AlertRepository
+import com.swapit.oopswap.ui.base.BaseViewModel
 import com.swapit.oopswap.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -24,7 +25,7 @@ class AlertViewModel(
     private val repository: AlertRepository,
     private val stompModule: StompModule,
     private val application: Application,
-) : ViewModel() {
+) : BaseViewModel() {
     val alertList = mutableStateOf(emptyList<Alert>())
     val alertSettingValue = mutableStateOf(false)
 
@@ -34,7 +35,7 @@ class AlertViewModel(
 
     // 특정 관련 ID의 모든 알림 읽음 처리
     fun readAllAlertsByRelatedId(relatedId: Long?) {
-        viewModelScope.launch {
+        safeLaunch {
             try {
                 val alertsToRead = alertList.value.filter { it.relatedData == relatedId }
                 alertsToRead.forEach { alert ->
@@ -73,7 +74,7 @@ class AlertViewModel(
     }
 
     fun fetchAlertList() {
-        viewModelScope.launch {
+        safeLaunch {
             alertList.value =
                 repository
                     .alertList()
@@ -83,13 +84,13 @@ class AlertViewModel(
     }
 
     fun readAlert(alertId: Long) {
-        viewModelScope.launch {
+        safeLaunch {
             repository.readAlert(alertId)
         }
     }
 
     fun fcmRestore(application: Application) {
-        viewModelScope.launch {
+        safeLaunch {
             try {
                 val sharedPref = application.getSharedPreferences("fcm_prefs", Context.MODE_PRIVATE)
                 val savedToken = sharedPref.getString("fcm_token", null)
@@ -106,13 +107,13 @@ class AlertViewModel(
     }
 
     fun alertSetting() {
-        viewModelScope.launch {
+        safeLaunch {
             repository.alertSetting(alertSettingValue.value)
         }
     }
 
     fun alertSettingInfo() {
-        viewModelScope.launch {
+        safeLaunch {
             alertSettingValue.value = repository.alertSettingInfo().results.notificationEnabled
         }
     }

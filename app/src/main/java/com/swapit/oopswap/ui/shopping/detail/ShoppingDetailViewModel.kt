@@ -8,10 +8,11 @@ import com.swapit.oopswap.data.mapper.toDomain
 import com.swapit.oopswap.domain.model.product.detail.ProductDetail
 import com.swapit.oopswap.domain.model.product.detail.ProductDetailUser
 import com.swapit.oopswap.domain.repository.ProductRepository
+import com.swapit.oopswap.ui.base.BaseViewModel
 import com.swapit.oopswap.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
 
-class ShoppingDetailViewModel(private val repository: ProductRepository, private val _goodsId: String) : ViewModel() {
+class ShoppingDetailViewModel(private val repository: ProductRepository, private val _goodsId: String) : BaseViewModel() {
     val goodsId: String get() = _goodsId
     private val shoppingDetailContents =
         mutableStateOf(
