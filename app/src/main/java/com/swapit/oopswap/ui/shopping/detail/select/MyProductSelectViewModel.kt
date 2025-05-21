@@ -2,14 +2,11 @@ package com.swapit.oopswap.ui.shopping.detail.select
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.swapit.oopswap.domain.model.product.detail.select.ProductSelect
 import com.swapit.oopswap.domain.repository.ProductRepository
 import com.swapit.oopswap.ui.base.BaseViewModel
 import com.swapit.oopswap.ui.base.BaseViewModelFactory
-import kotlinx.coroutines.launch
 
 class MyProductSelectViewModel(repository: ProductRepository) : BaseViewModel() {
     private val _onSaleProducts = mutableStateOf<List<ProductSelect>>(emptyList())

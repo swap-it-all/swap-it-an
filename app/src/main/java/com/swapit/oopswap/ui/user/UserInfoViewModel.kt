@@ -2,9 +2,7 @@ package com.swapit.oopswap.ui.user
 
 import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.swapit.oopswap.domain.model.user.UserInfo
 import com.swapit.oopswap.domain.model.user.UserSwapStats
 import com.swapit.oopswap.domain.repository.UserRepository
@@ -13,7 +11,6 @@ import com.swapit.oopswap.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
 class UserInfoViewModel(
     private val repository: UserRepository,

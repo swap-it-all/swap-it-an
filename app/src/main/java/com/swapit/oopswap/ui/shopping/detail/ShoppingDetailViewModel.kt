@@ -1,7 +1,6 @@
 package com.swapit.oopswap.ui.shopping.detail
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.swapit.oopswap.data.mapper.toDomain

@@ -4,9 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.swapit.oopswap.data.datasource.remote.dto.request.swap.SwapRequest
 import com.swapit.oopswap.data.mapper.toDomain
 import com.swapit.oopswap.domain.model.swap.ReceivedSwap
@@ -15,7 +13,6 @@ import com.swapit.oopswap.domain.model.swap.SentSwap
 import com.swapit.oopswap.domain.repository.SwapRepository
 import com.swapit.oopswap.ui.base.BaseViewModel
 import com.swapit.oopswap.ui.base.BaseViewModelFactory
-import kotlinx.coroutines.launch
 
 class SwapViewModel(private val repository: SwapRepository) : BaseViewModel() {
     val requestedProductId = mutableLongStateOf(0)
@@ -93,12 +90,13 @@ class SwapViewModel(private val repository: SwapRepository) : BaseViewModel() {
 
         // 2) 유효할 때만 safeLaunch 호출
         safeLaunch {
-            val request = repository.swapRequest(
-                SwapRequest(
-                    requestedGoodsId = requestedProductId.longValue,
-                    targetGoodsId    = targetProductId.longValue,
+            val request =
+                repository.swapRequest(
+                    SwapRequest(
+                        requestedGoodsId = requestedProductId.longValue,
+                        targetGoodsId = targetProductId.longValue,
+                    ),
                 )
-            )
             if (request.success) {
                 Log.d(TAG, "거래 성공")
             } else {

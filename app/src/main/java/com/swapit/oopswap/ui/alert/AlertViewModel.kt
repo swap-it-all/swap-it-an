@@ -6,9 +6,7 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
 import com.swapit.oopswap.R
 import com.swapit.oopswap.data.datasource.remote.StompModule
@@ -18,7 +16,6 @@ import com.swapit.oopswap.domain.model.alert.Alert
 import com.swapit.oopswap.domain.repository.AlertRepository
 import com.swapit.oopswap.ui.base.BaseViewModel
 import com.swapit.oopswap.ui.base.BaseViewModelFactory
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class AlertViewModel(
