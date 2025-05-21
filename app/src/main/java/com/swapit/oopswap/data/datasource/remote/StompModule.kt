@@ -20,6 +20,7 @@ import com.swapit.oopswap.domain.repository.LoginRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.delay
 import kotlinx.serialization.json.Json
@@ -48,26 +49,41 @@ class StompModule(
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
+    // 모니터링 Job 참조를 보관
+    private var monitorJob: kotlinx.coroutines.Job? = null
+
     fun connectAndMonitor() {
-        scope.launch {
-            while (true) {
-                try {
-                    if (stompSession == null) {
-                        Log.d(TAG, "STOMP 연결이 끊어져 다시 연결 시도...")
-                        disconnect() // 기존 세션 완전히 종료
-                        connect() // 재연결 시도
-                        delay(Duration.ofMillis(3000)) // 재연결 후 잠시 대기
-                        subscribeAlert() // 재연결 후 다시 구독
+        // 이미 실행 중이면 다시 호출 금지
+        if (monitorJob?.isActive == true) return
+
+        monitorJob =
+            scope.launch {
+                while (isActive) {
+                    // 1) 루프 진입마다 로그인 상태 체크
+                    val token = loginRepository.accessToken()
+                    if (token.isNullOrBlank()) {
+                        Log.d(TAG, "로그아웃 상태 – STOMP 모니터링 중단")
+                        break // 루프 탈출
                     }
-                    delay(Duration.ofMillis(5000)) // 5초마다 체크
-                } catch (e: Exception) {
-                    Log.e(TAG, "STOMP 재연결 실패: ${e.message}")
+
+                    try {
+                        if (stompSession == null) {
+                            Log.d(TAG, "STOMP 연결이 끊어져 다시 연결 시도...")
+                            disconnect() // 기존 세션 완전히 종료
+                            connect() // 재연결 시도
+                            delay(Duration.ofMillis(3000)) // 재연결 후 잠시 대기
+                            subscribeAlert() // 재연결 후 다시 구독
+                        }
+                        delay(Duration.ofMillis(5000)) // 5초마다 체크
+                    } catch (e: Exception) {
+                        Log.e(TAG, "STOMP 재연결 실패: ${e.message}")
+                    }
                 }
             }
-        }
     }
 
     private fun connect() {
+        val token = loginRepository.accessToken().orEmpty()
         scope.launch {
             try {
                 stompSession =
@@ -75,7 +91,7 @@ class StompModule(
                         BuildConfig.SWAP_IT_BASE_URL.replace("http", "ws") + "ws",
                         customStompConnectHeaders =
                             mapOf(
-                                "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
+                                "Authorization" to "Bearer $token",
                                 "accept-version" to "1.2",
                             ),
                     )
@@ -274,6 +290,10 @@ class StompModule(
                 Log.d(TAG, "STOMP 연결 해제 및 모든 구독 해지")
             } catch (e: Exception) {
                 Log.e(TAG, "STOMP 연결 해제 실패: ${e.message}")
+            } finally {
+                // 2) 로그아웃 혹은 수동 disconnect 시 모니터링 Job도 취소
+                monitorJob?.cancel()
+                monitorJob = null
             }
         }
     }
