@@ -27,6 +27,9 @@ class LoginViewModel(
     private val _isLoggedIn = MutableStateFlow<Boolean>(false)
     val isLoggedIn: StateFlow<Boolean> get() = _isLoggedIn
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> get() = _isLoading
+
     init {
         _isLoggedIn.value = repository.accessToken() != null
     }
@@ -42,12 +45,19 @@ class LoginViewModel(
     }
 
     fun kakaoLogin() {
+        if (_isLoading.value) return
+
         viewModelScope.launch {
-            val kakaoToken = isKakaoLoggedIn().getOrNull()
-            kakaoToken?.let {
-                repository.saveKakaoToken(it) // 저장
-                repository.loginWithKakao(it)
-                _isLoggedIn.emit(true)
+            _isLoading.value = true
+            try {
+                val kakaoToken = isKakaoLoggedIn().getOrNull()
+                if (kakaoToken != null) {
+                    repository.saveKakaoToken(kakaoToken)
+                    repository.loginWithKakao(kakaoToken)
+                    _isLoggedIn.emit(true)
+                }
+            } finally {
+                _isLoading.value = false // 요청 끝
             }
         }
     }
