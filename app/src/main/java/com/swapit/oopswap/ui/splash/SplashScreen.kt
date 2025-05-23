@@ -1,7 +1,5 @@
 package com.swapit.oopswap.ui.splash
 
-import android.os.Handler
-import android.os.Looper
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -42,7 +40,20 @@ fun SplashScreen(
             targetValue = 1f,
             animationSpec = tween(1000),
         )
-        Handler(Looper.getMainLooper()).postDelayed({
+
+        // 2. 애니메이션 끝나자마자 바로 이동
+        val targetRoute =
+            if (isLoggedIn) {
+                NavItem.Shopping.screenRoute
+            } else {
+                NavItem.Login.screenRoute
+            }
+
+        navController.navigate(targetRoute) {
+            popUpTo(NavItem.Splash.screenRoute) { inclusive = true }
+        }
+
+       /* Handler(Looper.getMainLooper()).postDelayed({
             when (isLoggedIn) {
                 true -> {
                     navController.navigate(NavItem.Shopping.screenRoute) {
@@ -56,7 +67,7 @@ fun SplashScreen(
                     }
                 }
             }
-        }, 1000L)
+        }, 1000L)*/
     }
     Box(
         modifier =

@@ -21,8 +21,8 @@ android {
         applicationId = "com.swapit.oopswap"
         minSdk = 29
         targetSdk = 35
-        versionCode = 26
-        versionName = "26.0.0"
+        versionCode = 27
+        versionName = "27.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

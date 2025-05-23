@@ -5,9 +5,7 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.swapit.oopswap.data.datasource.remote.StompModule
 import com.swapit.oopswap.data.datasource.remote.dto.request.chat.ChatRequest
@@ -18,15 +16,15 @@ import com.swapit.oopswap.domain.model.chat.Chat
 import com.swapit.oopswap.domain.model.chat.ChatRoom
 import com.swapit.oopswap.domain.model.chat.ChatRoomInfo
 import com.swapit.oopswap.domain.repository.ChatRepository
+import com.swapit.oopswap.ui.base.BaseViewModel
 import com.swapit.oopswap.ui.base.BaseViewModelFactory
 import com.swapit.oopswap.ui.navigation.NavItem
-import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicInteger
 
 class ChatViewModel(
     private val repository: ChatRepository,
     private val stompModule: StompModule,
-) : ViewModel() {
+) : BaseViewModel() {
     private val subscriptionCounter = AtomicInteger(0)
     private val subscriptionIds = mutableMapOf<Long, String>() // chatRoomId 별 구독 ID 저장
     var chatRoomList = mutableStateListOf<ChatRoom>()
@@ -59,7 +57,7 @@ class ChatViewModel(
     }
 
     fun enterChatRoom(newChatRoomId: Long) {
-        viewModelScope.launch {
+        safeLaunch {
             // 기존 채팅방 구독 해제 (필요할 때만)
             if (chatRoomId.longValue != 0L) {
                 stompModule.unsubscribeFromChatRoom(chatRoomId.longValue)
@@ -81,7 +79,7 @@ class ChatViewModel(
         goodsId: Long,
         navController: NavController,
     ) {
-        viewModelScope.launch {
+        safeLaunch {
             val goodsIdRequest = GoodsIdRequest(goodsId)
             val chatRoomId = createChatRoomSync(goodsIdRequest)
             this@ChatViewModel.chatRoomId.longValue = chatRoomId
@@ -101,7 +99,7 @@ class ChatViewModel(
         tradesId: Long,
         navController: NavController,
     ) {
-        viewModelScope.launch {
+        safeLaunch {
             val tradesIdRequest = TradesIdRequest(tradesId)
             val chatRoomId = createChatRoomTradeSync(tradesIdRequest)
             this@ChatViewModel.chatRoomId.longValue = chatRoomId
@@ -120,7 +118,7 @@ class ChatViewModel(
         chatroomId: Long,
         onComplete: (ChatRoomInfo?) -> Unit,
     ) {
-        viewModelScope.launch {
+        safeLaunch {
             try {
                 val product = repository.chatRoomInfo(chatroomId)
                 chatRoomProduct.value = product
@@ -133,7 +131,7 @@ class ChatViewModel(
     }
 
     fun fetchChatList(chatroomId: Long) {
-        viewModelScope.launch {
+        safeLaunch {
             val newChatList = repository.chatList(chatroomId).chatList.map { it.toDomain() }
             chatList.clear()
             chatList.addAll(newChatList)
@@ -141,7 +139,7 @@ class ChatViewModel(
     }
 
     fun fetchChatRoomList() {
-        viewModelScope.launch {
+        safeLaunch {
             val newChatRoomList = repository.chatRoomList() // 여기서 ArrayList 반환
             chatRoomList.clear() // ✅ 기존 리스트 비우기
             chatRoomList.addAll(newChatRoomList) // ✅ 새로운 데이터 추가
