@@ -11,3 +11,10 @@
 local.properties
 gradle.properties
 app-release.aab
+
+# 앱 번들/빌드 결과물 무시
+*.aab
+*.apk
+/release/
+/app/release/
+
