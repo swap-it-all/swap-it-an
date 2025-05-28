@@ -132,6 +132,8 @@ class StompModule(
     }
 
     private fun showNotification(notification: NotificationResponse) {
+        createNotificationChannel(application)
+
         val notificationManager = application.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationBuilder =
             NotificationCompat

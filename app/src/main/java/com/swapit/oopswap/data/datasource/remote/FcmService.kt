@@ -15,7 +15,7 @@ fun createNotificationChannel(context: Context) {
         val channelId = "swapit_alert_channel"
         val channelName = "SwapIt Alerts"
         val channelDescription = "Channel for SwapIt notifications"
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val importance = NotificationManager.IMPORTANCE_HIGH
         val channel =
             NotificationChannel(channelId, channelName, importance).apply {
                 description = channelDescription
@@ -57,7 +57,8 @@ class FcmService : FirebaseMessagingService() {
         notificationManager.createNotificationChannel(channel)
 
         val notificationBuilder =
-            NotificationCompat.Builder(this, channelId)
+            NotificationCompat
+                .Builder(this, channelId)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(title)
                 .setContentText(message)
