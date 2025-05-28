@@ -4,19 +4,17 @@ import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.swapit.oopswap.data.datasource.remote.dto.request.swap.SwapRequest
 import com.swapit.oopswap.data.mapper.toDomain
 import com.swapit.oopswap.domain.model.swap.ReceivedSwap
 import com.swapit.oopswap.domain.model.swap.ReceivedSwapProduct
 import com.swapit.oopswap.domain.model.swap.SentSwap
 import com.swapit.oopswap.domain.repository.SwapRepository
+import com.swapit.oopswap.ui.base.BaseViewModel
 import com.swapit.oopswap.ui.base.BaseViewModelFactory
-import kotlinx.coroutines.launch
 
-class SwapViewModel(private val repository: SwapRepository) : ViewModel() {
+class SwapViewModel(private val repository: SwapRepository) : BaseViewModel() {
     val requestedProductId = mutableLongStateOf(0)
     val targetProductId = mutableLongStateOf(0)
     private val _dialogStates = mutableStateOf(mutableMapOf<Long, Boolean>())
@@ -41,62 +39,63 @@ class SwapViewModel(private val repository: SwapRepository) : ViewModel() {
     }
 
     fun swapCancel(tradesId: Long) {
-        viewModelScope.launch {
+        safeLaunch {
             repository.swapCancel(tradesId)
         }
     }
 
     fun swapAccept(tradesId: Long) {
-        viewModelScope.launch {
+        safeLaunch {
             repository.swapAccept(tradesId)
         }
     }
 
     fun swapReject(tradesId: Long) {
-        viewModelScope.launch {
+        safeLaunch {
             repository.swapReject(tradesId)
         }
     }
 
     fun swapComplete(tradesId: Long) {
-        viewModelScope.launch {
+        safeLaunch {
             repository.swapComplete(tradesId)
         }
     }
 
     fun fetchReceivedSwap() {
-        viewModelScope.launch {
+        safeLaunch {
             receivedSwap.value = repository.receivedSwap()
         }
     }
 
     fun fetchReceivedSwapProductsResult(goodsId: Long) {
-        viewModelScope.launch {
+        safeLaunch {
             myGoodsTitle.value = repository.receivedSwapProductsResult(goodsId).myGoodsTitle
             receivedSwapProductsResult.value = repository.receivedSwapProductsResult(goodsId).goodsList.map { it.toDomain() }
         }
     }
 
     fun fetchSentSwap() {
-        viewModelScope.launch {
+        safeLaunch {
             sentSwap.value = repository.sentSwap()
         }
     }
 
     fun swapRequest() {
-        Log.d(TAG, "거래 시작")
-        viewModelScope.launch {
-            if (requestedProductId.longValue == 0L || targetProductId.longValue == 0L) {
-                Log.e(TAG, "ID값 누락")
-                return@launch
-            }
+        // 1) ID 유효성 검사
+        if (requestedProductId.longValue == 0L || targetProductId.longValue == 0L) {
+            Log.e(TAG, "ID값 누락")
+            return
+        }
+
+        // 2) 유효할 때만 safeLaunch 호출
+        safeLaunch {
             val request =
                 repository.swapRequest(
-                    swapRequest =
-                        SwapRequest(
-                            requestedGoodsId = requestedProductId.longValue,
-                            targetGoodsId = targetProductId.longValue,
-                        ),
+                    SwapRequest(
+                        requestedGoodsId = requestedProductId.longValue,
+                        targetGoodsId = targetProductId.longValue,
+                    ),
                 )
             if (request.success) {
                 Log.d(TAG, "거래 성공")

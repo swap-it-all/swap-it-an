@@ -1,17 +1,17 @@
 package com.swapit.oopswap.ui.shopping.detail
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.swapit.oopswap.data.mapper.toDomain
 import com.swapit.oopswap.domain.model.product.detail.ProductDetail
 import com.swapit.oopswap.domain.model.product.detail.ProductDetailUser
 import com.swapit.oopswap.domain.repository.ProductRepository
+import com.swapit.oopswap.ui.base.BaseViewModel
 import com.swapit.oopswap.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.launch
 
-class ShoppingDetailViewModel(private val repository: ProductRepository, private val _goodsId: String) : ViewModel() {
+class ShoppingDetailViewModel(private val repository: ProductRepository, private val _goodsId: String) : BaseViewModel() {
     val goodsId: String get() = _goodsId
     private val shoppingDetailContents =
         mutableStateOf(
