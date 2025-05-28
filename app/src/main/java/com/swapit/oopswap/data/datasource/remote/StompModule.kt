@@ -19,6 +19,7 @@ import com.swapit.oopswap.domain.model.chat.Chat
 import com.swapit.oopswap.domain.repository.LoginRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.delay
@@ -33,19 +34,18 @@ import org.json.JSONObject
 import java.time.Duration
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.coroutines.cancellation.CancellationException
 
 class StompModule(
     private val loginRepository: LoginRepository,
     private val application: Application,
 ) {
     private val subscriptionCounter = AtomicInteger(0)
-    private val subscriptionIds = ConcurrentHashMap<Long, String>() // 채팅방 구독 ID 저장
-    private val wsClient by lazy {
-        OkHttpWebSocketClient(okHttpClient())
-    }
+    private val subscriptionIds = ConcurrentHashMap<Long, String>()
+    private val subscriptionJobs = ConcurrentHashMap<Long, Job>()
+    private val wsClient by lazy { OkHttpWebSocketClient(okHttpClient()) }
     private val stompClient = StompClient(wsClient)
     private var stompSession: StompSession? = null
-
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     fun connectAndMonitor() {
@@ -54,12 +54,12 @@ class StompModule(
                 try {
                     if (stompSession == null) {
                         Log.d(TAG, "STOMP 연결이 끊어져 다시 연결 시도...")
-                        disconnect() // 기존 세션 완전히 종료
-                        connect() // 재연결 시도
-                        delay(Duration.ofMillis(3000)) // 재연결 후 잠시 대기
-                        subscribeAlert() // 재연결 후 다시 구독
+                        disconnect()
+                        connect()
+                        delay(Duration.ofMillis(3000))
+                        subscribeAlert()
                     }
-                    delay(Duration.ofMillis(5000)) // 5초마다 체크
+                    delay(Duration.ofMillis(5000))
                 } catch (e: Exception) {
                     Log.e(TAG, "STOMP 재연결 실패: ${e.message}")
                 }
@@ -79,10 +79,10 @@ class StompModule(
                                 "accept-version" to "1.2",
                             ),
                     )
-                Log.d(TAG, "STOMP 연결 성공")
+                Log.d(TAG, "웹소켓 연결 성공")
             } catch (e: Exception) {
-                Log.e(TAG, "STOMP 연결 실패: ${e.message}")
-                stompSession = null // 실패 시 세션 초기화
+                Log.e(TAG, "웹소켓 연결 실패: ${e.message}")
+                stompSession = null
             }
         }
     }
@@ -90,7 +90,7 @@ class StompModule(
     private fun subscribeAlert() {
         scope.launch {
             if (stompSession == null) {
-                Log.e("STOMP", "alert 구독 연결 실패")
+                Log.e("STOMP", "알림 구독 연결 실패")
                 return@launch
             }
             try {
@@ -98,30 +98,33 @@ class StompModule(
                     stompSession!!.subscribe(
                         StompSubscribeHeaders(
                             destination = "/user/queue/notifications",
-                            id = "sub-0",
+                            id = "alert-sub",
                         ),
                     )
+
+                Log.d("STOMP", "알림 구독 성공!")
+
                 messageFlow.collect { frame ->
                     Log.d("STOMP", "알림 수신: ${frame.bodyAsText}")
                     frame.bodyAsText?.let { jsonMessage ->
                         try {
-                            val notification =
-                                Json.decodeFromString<NotificationResponse>(jsonMessage)
+                            val notification = Json.decodeFromString<NotificationResponse>(jsonMessage)
                             handleNotification(notification)
                         } catch (e: Exception) {
                             Log.e("STOMP", "알림 처리 실패: ${e.message}")
                         }
                     }
                 }
+            } catch (e: CancellationException) {
+                Log.d("STOMP", "알림 구독 취소")
             } catch (e: Exception) {
-                Log.e("STOMP", "subscribe 실패: ${e.message}")
+                Log.e("STOMP", "알림 구독 실패: ${e.message}")
             }
         }
     }
 
     private fun handleNotification(notification: NotificationResponse) {
         Log.d("Notification", "알림 수신: ${notification.body}")
-
         scope.launch(Dispatchers.Main) {
             Toast.makeText(application, notification.body, Toast.LENGTH_SHORT).show()
         }
@@ -129,9 +132,7 @@ class StompModule(
     }
 
     private fun showNotification(notification: NotificationResponse) {
-        val notificationManager =
-            application.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
+        val notificationManager = application.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationBuilder =
             NotificationCompat
                 .Builder(application, "swapit_alert_channel")
@@ -139,82 +140,69 @@ class StompModule(
                 .setContentText(notification.body)
                 .setSmallIcon(R.drawable.ic_bell)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-
-        notificationManager.notify(
-            notification.notificationsId.toInt(),
-            notificationBuilder.build(),
-        )
+        notificationManager.notify(notification.notificationsId.toInt(), notificationBuilder.build())
     }
 
     fun subscribeToChatRoom(
         chatRoomId: Long,
         chatList: SnapshotStateList<Chat>,
     ): SnapshotStateList<Chat> {
-        scope.launch(SupervisorJob()) {
-            if (stompSession == null) {
-                Log.e("STOMP", "subscribeToChatRoom() 연결 실패")
-                disconnect() // 기존 세션 완전히 종료
-                connect() // 새로운 세션 연결
-                return@launch
-            }
-            try {
-                val subId = "sub-${subscriptionCounter.incrementAndGet()}"
-                subscriptionIds[chatRoomId] = subId
+        val job =
+            scope.launch(SupervisorJob()) {
+                if (stompSession == null) {
+                    Log.e("STOMP", "채팅방 구독 연결 실패")
+                    disconnect()
+                    connect()
+                    return@launch
+                }
+                try {
+                    val subId = "chat-sub-${subscriptionCounter.incrementAndGet()}"
+                    subscriptionIds[chatRoomId] = subId
+                    val messageFlow =
+                        stompSession!!.subscribe(
+                            StompSubscribeHeaders(
+                                destination = "/topic/chat/$chatRoomId",
+                                id = subId,
+                            ),
+                        )
 
-                val messageFlow =
-                    stompSession!!.subscribe(
-                        StompSubscribeHeaders(
-                            destination = "/topic/chat/$chatRoomId",
-                            id = subId,
-                        ),
-                    )
-                messageFlow.collect { frame ->
-                    Log.d("STOMP", "수신 메시지: ${frame.bodyAsText}")
-                    frame.bodyAsText?.let { jsonMessage ->
-                        try {
-                            val receivedChat = Json.decodeFromString<ChatResponse>(jsonMessage)
-                            if (chatList.any { it.chatsId == receivedChat.chatsId }) return@let
-                            chatList.add(receivedChat.toDomain()) // SnapshotStateList에 추가
-                        } catch (e: Exception) {
-                            Log.e("STOMP", "메시지 처리 실패: ${e.message}")
+                    Log.d("STOMP", "채팅방 구독 성공 : $chatRoomId")
+
+                    messageFlow.collect { frame ->
+                        Log.d("STOMP", "채팅 메시지 수신: ${frame.bodyAsText}")
+                        frame.bodyAsText?.let { jsonMessage ->
+                            try {
+                                val receivedChat = Json.decodeFromString<ChatResponse>(jsonMessage)
+                                if (chatList.any { it.chatsId == receivedChat.chatsId }) return@let
+                                chatList.add(receivedChat.toDomain())
+                            } catch (e: Exception) {
+                                Log.e("STOMP", "메시지 처리 실패: ${e.message}")
+                            }
                         }
                     }
+                } catch (e: CancellationException) {
+                    Log.d("STOMP", "채팅방 구독 취소: $chatRoomId")
+                } catch (e: Exception) {
+                    Log.e("STOMP", "채팅방 구독 실패: $e")
                 }
-            } catch (e: Exception) {
-                Log.e("STOMP", "subscribeToChatRoom 실패: $e")
             }
-        }
-        return chatList // 전달받은 chatList를 반환
+        subscriptionJobs[chatRoomId] = job
+        return chatList
     }
 
     fun unsubscribeFromChatRoom(chatRoomId: Long) {
         scope.launch {
-            val subId = subscriptionIds.remove(chatRoomId) ?: return@launch // 구독 ID 찾기
-            try {
-                stompSession?.send(
-                    headers =
-                        StompSendHeaders(
-                            destination = "/topic/chat/$chatRoomId",
-                            customHeaders =
-                                mapOf(
-                                    "id" to subId,
-                                ),
-                        ),
-                    body = FrameBody.Text(""),
-                )
-                Log.d("STOMP", "구독 해지 성공: chatRoomId=$chatRoomId, subId=$subId")
-            } catch (e: Exception) {
-                Log.e("STOMP", "구독 해지 실패: ${e.message}")
-            }
+            subscriptionIds.remove(chatRoomId)
+            val job = subscriptionJobs.remove(chatRoomId)
+            job?.cancel()
+            Log.d("STOMP", "채팅방 구독 해지: chatRoomId=$chatRoomId")
         }
     }
 
-    // 토큰 만료 여부 확인 함수
     private fun isAccessTokenExpired(): Boolean {
         val token = loginRepository.accessToken() ?: return true
         val parts = token.split(".")
         if (parts.size < 3) return true
-
         val payload = String(android.util.Base64.decode(parts[1], android.util.Base64.URL_SAFE))
         val expiration = JSONObject(payload).optLong("exp", 0)
         return System.currentTimeMillis() / 1000 >= expiration
@@ -224,18 +212,15 @@ class StompModule(
         message: ChatRequest,
         chatRoomId: Long,
     ) {
-        if (message.content == "") {
-            return
-        }
+        if (message.content == "") return
         scope.launch {
             try {
-                // 토큰 갱신 로직
                 if (isAccessTokenExpired()) {
                     val newTokens = loginRepository.refresh(loginRepository.refreshToken()!!)
-                    Log.d(TAG, "새로운 액세스 토큰 발급: ${newTokens.accessToken}")
+                    connect()
+                    subscribeAlert()
+                    Log.d(TAG, "액세스 토큰 갱신 성공: ${newTokens.accessToken}")
                 }
-
-                // STOMP 메시지 전송
                 stompSession?.send(
                     headers =
                         StompSendHeaders(
@@ -246,18 +231,12 @@ class StompModule(
                                     "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
                                 ),
                         ),
-                    body =
-                        FrameBody.Text(
-                            Json.encodeToString(
-                                ChatRequest.serializer(),
-                                message,
-                            ) + "\\0",
-                        ),
+                    body = FrameBody.Text(Json.encodeToString(ChatRequest.serializer(), message) + "\\0"),
                 )
                 kotlinx.coroutines.delay(100)
-                Log.d(TAG, "메시지 전송 성공: $message")
+                Log.d(TAG, "채팅 메시지 전송 성공: $message")
             } catch (e: Exception) {
-                Log.e(TAG, "메시지 전송 실패: ${e.message}")
+                Log.e(TAG, "채팅 메시지 전송 실패: ${e.message}")
             }
         }
     }
@@ -265,15 +244,13 @@ class StompModule(
     fun disconnect() {
         scope.launch {
             try {
-                subscriptionIds.keys.forEach { chatRoomId ->
-                    unsubscribeFromChatRoom(chatRoomId)
-                }
-                stompSession?.disconnect() // 기존 세션 종료
-                stompSession = null // 세션 초기화
+                subscriptionIds.keys.forEach { chatRoomId -> unsubscribeFromChatRoom(chatRoomId) }
+                stompSession?.disconnect()
+                stompSession = null
                 subscriptionIds.clear()
-                Log.d(TAG, "STOMP 연결 해제 및 모든 구독 해지")
+                Log.d(TAG, "웹소켓 연결 해제 및 구독 해지 완료")
             } catch (e: Exception) {
-                Log.e(TAG, "STOMP 연결 해제 실패: ${e.message}")
+                Log.e(TAG, "웹소켓 연결 해제 실패: ${e.message}")
             }
         }
     }
@@ -283,7 +260,6 @@ class StompModule(
         chatList: List<Chat>,
     ) {
         if (chatList.isEmpty()) return
-        Log.d("STOMP", chatList.last().chatsId.toString())
         scope.launch {
             try {
                 stompSession?.send(
@@ -298,15 +274,12 @@ class StompModule(
                         ),
                     body =
                         FrameBody.Text(
-                            Json.encodeToString(
-                                ChatReadRequest.serializer(),
-                                ChatReadRequest(chatList.first().chatsId),
-                            ) + "\\0",
+                            Json.encodeToString(ChatReadRequest.serializer(), ChatReadRequest(chatList.first().chatsId)) + "\\0",
                         ),
                 )
-                Log.d("STOMP", chatList.first().chatsId.toString())
+                Log.d("STOMP", "읽음 처리 전송 성공: ${chatList.first().chatsId}")
             } catch (e: Exception) {
-                Log.e("STOMP", "읽은 메시지 ID 전송 실패: ${e.message}")
+                Log.e("STOMP", "읽음 처리 전송 실패: ${e.message}")
             }
         }
     }
