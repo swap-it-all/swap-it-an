@@ -3,8 +3,6 @@ package com.swapit.oopswap
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.swapit.oopswap.data.datasource.remote.StompModule
@@ -15,6 +13,7 @@ import com.swapit.oopswap.domain.repository.LoginRepository
 import com.swapit.oopswap.ui.alert.AlertViewModel
 import com.swapit.oopswap.ui.auth.LoginManager
 import com.swapit.oopswap.ui.auth.LoginViewModel
+import com.swapit.oopswap.ui.base.AppRoot
 import com.swapit.oopswap.ui.chat.ChatViewModel
 import com.swapit.oopswap.ui.navigation.NavigationModule
 
@@ -55,21 +54,13 @@ class MainActivity : ComponentActivity() {
                         ),
                 )
 
-            // ✅ LifecycleObserver 추가 (앱이 종료될 때 WebSocket 해제)
-            lifecycle.addObserver(
-                LifecycleEventObserver { _, event ->
-                    if (event == Lifecycle.Event.ON_STOP) {
-                        stompModule.disconnect()
-                    }
-                },
-            )
-            navigationModule.NavigationGraph(
-                navController,
-                loginViewModel,
-                chatViewModel,
-                alertViewModel,
-                stompModule,
-                application,
+            AppRoot(
+                navController = navController,
+                loginViewModel = loginViewModel,
+                chatViewModel = chatViewModel,
+                alertViewModel = alertViewModel,
+                stompModule = stompModule,
+                application = application,
             )
         }
     }

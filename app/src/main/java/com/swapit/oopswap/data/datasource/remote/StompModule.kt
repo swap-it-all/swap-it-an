@@ -4,7 +4,6 @@ import android.app.Application
 import android.app.NotificationManager
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.core.app.NotificationCompat
 import com.swapit.oopswap.BuildConfig
@@ -17,6 +16,7 @@ import com.swapit.oopswap.data.datasource.remote.dto.response.chat.ChatResponse
 import com.swapit.oopswap.data.mapper.toDomain
 import com.swapit.oopswap.domain.model.chat.Chat
 import com.swapit.oopswap.domain.repository.LoginRepository
+import com.swapit.oopswap.ui.base.AlertNotifier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -125,10 +125,8 @@ class StompModule(
 
     private fun handleNotification(notification: NotificationResponse) {
         Log.d("Notification", "알림 수신: ${notification.body}")
-        scope.launch(Dispatchers.Main) {
-            Toast.makeText(application, notification.body, Toast.LENGTH_SHORT).show()
-        }
-        showNotification(notification)
+        AlertNotifier.notify(notification.body) // 여기만 바꾸면 됨
+        showNotification(notification) // 기존 시스템 알림은 유지
     }
 
     private fun showNotification(notification: NotificationResponse) {
