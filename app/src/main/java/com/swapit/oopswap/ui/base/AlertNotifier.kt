@@ -1,17 +1,21 @@
 package com.swapit.oopswap.ui.base
 
+import com.swapit.oopswap.data.datasource.local.model.alert.AlertType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 object AlertNotifier {
-    private val _messageFlow = MutableStateFlow<String?>(null)
-    val messageFlow = _messageFlow.asStateFlow()
+    private val _alertState = MutableStateFlow<Pair<String, AlertType>?>(null)
+    val alertState = _alertState.asStateFlow()
 
-    fun notify(message: String) {
-        _messageFlow.value = message
+    fun notify(
+        message: String,
+        type: AlertType,
+    ) {
+        _alertState.value = message to type
     }
 
     fun clear() {
-        _messageFlow.value = null
+        _alertState.value = null
     }
 }

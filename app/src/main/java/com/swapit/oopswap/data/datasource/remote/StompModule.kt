@@ -8,6 +8,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.core.app.NotificationCompat
 import com.swapit.oopswap.BuildConfig
 import com.swapit.oopswap.R
+import com.swapit.oopswap.data.datasource.local.model.alert.AlertType
 import com.swapit.oopswap.data.datasource.remote.RetrofitModule.okHttpClient
 import com.swapit.oopswap.data.datasource.remote.dto.request.chat.ChatReadRequest
 import com.swapit.oopswap.data.datasource.remote.dto.request.chat.ChatRequest
@@ -125,7 +126,9 @@ class StompModule(
 
     private fun handleNotification(notification: NotificationResponse) {
         Log.d("Notification", "알림 수신: ${notification.body}")
-        AlertNotifier.notify(notification.body) // 여기만 바꾸면 됨
+
+        val type = runCatching { AlertType.valueOf(notification.type) }.getOrElse { AlertType.CHAT }
+        AlertNotifier.notify(notification.body, type)
         showNotification(notification) // 기존 시스템 알림은 유지
     }
 

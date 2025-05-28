@@ -14,6 +14,7 @@ import com.swapit.oopswap.ui.auth.LoginViewModel
 import com.swapit.oopswap.ui.chat.ChatViewModel
 import com.swapit.oopswap.ui.component.TopToastMessage
 import com.swapit.oopswap.ui.navigation.NavigationModule
+import toIconResId
 
 @Composable
 fun AppRoot(
@@ -24,15 +25,18 @@ fun AppRoot(
     stompModule: StompModule,
     application: Application,
 ) {
-    val message by AlertNotifier.messageFlow.collectAsState()
+    val alert by AlertNotifier.alertState.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
-        // 알림 메시지
-        TopToastMessage(
-            message = message ?: "",
-            isVisible = message != null,
-            onDismiss = { AlertNotifier.clear() },
-        )
+        // 상단 알림 표시
+        alert?.let { (message, type) ->
+            TopToastMessage(
+                message = message,
+                iconResId = type.toIconResId(),
+                isVisible = true,
+                onDismiss = { AlertNotifier.clear() },
+            )
+        }
 
         NavigationModule().NavigationGraph(
             navController,
