@@ -129,7 +129,7 @@ class StompModule(
 
         val type = runCatching { AlertType.valueOf(notification.type) }.getOrElse { AlertType.CHAT }
         AlertNotifier.notify(notification.body, type)
-        showNotification(notification) // 기존 시스템 알림은 유지
+//        showNotification(notification) // 기존 시스템 알림은 유지
     }
 
     private fun showNotification(notification: NotificationResponse) {
