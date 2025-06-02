@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -133,8 +135,13 @@ fun GoogleLoginButton(viewModel: LoginViewModel) {
 
 @Composable
 fun KakaoLoginButton(viewModel: LoginViewModel) {
+    // ViewModel 상태 수집
+    val isLoading by viewModel.isLoading.collectAsState()
+    val isLoggedIn by viewModel.isLoggedIn.collectAsState()
+
     Button(
         modifier = Modifier.fillMaxWidth(),
+        enabled = !isLoading && !isLoggedIn,
         colors =
             ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFFEE500),
@@ -144,12 +151,21 @@ fun KakaoLoginButton(viewModel: LoginViewModel) {
         shape = Shapes.small,
         onClick = { viewModel.kakaoLogin() },
     ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_kakao),
-            contentDescription = "Kakao",
-        )
-        Spacer(modifier = Modifier.padding(10.dp))
-        Text(text = "카카오로 로그인하기", style = Typography.titleMedium)
+        if (isLoading) {
+            // 로딩 인디케이터
+            CircularProgressIndicator(
+                modifier = Modifier.size(24.dp),
+                strokeWidth = 2.dp,
+            )
+        } else {
+            // 기본 아이콘 + 텍스트
+            Icon(
+                painter = painterResource(id = R.drawable.ic_kakao),
+                contentDescription = "Kakao",
+            )
+            Spacer(Modifier.width(10.dp))
+            Text(text = "카카오로 로그인하기", style = Typography.titleMedium)
+        }
     }
 }
 

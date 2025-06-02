@@ -4,9 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import coil3.Uri
 import com.swapit.oopswap.data.datasource.local.model.post.CategoryOption
 import com.swapit.oopswap.data.datasource.local.model.post.QualityOption
@@ -16,11 +14,11 @@ import com.swapit.oopswap.domain.model.post.Name
 import com.swapit.oopswap.domain.model.post.PostState
 import com.swapit.oopswap.domain.model.post.Price
 import com.swapit.oopswap.domain.repository.ProductRepository
+import com.swapit.oopswap.ui.base.BaseViewModel
 import com.swapit.oopswap.ui.base.BaseViewModelFactory
 import com.swapit.oopswap.ui.post.model.AlertDialogState
-import kotlinx.coroutines.launch
 
-class PostProductViewModel(private val repository: ProductRepository) : ViewModel() {
+class PostProductViewModel(private val repository: ProductRepository) : BaseViewModel() {
     private val _selectedImageUris = mutableStateOf<List<Uri>>(emptyList())
     val selectedImageUris: State<List<Uri>> = _selectedImageUris
 
@@ -108,7 +106,7 @@ class PostProductViewModel(private val repository: ProductRepository) : ViewMode
     }
 
     private fun postProduct() {
-        viewModelScope.launch {
+        safeLaunch {
             val response =
                 repository.postProduct(
                     title = productName.value,
