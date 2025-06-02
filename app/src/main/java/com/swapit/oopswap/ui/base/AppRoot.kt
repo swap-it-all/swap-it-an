@@ -1,9 +1,6 @@
 package com.swapit.oopswap.ui.base
 
 import android.app.Application
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -33,24 +30,18 @@ fun AppRoot(
 
     Box(modifier = Modifier.fillMaxSize()) {
         // 상단 알림 표시
-        AnimatedVisibility(
-            visible = alert != null,
-            enter = fadeIn(),
-            exit = fadeOut(),
-        ) {
-            alert?.let { (message, type) ->
-                TopToastMessage(
-                    message = message,
-                    iconResId = type.toIconResId(),
-                    isVisible = true,
-                    onDismiss = { AlertNotifier.clear() },
-                )
+        alert?.let { (message, type) ->
+            TopToastMessage(
+                message = message,
+                iconResId = type.toIconResId(),
+                isVisible = true,
+                onDismiss = { AlertNotifier.clear() },
+            )
 
-                // 알림 팝업 유지 (2초)
-                LaunchedEffect(alert) {
-                    kotlinx.coroutines.delay(2000)
-                    AlertNotifier.clear()
-                }
+            // 알림 팝업 유지 (2초)
+            LaunchedEffect(alert) {
+                kotlinx.coroutines.delay(2000)
+                AlertNotifier.clear()
             }
         }
 
