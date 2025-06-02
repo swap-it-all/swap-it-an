@@ -56,9 +56,9 @@ class StompModule(
                     if (stompSession == null) {
                         Log.d(TAG, "STOMP 연결이 끊어져 다시 연결 시도...")
                         disconnect()
-                        connect()
-                        delay(Duration.ofMillis(3000))
-                        subscribeAlert()
+                        connect {
+                            subscribeAlert()
+                        }
                     }
                     delay(Duration.ofMillis(5000))
                 } catch (e: Exception) {
@@ -68,7 +68,7 @@ class StompModule(
         }
     }
 
-    private fun connect() {
+    private fun connect(onConnected: (() -> Unit)? = null) {
         scope.launch {
             try {
                 stompSession =
@@ -81,6 +81,8 @@ class StompModule(
                             ),
                     )
                 Log.d(TAG, "웹소켓 연결 성공")
+                delay(Duration.ofMillis(1000))
+                onConnected?.invoke()
             } catch (e: Exception) {
                 Log.e(TAG, "웹소켓 연결 실패: ${e.message}")
                 stompSession = null
