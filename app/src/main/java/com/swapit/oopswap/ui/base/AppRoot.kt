@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -36,6 +37,12 @@ fun AppRoot(
                 isVisible = true,
                 onDismiss = { AlertNotifier.clear() },
             )
+
+            // 자동 사라짐 기능 추가: 5초 후 알림 닫기
+            LaunchedEffect(alert) {
+                kotlinx.coroutines.delay(2000) // 밀리초 단위 (5초 → 필요 시 늘리세요)
+                AlertNotifier.clear()
+            }
         }
 
         NavigationModule().NavigationGraph(
