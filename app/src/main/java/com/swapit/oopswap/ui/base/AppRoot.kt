@@ -1,6 +1,9 @@
 package com.swapit.oopswap.ui.base
 
 import android.app.Application
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -30,18 +33,24 @@ fun AppRoot(
 
     Box(modifier = Modifier.fillMaxSize()) {
         // 상단 알림 표시
-        alert?.let { (message, type) ->
-            TopToastMessage(
-                message = message,
-                iconResId = type.toIconResId(),
-                isVisible = true,
-                onDismiss = { AlertNotifier.clear() },
-            )
+        AnimatedVisibility(
+            visible = alert != null,
+            enter = fadeIn(),
+            exit = fadeOut(),
+        ) {
+            alert?.let { (message, type) ->
+                TopToastMessage(
+                    message = message,
+                    iconResId = type.toIconResId(),
+                    isVisible = true,
+                    onDismiss = { AlertNotifier.clear() },
+                )
 
-            // 자동 사라짐 기능 추가: 5초 후 알림 닫기
-            LaunchedEffect(alert) {
-                kotlinx.coroutines.delay(2000) // 밀리초 단위 (5초 → 필요 시 늘리세요)
-                AlertNotifier.clear()
+                // 알림 팝업 유지 (2초)
+                LaunchedEffect(alert) {
+                    kotlinx.coroutines.delay(2000)
+                    AlertNotifier.clear()
+                }
             }
         }
 
