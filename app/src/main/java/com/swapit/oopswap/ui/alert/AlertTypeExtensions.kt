@@ -4,7 +4,7 @@ import com.swapit.oopswap.data.datasource.local.model.alert.AlertType
 fun AlertType.toIconResId(): Int =
     when (this) {
         AlertType.CHAT -> R.drawable.ic_chat
-        AlertType.REQUESTED,
+        AlertType.REQUESTED -> R.drawable.ic_shopping_bag
         AlertType.ACCEPTED,
         AlertType.REJECTED,
         AlertType.COMPLETED,
