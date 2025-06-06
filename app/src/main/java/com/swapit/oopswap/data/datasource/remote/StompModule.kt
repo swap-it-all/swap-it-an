@@ -93,7 +93,7 @@ class StompModule(
     private fun subscribeAlert() {
         scope.launch {
             if (stompSession == null) {
-                Log.e("STOMP", "알림 구독 연결 실패")
+                Log.e(TAG, "알림 구독 연결 실패")
                 return@launch
             }
             try {
@@ -105,23 +105,23 @@ class StompModule(
                         ),
                     )
 
-                Log.d("STOMP", "알림 구독 성공!")
+                Log.d(TAG, "알림 구독 성공!")
 
                 messageFlow.collect { frame ->
-                    Log.d("STOMP", "알림 수신: ${frame.bodyAsText}")
+                    Log.d(TAG, "알림 수신: ${frame.bodyAsText}")
                     frame.bodyAsText?.let { jsonMessage ->
                         try {
                             val notification = Json.decodeFromString<NotificationResponse>(jsonMessage)
                             handleNotification(notification)
                         } catch (e: Exception) {
-                            Log.e("STOMP", "알림 처리 실패: ${e.message}")
+                            Log.e(TAG, "알림 처리 실패: ${e.message}")
                         }
                     }
                 }
             } catch (e: CancellationException) {
-                Log.d("STOMP", "알림 구독 취소")
+                Log.d(TAG, "알림 구독 취소")
             } catch (e: Exception) {
-                Log.e("STOMP", "알림 구독 실패: ${e.message}")
+                Log.e(TAG, "알림 구독 실패: ${e.message}")
             }
         }
     }
@@ -153,7 +153,7 @@ class StompModule(
         val job =
             scope.launch(SupervisorJob()) {
                 if (stompSession == null) {
-                    Log.e("STOMP", "채팅방 구독 연결 실패")
+                    Log.e(TAG, "채팅방 구독 연결 실패")
                     disconnect()
                     connect()
                     return@launch
@@ -169,24 +169,24 @@ class StompModule(
                             ),
                         )
 
-                    Log.d("STOMP", "채팅방 구독 성공 : $chatRoomId")
+                    Log.d(TAG, "채팅방 구독 성공 : $chatRoomId")
 
                     messageFlow.collect { frame ->
-                        Log.d("STOMP", "채팅 메시지 수신: ${frame.bodyAsText}")
+                        Log.d(TAG, "채팅 메시지 수신: ${frame.bodyAsText}")
                         frame.bodyAsText?.let { jsonMessage ->
                             try {
                                 val receivedChat = Json.decodeFromString<ChatResponse>(jsonMessage)
                                 if (chatList.any { it.chatsId == receivedChat.chatsId }) return@let
                                 chatList.add(receivedChat.toDomain())
                             } catch (e: Exception) {
-                                Log.e("STOMP", "메시지 처리 실패: ${e.message}")
+                                Log.e(TAG, "메시지 처리 실패: ${e.message}")
                             }
                         }
                     }
                 } catch (e: CancellationException) {
-                    Log.d("STOMP", "채팅방 구독 취소: $chatRoomId")
+                    Log.d(TAG, "채팅방 구독 취소: $chatRoomId")
                 } catch (e: Exception) {
-                    Log.e("STOMP", "채팅방 구독 실패: $e")
+                    Log.e(TAG, "채팅방 구독 실패: $e")
                 }
             }
         subscriptionJobs[chatRoomId] = job
@@ -215,7 +215,7 @@ class StompModule(
             val job = subscriptionJobs.remove(chatRoomId)
             job?.cancel()
 
-            Log.d("STOMP", "채팅방 구독 해지: chatRoomId=$chatRoomId")
+            Log.d(TAG, "채팅방 구독 해지: chatRoomId=$chatRoomId")
         }
     }
 
@@ -297,9 +297,9 @@ class StompModule(
                             Json.encodeToString(ChatReadRequest.serializer(), ChatReadRequest(chatList.first().chatsId)) + "\\0",
                         ),
                 )
-                Log.d("STOMP", "읽음 처리 전송 성공: ${chatList.first().chatsId}")
+                Log.d(TAG, "읽음 처리 전송 성공: ${chatList.first().chatsId}")
             } catch (e: Exception) {
-                Log.e("STOMP", "읽음 처리 전송 실패: ${e.message}")
+                Log.e(TAG, "읽음 처리 전송 실패: ${e.message}")
             }
         }
     }
