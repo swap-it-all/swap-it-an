@@ -195,9 +195,26 @@ class StompModule(
 
     fun unsubscribeFromChatRoom(chatRoomId: Long) {
         scope.launch {
+            // 1. 서버에 구독 해제 전송
+            stompSession?.send(
+                headers =
+                    StompSendHeaders(
+                        destination = "/app/chat/unsubscribe/$chatRoomId",
+                        customHeaders =
+                            mapOf(
+                                "content-type" to "application/json",
+                                "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
+                            ),
+                    ),
+                body = FrameBody.Text("\\0"),
+            )
+            kotlinx.coroutines.delay(100)
+
+            // 2. 클라이언트 측 구독 관리 정리
             subscriptionIds.remove(chatRoomId)
             val job = subscriptionJobs.remove(chatRoomId)
             job?.cancel()
+
             Log.d("STOMP", "채팅방 구독 해지: chatRoomId=$chatRoomId")
         }
     }
