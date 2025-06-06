@@ -19,6 +19,7 @@ import com.swapit.oopswap.domain.repository.LoginRepository
 import com.swapit.oopswap.ui.alert.AlertViewModel
 import com.swapit.oopswap.ui.auth.LoginManager
 import com.swapit.oopswap.ui.auth.LoginViewModel
+import com.swapit.oopswap.ui.base.AppRoot
 import com.swapit.oopswap.ui.base.GlobalEventBus
 import com.swapit.oopswap.ui.base.UiEvent
 import com.swapit.oopswap.ui.chat.ChatViewModel
@@ -62,15 +63,6 @@ class MainActivity : ComponentActivity() {
                         ),
                 )
 
-            // ✅ LifecycleObserver 추가 (앱이 종료될 때 WebSocket 해제)
-            lifecycle.addObserver(
-                LifecycleEventObserver { _, event ->
-                    if (event == Lifecycle.Event.ON_STOP) {
-                        stompModule.disconnect()
-                    }
-                },
-            )
-
             val errorResponse = remember { mutableStateOf<ErrorResponse?>(null) }
 
             LaunchedEffect(Unit) {
@@ -88,13 +80,22 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
-            navigationModule.NavigationGraph(
-                navController,
-                loginViewModel,
-                chatViewModel,
-                alertViewModel,
-                stompModule,
-                application,
+            // ✅ LifecycleObserver 추가 (앱이 종료될 때 WebSocket 해제)
+            lifecycle.addObserver(
+                LifecycleEventObserver { _, event ->
+                    if (event == Lifecycle.Event.ON_STOP) {
+                        stompModule.disconnect()
+                    }
+                },
+            )
+
+            AppRoot(
+                navController = navController,
+                loginViewModel = loginViewModel,
+                chatViewModel = chatViewModel,
+                alertViewModel = alertViewModel,
+                stompModule = stompModule,
+                application = application,
             )
         }
     }
