@@ -56,21 +56,6 @@ class ChatViewModel(
         stompModule.sendMessage(message, chatRoomId)
     }
 
-    fun enterChatRoom(newChatRoomId: Long) {
-        safeLaunch {
-            // 기존 채팅방 구독 해제 (필요할 때만)
-            if (chatRoomId.longValue != 0L) {
-                stompModule.unsubscribeFromChatRoom(chatRoomId.longValue)
-            }
-
-            // 새로운 채팅방 ID 설정
-            chatRoomId.longValue = newChatRoomId
-
-            // 새로운 채팅방 구독
-            stompModule.subscribeToChatRoom(newChatRoomId, chatList)
-        }
-    }
-
     private suspend fun createChatRoomSync(goodsId: GoodsIdRequest): Long = repository.createChatRoom(goodsId).results
 
     private suspend fun createChatRoomTradeSync(tradesId: TradesIdRequest): Long = repository.createSwapChatRoom(tradesId).results
@@ -86,12 +71,26 @@ class ChatViewModel(
 
             if (chatRoomId != 0L) {
                 chatRoomProduct.value = repository.chatRoomInfo(chatRoomId)
-                val initialChatList = mutableStateListOf<Chat>()
-                chatList = stompModule.subscribeToChatRoom(chatRoomId, initialChatList)
+
+                stompModule.unsubscribeFromChatRoom(chatRoomId) // 기존 구독 해제
+                chatList = mutableStateListOf() // 새로운 채팅방 구독
+                stompModule.subscribeToChatRoom(chatRoomId, chatList)
                 navController.navigate(NavItem.ChatRoom.screenRoute + "/$chatRoomId")
             } else {
                 Log.e("ChatViewModel", "Chat room ID is not set. Failed to navigate.")
             }
+        }
+    }
+
+    fun enterChatRoom(newChatRoomId: Long) {
+        safeLaunch {
+            if (chatRoomId.longValue != 0L && chatRoomId.longValue != newChatRoomId) {
+                stompModule.unsubscribeFromChatRoom(chatRoomId.longValue)
+            }
+
+            chatRoomId.longValue = newChatRoomId
+            chatList = mutableStateListOf() // 채팅 리스트 초기화
+            stompModule.subscribeToChatRoom(newChatRoomId, chatList)
         }
     }
 

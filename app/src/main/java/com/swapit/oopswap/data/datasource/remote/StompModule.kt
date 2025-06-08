@@ -22,6 +22,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.delay
 import kotlinx.serialization.json.Json
@@ -149,7 +150,11 @@ class StompModule(
     fun subscribeToChatRoom(
         chatRoomId: Long,
         chatList: SnapshotStateList<Chat>,
-    ): SnapshotStateList<Chat> {
+    ) {
+        if (subscriptionJobs.containsKey(chatRoomId)) {
+            Log.d(TAG, "이미 구독 중인 채팅방: $chatRoomId")
+            return
+        }
         val job =
             scope.launch(SupervisorJob()) {
                 if (stompSession == null) {
@@ -190,10 +195,9 @@ class StompModule(
                 }
             }
         subscriptionJobs[chatRoomId] = job
-        return chatList
     }
 
-    fun unsubscribeFromChatRoom(chatRoomId: Long) {
+    suspend fun unsubscribeFromChatRoom(chatRoomId: Long) {
         scope.launch {
             // 1. 서버에 구독 해제 전송
             stompSession?.send(
@@ -213,7 +217,7 @@ class StompModule(
             // 2. 클라이언트 측 구독 관리 정리
             subscriptionIds.remove(chatRoomId)
             val job = subscriptionJobs.remove(chatRoomId)
-            job?.cancel()
+            job?.cancelAndJoin()
 
             Log.d(TAG, "채팅방 구독 해지: chatRoomId=$chatRoomId")
         }
