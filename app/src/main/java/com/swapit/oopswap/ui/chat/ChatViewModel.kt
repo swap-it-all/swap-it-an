@@ -53,6 +53,7 @@ class ChatViewModel(
         message: ChatRequest,
         chatRoomId: Long,
     ) {
+        // 메시지 전송만 수행하고 채팅 목록 조회는 하지 않음
         stompModule.sendMessage(message, chatRoomId)
     }
 
@@ -90,6 +91,11 @@ class ChatViewModel(
 
             chatRoomId.longValue = newChatRoomId
             chatList = mutableStateListOf() // 채팅 리스트 초기화
+            
+            // 채팅방 입장 시 한 번만 이전 메시지 로드
+            fetchChatList(newChatRoomId)
+            
+            // 웹소켓 구독 시작
             stompModule.subscribeToChatRoom(newChatRoomId, chatList)
         }
     }
@@ -131,9 +137,14 @@ class ChatViewModel(
 
     fun fetchChatList(chatroomId: Long) {
         safeLaunch {
-            val newChatList = repository.chatList(chatroomId).chatList.map { it.toDomain() }
-            chatList.clear()
-            chatList.addAll(newChatList)
+            try {
+                val newChatList = repository.chatList(chatroomId).chatList.map { it.toDomain() }
+                chatList.clear()
+                chatList.addAll(newChatList)
+                Log.d(TAG, "이전 채팅 메시지 로드 완료: ${newChatList.size}개")
+            } catch (e: Exception) {
+                Log.e(TAG, "채팅 메시지 로드 실패: ${e.message}")
+            }
         }
     }
 

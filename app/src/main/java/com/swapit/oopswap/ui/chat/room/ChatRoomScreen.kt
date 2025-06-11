@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
@@ -26,7 +27,10 @@ fun ChatRoomScreen(
     userInfoViewModel: UserInfoViewModel,
     stompModule: StompModule,
 ) {
-    chatViewModel.fetchChatList(chatRoomId.toLong())
+    LaunchedEffect(chatRoomId) {
+        chatViewModel.fetchChatList(chatRoomId.toLong())
+    }
+    
     DisposableEffect(Unit) {
         onDispose {
             chatViewModel.viewModelScope.launch {
