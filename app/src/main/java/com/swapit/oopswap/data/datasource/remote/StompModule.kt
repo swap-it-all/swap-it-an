@@ -19,6 +19,7 @@ import com.swapit.oopswap.data.mapper.toDomain
 import com.swapit.oopswap.domain.model.chat.Chat
 import com.swapit.oopswap.domain.repository.LoginRepository
 import com.swapit.oopswap.ui.base.AlertNotifier
+import com.swapit.oopswap.ui.chat.ChatViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -170,11 +171,12 @@ class StompModule(
     fun subscribeToChatRoom(
         chatRoomId: Long,
         chatList: SnapshotStateList<Chat>,
+        chatViewModel: ChatViewModel? = null,
     ) {
         scope.launch {
             try {
                 ensureConnection()
-                
+
                 if (subscriptionJobs.containsKey(chatRoomId)) {
                     Log.d(TAG, "이미 구독 중인 채팅방: $chatRoomId")
                     return@launch
@@ -203,10 +205,12 @@ class StompModule(
                                     try {
                                         val receivedChat = Json.decodeFromString<ChatResponse>(jsonMessage)
                                         val chat = receivedChat.toDomain()
-                                        
+
                                         // 수신된 메시지만 chatList에 추가
                                         if (!chatList.any { it.chatsId == chat.chatsId }) {
                                             chatList.add(chat)
+                                            // 마지막으로 읽은 메시지 ID 업데이트
+                                            chatViewModel?.updateLastReadChatId(chat.chatsId)
                                             Log.d(TAG, "새 메시지 추가: ${chat.chatsId}")
                                         } else {
                                             Log.d(TAG, "중복 메시지 무시: ${chat.chatsId}")
@@ -328,9 +332,8 @@ class StompModule(
 
     fun sendReadReceipt(
         chatRoomId: Long,
-        chatList: List<Chat>,
+        lastReadChatId: Long,
     ) {
-        if (chatList.isEmpty()) return
         scope.launch {
             try {
                 stompSession?.send(
@@ -345,10 +348,10 @@ class StompModule(
                         ),
                     body =
                         FrameBody.Text(
-                            Json.encodeToString(ChatReadRequest.serializer(), ChatReadRequest(chatList.first().chatsId)) + "\\0",
+                            Json.encodeToString(ChatReadRequest.serializer(), ChatReadRequest(lastReadChatId)) + "\\0",
                         ),
                 )
-                Log.d(TAG, "읽음 처리 전송 성공: ${chatList.first().chatsId}")
+                Log.d(TAG, "읽음 처리 전송 성공: $lastReadChatId")
             } catch (e: Exception) {
                 Log.e(TAG, "읽음 처리 전송 실패: ${e.message}")
             }

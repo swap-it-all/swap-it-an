@@ -32,6 +32,7 @@ class ChatViewModel(
     val chatRoomId = mutableLongStateOf(0L)
     val goodsId = mutableLongStateOf(0L)
     val tradesId = mutableLongStateOf(0L)
+    private var lastReadChatId: Long = 0L // 마지막으로 읽은 메시지 ID 저장
     val chatRoomProduct =
         mutableStateOf(
             ChatRoomInfo(
@@ -46,7 +47,16 @@ class ChatViewModel(
         )
 
     fun sendReadReceipt(chatRoomId: Long) {
-        stompModule.sendReadReceipt(chatRoomId, chatList)
+        // 마지막으로 읽은 메시지 ID가 있는 경우에만 전송
+        if (lastReadChatId > 0) {
+            stompModule.sendReadReceipt(chatRoomId, lastReadChatId)
+        }
+    }
+
+    fun updateLastReadChatId(chatId: Long) {
+        if (chatId > lastReadChatId) {
+            lastReadChatId = chatId
+        }
     }
 
     fun sendMessage(
@@ -75,7 +85,7 @@ class ChatViewModel(
 
                 stompModule.unsubscribeFromChatRoom(chatRoomId) // 기존 구독 해제
                 chatList = mutableStateListOf() // 새로운 채팅방 구독
-                stompModule.subscribeToChatRoom(chatRoomId, chatList)
+                stompModule.subscribeToChatRoom(chatRoomId, chatList, this@ChatViewModel)
                 navController.navigate(NavItem.ChatRoom.screenRoute + "/$chatRoomId")
             } else {
                 Log.e("ChatViewModel", "Chat room ID is not set. Failed to navigate.")
@@ -96,7 +106,7 @@ class ChatViewModel(
             fetchChatList(newChatRoomId)
             
             // 웹소켓 구독 시작
-            stompModule.subscribeToChatRoom(newChatRoomId, chatList)
+            stompModule.subscribeToChatRoom(newChatRoomId, chatList, this@ChatViewModel)
         }
     }
 
@@ -111,7 +121,7 @@ class ChatViewModel(
             if (chatRoomId != 0L) {
                 chatRoomProduct.value = repository.chatRoomInfo(chatRoomId)
                 val initialChatList = mutableStateListOf<Chat>()
-                chatList = stompModule.subscribeToChatRoom(chatRoomId, initialChatList) as SnapshotStateList<Chat>
+                chatList = stompModule.subscribeToChatRoom(chatRoomId, initialChatList, this@ChatViewModel) as SnapshotStateList<Chat>
                 navController.navigate(NavItem.ChatRoom.screenRoute + "/$chatRoomId")
             } else {
                 Log.e("ChatViewModel", "Chat room ID is not set. Failed to navigate.")
