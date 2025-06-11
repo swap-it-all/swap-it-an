@@ -56,6 +56,7 @@ class ChatViewModel(
     fun updateLastReadChatId(chatId: Long) {
         if (chatId > lastReadChatId) {
             lastReadChatId = chatId
+            Log.d(TAG, "마지막 읽은 메시지 ID 업데이트: $chatId")
         }
     }
 
@@ -101,10 +102,10 @@ class ChatViewModel(
 
             chatRoomId.longValue = newChatRoomId
             chatList = mutableStateListOf() // 채팅 리스트 초기화
-            
+
             // 채팅방 입장 시 한 번만 이전 메시지 로드
             fetchChatList(newChatRoomId)
-            
+
             // 웹소켓 구독 시작
             stompModule.subscribeToChatRoom(newChatRoomId, chatList, this@ChatViewModel)
         }
@@ -151,6 +152,19 @@ class ChatViewModel(
                 val newChatList = repository.chatList(chatroomId).chatList.map { it.toDomain() }
                 chatList.clear()
                 chatList.addAll(newChatList)
+
+                // 채팅 메시지 목록이 있으면 마지막 메시지의 ID를 lastReadChatId로 설정
+                if (newChatList.isNotEmpty()) {
+                    val lastChat = newChatList.maxByOrNull { it.chatsId }
+                    lastChat?.let {
+                        lastReadChatId = it.chatsId
+                        Log.d(TAG, "채팅 목록 로드 후 마지막 메시지 ID 설정: ${it.chatsId}")
+                    }
+                } else {
+                    lastReadChatId = 0L
+                    Log.d(TAG, "채팅 목록이 비어있어 마지막 메시지 ID를 0으로 초기화")
+                }
+
                 Log.d(TAG, "이전 채팅 메시지 로드 완료: ${newChatList.size}개")
             } catch (e: Exception) {
                 Log.e(TAG, "채팅 메시지 로드 실패: ${e.message}")
@@ -161,8 +175,8 @@ class ChatViewModel(
     fun fetchChatRoomList() {
         safeLaunch {
             val newChatRoomList = repository.chatRoomList() // 여기서 ArrayList 반환
-            chatRoomList.clear() // ✅ 기존 리스트 비우기
-            chatRoomList.addAll(newChatRoomList) // ✅ 새로운 데이터 추가
+            chatRoomList.clear() // 기존 리스트 비우기
+            chatRoomList.addAll(newChatRoomList) // 새로운 데이터 추가
         }
     }
 
