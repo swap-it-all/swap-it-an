@@ -4,6 +4,7 @@ import android.app.Application
 import android.app.NotificationManager
 import android.content.Context
 import android.util.Log
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.core.app.NotificationCompat
 import com.swapit.oopswap.BuildConfig
@@ -18,10 +19,12 @@ import com.swapit.oopswap.data.mapper.toDomain
 import com.swapit.oopswap.domain.model.chat.Chat
 import com.swapit.oopswap.domain.repository.LoginRepository
 import com.swapit.oopswap.ui.base.AlertNotifier
+import com.swapit.oopswap.ui.chat.ChatViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.delay
 import kotlinx.serialization.json.Json
@@ -44,10 +47,29 @@ class StompModule(
     private val subscriptionCounter = AtomicInteger(0)
     private val subscriptionIds = ConcurrentHashMap<Long, String>()
     private val subscriptionJobs = ConcurrentHashMap<Long, Job>()
+    private val activeSubscriptions = ConcurrentHashMap<Long, Boolean>() // 구독 상태 추적
     private val wsClient by lazy { OkHttpWebSocketClient(okHttpClient()) }
     private val stompClient = StompClient(wsClient)
     private var stompSession: StompSession? = null
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private var isConnecting = false
+
+    private suspend fun ensureConnection() {
+        if (stompSession == null && !isConnecting) {
+            isConnecting = true
+            try {
+                connect()
+                // 재연결 시 이전 구독 복구
+                activeSubscriptions.forEach { (chatRoomId, isActive) ->
+                    if (isActive) {
+                        subscribeToChatRoom(chatRoomId, mutableStateListOf())
+                    }
+                }
+            } finally {
+                isConnecting = false
+            }
+        }
+    }
 
     fun connectAndMonitor() {
         scope.launch {
@@ -93,7 +115,7 @@ class StompModule(
     private fun subscribeAlert() {
         scope.launch {
             if (stompSession == null) {
-                Log.e("STOMP", "알림 구독 연결 실패")
+                Log.e(TAG, "알림 구독 연결 실패")
                 return@launch
             }
             try {
@@ -105,23 +127,23 @@ class StompModule(
                         ),
                     )
 
-                Log.d("STOMP", "알림 구독 성공!")
+                Log.d(TAG, "알림 구독 성공!")
 
                 messageFlow.collect { frame ->
-                    Log.d("STOMP", "알림 수신: ${frame.bodyAsText}")
+                    Log.d(TAG, "알림 수신: ${frame.bodyAsText}")
                     frame.bodyAsText?.let { jsonMessage ->
                         try {
                             val notification = Json.decodeFromString<NotificationResponse>(jsonMessage)
                             handleNotification(notification)
                         } catch (e: Exception) {
-                            Log.e("STOMP", "알림 처리 실패: ${e.message}")
+                            Log.e(TAG, "알림 처리 실패: ${e.message}")
                         }
                     }
                 }
             } catch (e: CancellationException) {
-                Log.d("STOMP", "알림 구독 취소")
+                Log.d(TAG, "알림 구독 취소")
             } catch (e: Exception) {
-                Log.e("STOMP", "알림 구독 실패: ${e.message}")
+                Log.e(TAG, "알림 구독 실패: ${e.message}")
             }
         }
     }
@@ -149,56 +171,102 @@ class StompModule(
     fun subscribeToChatRoom(
         chatRoomId: Long,
         chatList: SnapshotStateList<Chat>,
-    ): SnapshotStateList<Chat> {
-        val job =
-            scope.launch(SupervisorJob()) {
-                if (stompSession == null) {
-                    Log.e("STOMP", "채팅방 구독 연결 실패")
-                    disconnect()
-                    connect()
+        chatViewModel: ChatViewModel? = null,
+    ) {
+        scope.launch {
+            try {
+                ensureConnection()
+
+                if (subscriptionJobs.containsKey(chatRoomId)) {
+                    Log.d(TAG, "이미 구독 중인 채팅방: $chatRoomId")
                     return@launch
                 }
-                try {
-                    val subId = "chat-sub-${subscriptionCounter.incrementAndGet()}"
-                    subscriptionIds[chatRoomId] = subId
-                    val messageFlow =
-                        stompSession!!.subscribe(
-                            StompSubscribeHeaders(
-                                destination = "/topic/chat/$chatRoomId",
-                                id = subId,
-                            ),
-                        )
 
-                    Log.d("STOMP", "채팅방 구독 성공 : $chatRoomId")
+                val job =
+                    scope.launch(SupervisorJob()) {
+                        try {
+                            val subId = "chat-sub-${subscriptionCounter.incrementAndGet()}"
+                            subscriptionIds[chatRoomId] = subId
+                            activeSubscriptions[chatRoomId] = true
 
-                    messageFlow.collect { frame ->
-                        Log.d("STOMP", "채팅 메시지 수신: ${frame.bodyAsText}")
-                        frame.bodyAsText?.let { jsonMessage ->
-                            try {
-                                val receivedChat = Json.decodeFromString<ChatResponse>(jsonMessage)
-                                if (chatList.any { it.chatsId == receivedChat.chatsId }) return@let
-                                chatList.add(receivedChat.toDomain())
-                            } catch (e: Exception) {
-                                Log.e("STOMP", "메시지 처리 실패: ${e.message}")
+                            val messageFlow =
+                                stompSession!!.subscribe(
+                                    StompSubscribeHeaders(
+                                        destination = "/topic/chat/$chatRoomId",
+                                        id = subId,
+                                    ),
+                                )
+
+                            Log.d(TAG, "채팅방 구독 성공 : $chatRoomId")
+
+                            messageFlow.collect { frame ->
+                                Log.d(TAG, "채팅 메시지 수신: ${frame.bodyAsText}")
+                                frame.bodyAsText?.let { jsonMessage ->
+                                    try {
+                                        val receivedChat = Json.decodeFromString<ChatResponse>(jsonMessage)
+                                        val chat = receivedChat.toDomain()
+
+                                        // 수신된 메시지만 chatList에 추가
+                                        if (!chatList.any { it.chatsId == chat.chatsId }) {
+                                            chatList.add(chat)
+                                            // 마지막으로 읽은 메시지 ID 업데이트
+                                            chatViewModel?.updateLastReadChatId(chat.chatsId)
+                                            Log.d(TAG, "새 메시지 추가: ${chat.chatsId}")
+                                        } else {
+                                            Log.d(TAG, "중복 메시지 무시: ${chat.chatsId}")
+                                        }
+                                    } catch (e: Exception) {
+                                        Log.e(TAG, "메시지 처리 실패: ${e.message}")
+                                    }
+                                }
                             }
+                        } catch (e: CancellationException) {
+                            Log.d(TAG, "채팅방 구독 취소: $chatRoomId")
+                            activeSubscriptions.remove(chatRoomId)
+                        } catch (e: Exception) {
+                            Log.e(TAG, "채팅방 구독 실패: $e")
+                            activeSubscriptions.remove(chatRoomId)
                         }
                     }
-                } catch (e: CancellationException) {
-                    Log.d("STOMP", "채팅방 구독 취소: $chatRoomId")
-                } catch (e: Exception) {
-                    Log.e("STOMP", "채팅방 구독 실패: $e")
-                }
+                subscriptionJobs[chatRoomId] = job
+            } catch (e: Exception) {
+                Log.e(TAG, "구독 설정 실패: ${e.message}")
             }
-        subscriptionJobs[chatRoomId] = job
-        return chatList
+        }
     }
 
-    fun unsubscribeFromChatRoom(chatRoomId: Long) {
+    suspend fun unsubscribeFromChatRoom(chatRoomId: Long) {
         scope.launch {
-            subscriptionIds.remove(chatRoomId)
-            val job = subscriptionJobs.remove(chatRoomId)
-            job?.cancel()
-            Log.d("STOMP", "채팅방 구독 해지: chatRoomId=$chatRoomId")
+            try {
+                // 1. 서버에 구독 해제 요청 전송
+                stompSession?.send(
+                    headers =
+                        StompSendHeaders(
+                            destination = "/app/chat/unsubscribe/$chatRoomId",
+                            customHeaders =
+                                mapOf(
+                                    "content-type" to "application/json",
+                                    "Authorization" to "Bearer ${loginRepository.accessToken() ?: ""}",
+                                ),
+                        ),
+                    body = FrameBody.Text("\\0"),
+                )
+
+                // 2. 클라이언트 측 구독 관리 정리
+                activeSubscriptions.remove(chatRoomId)
+                subscriptionIds.remove(chatRoomId)
+                val job = subscriptionJobs.remove(chatRoomId)
+                job?.cancelAndJoin()
+
+                Log.d(TAG, "채팅방 구독 해지 완료: chatRoomId=$chatRoomId")
+            } catch (e: Exception) {
+                Log.e(TAG, "채팅방 구독 해지 실패: ${e.message}")
+                // 실패 시에도 클라이언트 측 정리는 수행
+                activeSubscriptions.remove(chatRoomId)
+                subscriptionIds.remove(chatRoomId)
+                val job = subscriptionJobs.remove(chatRoomId)
+                job?.cancelAndJoin()
+            }
         }
     }
 
@@ -218,12 +286,16 @@ class StompModule(
         if (message.content == "") return
         scope.launch {
             try {
+                ensureConnection()
+
                 if (isAccessTokenExpired()) {
                     val newTokens = loginRepository.refresh(loginRepository.refreshToken()!!)
                     connect()
                     subscribeAlert()
                     Log.d(TAG, "액세스 토큰 갱신 성공: ${newTokens.accessToken}")
                 }
+
+                // 메시지 전송만 수행
                 stompSession?.send(
                     headers =
                         StompSendHeaders(
@@ -236,7 +308,7 @@ class StompModule(
                         ),
                     body = FrameBody.Text(Json.encodeToString(ChatRequest.serializer(), message) + "\\0"),
                 )
-                kotlinx.coroutines.delay(100)
+
                 Log.d(TAG, "채팅 메시지 전송 성공: $message")
             } catch (e: Exception) {
                 Log.e(TAG, "채팅 메시지 전송 실패: ${e.message}")
@@ -260,9 +332,8 @@ class StompModule(
 
     fun sendReadReceipt(
         chatRoomId: Long,
-        chatList: List<Chat>,
+        lastReadChatId: Long,
     ) {
-        if (chatList.isEmpty()) return
         scope.launch {
             try {
                 stompSession?.send(
@@ -277,12 +348,12 @@ class StompModule(
                         ),
                     body =
                         FrameBody.Text(
-                            Json.encodeToString(ChatReadRequest.serializer(), ChatReadRequest(chatList.first().chatsId)) + "\\0",
+                            Json.encodeToString(ChatReadRequest.serializer(), ChatReadRequest(lastReadChatId)) + "\\0",
                         ),
                 )
-                Log.d("STOMP", "읽음 처리 전송 성공: ${chatList.first().chatsId}")
+                Log.d(TAG, "읽음 처리 전송 성공: $lastReadChatId")
             } catch (e: Exception) {
-                Log.e("STOMP", "읽음 처리 전송 실패: ${e.message}")
+                Log.e(TAG, "읽음 처리 전송 실패: ${e.message}")
             }
         }
     }

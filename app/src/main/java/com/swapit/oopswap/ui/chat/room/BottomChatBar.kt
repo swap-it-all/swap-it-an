@@ -77,7 +77,6 @@ fun BottomChatBar(
                 chatRoomId,
             )
             message = ""
-            viewModel.fetchChatList(viewModel.chatRoomId.longValue)
         }) {
             Box(
                 modifier =
