@@ -30,7 +30,7 @@ fun ChatRoomScreen(
     LaunchedEffect(chatRoomId) {
         chatViewModel.fetchChatList(chatRoomId.toLong())
     }
-    
+
     DisposableEffect(Unit) {
         onDispose {
             chatViewModel.viewModelScope.launch {
