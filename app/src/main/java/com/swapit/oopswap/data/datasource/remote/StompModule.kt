@@ -66,40 +66,41 @@ class StompModule(
             Log.d(TAG, "로그인 상태가 아니므로 웹소켓 모니터링을 시작하지 않습니다.")
             return
         }
-        
-        isMonitoring = true
-        monitorJob = scope.launch {
-            while (isMonitoring) {
-                try {
-                    if (!isLoggedIn()) {
-                        Log.d(TAG, "로그아웃 상태가 감지되어 웹소켓 모니터링을 중단합니다.")
-                        stopMonitoring()
-                        break
-                    }
 
-                    if (stompSession == null) {
-                        Log.d(TAG, "STOMP 연결이 끊어져 다시 연결 시도...")
-                        connect {
-                            subscribeAlert()
+        isMonitoring = true
+        monitorJob =
+            scope.launch {
+                while (isMonitoring) {
+                    try {
+                        if (!isLoggedIn()) {
+                            Log.d(TAG, "로그아웃 상태가 감지되어 웹소켓 모니터링을 중단합니다.")
+                            stopMonitoring()
+                            break
                         }
+
+                        if (stompSession == null) {
+                            Log.d(TAG, "STOMP 연결이 끊어져 다시 연결 시도...")
+                            connect {
+                                subscribeAlert()
+                            }
+                        }
+                        delay(Duration.ofMillis(5000))
+                    } catch (e: Exception) {
+                        if (e is CancellationException) {
+                            Log.d(TAG, "모니터링 작업이 취소되었습니다.")
+                            break
+                        }
+                        Log.e(TAG, "STOMP 재연결 실패: ${e.message}")
                     }
-                    delay(Duration.ofMillis(5000))
-                } catch (e: Exception) {
-                    if (e is CancellationException) {
-                        Log.d(TAG, "모니터링 작업이 취소되었습니다.")
-                        break
-                    }
-                    Log.e(TAG, "STOMP 재연결 실패: ${e.message}")
                 }
             }
-        }
     }
 
     fun stopMonitoring() {
         isMonitoring = false
         monitorJob?.cancel()
         monitorJob = null
-        
+
         scope.launch {
             try {
                 subscriptionIds.keys.forEach { chatRoomId -> unsubscribeFromChatRoom(chatRoomId) }
@@ -137,7 +138,7 @@ class StompModule(
 
     private fun connect(onConnected: (() -> Unit)? = null) {
         if (!isMonitoring || !isLoggedIn()) return
-        
+
         scope.launch {
             try {
                 stompSession =
