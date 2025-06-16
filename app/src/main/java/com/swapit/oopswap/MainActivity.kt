@@ -65,6 +65,17 @@ class MainActivity : ComponentActivity() {
 
             val errorResponse = remember { mutableStateOf<ErrorResponse?>(null) }
 
+            // 로그인 상태 변경 감지
+            LaunchedEffect(Unit) {
+                loginViewModel.isLoggedIn.collect { isLoggedIn ->
+                    if (isLoggedIn) {
+                        stompModule.startMonitoring()
+                    } else {
+                        stompModule.stopMonitoring()
+                    }
+                }
+            }
+
             LaunchedEffect(Unit) {
                 GlobalEventBus.events.collect { event ->
                     if (event is UiEvent.ShowError) {
@@ -80,11 +91,11 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
-            // ✅ LifecycleObserver 추가 (앱이 종료될 때 WebSocket 해제)
+            // 앱이 종료될 때 WebSocket 해제
             lifecycle.addObserver(
                 LifecycleEventObserver { _, event ->
                     if (event == Lifecycle.Event.ON_STOP) {
-                        stompModule.disconnect()
+                        stompModule.stopMonitoring()
                     }
                 },
             )

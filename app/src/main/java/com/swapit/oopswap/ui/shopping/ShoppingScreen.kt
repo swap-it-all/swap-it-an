@@ -38,7 +38,6 @@ fun ShoppingScreen(
     LaunchedEffect(Unit) {
         viewModel.fetchProducts()
         alertViewModel.fetchAlertList()
-        alertViewModel.connectAndMonitor()
         alertViewModel.alertSettingInfo()
         alertViewModel.fcmRestore(application = application)
     }
