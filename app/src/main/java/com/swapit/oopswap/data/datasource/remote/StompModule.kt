@@ -47,14 +47,79 @@ class StompModule(
     private val subscriptionCounter = AtomicInteger(0)
     private val subscriptionIds = ConcurrentHashMap<Long, String>()
     private val subscriptionJobs = ConcurrentHashMap<Long, Job>()
-    private val activeSubscriptions = ConcurrentHashMap<Long, Boolean>() // 구독 상태 추적
+    private val activeSubscriptions = ConcurrentHashMap<Long, Boolean>()
     private val wsClient by lazy { OkHttpWebSocketClient(okHttpClient()) }
     private val stompClient = StompClient(wsClient)
     private var stompSession: StompSession? = null
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private var isConnecting = false
+    private var monitorJob: Job? = null
+    private var isMonitoring = false
+
+    private fun isLoggedIn(): Boolean {
+        return loginRepository.accessToken() != null
+    }
+
+    fun startMonitoring() {
+        if (isMonitoring) return
+        if (!isLoggedIn()) {
+            Log.d(TAG, "로그인 상태가 아니므로 웹소켓 모니터링을 시작하지 않습니다.")
+            return
+        }
+
+        isMonitoring = true
+        monitorJob =
+            scope.launch {
+                while (isMonitoring) {
+                    try {
+                        if (!isLoggedIn()) {
+                            Log.d(TAG, "로그아웃 상태가 감지되어 웹소켓 모니터링을 중단합니다.")
+                            stopMonitoring()
+                            break
+                        }
+
+                        if (stompSession == null) {
+                            Log.d(TAG, "STOMP 연결이 끊어져 다시 연결 시도...")
+                            connect {
+                                subscribeAlert()
+                            }
+                        }
+                        delay(Duration.ofMillis(5000))
+                    } catch (e: Exception) {
+                        if (e is CancellationException) {
+                            Log.d(TAG, "모니터링 작업이 취소되었습니다.")
+                            break
+                        }
+                        Log.e(TAG, "STOMP 재연결 실패: ${e.message}")
+                    }
+                }
+            }
+    }
+
+    fun stopMonitoring() {
+        isMonitoring = false
+        monitorJob?.cancel()
+        monitorJob = null
+
+        scope.launch {
+            try {
+                subscriptionIds.keys.forEach { chatRoomId -> unsubscribeFromChatRoom(chatRoomId) }
+                stompSession?.disconnect()
+                stompSession = null
+                subscriptionIds.clear()
+                Log.d(TAG, "웹소켓 연결 해제 및 구독 해지 완료")
+            } catch (e: Exception) {
+                Log.e(TAG, "웹소켓 연결 해제 실패: ${e.message}")
+            }
+        }
+    }
 
     private suspend fun ensureConnection() {
+        if (!isLoggedIn()) {
+            Log.d(TAG, "로그인 상태가 아니므로 웹소켓 연결을 시도하지 않습니다.")
+            return
+        }
+
         if (stompSession == null && !isConnecting) {
             isConnecting = true
             try {
@@ -71,26 +136,9 @@ class StompModule(
         }
     }
 
-    fun connectAndMonitor() {
-        scope.launch {
-            while (true) {
-                try {
-                    if (stompSession == null) {
-                        Log.d(TAG, "STOMP 연결이 끊어져 다시 연결 시도...")
-                        disconnect()
-                        connect {
-                            subscribeAlert()
-                        }
-                    }
-                    delay(Duration.ofMillis(5000))
-                } catch (e: Exception) {
-                    Log.e(TAG, "STOMP 재연결 실패: ${e.message}")
-                }
-            }
-        }
-    }
-
     private fun connect(onConnected: (() -> Unit)? = null) {
+        if (!isMonitoring || !isLoggedIn()) return
+
         scope.launch {
             try {
                 stompSession =
@@ -283,6 +331,11 @@ class StompModule(
         message: ChatRequest,
         chatRoomId: Long,
     ) {
+        if (!isLoggedIn()) {
+            Log.d(TAG, "로그인 상태가 아니므로 메시지를 전송하지 않습니다.")
+            return
+        }
+
         if (message.content == "") return
         scope.launch {
             try {
@@ -312,20 +365,6 @@ class StompModule(
                 Log.d(TAG, "채팅 메시지 전송 성공: $message")
             } catch (e: Exception) {
                 Log.e(TAG, "채팅 메시지 전송 실패: ${e.message}")
-            }
-        }
-    }
-
-    fun disconnect() {
-        scope.launch {
-            try {
-                subscriptionIds.keys.forEach { chatRoomId -> unsubscribeFromChatRoom(chatRoomId) }
-                stompSession?.disconnect()
-                stompSession = null
-                subscriptionIds.clear()
-                Log.d(TAG, "웹소켓 연결 해제 및 구독 해지 완료")
-            } catch (e: Exception) {
-                Log.e(TAG, "웹소켓 연결 해제 실패: ${e.message}")
             }
         }
     }

@@ -27,7 +27,7 @@ class AlertViewModel(
     val alertSettingValue = mutableStateOf(false)
 
     fun connectAndMonitor() {
-        stompModule.connectAndMonitor()
+        stompModule.startMonitoring()
     }
 
     // 특정 관련 ID의 모든 알림 읽음 처리
