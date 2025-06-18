@@ -47,6 +47,7 @@ fun LoginScreen(
     viewModel: LoginViewModel,
 ) {
     val isLoggedIn by viewModel.isLoggedIn.collectAsState()
+    val context = LocalContext.current
 
     LaunchedEffect(isLoggedIn) {
         if (isLoggedIn) {
@@ -68,6 +69,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.padding(100.dp))
         LoginButtons(
             viewModel = viewModel,
+            context = context,
         )
     }
 }
@@ -92,13 +94,17 @@ fun GreetingSwapIt() {
 }
 
 @Composable
-fun LoginButtons(viewModel: LoginViewModel) {
+fun LoginButtons(
+    viewModel: LoginViewModel,
+    context: android.content.Context,
+) {
     Column(
         modifier = Modifier.fillMaxWidth(),
     ) {
-//        GoogleLoginButton(
-//            viewModel = viewModel,
-//        )
+        GoogleLoginButton(
+            viewModel = viewModel,
+            context = context,
+        )
         Spacer(modifier = Modifier.padding(10.dp))
         KakaoLoginButton(
             viewModel = viewModel,
@@ -107,9 +113,16 @@ fun LoginButtons(viewModel: LoginViewModel) {
 }
 
 @Composable
-fun GoogleLoginButton(viewModel: LoginViewModel) {
+fun GoogleLoginButton(
+    viewModel: LoginViewModel,
+    context: android.content.Context,
+) {
+    val isLoading by viewModel.isLoading.collectAsState()
+    val isLoggedIn by viewModel.isLoggedIn.collectAsState()
+
     Button(
         modifier = Modifier.fillMaxWidth(),
+        enabled = !isLoading && !isLoggedIn,
         colors =
             ButtonDefaults.buttonColors(
                 containerColor = White,
@@ -120,16 +133,24 @@ fun GoogleLoginButton(viewModel: LoginViewModel) {
         border = BorderStroke(1.dp, Gray4),
         onClick = { viewModel.googleLogin() },
     ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_google),
-            contentDescription = "Google",
-            tint = Color.Unspecified,
-        )
-        Spacer(modifier = Modifier.padding(10.dp))
-        Text(
-            text = "구글로 로그인하기",
-            style = Typography.titleMedium,
-        )
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(24.dp),
+                strokeWidth = 2.dp,
+                color = Black,
+            )
+        } else {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_google),
+                contentDescription = "Google",
+                tint = Color.Unspecified,
+            )
+            Spacer(modifier = Modifier.padding(10.dp))
+            Text(
+                text = "구글로 로그인하기",
+                style = Typography.titleMedium,
+            )
+        }
     }
 }
 

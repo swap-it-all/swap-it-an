@@ -1,7 +1,9 @@
 package com.swapit.oopswap.ui.navigation
 
 import ShoppingViewModel
+import androidx.activity.compose.LocalActivity
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -11,12 +13,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.swapit.oopswap.data.datasource.remote.StompModule
+import com.swapit.oopswap.domain.repository.LoginRepository
 import com.swapit.oopswap.domain.repository.ProductRepository
 import com.swapit.oopswap.domain.repository.ReportRepository
 import com.swapit.oopswap.domain.repository.SwapRepository
 import com.swapit.oopswap.domain.repository.UserRepository
 import com.swapit.oopswap.ui.alert.AlertScreen
 import com.swapit.oopswap.ui.alert.AlertViewModel
+import com.swapit.oopswap.ui.auth.LoginManager
 import com.swapit.oopswap.ui.auth.LoginScreen
 import com.swapit.oopswap.ui.auth.LoginViewModel
 import com.swapit.oopswap.ui.chat.ChatListScreen
@@ -87,6 +91,22 @@ class NavigationModule {
             }
 
             composable(NavItem.Login.screenRoute) {
+                val activity =
+                    requireNotNull(LocalActivity.current) {
+                        "LoginRoute composable must be hosted in a ComponentActivity"
+                    }
+                val loginManager = remember { LoginManager(activity) }
+
+                val loginVm: LoginViewModel =
+                    viewModel(
+                        factory =
+                            LoginViewModel.factory(
+                                application = activity.application,
+                                repository = LoginRepository.instance(activity),
+                                loginManager = loginManager,
+                            ),
+                    )
+
                 LoginScreen(
                     navController = navController,
                     viewModel = loginViewModel,

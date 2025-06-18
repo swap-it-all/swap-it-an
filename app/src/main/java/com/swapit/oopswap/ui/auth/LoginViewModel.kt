@@ -36,10 +36,24 @@ class LoginViewModel(
 
     fun googleLogin() {
         viewModelScope.launch {
-            val result = loginManager.googleLogin()
-            if (result is LoginState.Success) {
-                repository.loginWithGoogle(result.token)
-                _isLoggedIn.emit(true)
+            _isLoading.value = true
+            try {
+                val result = loginManager.googleLogin()
+                when (result) {
+                    is LoginState.Success -> {
+                        repository.loginWithGoogle(result.token)
+                        _isLoggedIn.emit(true)
+                    }
+                    is LoginState.Failure -> {
+                        Log.e(TAG, "Google 로그인 실패: ${result.message}")
+                        // TODO: Show error message to user
+                    }
+                    else -> {}
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Google 로그인 중 예외 발생", e)
+            } finally {
+                _isLoading.value = false
             }
         }
     }
