@@ -170,6 +170,7 @@ fun KakaoLoginButton(viewModel: LoginViewModel) {
             ),
         contentPadding = PaddingValues(16.dp),
         shape = Shapes.small,
+        border = BorderStroke(1.dp, Gray4),
         onClick = { viewModel.kakaoLogin() },
     ) {
         if (isLoading) {

@@ -32,6 +32,15 @@ class LoginViewModel(
 
     init {
         _isLoggedIn.value = repository.accessToken() != null
+        // 자동 로그인 시 로그인 타입 복원
+        if (_isLoggedIn.value) {
+            val savedLoginType = loginManager.currentLoginType
+            if (savedLoginType != null) {
+                loginManager.setLoginType(savedLoginType)
+            } else {
+                Log.w(TAG, "저장된 로그인 타입이 없음")
+            }
+        }
     }
 
     fun googleLogin() {
@@ -46,7 +55,6 @@ class LoginViewModel(
                     }
                     is LoginState.Failure -> {
                         Log.e(TAG, "Google 로그인 실패: ${result.message}")
-                        // TODO: Show error message to user
                     }
                     else -> {}
                 }
@@ -68,19 +76,41 @@ class LoginViewModel(
                 if (kakaoToken != null) {
                     repository.saveKakaoToken(kakaoToken)
                     repository.loginWithKakao(kakaoToken)
+                    loginManager.setLoginType(LoginManager.LoginType.KAKAO)
                     _isLoggedIn.emit(true)
                 }
             } finally {
-                _isLoading.value = false // 요청 끝
+                _isLoading.value = false
             }
         }
     }
 
     fun logout() {
         viewModelScope.launch {
-            if (isKakaoLoggedOut()) {
-                repository.logout(repository.refreshToken() ?: "")
-                _isLoggedIn.emit(false)
+            try {
+                Log.d(TAG, "로그아웃 시작")
+                
+                // 구글 로그아웃 시도
+                if (loginManager.logout()) {
+                    repository.logout(repository.refreshToken() ?: "")
+                    _isLoggedIn.emit(false)
+                    return@launch
+                } else {
+                    Log.d(TAG, "구글 로그아웃 실패 또는 구글 로그인 상태가 아님")
+                }
+
+                // 카카오 로그아웃 시도
+                val kakaoToken = repository.getKakaoToken()
+                if (kakaoToken != null) {
+                    if (isKakaoLoggedOut()) {
+                        repository.logout(repository.refreshToken() ?: "")
+                        _isLoggedIn.emit(false)
+                    } else {
+                        Log.d(TAG, "카카오 로그아웃 실패")
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "로그아웃 중 오류 발생", e)
             }
         }
     }
