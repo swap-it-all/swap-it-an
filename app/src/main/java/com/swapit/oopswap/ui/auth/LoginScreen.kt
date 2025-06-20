@@ -178,6 +178,7 @@ fun KakaoLoginButton(viewModel: LoginViewModel) {
             CircularProgressIndicator(
                 modifier = Modifier.size(24.dp),
                 strokeWidth = 2.dp,
+                color = Black,
             )
         } else {
             // 기본 아이콘 + 텍스트
