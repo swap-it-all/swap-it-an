@@ -97,7 +97,6 @@ fun WithdrawScreen(
                             vertical = Paddings.xlarge,
                         ),
                     onClick = {
-                        Log.d("asdfasdfasdf", "asdfdasfsadfsdafasdfasfsdafsadfasdf")
                         if (userInfoViewModel.selectedText.value == "기타") {
                             loginViewModel.deleteAccount(userInfoViewModel.etcText.value) {
                                 navController.navigate(NavItem.Login.screenRoute)
