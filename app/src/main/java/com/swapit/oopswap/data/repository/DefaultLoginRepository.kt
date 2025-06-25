@@ -62,16 +62,15 @@ class DefaultLoginRepository(
         reason: String,
     ): Boolean {
         Log.d("LoginRepository", "deleteAccount() 요청 - authToken: $authToken, kakaoToken: $kakaoToken, reason: $reason")
-
-        return try {
-            val response = remoteSource.deleteAccount("Bearer $authToken", kakaoToken, reason)
-            Log.d("LoginRepository", "deleteAccount() 응답 - 성공: ${response.results}, 메시지: ${response.message}")
-
-            response.success
-        } catch (e: Exception) {
-            Log.e("LoginRepository", "deleteAccount() 요청 실패", e)
-            false
+        val response = remoteSource.deleteAccount(authToken, kakaoToken, reason)
+        Log.d("LoginRepository", "deleteAccount() 응답 - 성공: ${response.results}, 메시지: ${response.message}")
+        if (response.success) {
+            // SharedPreferences 비우기
+            localSource.clearTokens()
+            // TokenStateManager 초기화
+            TokenStateManager.tokenFlow.value = TokenStateManager.TokenState.Idle
         }
+        return response.success
     }
 
     override suspend fun saveKakaoToken(kakaoToken: String) {

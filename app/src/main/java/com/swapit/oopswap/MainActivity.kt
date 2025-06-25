@@ -3,9 +3,13 @@ package com.swapit.oopswap
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -84,11 +88,25 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            errorResponse.value?.let { err ->
-                ErrorDialog(
-                    error = err,
-                    onDismiss = { errorResponse.value = null },
-                )
+            AppRoot(
+                navController = navController,
+                loginViewModel = loginViewModel,
+                chatViewModel = chatViewModel,
+                alertViewModel = alertViewModel,
+                stompModule = stompModule,
+                application = application,
+            )
+
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center         // 중앙에 띄울거면 이렇게
+            ) {
+                errorResponse.value?.let { err ->
+                    ErrorDialog(
+                        error = err,
+                        onDismiss = { errorResponse.value = null }
+                    )
+                }
             }
 
             // 앱이 종료될 때 WebSocket 해제
@@ -98,15 +116,6 @@ class MainActivity : ComponentActivity() {
                         stompModule.stopMonitoring()
                     }
                 },
-            )
-
-            AppRoot(
-                navController = navController,
-                loginViewModel = loginViewModel,
-                chatViewModel = chatViewModel,
-                alertViewModel = alertViewModel,
-                stompModule = stompModule,
-                application = application,
             )
         }
     }

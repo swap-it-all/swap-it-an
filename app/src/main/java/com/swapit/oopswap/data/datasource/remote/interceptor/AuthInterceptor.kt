@@ -10,9 +10,12 @@ import okhttp3.Response
 class AuthInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
+        val path = request.url.encodedPath
 
-        // /refresh, /logout 은 제외
-        if (request.url.encodedPath.contains("/refresh") || request.url.encodedPath.contains("/logout")) {
+        // /refresh, /logout, /withdraw 는 제외
+        if (path.contains("/refresh") || 
+            path.contains("/logout") || 
+            path.contains("/withdraw")) {
             return chain.proceed(request)
         }
 

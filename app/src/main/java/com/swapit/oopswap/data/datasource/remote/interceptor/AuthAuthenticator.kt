@@ -27,14 +27,34 @@ class AuthAuthenticator(
         route: Route?,
         response: Response,
     ): Request? {
-        Log.d("AuthAuthenticator", "🚨 Authenticator 작동: ${response.request.url}")
-        if (responseCount(response) > 10) return null
+        val url = response.request.url.toString()
+        Log.d("AuthAuthenticator", "🚨 Authenticator 작동: $url")
+        
+        // /withdraw 엔드포인트는 토큰 갱신 시도하지 않음
+        if (url.contains("/withdraw")) {
+            Log.d("AuthAuthenticator", "회원 탈퇴 API는 토큰 갱신 건너뜀")
+            return null
+        }
+        
+        if (responseCount(response) > 10) {
+            Log.d("AuthAuthenticator", "최대 재시도 횟수 초과")
+            return null
+        }
 
         return runBlocking {
+            try {
             val accessToken = getOrRefreshTokens()?.first ?: return@runBlocking null
             response.request.newBuilder()
                 .header("Authorization", "Bearer $accessToken")
                 .build()
+            } catch (e: Exception) {
+                Log.e("AuthAuthenticator", "토큰 갱신 중 오류 발생", e)
+                if (!url.contains("/withdraw")) {
+                    // 회원 탈퇴가 아닌 경우에만 토큰 초기화 및 로그아웃
+                    onExpired()
+                }
+                null
+            }
         }
     }
 
@@ -90,7 +110,7 @@ class AuthAuthenticator(
             tokens
         } catch (e: Exception) {
             Log.e("AuthAuthenticator", "❌ 리프레시 실패: ${e.message}", e)
-            return onExpired()
+            throw e
         }
     }
 

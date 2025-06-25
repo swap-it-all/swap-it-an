@@ -10,6 +10,7 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.swapit.oopswap.domain.repository.LoginRepository
+import com.swapit.oopswap.ui.base.BaseViewModel
 import com.swapit.oopswap.ui.base.BaseViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,7 +22,7 @@ class LoginViewModel(
     application: Application,
     private val repository: LoginRepository,
     private val loginManager: LoginManager,
-) : AndroidViewModel(application) {
+) : BaseViewModel() {
     private val context = application.applicationContext
 
     private val _isLoggedIn = MutableStateFlow<Boolean>(false)
@@ -86,7 +87,7 @@ class LoginViewModel(
     }
 
     fun logout() {
-        viewModelScope.launch {
+        safeLaunch {
             try {
                 Log.d(TAG, "로그아웃 시작")
                 
@@ -94,7 +95,7 @@ class LoginViewModel(
                 if (loginManager.logout()) {
                     repository.logout(repository.refreshToken() ?: "")
                     _isLoggedIn.emit(false)
-                    return@launch
+                    return@safeLaunch
                 } else {
                     Log.d(TAG, "구글 로그아웃 실패 또는 구글 로그인 상태가 아님")
                 }
@@ -111,6 +112,7 @@ class LoginViewModel(
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "로그아웃 중 오류 발생", e)
+                throw e
             }
         }
     }
@@ -119,7 +121,7 @@ class LoginViewModel(
         reason: String,
         onSuccess: () -> Unit,
     ) {
-        viewModelScope.launch {
+        safeLaunch {
             Log.d(TAG, "deleteAccount() called with: reason = $reason") // ✅ 실행 확인용
 
             val authToken = repository.accessToken()
@@ -132,6 +134,7 @@ class LoginViewModel(
 
                 if (result) {
                     _isLoggedIn.emit(false)
+                    loginManager.setLoginType(null)
                     onSuccess()
                 }
             } else {
