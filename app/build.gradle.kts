@@ -49,6 +49,11 @@ android {
             "google_client_id",
             properties.getProperty("google_client_id"),
         )
+        resValue(
+            "string",
+            "google_web_client_id",
+            properties.getProperty("google_web_client_id"),
+        )
 
         buildFeatures {
             buildConfig = true
@@ -139,6 +144,7 @@ dependencies {
     implementation(libs.kakao)
     implementation(libs.google)
     implementation(libs.googleid)
+    implementation("com.google.android.gms:play-services-auth:20.6.0")
 
     // krossbow
     implementation(libs.krossbow.stomp.core)
@@ -146,4 +152,9 @@ dependencies {
     // firebase
     implementation("com.google.firebase:firebase-messaging-ktx:23.3.1")
     implementation("com.google.firebase:firebase-analytics-ktx:21.3.0")
+
+    // Google Identity Services
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
+    implementation("androidx.credentials:credentials:1.2.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.2.0")
 }
